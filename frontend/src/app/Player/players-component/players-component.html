@@ -1,0 +1,28 @@
+<div class="all">
+  <div>
+    <!-- Optional Header/Filters/Search -->
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Full Name</th>
+          <th>License Number</th>
+          <th>Category</th>
+          <th>Birth Date</th>
+          <th>Actions</th> <!-- This was missing in the header -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let P of Players; let i = index" class="playerStaus">
+          <td>{{ P.FirstName + ' ' + P.LastName }}</td>
+          <td>{{ P.LicenseNumber }}</td>
+          <td>{{ P.Category }}</td>
+          <td>{{ P.BirthDate }}</td>
+          <td><a >View 👁</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
