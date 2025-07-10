@@ -1,59 +1,110 @@
-<form (ngSubmit)="onSubmit()" #playerForm="form" enctype="multipart/form-data">
+<form #playerForm="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="player-form">
+  <h2>Player Registration</h2>
 
+  <!-- Step 1: Personal Info + Photo -->
+  <div *ngIf="step === 1" class="form-wrapper">
+    <div class="details">
+      <label>First Name</label>
+      <input type="text" name="firstName" ngModel required />
 
-  <h2>Enter Player Details</h2>
+      <label>Last Name</label>
+      <input type="text" name="lastName" ngModel required />
 
-  <label for="firstName">First Name</label>
-  <input type="text" id="firstName" name="firstName" ngModel required />
+      <label>Birth Date</label>
+      <input type="date" name="birthDate" ngModel required />
 
-  <label for="lastName">Last Name</label>
-  <input type="text" id="lastName" name="lastName" ngModel required />
+      <label>Phone</label>
+      <input type="tel" name="phone" ngModel />
 
-  <label for="birthDate">Birth Date</label>
-  <input type="date" id="birthDate" name="birthDate" ngModel required />
+      <label>Email</label>
+      <input type="email" name="email" ngModel />
 
-  <label for="phone">Phone</label>
-  <input type="tel" id="phone" name="phone" ngModel />
+      <label>Address</label>
+      <input type="text" name="address" ngModel />
 
-  <label for="email">Email</label>
-  <input type="email" id="email" name="email" ngModel />
+      <label>Gender</label>
+      <select name="gender" ngModel required>
+        <option value="" disabled selected>Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
 
-  <label for="address">Address</label>
-  <input type="text" id="address" name="address" ngModel />
+      <label>Nationality</label>
+      <select name="nationality" ngModel required>
+        <option value="" disabled selected>Select Nationality</option>
+        <option value="Tunisian">Tunisian</option>
+        <option value="French">French</option>
+      </select>
 
-  <label for="gender">Gender</label>
-  <select id="gender" name="gender" ngModel required>
-    <option value="" disabled selected>Select Gender</option>
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <option value="Other">Other</option>
-  </select>
+      <label>License Number</label>
+      <input type="text" name="licenseNumber" ngModel required />
 
-  <label for="nationality">Nationality</label>
-  <select id="nationality" name="nationality" ngModel required>
-    <option value="" disabled selected>Select Nationality</option>
-    <option value="Tunisian">Tunisian</option>
-    <option value="French">French</option>
-    <option value="American">American</option>
-    <option value="Other">Other</option>
-  </select>
+      <label>Category</label>
+      <select name="category" ngModel required>
+        <option value="" disabled selected>Select Category</option>
+        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      </select>
+    </div>
 
-  <label for="licenseNumber">License Number</label>
-  <input type="text" id="licenseNumber" name="licenseNumber" ngModel />
-
-  <label for="category">Category</label>
-  <select id="category" name="category" ngModel required>
-    <option value="" disabled selected>Select Category</option>
-    <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
-  </select>
-
-  <label for="photo">Upload Photo</label>
-  <div class="photo-upload">
-    <input type="file" id="photo" name="photo" (change)="onPhotoSelected()" accept="image/*" />
-    <div class="photo-preview" *ngIf="photoPreview">
-      <img [src]="photoPreview" alt="Photo Preview" />
+    <div class="photo">
+      <label>Player Photo</label>
+      <input type="file" accept="image/*" (change)="onPhotoSelected($event)" />
+      <div class="photo-preview" *ngIf="photoPreview">
+        <img [src]="photoPreview" />
+      </div>
     </div>
   </div>
 
-  <button type="submit" [disabled]="!playerForm.form.valid">Submit</button>
+  <div *ngIf="step === 1" class="actions">
+    <button type="button" (click)="nextStep()" [disabled]="!playerForm.form.valid">Next</button>
+  </div>
+
+  <!-- Step 2: Upload Documents -->
+  <div *ngIf="step === 2" class="form-wrapper-column">
+    <div class="docs-grid">
+      <div class="doc">
+        <label>Medical Record (PDF/Image)</label>
+        <input type="file" accept="image/*,.pdf" (change)="onFileSelected($event, 'medical')" />
+        <div class="doc-preview" *ngIf="filePreviews.medical">
+          <ng-container *ngIf="fileTypes.medical === 'pdf'; else image1">
+            <iframe [src]="filePreviews.medical" width="100%" height="150px"></iframe>
+          </ng-container>
+          <ng-template #image1>
+            <img [src]="filePreviews.medical" />
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="doc">
+        <label>CIN Card (PDF/Image)</label>
+        <input type="file" accept="image/*,.pdf" (change)="onFileSelected($event, 'cin')" />
+        <div class="doc-preview" *ngIf="filePreviews.cin">
+          <ng-container *ngIf="fileTypes.cin === 'pdf'; else image2">
+            <iframe [src]="filePreviews.cin" width="100%" height="150px"></iframe>
+          </ng-container>
+          <ng-template #image2>
+            <img [src]="filePreviews.cin" />
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="doc">
+        <label>Birth Certificate (PDF/Image)</label>
+        <input type="file" accept="image/*,.pdf" (change)="onFileSelected($event, 'birth')" />
+        <div class="doc-preview" *ngIf="filePreviews.birth">
+          <ng-container *ngIf="fileTypes.birth === 'pdf'; else image3">
+            <iframe [src]="filePreviews.birth" width="100%" height="150px"></iframe>
+          </ng-container>
+          <ng-template #image3>
+            <img [src]="filePreviews.birth" />
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" (click)="step = 1">Back</button>
+      <button type="submit">Submit</button>
+    </div>
+  </div>
 </form>
