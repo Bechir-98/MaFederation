@@ -1,0 +1,100 @@
+.player-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.player-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2563eb;
+}
+
+.player-form label {
+  display: block;
+  margin-bottom: 6px;
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.player-form input[type="text"],
+.player-form input[type="email"],
+.player-form input[type="tel"],
+.player-form input[type="date"],
+.player-form select,
+.player-form input[type="file"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.player-form input[type="text"]:focus,
+.player-form input[type="email"]:focus,
+.player-form input[type="tel"]:focus,
+.player-form input[type="date"]:focus,
+.player-form select:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.5);
+}
+
+.photo-upload {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.photo-upload input[type="file"] {
+  width: auto;
+}
+
+.photo-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.player-form button {
+  margin-top: 20px;
+  background-color: #2563eb;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 700;
+}
+
+.player-form button:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
+.player-form button:hover:not(:disabled) {
+  background-color: #1e40af;
+}

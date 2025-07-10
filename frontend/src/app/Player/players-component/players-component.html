@@ -1,6 +1,9 @@
 <div class="all">
-  <div>
-    <!-- Optional Header/Filters/Search -->
+  <div class="table-header">
+    <div>
+      <!-- Optional Header/Filters/Search -->
+    </div>
+    <button class="add-player-button">+ Add Player</button>
   </div>
 
   <div class="table-wrapper">
@@ -11,16 +14,31 @@
           <th>License Number</th>
           <th>Category</th>
           <th>Birth Date</th>
-          <th>Actions</th> <!-- This was missing in the header -->
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let P of Players; let i = index" class="playerStaus">
+        <!-- Filter row with inputs/select -->
+        <tr class="filter-row">
+          <td><input type="text" placeholder="Enter Full Name" /></td>
+          <td><input type="number" placeholder="Enter License Number" /></td>
+          <td>
+            <select>
+              <option value="" disabled selected>Select Category</option>
+              <option *ngFor="let C of Club">{{ C.categories }}</option>
+            </select>
+          </td>
+          <td><input type="date" placeholder="Enter Birth Date" /></td>
+          <td></td>
+        </tr>
+
+        <!-- Players rows -->
+        <tr *ngFor="let P of Players; let i = index" class="playerStatus">
           <td>{{ P.FirstName + ' ' + P.LastName }}</td>
           <td>{{ P.LicenseNumber }}</td>
           <td>{{ P.Category }}</td>
-          <td>{{ P.BirthDate }}</td>
-          <td><a >View 👁</a></td>
+          <td>{{ P.BirthDate | date: 'yyyy-MM-dd' }}</td>
+          <td><a href="#">View 👁</a></td>
         </tr>
       </tbody>
     </table>

@@ -11,5 +11,6 @@ export class PlayersComponent {
 
   Players:Array<any>=[] ;
 
+Club:Array<any>=[] ;
 
 }
