@@ -1,0 +1,29 @@
+.navbar {
+  min-height: 100vh;
+  background-color: rgb(78, 134, 203);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo h1 {
+  margin-bottom: 30px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #333;
+}
+
+.nav-links li a:hover {
+  text-decoration: underline;
+}

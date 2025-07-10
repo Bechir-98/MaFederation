@@ -1,0 +1,31 @@
+.nav{
+    margin-top: 0%;
+    height: 5%;
+    border: 2px solid rgb(245, 220, 0);
+    padding: 5px;
+    margin-bottom: 2%;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.user{
+     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+     font-size: 1.1em;
+     text-decoration: underline;
+
+}
+
+.logo  {
+    margin-right: 20px;
+
+}
+
+.img{
+    height: 50px;
+    width: 50px;
+    border-radius: 8px;
+    object-fit: fill;
+
+}
