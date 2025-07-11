@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Nav } from './nav/nav';
-import {UserComponent} from './User/user-component/user-component';
+import {UserNavComponent} from './User/user-nav-component/user-nav-component';
 import { FormsModule } from '@angular/forms'; 
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,Nav,UserComponent,FormsModule],
+  imports: [RouterOutlet,Nav,UserNavComponent,FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
