@@ -24,6 +24,8 @@
 
       <label>Bank Name</label>
       <input type="text" name="bankName" [(ngModel)]="club.bankName" required />
+
+     
     </div>
 
     <div class="photo">
@@ -41,6 +43,23 @@
 
   <!-- Step 2: Submission -->
   <div *ngIf="step === 2" class="form-wrapper-column">
+    <div class="review-section">
+      <div>
+      <h3>Review Club Details</h3>
+      <p><strong>Name:</strong> {{club.name}}</p>
+      <p><strong>Location:</strong> {{club.location}}</p>
+      <p><strong>Founded Year:</strong> {{club.foundedYear}}</p>
+      <p><strong>Contact Email:</strong> {{club.contactEmail}}</p>
+      <p><strong>Contact Phone:</strong> {{club.contactPhone}}</p>
+      <p><strong>Bank Account:</strong> {{club.bankAccount}}</p>
+      <p><strong>Bank Name:</strong> {{club.bankName}}</p>
+      </div>
+      <div *ngIf="logoPreview" class="logo-preview">
+        <strong>Logo Preview:</strong>
+        <img [src]="logoPreview" alt="Logo Preview" style="max-width: 200px; max-height: 200px;"  class="logoPreview"/>
+      </div>
+    </div>
+
     <div class="actions">
       <button type="button" (click)="step = 1">Back</button>
       <button type="submit" [disabled]="!clubForm.form.valid">Submit</button>

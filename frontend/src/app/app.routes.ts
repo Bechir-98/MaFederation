@@ -32,5 +32,6 @@
         {path:'clubs' , component:ListClubsComponent},
         {path:'addclub' , component:AddClubComponent},
         {path:'**',component:ClubComponent },
+        
     ];  
     

@@ -147,6 +147,25 @@
         min="0"
       />
 
+      <label>License Number</label>
+      <input
+        type="text"
+        name="licenseNumber"
+        [(ngModel)]="player.licenseNumber"
+      />
+
+      <label>Category</label>
+      <select
+        name="category"
+        [(ngModel)]="player.category.categoryId"
+        required
+      >
+        <option value="" disabled>Select Category</option>
+        <option *ngFor="let category of categories" [value]="player.category.categoryId">
+          {{ category.name }}
+        </option>
+      </select>
+
     </div>
 
     <div class="photo">
@@ -154,10 +173,10 @@
       <input
         type="file"
         accept="image/*"
-        (change)="($event)"
+        (change)="onFileSelected($event)"
       />
-      <div class="photo-preview" *ngIf="">
-        <img [src]="" alt="Player Photo Preview" />
+      <div class="photo-preview" *ngIf="selectedFile">
+        <img [src]="imagePreview" alt="Player Photo Preview" />
       </div>
     </div>
   </div>
@@ -177,20 +196,20 @@
     <div class="docs-grid">
       <div class="doc">
         <label>Medical Record (PDF/Image)</label>
-        <input type="file" accept="image/*,.pdf" name="medical" />
+        <input type="file" accept="image/*,.pdf" name="medical" (change)="onDocumentSelected($event, 'medical')" />
       </div>
       <div class="doc">
         <label>CIN Card (PDF/Image)</label>
-        <input type="file" accept="image/*,.pdf" name="cin" />
+        <input type="file" accept="image/*,.pdf" name="cin" (change)="onDocumentSelected($event, 'cin')" />
       </div>
       <div class="doc">
         <label>Birth Certificate (PDF/Image)</label>
-        <input type="file" accept="image/*,.pdf" name="birth" />
+        <input type="file" accept="image/*,.pdf" name="birth" (change)="onDocumentSelected($event, 'birth')" />
       </div>
     </div>
 
     <div class="actions">
-      <button type="button" (click)="step = 1">Back</button>
+      <button type="button" (click)="previousStep()">Back</button>
       <button type="submit" [disabled]="!playerForm.form.valid">Submit</button>
     </div>
   </div>

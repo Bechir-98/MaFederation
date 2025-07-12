@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-form',
+  standalone: true,
   templateUrl: './add-user-component.html',
   styleUrls: ['./add-user-component.css'],
   imports:[ CommonModule,FormsModule],

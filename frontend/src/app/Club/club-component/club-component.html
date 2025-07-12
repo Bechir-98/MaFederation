@@ -1,87 +1,144 @@
-<div class="header">
-  <!-- Club Logo -->
-  <div class="image-container">
-    <img src="images/logo.png" alt="Club Logo" class="image" />
+<!-- Loading State -->
+<div *ngIf="isLoading" class="loading-container">
+  <p>Loading club information...</p>
+</div>
+
+<!-- Error State -->
+<div *ngIf="error" class="error-container">
+  <p class="error-message">{{ error }}</p>
+  <button class="retry-button" (click)="refreshData()">Retry</button>
+</div>
+
+<!-- Club Content -->
+<div *ngIf="!isLoading && !error && club" class="club-container">
+  <div class="header">
+    <!-- Club Logo -->
+    <div class="image-container">
+      <img [src]="club.logoUrl || 'images/logo.png'" alt="Club Logo" class="image" />
+    </div>
+
+    <!-- Club Info Header -->
+    <div class="club-info-header">
+      <div class="info-block">
+        <div class="name">
+          <h1>{{ club.name }}</h1>
+          <span class="status-badge" 
+                [ngClass]="{'validated': club.isValidatedByFederation, 'not-validated': !club.isValidatedByFederation}"
+                [title]="getValidationTitle()">
+            {{ getValidationIcon() }} {{ getValidationText() }}
+          </span>
+          <button class="edit-button" (click)="editClub()">Edit</button>
+          <button class="delete-button" (click)="deleteClub()">Delete</button>
+        </div>
+        <div class="status">{{ getClubStatus() }}</div>
+      </div>
+    </div>
   </div>
 
-  <!-- Club Info Header -->
-  <div class="club-info-header">
-    <div class="info-block">
-      <div class="name">
-        <h1>Club Africain</h1>
-        <span class="status-badge validated" title="Validated by Federation">
-          ✅ Validated
-        </span>
-        <button class="edit-button">Edit</button>
+  <div class="main">
+    <!-- Club Basic Info -->
+    <div class="basic-info">
+      <div class="infos">
+        <h2>Club ID</h2><h3>{{ club.clubId }}</h3>
+        <h2>Location</h2><h3>{{ club.location }}</h3>
+        <h2>Founded Year</h2><h3>{{ club.foundedYear }}</h3>
+        <h2>Contact Email</h2><h3>{{ club.contactEmail }}</h3>
+        <h2>Phone</h2><h3>{{ club.contactPhone }}</h3>
+        <h2>Bank Name</h2><h3>{{ club.bankName }}</h3>
+        <h2>Bank Account</h2><h3>{{ club.bankAccount }}</h3>
+        <h2>Logo File ID</h2><h3>{{ club.logoFileId }}</h3>
+        <h2>Validation Status</h2><h3>{{ getValidationDetails() }}</h3>
+        <div *ngIf="club.rejectionReason">
+          <h2>Rejection Reason</h2><h3>{{ club.rejectionReason }}</h3>
+        </div>
       </div>
-      <div class="status">Active Club - Founded in 1920</div>
+    </div>
+
+    <!-- Club Details / Actions -->
+    <div class="sport-info">
+      <div class="buttons">
+        <button class="button" (click)="viewCredentials()">View Credentials</button>
+        <button class="button" (click)="viewCategories()">View Categories</button>
+        <button class="button" (click)="viewStadiumInfo()">View Stadium Info</button>
+        <button class="button" (click)="viewPlayers()">View All Players</button>
+        <button class="button" (click)="addPlayer()">Add Player</button>
+        <button class="button" (click)="refreshData()">Refresh</button>
+      </div>
+
+      <!-- Admin Actions (only show if club is not validated) -->
+      <div class="admin-actions" *ngIf="!club.isValidatedByFederation">
+        <h3>Admin Actions</h3>
+        <button class="button validate-button" (click)="validateClub()">Validate Club</button>
+        <button class="button reject-button" (click)="rejectClub()">Reject Club</button>
+      </div>
+
+      <div class="sport-section">
+        <!-- Club Information -->
+        <div>
+          <h2>Club Information</h2>
+          <p><strong>Club ID:</strong> {{ club.clubId }}</p>
+          <p><strong>Name:</strong> {{ club.name }}</p>
+          <p><strong>Founded:</strong> {{ club.foundedYear }}</p>
+          <p><strong>Location:</strong> {{ club.location }}</p>
+          <p><strong>Validation Status:</strong> {{ club.isValidatedByFederation ? 'Validated' : 'Not Validated' }}</p>
+        </div>
+
+        <!-- Federation Validation -->
+        <div>
+          <h2>Federation Validation</h2>
+          <p><strong>Status:</strong> {{ club.isValidatedByFederation ? 'Validated by Federation' : 'Pending Validation' }}</p>
+          <p *ngIf="club.validatedAt"><strong>Validated At:</strong> {{ club.validatedAt | date:'medium' }}</p>
+          <p *ngIf="club.validatedByUserId"><strong>Validated By User ID:</strong> {{ club.validatedByUserId }}</p>
+          <p *ngIf="club.rejectionReason"><strong>Rejection Reason:</strong> {{ club.rejectionReason }}</p>
+        </div>
+
+        <!-- Contact Information -->
+        <div>
+          <h2>Contact Information</h2>
+          <p><strong>Email:</strong> {{ club.contactEmail }}</p>
+          <p><strong>Phone:</strong> {{ club.contactPhone }}</p>
+          <p><strong>Bank:</strong> {{ club.bankName }}</p>
+          <p><strong>Account:</strong> {{ club.bankAccount }}</p>
+        </div>
+
+        <!-- Club Players -->
+        <div>
+          <h2>Club Players</h2>
+          <div *ngIf="clubPlayers && clubPlayers.length > 0">
+            <p><strong>Total Players:</strong> {{ clubPlayers.length }}</p>
+            <div class="players-list">
+              <div *ngFor="let player of clubPlayers.slice(0, 5)" class="player-item">
+                <span class="player-name">{{ player.firstName }} {{ player.lastName }}</span>
+                <span class="player-position">{{ player.position }}</span>
+                <span class="player-jersey">#{{ player.jerseyNumber }}</span>
+              </div>
+            </div>
+            <p *ngIf="clubPlayers.length > 5" class="more-players">
+              ... and {{ clubPlayers.length - 5 }} more players
+            </p>
+            <button class="button" (click)="viewPlayers()">View All Players</button>
+          </div>
+          <div *ngIf="!clubPlayers || clubPlayers.length === 0">
+            <p>No players found for this club</p>
+            <button class="button" (click)="addPlayer()">Add First Player</button>
+          </div>
+        </div>
+
+        <!-- Club Statistics -->
+        <div>
+          <h2>Club Statistics</h2>
+          <p><strong>Total Players:</strong> {{ clubPlayers.length }}</p>
+          <p><strong>Active Players:</strong></p>
+          <p><strong>Pending Players:</strong> </p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="main">
-  <!-- Club Basic Info -->
-  <div class="basic-info">
-    <div class="infos">
-      <h2>Location</h2><h3>Tunis</h3>
-      <h2>Founded Year</h2><h3>1920</h3>
-      <h2>Contact Email</h2><h3>contact.tn</h3>
-      <h2>Phone</h2><h3>+216 20 000 000</h3>
-      <h2>Fax</h2><h3>+216 71 000 000</h3>
-      <h2>Bank Name</h2><h3>BIAT</h3>
-      <h2>Bank Account</h2><h3>TN59 1234 5678 9123 4567 89</h3>
-      <h2>Created At</h2><h3>2022-01-15</h3>
-      <h2>Updated At</h2><h3>2025-06-30</h3>
-      <h2>Validation</h2><h3>Federation Approved on 2025-01-05</h3>
-    </div>
-  </div>
-
-  <!-- Club Details / Actions -->
-  <div class="sport-info">
-    <div class="buttons">
-      <button class="button">View Credentials</button>
-      <button class="button">View Categories</button>
-      <button class="button">View Stadium Info</button>
-    </div>
-
-    <div class="sport-section">
-      <!-- Club Management Info -->
-      <div>
-        <h2>Management Info</h2>
-        <p><strong>President:</strong> Mehdi Bayoudh</p>
-        <p><strong>Technical Director:</strong> Yassine Trabelsi</p>
-        <p><strong>General Secretary:</strong> Fethi Bouslama</p>
-        <p><strong>Financial Officer:</strong> Amine Haddad</p>
-      </div>
-
-      <!-- Federation Affiliation -->
-      <div>
-        <h2>Federation Affiliation</h2>
-        <p><strong>Federation:</strong> Tunisian Football Federation</p>
-        <p><strong>Affiliated Since:</strong> 1965</p>
-        <p><strong>Status:</strong> Fully Compliant</p>
-        <p><strong>Last Audit:</strong> 2025-02-20</p>
-      </div>
-
-      <!-- Available Categories -->
-      <div>
-        <h2>Available Categories</h2>
-        <ul>
-          <li>U15</li>
-          <li>U17</li>
-          <li>U20</li>
-          <li>Senior</li>
-        </ul>
-      </div>
-
-      <!-- Stadium Info -->
-      <div>
-        <h2>Stadium Information</h2>
-        <p><strong>Stadium Name:</strong> Stade Olympique de Radès</p>
-        <p><strong>Capacity:</strong> 60,000</p>
-        <p><strong>Location:</strong> Radès, Tunis</p>
-        <p><strong>Owned By:</strong> Club Africain</p>
-      </div>
-    </div>
-  </div>
+<!-- Not Found State -->
+<div *ngIf="!isLoading && !error && !club" class="not-found-container">
+  <h2>Club Not Found</h2>
+  <p>The requested club could not be found.</p>
+  <button class="button" routerLink='/clubs']>Back to Clubs</button>
 </div>

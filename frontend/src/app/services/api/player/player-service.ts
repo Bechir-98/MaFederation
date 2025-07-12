@@ -7,22 +7,31 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PlayerService {
+  private baseUrl: string = 'http://localhost:8080/api';
 
-  public playerService: PlayerService;
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-    this.playerService = this;
+  getPlayers(): Observable<PlayerRepresentation[]> {
+    return this.http.get<PlayerRepresentation[]>(`${this.baseUrl}/players`);
   }
 
-  getPlayers():Observable<PlayerRepresentation[]> {
-    return this.http.get<PlayerRepresentation[]>('/api/players');
-  }
-
-  addPlayer(player: PlayerRepresentation):Observable<PlayerRepresentation> {
-    return this.http.post<PlayerRepresentation>('/api/players', player);
+  addPlayer(player: PlayerRepresentation): Observable<PlayerRepresentation> {
+    return this.http.post<PlayerRepresentation>(`${this.baseUrl}/players`, player);
   }
 
   getPlayerById(playerId: number): Observable<PlayerRepresentation> {
-    return this.http.get<PlayerRepresentation>(`/api/players/${playerId}`);
+    return this.http.get<PlayerRepresentation>(`${this.baseUrl}/players/${playerId}`);
+  }
+
+  updatePlayer(playerId: number, player: PlayerRepresentation): Observable<PlayerRepresentation> {
+    return this.http.put<PlayerRepresentation>(`${this.baseUrl}/players/${playerId}`, player);
+  }
+
+  deletePlayer(playerId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/players/${playerId}`);
+  }
+
+  getPlayersByClub(clubId: number): Observable<PlayerRepresentation[]> {
+    return this.http.get<PlayerRepresentation[]>(`${this.baseUrl}/players/club/${clubId}`);
   }
 }

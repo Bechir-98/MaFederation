@@ -21,11 +21,13 @@
         <!-- Filter row with inputs/select -->
         <tr class="filter-row">
           <td><input type="text" placeholder="Enter Full Name" /></td>
-          <td><input type="number" placeholder="Enter License Number" /></td>
+          <td><input type="text" placeholder="Enter License Number" /></td>
           <td>
             <select>
               <option value="" disabled selected>Select Category</option>
-              <option *ngFor="let P of players">{{ P.category.name }}</option>
+              <option *ngFor="let category of getUniqueCategories()" [value]="category.categoryId">
+                {{ category.name }}
+              </option>
             </select>
           </td>
           <td><input type="date" placeholder="Enter Birth Date" /></td>
@@ -33,12 +35,16 @@
         </tr>
 
         <!-- Players rows -->
-        <tr *ngFor="let P of players; let i = index" class="playerStatus">
-          <td>{{ P.firstName + ' ' + P.lastName }}</td>
-          <td>{{ P.licenseNumber }}</td>
-          <td>{{ P.category }}</td>
-          <td>{{ P.dateOfBirth | date: 'yyyy-MM-dd' }}</td>
-          <td><a href="#">View 👁</a></td>
+        <tr *ngFor="let player of players; let i = index" class="playerStatus">
+          <td>{{ player.firstName + ' ' + player.lastName }}</td>
+          <td>{{ player.licenseNumber }}</td>
+          <td>{{ player.category.name }}</td>
+          <td>{{ player.dateOfBirth | date: 'yyyy-MM-dd' }}</td>
+          <td>
+            <a href="#" (click)="viewPlayer(player.playerId)">View 👁</a>
+            <a href="#" (click)="editPlayer(player.playerId)">Edit ✏️</a>
+            <a href="#" (click)="deletePlayer(player.playerId)">Delete 🗑️</a>
+          </td>
         </tr>
       </tbody>
     </table>
