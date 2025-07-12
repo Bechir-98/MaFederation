@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PlayerRepresentation } from '../../represantations/player-representation';
+import { PlayerService } from '../../services/api/player/player-service';
+import { CategoryRepresentation } from '../../represantations/category-representation';
+import { CategoryService } from '../../services/api/catergory/categories';
 
 @Component({
   selector: 'app-player-add-component',
@@ -10,27 +13,94 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './player-add-component.html',
   styleUrls: ['./player-add-component.css']
 })
-export class PlayerAddComponent {
+export class PlayerAddComponent  implements OnInit {
   step = 1;
 
-  categories: string[] = ['U15', 'U17', 'U20', 'Senior'];
-  photoPreview: string | null = null;
+
+constructor(
+  private playerService: PlayerService,
+  private categoryService: CategoryService // <-- ADD `private`
+) {}
+////////////////////////////////////////////////
+categories: CategoryRepresentation[]= [];
+
+ ngOnInit(): void {
+    this.loadCategories();
+  }
+
+ loadCategories(): void {
+  const clubId = Number(localStorage.getItem('clubId'));
+  this.categoryService.loadCategoriesByClub(clubId).subscribe({
+    next: (data) => {
+      this.categories = data;
+    },
+    error: (err) => {
+      console.error('Error loading categories:', err);
+    }
+  });
+}
+
+////////////////////////////////////////////////
+
+  player: PlayerRepresentation = {
+  playerId: 0,
+  position: '',
+  jerseyNumber: 0,
+  height: 0,
+  weight: 0,
+  userID: 0,
+  firstName: '',
+  lastName: '',
+  email: '',
+  phoneNumber: '',
+  address: '',
+  city: '',
+  postalCode: '',
+  licenseNumber: '',
+  dateOfBirth: '',
+  country: '',
+  role: 'Player',
+  status: 'PENDING',
+  gender: '',
+  nationality: '',
+  clubId: 0,
+  category: {
+    playerId: 0,
+    categoryId: 0,
+    name:"",
+  }
+};
+////////////////////////////////////////////////
 
   nextStep() {
     this.step = 2;
   }
-
-  onPhotoSelected(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.photoPreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
+  previousStep() {
+    this.step = 1;
+  }
+ ///////////////////////////////////////////////
+  onSubmit() {
+  // Optional: Validate required fields (simple example)
+  if (!this.player.firstName || !this.player.lastName || !this.player.email) {
+    alert('Please fill in all required fields: First Name, Last Name, Email.');
+    return;
   }
 
-  onSubmit() {
-    alert('Form submitted successfully!');
+    this.playerService.addPlayer(this.player).subscribe({
+      next: (response) => {
+        console.log('Player added successfully:', response);
+        alert('Player form submitted successfully!');
+      },
+      error: (error) => {
+        console.error('Error adding player:', error);
+        alert('Failed to submit player form.');
+      }
+    });
   }
 }
+
+  
+
+
+
+

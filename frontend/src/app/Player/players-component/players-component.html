@@ -25,7 +25,7 @@
           <td>
             <select>
               <option value="" disabled selected>Select Category</option>
-              <option *ngFor="let C of Club">{{ C.categories }}</option>
+              <option *ngFor="let P of players">{{ P.category.name }}</option>
             </select>
           </td>
           <td><input type="date" placeholder="Enter Birth Date" /></td>
@@ -33,11 +33,11 @@
         </tr>
 
         <!-- Players rows -->
-        <tr *ngFor="let P of Players; let i = index" class="playerStatus">
-          <td>{{ P.FirstName + ' ' + P.LastName }}</td>
-          <td>{{ P.LicenseNumber }}</td>
-          <td>{{ P.Category }}</td>
-          <td>{{ P.BirthDate | date: 'yyyy-MM-dd' }}</td>
+        <tr *ngFor="let P of players; let i = index" class="playerStatus">
+          <td>{{ P.firstName + ' ' + P.lastName }}</td>
+          <td>{{ P.licenseNumber }}</td>
+          <td>{{ P.category }}</td>
+          <td>{{ P.dateOfBirth | date: 'yyyy-MM-dd' }}</td>
           <td><a href="#">View 👁</a></td>
         </tr>
       </tbody>

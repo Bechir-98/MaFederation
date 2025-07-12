@@ -11,7 +11,7 @@
     import {ListStaffComponent} from './Staff/list-staff-component/list-staff-component'
     import {AddStaffComponent} from './Staff/add-staff-component/add-staff-component'
     import { UsersComponent} from './User/users-component/users-component'
-
+    import { ListClubsComponent } from './Club/list-clubs-component/list-clubs-component';
 
     export const routes: Routes = [
     
@@ -28,6 +28,7 @@
         {path:'addstaff' , component:AddStaffComponent},
         {path:'club' , component:ClubComponent},
         {path:'players' , component:PlayersComponent},
+        {path:'clubs' , component:ListClubsComponent},
         {path:'**',component:ClubComponent },
     ];  
     

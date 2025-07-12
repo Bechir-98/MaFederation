@@ -1,0 +1,39 @@
+.main{
+    margin-top: 3%;
+    box-sizing: border-box;
+    width: 100%;
+    
+}
+.section
+{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.bar{
+padding: 20px;
+width: 20%;
+height: 5%;
+font-size: 0.5em;
+margin-right: 2em;
+border-radius: 8px;
+}
+
+.bar:hover{
+    transform: scale(1.1);
+
+
+}
+
+
+.cards{
+    border: 1px solid black;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 50px ;
+
+}

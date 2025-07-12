@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import { PlayerRepresentation } from '../../represantations/player-representation';
+import { PlayerService } from '../../services/api/player/player-service';
 
 @Component({
   selector: 'app-players-component',
@@ -9,10 +10,22 @@ import { RouterModule } from '@angular/router';
   templateUrl: './players-component.html',
   styleUrl: './players-component.css'
 })
-export class PlayersComponent {
+export class PlayersComponent implements OnInit {
 
-  Players:Array<any>=[] ;
+  players:PlayerRepresentation[] = [];
 
-Club:Array<any>=[] ;
+  constructor(private playerService: PlayerService) { }
+
+
+  ngOnInit(): void {
+      this.playerService.getPlayers().subscribe(players => {
+          this.players = players;
+      });
+  }
+
+
+
+
+
 
 }
