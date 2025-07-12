@@ -1,7 +1,7 @@
 import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { PlayerRepresentation } from '../../represantations/player-representation';
+import { PlayerRepresentation } from '../../representations/player-representation';
 import { PlayerService } from '../../services/api/player/player-service';
 
 @Component({
@@ -19,7 +19,11 @@ export class PlayersComponent implements OnInit {
 
   ngOnInit(): void {
       this.playerService.getPlayers().subscribe(players => {
+
+
           this.players = players;
+
+
       });
   }
 

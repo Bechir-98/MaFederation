@@ -1,9 +1,9 @@
 import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PlayerRepresentation } from '../../represantations/player-representation';
+import { PlayerRepresentation } from '../../representations/player-representation';
 import { PlayerService } from '../../services/api/player/player-service';
-import { CategoryRepresentation } from '../../represantations/category-representation';
+import { CategoryRepresentation } from '../../representations/category-representation';
 import { CategoryService } from '../../services/api/catergory/categories';
 
 @Component({
