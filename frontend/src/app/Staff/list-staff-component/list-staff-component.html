@@ -1,0 +1,50 @@
+<div class="all">
+  <div class="table-header">
+    <div>
+      <!-- Optional search, filter buttons here -->
+    </div>
+    <button class="add-staff-button" routerLink="/addstaff">+ Add Staff</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Category</th>
+          <th>Speciality</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filter row -->
+        <tr class="filter-row">
+          <td><input type="text" placeholder="Enter First Name" /></td>
+          <td><input type="text" placeholder="Enter Last Name" /></td>
+          <td>
+            <select>
+              <option value="" disabled selected>Select Category</option>
+              <option>U12</option>
+              <option>U15</option>
+              <option>U18</option>
+              <option>Senior</option>
+              <!-- Add more if needed -->
+            </select>
+          </td>
+          <td><input type="text" placeholder="Enter Speciality" /></td>
+          <td></td>
+        </tr>
+
+        <!-- Staff rows -->
+        <tr *ngFor="let staff of Staffs">
+          <td>{{ staff.FirstName }}</td>
+          <td>{{ staff.LastName }}</td>
+          <td>{{ staff.Category }}</td>
+          <td>{{ staff.Speciality }}</td>
+          <td><a href="#" >View 👁</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

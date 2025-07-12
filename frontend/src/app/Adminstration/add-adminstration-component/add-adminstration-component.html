@@ -1,0 +1,72 @@
+<form class="admin-form" (ngSubmit)="onSubmit()" #adminForm="ngForm">
+  <h2>Add Club Administrator</h2>
+
+  <!-- Step 1 -->
+  <div *ngIf="step === 1" class="form-wrapper">
+    <div class="details">
+      <label>First Name</label>
+      <input type="text" name="firstName" ngModel required />
+
+      <label>Last Name</label>
+      <input type="text" name="lastName" ngModel required />
+
+      <label>Email</label>
+      <input type="email" name="email" ngModel required />
+
+      <label>Phone</label>
+      <input type="tel" name="phone" ngModel />
+
+      <label>Gender</label>
+      <select name="gender" ngModel required>
+        <option value="" disabled selected>Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+
+      <label>Nationality</label>
+      <select name="nationality" ngModel required>
+        <option value="" disabled selected>Select Nationality</option>
+        <option value="Tunisian">Tunisian</option>
+        <option value="French">French</option>
+      </select>
+
+      <label>Personnel Type</label>
+      <input type="text" name="personnelType" ngModel placeholder="e.g. Executive" required />
+
+      <label>Role</label>
+      <input type="text" name="role" ngModel placeholder="e.g. General Secretary" required />
+
+      <label>Remarks</label>
+      <textarea name="remarks" ngModel rows="3" placeholder="Any extra notes..."></textarea>
+    </div>
+
+    <div class="actions">
+      <button type="button" (click)="step = 2" [disabled]="!adminForm.form.valid">Next</button>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div *ngIf="step === 2" class="form-wrapper-column">
+    <div class="docs-grid">
+      <div class="doc">
+        <label>Nomination Letter (PDF)</label>
+        <input type="file" name="nominationLetter" accept=".pdf" required />
+      </div>
+
+      <div class="doc">
+        <label>Certification (PDF/Image)</label>
+        <input type="file" name="certification" accept=".pdf,image/*" />
+      </div>
+
+      <div class="doc">
+        <label>ID Card (Optional)</label>
+        <input type="file" name="idCard" accept=".pdf,image/*" />
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" (click)="step = 1">Back</button>
+      <button type="submit">Submit</button>
+    </div>
+  </div>
+</form>

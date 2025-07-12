@@ -1,0 +1,50 @@
+  <div class="all">
+    <div class="table-header">
+      <div>
+        <!-- Optional header or search/filter -->
+      </div>
+      <button class="add-admin-button" routerLink="/addadmin">+ Add Administrator</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Role</th>
+            <th>Personnel Type</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Filter row -->
+          <tr class="filter-row">
+            <td><input type="text" placeholder="Enter First Name" /></td>
+            <td><input type="text" placeholder="Enter Last Name" /></td>
+            <td><input type="text" placeholder="Enter Role" /></td>
+            <td>
+              <select>
+                <option value="" disabled selected>Select Personnel Type</option>
+                <option>Technical Staff</option>
+                <option>Administrative Staff</option>
+                <option>Manager</option>
+                <option>Coach</option>
+                <!-- ajoute d'autres selon besoin -->
+              </select>
+            </td>
+            <td></td>
+          </tr>
+
+          <!-- Admin rows example -->
+          <tr *ngFor="let admin of Admins">
+            <td>{{ admin.FirstName }}</td>
+            <td>{{ admin.LastName }}</td>
+            <td>{{ admin.Role }}</td>
+            <td>{{ admin.PersonnelType }}</td>
+            <td><a href="#" >View 👁</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -16,18 +16,6 @@ export class PlayerAddComponent {
   categories: string[] = ['U15', 'U17', 'U20', 'Senior'];
   photoPreview: string | null = null;
 
-  filePreviews = {
-    medical: null as string | null,
-    cin: null as string | null,
-    birth: null as string | null
-  };
-
-  fileTypes = {
-    medical: '' as 'pdf' | 'image' | '',
-    cin: '' as 'pdf' | 'image' | '',
-    birth: '' as 'pdf' | 'image' | ''
-  };
-
   nextStep() {
     this.step = 2;
   }
@@ -38,17 +26,6 @@ export class PlayerAddComponent {
     const reader = new FileReader();
     reader.onload = () => {
       this.photoPreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  onFileSelected(event: Event, type: 'medical' | 'cin' | 'birth') {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.filePreviews[type] = reader.result as string;
-      this.fileTypes[type] = file.type.includes('pdf') ? 'pdf' : 'image';
     };
     reader.readAsDataURL(file);
   }

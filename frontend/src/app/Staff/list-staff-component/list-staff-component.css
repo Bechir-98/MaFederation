@@ -19,14 +19,14 @@ table {
 }
 
 thead tr {
-  background-color: #9333ea; /* purple header for users */
+  background-color: #16a34a; /* Dark green for staff */
   color: white;
 }
 
 th, td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #ede9fe;
+  border-bottom: 1px solid #d1fae5; /* light green border */
   font-size: 14px;
 }
 
@@ -43,17 +43,17 @@ th, td {
 
 .filter-row input:focus,
 .filter-row select:focus {
-  border-color: #9333ea;
+  border-color: #16a34a;
   outline: none;
-  box-shadow: 0 0 5px rgba(147, 51, 234, 0.5);
+  box-shadow: 0 0 5px rgba(22, 163, 74, 0.5);
 }
 
 tr:hover {
-  background-color: #f3e8ff;
+  background-color: #f0fdf4; /* subtle green hover */
 }
 
 a {
-  color: #7e22ce;
+  color: #15803d; /* green link */
   text-decoration: none;
   font-weight: 600;
   cursor: pointer;
@@ -70,8 +70,8 @@ a:hover {
   margin-bottom: 12px;
 }
 
-.add-user-button {
-  background-color: #9333ea;
+.add-staff-button {
+  background-color: #16a34a;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -81,6 +81,6 @@ a:hover {
   transition: background-color 0.3s ease;
 }
 
-.add-user-button:hover {
-  background-color: #6b21a8;
+.add-staff-button:hover {
+  background-color: #0e7c32;
 }

@@ -1,6 +1,6 @@
-.player-form {
-  max-width: 1000px;
-  margin: 0 auto;
+.admin-form {
+  max-width: 900px;
+  margin: 30px auto;
   background: white;
   padding: 30px;
   border-radius: 10px;
@@ -8,7 +8,7 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-h2 {
+.admin-form h2 {
   text-align: center;
   color: #2563eb;
   margin-bottom: 20px;
@@ -16,23 +16,12 @@ h2 {
 
 .form-wrapper {
   display: flex;
-  justify-content: space-between;
-  gap: 40px;
-}
-
-.form-wrapper-column {
-  display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.details {
-  flex: 2;
-}
-
 .details label,
-.doc label,
-.photo label {
+.doc label {
   display: block;
   margin-top: 10px;
   font-weight: 600;
@@ -40,65 +29,22 @@ h2 {
 
 .details input,
 .details select,
+.details textarea,
 .doc input {
   width: 100%;
   padding: 8px;
   border-radius: 6px;
   border: 1.5px solid #ccc;
+  margin-top: 4px;
   margin-bottom: 10px;
   transition: border-color 0.2s ease;
 }
 
 .details input:focus,
-.details select:focus {
+.details select:focus,
+.details textarea:focus {
   border-color: #2563eb;
   outline: none;
-}
-
-.photo {
-  flex: 1;
-  text-align: center;
-}
-
-.photo-preview {
-  margin-top: 10px;
-  border: 1px solid #ccc;
-  width: 100%;
-  max-width: 150px;
-  height: 150px;
-  overflow: hidden;
-  border-radius: 8px;
-}
-
-.photo-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.docs-grid {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.doc {
-  flex: 1 1 30%;
-}
-
-.doc-preview {
-  margin-top: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #f8f8f8;
-  max-height: 160px;
-}
-
-.doc-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
 
 .actions {
@@ -124,17 +70,30 @@ button:disabled {
   cursor: not-allowed;
 }
 
+button:hover:not(:disabled) {
+  background-color: #1e4fd0;
+}
+
+/* STEP 2 LAYOUT */
+.form-wrapper-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
 .docs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 30px;
   margin-top: 20px;
 }
 
-
-
-.doc input[type="file"] {
-  margin-bottom: 10px;
+.doc {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
-

@@ -19,7 +19,7 @@ table {
 }
 
 thead tr {
-  background-color: #2563eb; /* Blue */
+  background-color: #db4319; /* Blue */
   color: white;
 }
 
@@ -51,6 +51,11 @@ th, td {
 tr.playerStatus:hover {
   background-color: #e0ebff;
 }
+
+tr:hover {
+  background-color: #ffefeb; /* subtle green hover */
+}
+
 
 a {
   color: #2563eb;

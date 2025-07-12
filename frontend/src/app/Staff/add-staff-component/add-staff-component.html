@@ -1,5 +1,5 @@
-<form #playerForm="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="player-form">
-  <h2>Player Registration</h2>
+<form #staffForm="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="staff-form">
+  <h2>Staff Registration</h2>
 
   <!-- Step 1 -->
   <div *ngIf="step === 1" class="form-wrapper">
@@ -36,43 +36,47 @@
         <option value="French">French</option>
       </select>
 
-      <label>License Number</label>
-      <input type="text" name="licenseNumber" ngModel required />
-
-      <label>Category</label>
-      <select name="category" ngModel required>
-        <option value="" disabled selected>Select Category</option>
-        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      <label>Personnel Type</label>
+      <select name="personnelType" ngModel required>
+        <option value="" disabled selected>Select Personnel Type</option>
+        <option>Technical Director</option>
+        <option>Coach</option>
+        <option>Medical Staff</option>
+        <option>Analyst</option>
+        <option>Other</option>
       </select>
+
+      <label>Speciality</label>
+      <input type="text" name="speciality" ngModel required />
     </div>
 
     <div class="photo">
-      <label>Player Photo</label>
-      <input type="file" accept="image/*" (change)="onPhotoSelected($event)" />
-      <div class="photo-preview" *ngIf="photoPreview">
-        <img [src]="photoPreview" />
+      <label>Staff Photo</label>
+      <input type="file" accept="image/*" />
+      <div class="photo-preview">
+        <img [src]="" />
       </div>
     </div>
   </div>
 
   <div *ngIf="step === 1" class="actions">
-    <button type="button" (click)="nextStep()" [disabled]="!playerForm.form.valid">Next</button>
+    <button type="button" (click)="nextStep()" [disabled]="!staffForm.form.valid">Next</button>
   </div>
 
   <!-- Step 2 -->
   <div *ngIf="step === 2" class="form-wrapper-column">
     <div class="docs-grid">
       <div class="doc">
-        <label>Medical Record (PDF/Image)</label>
-        <input type="file" accept="image/*,.pdf" name="medical" />
+        <label>Nomination Letter (PDF/Image)</label>
+        <input type="file" accept="image/*,.pdf" name="nominationLetter" />
       </div>
       <div class="doc">
-        <label>CIN Card (PDF/Image)</label>
-        <input type="file" accept="image/*,.pdf" name="cin" />
+        <label>Contract (PDF/Image)</label>
+        <input type="file" accept="image/*,.pdf" name="contract" />
       </div>
       <div class="doc">
-        <label>Birth Certificate (PDF/Image)</label>
-        <input type="file" accept="image/*,.pdf" name="birth" />
+        <label>Other Document (PDF/Image)</label>
+        <input type="file" accept="image/*,.pdf" name="otherDoc" />
       </div>
     </div>
 

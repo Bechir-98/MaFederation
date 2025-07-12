@@ -2,17 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-
 @Component({
-  selector: 'app-players-component',
+  selector: 'app-list-staff-component',
   imports: [CommonModule,RouterModule],
-  templateUrl: './players-component.html',
-  styleUrl: './players-component.css'
+  templateUrl: './list-staff-component.html',
+  styleUrl: './list-staff-component.css'
 })
-export class PlayersComponent {
+export class ListStaffComponent {
 
-  Players:Array<any>=[] ;
-
-Club:Array<any>=[] ;
+  Staffs:Array<any>=[];
 
 }
