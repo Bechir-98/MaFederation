@@ -21,7 +21,7 @@ export class ListClubsComponent  {
     this.clubservice.loadClubs().subscribe({
       next: (data) => {
         this.clubs = data;
-        this.exist=false;
+        this.exist=true;
       },
       error: (err) => {
         console.error('Failed to load clubs:', err);

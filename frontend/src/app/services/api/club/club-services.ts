@@ -7,13 +7,13 @@ import { ClubRepresentation } from '../../../representations/club-representation
   providedIn: 'root'
 })
 export class ClubServices {
-  private baseUrl: string = 'http://localhost:8080/api/clubs';
+  private baseUrl: string = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {}
 
   // Get all clubs
   loadClubs(): Observable<ClubRepresentation[]> {
-    return this.http.get<ClubRepresentation[]>(this.baseUrl);
+    return this.http.get<ClubRepresentation[]>(this.baseUrl+"/clubs");
   }
 
   // Get club by ID
