@@ -8,19 +8,24 @@ import com.MaFederation.MaFederation.model.ClubRepresentation;
 public class ClubMapper {
 
     public ClubDTO toDto(ClubRepresentation club) {
-        return new ClubDTO(
-            club.getName(),
-            club.getLocation(),
-            club.getFoundedYear(),   
-            club.getContactEmail(),
-            club.getContactPhone(),
-            club.getBankAccount(),
-            club.getBankName()
-        );
-    }
+    return new ClubDTO(
+        club.getClubID(),
+        club.getName(),
+        club.getLocation(),
+        club.getFoundedYear(),
+        club.getContactEmail(),
+        club.getContactPhone(),
+        club.getLogoUrl(),
+        club.getBankAccount(),
+        club.getBankName()
+    );
+}
+
+
 
   public ClubRepresentation fromDto(ClubDTO clubdto) {
     ClubRepresentation club = new ClubRepresentation();
+    club.setClubID(clubdto.clubId());
     club.setName(clubdto.name());
     club.setLocation(clubdto.location());
     club.setFoundedYear(clubdto.foundedYear());
@@ -28,6 +33,7 @@ public class ClubMapper {
     club.setContactPhone(clubdto.contactPhone());
     club.setBankAccount(clubdto.bankAccount());
     club.setBankName(clubdto.bankName());
+    club.setLogoUrl(clubdto.logoUrl());
 
     return club;
 }

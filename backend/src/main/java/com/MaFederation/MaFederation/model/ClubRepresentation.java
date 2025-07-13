@@ -18,6 +18,7 @@ public class ClubRepresentation {
     private String name;
     private String location;
     private Integer foundedYear;
+    private String logoUrl;
 
     private String contactEmail;
     private String contactPhone;

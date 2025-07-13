@@ -1,30 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClubRepresentation } from '../../representations/club-representation';
 import { ClubServices } from '../../services/api/club/club-services';
 import { ClubCardComponent} from  '../club-card-component/club-card-component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-list-clubs-component',
   standalone: true,
-  imports: [CommonModule,ClubCardComponent],
+  imports: [CommonModule, ClubCardComponent, RouterModule],
   templateUrl: './list-clubs-component.html',
-  styleUrls: ['./list-clubs-component.css']
+  styleUrls: ['./list-clubs-component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush  // Optional: for better performance
 })
-export class ListClubsComponent  {
-
+export class ListClubsComponent implements OnInit {
   clubs: ClubRepresentation[] = [];
- public exist:boolean=false;
 
-  constructor(private clubservice: ClubServices) {}
-  ngOnInit(): void {
+  constructor(
+    private clubservice: ClubServices,
+    private cdr: ChangeDetectorRef  // Add ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
     this.clubservice.loadClubs().subscribe({
       next: (data) => {
         this.clubs = data;
-        this.exist=true;
+        console.log(this.clubs);
+        this.cdr.detectChanges(); // Force change detection
       },
       error: (err) => {
-        console.error('Failed to load clubs:', err);
+        console.error('Erreur de chargement des clubs:', err);
       }
     });
   }

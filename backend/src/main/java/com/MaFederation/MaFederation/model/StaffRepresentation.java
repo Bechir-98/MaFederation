@@ -25,7 +25,5 @@ public class StaffRepresentation {
 
     private String specialty;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
 
-    private LocalDateTime updatedAt;
 }

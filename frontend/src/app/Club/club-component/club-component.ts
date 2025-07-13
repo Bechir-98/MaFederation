@@ -1,54 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ClubRepresentation } from '../../representations/club-representation';
 import { ClubServices } from '../../services/api/club/club-services';
 
 @Component({
   selector: 'app-club-component',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './club-component.html',
-  styleUrl: './club-component.css'
+  styleUrls: ['./club-component.css']  
 })
 export class ClubComponent implements OnInit {
   club: ClubRepresentation | null = null;
-
   clubId: number = 0;
-  
 
   constructor(
     private clubService: ClubServices,
     private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.clubId =params['id'];
-      console.log(this.clubId)        ;  
-        if (this.clubId) {
+ ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.clubId = +id;
         this.loadClub();
-       
       }
     });
   }
 
-loadClub(): void {
- 
-
-  this.clubService.getClubById(this.clubId).subscribe({
-    next: (club) => {
-      this.club = club;
-      console.log('Club:', this.club);
-    },
-    error: (err) => {
-      console.error('Erreur lors du chargement du club :', err);
-  
-    }
-  });
-}
-
+  loadClub(): void {
+    this.clubService.getClubById(this.clubId).subscribe({
+      next: (club) => {
+        this.club = club;
+        console.log('Club loaded:', this.club);
+        this.cdr.detectChanges(); // Force change detection
+      },
+      error: (err) => {
+        console.error('Error loading club:', err);
+      }
+    });
   }
-
-
-
-
+}

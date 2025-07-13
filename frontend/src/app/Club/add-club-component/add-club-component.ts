@@ -23,7 +23,7 @@ export class AddClubComponent {
   club :ClubRepresentation= {
     name: '',
     clubId:0,
-    logoFileId:0,
+  
     location: '',
     foundedYear: new Date().getFullYear(),
     contactEmail: '',
@@ -31,10 +31,6 @@ export class AddClubComponent {
     bankAccount: '',
     bankName: '',
     // Additional fields to match ClubRepresentation
-    isValidatedByFederation: false,
-    validatedAt: null as Date | null,
-    validatedByUserId: null as number | null,
-    rejectionReason: null as string | null,
     logoUrl: ''
   };
 
@@ -67,7 +63,7 @@ export class AddClubComponent {
     formData.append('contactPhone', this.club.contactPhone);
     formData.append('bankAccount', this.club.bankAccount);
     formData.append('bankName', this.club.bankName);
-    formData.append('isValidatedByFederation', this.club.isValidatedByFederation.toString());
+    
     
     if (this.club.logoUrl) {
       formData.append('logoFile', this.club.logoUrl);

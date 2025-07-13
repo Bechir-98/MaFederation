@@ -47,5 +47,20 @@ public class ClubServices {
 }
 
 
+public void DeleteAll( )
+{
+
+    clubrepository.deleteAll();
+}
+
+
+
+public void DeleteById ( int id )
+{
+    clubrepository.deleteById(id);
+
+}
+
+
     
 }

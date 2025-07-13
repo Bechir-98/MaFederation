@@ -1,17 +1,14 @@
-<div class="main">
+<div class="section">
 
-  <div class="section">
-    <h1>All Clubs</h1>
-    <input type="text" placeholder="Search By Name" class="bar" />
-  </div>
-
-  <div class="cards" *ngIf="exist">
-    <app-club-card-component 
-      *ngFor="let c of clubs"
-      [clubName]="c.name"
-      [logoUrl]="c.logoUrl"
-    >
-    </app-club-card-component>
+  <div *ngIf="clubs && clubs.length > 0" class="cards main">
+    <div *ngFor="let c of clubs">
+      <a [routerLink]="['/club', c.clubId]" class="clublink">  <!-- clubID en majuscule selon ton modèle -->
+        <app-club-card-component 
+          [clubName]="c.name"
+          [logoUrl]="c.logoUrl">
+        </app-club-card-component>
+      </a>
+    </div>
   </div>
 
 </div>

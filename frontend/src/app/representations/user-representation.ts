@@ -11,8 +11,6 @@ export interface UserRepresentation {
   gender: string
   dateOfBirth: string; // Format: YYYY-MM-DD
   country: string;
-  role: string; // e.g., "PLAYER", "COACH", "ADMIN"
-  status: string; // e.g., "PENDING", "ACTIVE", "REJECTED"
-  rejectionReason?: string; // Optional, only if status is REJECTED
- 
+ role: 'PLAYER' | 'COACH' | 'ADMIN' |'Super';
+
 }

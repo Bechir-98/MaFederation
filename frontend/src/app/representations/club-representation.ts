@@ -7,10 +7,5 @@ export interface ClubRepresentation {
   contactPhone: string;
   bankAccount: string;
   bankName: string;
-  logoFileId: number;
-  isValidatedByFederation: boolean;
-  validatedAt: Date | null;
-  validatedByUserId: number | null;
-  rejectionReason?: string | null;
   logoUrl:string;
 }

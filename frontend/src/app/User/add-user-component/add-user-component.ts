@@ -26,7 +26,7 @@ export class AddUserComponent {
     country: '',
     role: 'USER',
     status: 'PENDING',
-    rejectionReason: ''
+    
   };
 
   previewUrl: string | ArrayBuffer | null = null;

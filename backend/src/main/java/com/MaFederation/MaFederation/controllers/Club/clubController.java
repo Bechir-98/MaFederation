@@ -3,6 +3,7 @@ package com.MaFederation.MaFederation.controllers.Club;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MaFederation.MaFederation.dto.ClubDTO;
@@ -35,7 +36,7 @@ public class ClubController {
     }
     
     
-    @PostMapping("/RegisterClub")
+    @PostMapping("/clubs/register-club")
     public ClubRepresentation postMethodName(@RequestBody ClubDTO club) {
         
         return this.clubservices.addClub(club);
@@ -46,6 +47,21 @@ public class ClubController {
         return this.clubservices.getClubById(id );
     }
     
+    @DeleteMapping("delete/club/{id}")
+    public void DeleteByID (@PathVariable int id  )
+    {
+          this.clubservices.DeleteById(id); 
+    }
+
+
+    @DeleteMapping("/delete/clubs")
+    public void DeleteAllclubs ( )
+    {
+        this.clubservices.DeleteAll();
+
+    }
+
+
 
     
 

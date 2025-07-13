@@ -1,25 +1,16 @@
-<!-- Loading State -->
-<div>
-  <p>Loading club information...</p>
-</div>
 
-<!-- Error State -->
-<div class="error-container">
-  <p class="error-message"></p>
-  <button class="retry-button">Retry</button>
-</div>
 
 <!-- Club Content -->
 <div class="club-container">
   <div class="header">
     <div class="image-container">
-      <img [src]="" alt="Club Logo" class="image" />
+  <img [src]="club?.logoUrl" alt="Club Logo" class="image" />
     </div>
 
     <div class="club-info-header">
       <div class="info-block">
         <div class="name">
-          <h1>{{ club }}</h1>
+          <h1>{{ club?.name }}</h1>
           <button class="edit-button">Edit</button>
           <button class="delete-button">Delete</button>
         </div>
@@ -31,14 +22,12 @@
   <div class="main">
     <div class="basic-info">
       <div class="infos">
-        <h2>Club ID</h2><h3>{{ club?.clubId }}</h3>
         <h2>Location</h2><h3>{{ club?.location }}</h3>
         <h2>Founded Year</h2><h3>{{ club?.foundedYear }}</h3>
         <h2>Contact Email</h2><h3>{{ club?.contactEmail }}</h3>
         <h2>Phone</h2><h3>{{ club?.contactPhone }}</h3>
         <h2>Bank Name</h2><h3>{{ club?.bankName }}</h3>
         <h2>Bank Account</h2><h3>{{ club?.bankAccount }}</h3>
-        <h2>Logo File ID</h2><h3>{{ club?.logoFileId }}</h3>
         <h2>Validation Status</h2><h3></h3>
       </div>
     </div>
@@ -47,22 +36,18 @@
       <div class="buttons">
         <button class="button">View Credentials</button>
         <button class="button">View Categories</button>
-        <button class="button">View Stadium Info</button>
         <button class="button">View All Players</button>
-        <button class="button">Add Player</button>
-        <button class="button">Refresh</button>
       </div>
 
-      <div class="admin-actions">
+      <!-- <div class="admin-actions">
         <h3>Admin Actions</h3>
         <button class="button validate-button">Validate Club</button>
         <button class="button reject-button">Reject Club</button>
-      </div>
+      </div> -->
 
       <div class="sport-section">
         <div>
           <h2>Club Information</h2>
-          <p><strong>Club ID:</strong> {{ club?.clubId }}</p>
           <p><strong>Name:</strong> {{ club?.name }}</p>
           <p><strong>Founded:</strong> {{ club?.foundedYear }}</p>
           <p><strong>Location:</strong> {{ club?.location }}</p>
@@ -70,25 +55,17 @@
 
         <div>
           <h2>Federation Validation</h2>
-          <p><strong>Status:</strong> Validated by Federation / Pending Validation</p>
+          <p><strong>Status:</strong> </p>
           <p><strong>Validated At:</strong></p>
           <p><strong>Validated By User ID:</strong></p>
           <p><strong>Rejection Reason:</strong></p>
         </div>
 
         <div>
-          <h2>Contact Information</h2>
-          <p><strong>Email:</strong> {{ club?.contactEmail }}</p>
-          <p><strong>Phone:</strong> {{ club?.contactPhone }}</p>
-          <p><strong>Bank:</strong> {{ club?.bankName }}</p>
-          <p><strong>Account:</strong> {{ club?.bankAccount }}</p>
-        </div>
-
-        <div>
           <h2>Club Statistics</h2>
           <p><strong>Total Players:</strong></p>
-          <p><strong>Active Players:</strong></p>
-          <p><strong>Pending Players:</strong></p>
+          <p><strong>Total Staff:</strong></p>
+          <p><strong>Total Administrators:</strong></p>
         </div>
       </div>
     </div>
