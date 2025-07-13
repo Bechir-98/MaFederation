@@ -5,24 +5,25 @@ import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.MaFederation.MaFederation.dto.clubDTO;
-import com.MaFederation.MaFederation.mappers.ClubMapper;
+import com.MaFederation.MaFederation.dto.ClubDTO;
 import com.MaFederation.MaFederation.model.ClubRepresentation;
 import com.MaFederation.MaFederation.services.ClubServices;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 
+
 @RestController
 @CrossOrigin( "http://localhost:4200/")
-public class clubController {
+public class ClubController {
 
     public final ClubServices clubservices;
 
-    public clubController( ClubServices clubservices)
+    public ClubController( ClubServices clubservices)
     {
         this.clubservices=clubservices;
     }
@@ -34,10 +35,15 @@ public class clubController {
     }
     
     
-    @PostMapping("/addclub")
-    public ClubRepresentation postMethodName(@RequestBody clubDTO club) {
+    @PostMapping("/RegisterClub")
+    public ClubRepresentation postMethodName(@RequestBody ClubDTO club) {
         
         return this.clubservices.addClub(club);
+    }
+    
+    @GetMapping("/club/{id}")
+    public ClubDTO getMethodName(@PathVariable int id ) {
+        return this.clubservices.getClubById(id );
     }
     
 

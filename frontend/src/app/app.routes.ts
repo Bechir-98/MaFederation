@@ -27,7 +27,7 @@
         {path:'staff' , component:StaffComponent},
         {path:'liststaff' , component:ListStaffComponent},
         {path:'addstaff' , component:AddStaffComponent},
-        {path:'club' , component:ClubComponent},
+        {path:'club/:id' , component:ClubComponent},
         {path:'players' , component:PlayersComponent},
         {path:'clubs' , component:ListClubsComponent},
         {path:'addclub' , component:AddClubComponent},

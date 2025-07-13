@@ -1,6 +1,6 @@
     package com.MaFederation.MaFederation.dto;
 
-    public record clubDTO(
+    public record ClubDTO(
 
 
         String name,

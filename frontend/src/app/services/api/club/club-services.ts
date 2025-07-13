@@ -17,9 +17,14 @@ export class ClubServices {
   }
 
   // Get club by ID
+
+  
   getClubById(clubId: number): Observable<ClubRepresentation> {
     return this.http.get<ClubRepresentation>(`${this.baseUrl}/${clubId}`);
   }
+
+
+
 
   // Create new club
   createClub(club: ClubRepresentation): Observable<ClubRepresentation> {

@@ -1,14 +1,14 @@
 package com.MaFederation.MaFederation.mappers;
 
 import org.springframework.stereotype.Service;
-import com.MaFederation.MaFederation.dto.clubDTO;
+import com.MaFederation.MaFederation.dto.ClubDTO;
 import com.MaFederation.MaFederation.model.ClubRepresentation;
 
 @Service
 public class ClubMapper {
 
-    public clubDTO toDto(ClubRepresentation club) {
-        return new clubDTO(
+    public ClubDTO toDto(ClubRepresentation club) {
+        return new ClubDTO(
             club.getName(),
             club.getLocation(),
             club.getFoundedYear(),   
@@ -19,7 +19,7 @@ public class ClubMapper {
         );
     }
 
-  public ClubRepresentation fromDto(clubDTO clubdto) {
+  public ClubRepresentation fromDto(ClubDTO clubdto) {
     ClubRepresentation club = new ClubRepresentation();
     club.setName(clubdto.name());
     club.setLocation(clubdto.location());
