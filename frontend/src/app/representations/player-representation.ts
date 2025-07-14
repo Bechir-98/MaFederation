@@ -1,14 +1,13 @@
-import { UserRepresentation } from './user-representation';
-import {PlayerCategoryRepresentation} from './playercategory-represenation';
+import { MemberRepresenation } from './member-representation';
 
-export interface PlayerRepresentation extends UserRepresentation {
+
+export interface PlayerRepresentation extends MemberRepresenation {
   playerId:number;
-  memberId:Number;
   licenseNumber: string;
   clubId: number;
   position: string;
   jerseyNumber: number;
   height: number;      
   weight: number;
-  category: PlayerCategoryRepresentation;
+  categoryid:number;
 }

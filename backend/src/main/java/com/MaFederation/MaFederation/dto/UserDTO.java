@@ -2,11 +2,8 @@ package com.MaFederation.MaFederation.dto;
 
 import java.time.LocalDate;
 
-import com.MaFederation.MaFederation.model.ClubRepresentation;
-
 public record UserDTO(
-    Integer userID,
-    ClubRepresentation club,
+    Integer userId,
     String username,
     String email,
     String firstName,

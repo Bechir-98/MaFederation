@@ -6,5 +6,6 @@ export  interface MemberRepresenation extends UserRepresentation
 {
 
     memberId:Number;
+    clubId: number;
 
 }

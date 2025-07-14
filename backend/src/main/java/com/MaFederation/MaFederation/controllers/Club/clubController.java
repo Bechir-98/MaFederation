@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MaFederation.MaFederation.dto.ClubDTO;
-import com.MaFederation.MaFederation.model.ClubRepresentation;
+import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.services.ClubServices;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +37,7 @@ public class ClubController {
     
     
     @PostMapping("/clubs/register-club")
-    public ClubRepresentation postMethodName(@RequestBody ClubDTO club) {
+    public Club postMethodName(@RequestBody ClubDTO club) {
         
         return this.clubservices.addClub(club);
     }

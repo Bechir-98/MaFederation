@@ -1,17 +1,13 @@
 package com.MaFederation.MaFederation.dto;
-import com.MaFederation.MaFederation.model.UserRepresentation;
+
 import java.math.BigDecimal;
+import java.util.List;
 
-public record PlayerDto(
-    Integer id,
-
-    // Player-specific data
+public record PlayerDTO(
+    Integer userId,
     String position,
-    Integer jerseynumber,
+    Integer jerseyNumber,
     BigDecimal height,
     BigDecimal weight,
-    
-    // Flattened User info
-    UserRepresentation user
- 
+    List<Integer> categoryIds    // Liste des IDs des categories associées
 ) {}

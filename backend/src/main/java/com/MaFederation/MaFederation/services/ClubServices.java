@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.MaFederation.MaFederation.mappers.ClubMapper;
-import com.MaFederation.MaFederation.model.ClubRepresentation;
+import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.repository.clubRepository;
 import com.MaFederation.MaFederation.dto.ClubDTO;
 
@@ -30,9 +30,9 @@ public class ClubServices {
     }
     /////////////////////////////////////////////////
 
-    public ClubRepresentation addClub ( ClubDTO clubdto  )
+    public Club addClub ( ClubDTO clubdto  )
     {
-       ClubRepresentation club = clubmapper.fromDto(clubdto);
+       Club club = clubmapper.fromDto(clubdto);
 
         return clubrepository.save(club);
 
@@ -40,7 +40,7 @@ public class ClubServices {
     //////////////////////////////////////////////////// 
     
   public ClubDTO getClubById (int id) {
-    ClubRepresentation club = clubrepository.findById(id)
+    Club club = clubrepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Club not found with id: " + id));
         
     return clubmapper.toDto(club);

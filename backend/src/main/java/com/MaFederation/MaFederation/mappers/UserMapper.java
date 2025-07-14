@@ -1,16 +1,18 @@
 package com.MaFederation.MaFederation.mappers;
 
 import org.springframework.stereotype.Service;
-
 import com.MaFederation.MaFederation.dto.UserDTO;
-import com.MaFederation.MaFederation.model.UserRepresentation;
+import com.MaFederation.MaFederation.model.User;
+
 @Service
 public class UserMapper {
 
-    public UserDTO toDto(UserRepresentation user) {
+    public UserDTO toDto(User user) {
+        if (user == null) {
+            return null;
+        }
         return new UserDTO(
             user.getUserID(),
-            user.getClub() ,
             user.getUsername(),
             user.getEmail(),
             user.getFirstName(),
@@ -25,10 +27,13 @@ public class UserMapper {
         );
     }
 
-    public UserRepresentation fromDto(UserDTO dto) {
-        UserRepresentation user = new UserRepresentation();
+    public User fromDto(UserDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        User user = new User();
 
-        user.setUserID(dto.userID());
+        user.setUserID(dto.userId());
         user.setUsername(dto.username());
         user.setEmail(dto.email());
         user.setFirstName(dto.firstName());
@@ -40,7 +45,6 @@ public class UserMapper {
         user.setNationalID(dto.nationalID());
         user.setNationality(dto.nationality());
         user.setUserType(dto.userType());
-
 
         return user;
     }

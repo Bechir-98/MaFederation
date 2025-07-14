@@ -9,5 +9,6 @@ public record ClubDTO(
     String contactPhone,
     String logoUrl,
     String bankAccount,
-    String bankName
+    String bankName,
+    Boolean isMember
 ) {}

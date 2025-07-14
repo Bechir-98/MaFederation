@@ -5,19 +5,16 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "users") // Bonne pratique : nom explicite pour la table
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserRepresentation {
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incrémentation de l'ID
     private Integer userID;
-
-    @ManyToOne
-    private ClubRepresentation club; // ✅ Et pas Integer
-
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -30,16 +27,20 @@ public class UserRepresentation {
 
     private String firstName;
     private String lastName;
+
     private LocalDate dateOfBirth;
+
     private String gender;
+
     private String phoneNumber;
+
     private String address;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String nationalID;
 
     private String nationality;
 
-    private String userType; // E.g. "player", "staff", "admin"
-
+    @Column(nullable = false)
+    private String userType; // à remplacer par Enum si possible
 }
