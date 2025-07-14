@@ -16,8 +16,8 @@ public class UserRepresentation {
     private Integer userID;
 
     @ManyToOne
-    @JoinColumn(name = "clubID")
-    private ClubRepresentation club;
+    private ClubRepresentation club; // ✅ Et pas Integer
+
 
     @Column(nullable = false, unique = true)
     private String username;

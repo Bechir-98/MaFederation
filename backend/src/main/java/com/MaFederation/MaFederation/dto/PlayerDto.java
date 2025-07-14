@@ -1,5 +1,5 @@
 package com.MaFederation.MaFederation.dto;
-
+import com.MaFederation.MaFederation.model.UserRepresentation;
 import java.math.BigDecimal;
 
 public record PlayerDto(
@@ -10,14 +10,8 @@ public record PlayerDto(
     Integer jerseynumber,
     BigDecimal height,
     BigDecimal weight,
-
+    
     // Flattened User info
-    Integer userID,
-    String firstName,
-    String lastName,
-    String email,
-    String phoneNumber,
-    String gender,
-    String nationality,
-    String address
+    UserRepresentation user
+ 
 ) {}

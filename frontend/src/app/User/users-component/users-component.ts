@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UserRepresentation } from '../../representations/user-representation';
 
 @Component({
   selector: 'app-users-component',
@@ -10,6 +11,8 @@ import { RouterModule } from '@angular/router';
 })
 export class UsersComponent {
   
-  Users: Array<any > =[];
+  Users: Array<UserRepresentation> =[];
+
+  
 
 }

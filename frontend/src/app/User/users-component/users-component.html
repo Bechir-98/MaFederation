@@ -41,9 +41,9 @@
         <tr *ngFor="let user of Users">
           <td>{{ user.firstName }}</td>
           <td>{{ user.lastName }}</td>
-          <td>{{ user.createdAt | date: 'yyyy-MM-dd' }}</td>
-          <td>{{ user.club }}</td>
-          <td>{{ user.accessLevel }}</td>
+          <!-- <td>{{ user.createdAt | date: 'yyyy-MM-dd' }}</td> -->
+          <td>{{ user.clubId }}</td>
+          <!-- <td>{{ user.accessLevel }}</td> -->
           <td><a >View 👁</a></td>
         </tr>
       </tbody>

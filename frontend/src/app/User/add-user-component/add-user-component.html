@@ -3,7 +3,6 @@
 
   <div class="form-wrapper">
     <div class="details">
-
       <label>First Name</label>
       <input
         type="text"
@@ -90,23 +89,6 @@
         type="text"
         name="role"
         [(ngModel)]="user.role"
-        readonly
-      />
-
-      <label>Status</label>
-      <input
-        type="text"
-        name="status"
-        [(ngModel)]="user.status"
-        readonly
-      />
-
-      <label *ngIf="user.status === 'REJECTED'">Rejection Reason</label>
-      <input
-        *ngIf="user.status === 'REJECTED'"
-        type="text"
-        name="rejectionReason"
-        [(ngModel)]="user.rejectionReason"
         readonly
       />
     </div>

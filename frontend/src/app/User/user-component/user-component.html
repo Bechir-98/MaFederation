@@ -1,22 +1,22 @@
 <div class="header">
   <div class="image-container">
-    <img [src]="profileImageUrl" [alt]="user.firstName + ' ' + user.lastName" class="image" />
+    <img [src]="user" [alt]="user.firstName + ' ' + user.lastName" class="image" />
   </div>
 
   <div class="player-info-header">
     <div class="info-block">
       <div class="name">
         <h1>{{ user.firstName }} {{ user.lastName }}</h1>
-        <span class="status-badge" [title]="getStatusTitle()">
-          {{ getStatusDisplay() }}
+        <span class="status-badge" [title]="user.role">
+          {{ user.role }}
         </span>
-        <button class="edit-button" (click)="onEdit()">Edit</button>
+        <button class="edit-button" >Edit</button>
       </div>
-      <div class="status">User Type: {{ user.role }}</div>
+      <div class="status">Role: {{ user.role }}</div>
     </div>
 
     <div class="club">
-      <button class="button" (click)="onMoreDetails()">More Details</button>
+      <button class="button" >More Details</button>
     </div>
   </div>
 </div>
@@ -25,67 +25,45 @@
   <!-- Basic Info -->
   <div class="basic-info">
     <div class="infos">
-      <h2>User ID</h2><h3>{{ user.userID }}</h3>
+      <h2>User ID</h2><h3>{{ user.userId }}</h3>
       <h2>Email</h2><h3>{{ user.email }}</h3>
       <h2>Phone</h2><h3>{{ user.phoneNumber }}</h3>
       <h2>Gender</h2><h3>{{ user.gender }}</h3>
-      <h2>Date of Birth</h2><h3>{{ user.dateOfBirth}}</h3>
+      <h2>Date of Birth</h2><h3>{{ user.dateOfBirth }}</h3>
       <h2>Nationality</h2><h3>{{ user.nationality }}</h3>
       <h2>Country</h2><h3>{{ user.country }}</h3>
       <h2>Address</h2><h3>{{ user.address }}, {{ user.city }} {{ user.postalCode }}</h3>
     </div>
   </div>
 
-  <!-- User Type Specific Sections -->
+  <!-- Role-specific info (if needed later with more data) -->
+  <!-- <div *ngIf="user.role === 'PLAYER'">
+    <h2>Player Role</h2>
+    <p>This user is registered as a player.</p>
+  </div> -->
 
-  <!-- Player info -->
-  <div *ngIf="isPlayer()">
-    <h2>Player Details</h2>
-    <p><strong>Position:</strong> {{ user.player?.position }}</p>
-    <p><strong>Jersey Number:</strong> {{ user.player?.jerseyNumber }}</p>
-    <p><strong>Height:</strong> {{ user.player?.height }} cm</p>
-    <p><strong>Weight:</strong> {{ user.player?.weight }} kg</p>
-    <p><strong>Category:</strong> {{ user.player?.category?.name }}</p>
-  </div>
+  <!-- <div *ngIf="user.role === 'COACH'">
+    <h2>Coach Role</h2>
+    <p>This user is registered as a coach.</p>
+  </div> -->
 
-  <!-- Staff info -->
-  <div *ngIf="isStaff()">
-    <h2>Staff Details</h2>
-    <p><strong>Specialty:</strong> {{ user.staff?.specialty }}</p>
-    <p><strong>Status:</strong> {{ user.staff?.status }}</p>
-  </div>
+  <!-- <div *ngIf="user.role === 'ADMIN' || user.role === 'Super'">
+    <h2>Administrator</h2>
+    <p>This user is part of the administration.</p>
+  </div> -->
 
-  <!-- Administration info -->
-  <div *ngIf="isAdmin()">
-    <h2>Administration Details</h2>
-    <p><strong>Remarks:</strong> {{ user.admin?.remarks }}</p>
-  </div>
-
-  <!-- Common Federation/Status Info -->
+  <!-- Federation/Access Buttons -->
   <div class="sport-info">
     <div class="buttons">
-      <button class="button" (click)="onViewAccess()">View Access</button>
-      <button class="button" (click)="onFederationInfo()">Federation Info</button>
+      <button class="button" >View Access</button>
+      <button class="button" >Federation Info</button>
     </div>
 
     <div class="sport-section">
-      <div>
-        <h2>User Information</h2>
-        <p><strong>User ID:</strong> {{ user.userID }}</p>
-        <p><strong>Role:</strong> {{ user.role }}</p>
-        <p><strong>Profile Photo:</strong> {{ profileImageUrl ? 'Uploaded' : 'Not uploaded' }}</p>
-      </div>
-
-      <div>
-        <h2>Status Information</h2>
-        <p><strong>Status:</strong>
-          <span class="validation-status">
-            {{ user.status }}
-          </span>
-        </p>
-        <p *ngIf="user.rejectionReason"><strong>Rejection Reason:</strong> {{ user.rejectionReason }}</p>
-        <p *ngIf="!user.rejectionReason"><strong>Rejection Reason:</strong> —</p>
-      </div>
+      <h2>User Summary</h2>
+      <p><strong>User ID:</strong> {{ user.userId }}</p>
+      <p><strong>Role:</strong> {{ user.role }}</p>
+      <p><strong>Profile Photo:</strong> etat</p>
     </div>
   </div>
 </div>

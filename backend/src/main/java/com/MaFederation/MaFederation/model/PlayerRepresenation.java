@@ -3,7 +3,6 @@ package com.MaFederation.MaFederation.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(
@@ -21,16 +20,13 @@ public class PlayerRepresenation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer playerId;
 
-    // Foreign key column
-    @Column(name = "userID", nullable = false)
-    private Integer userID;
 
-    // JPA ManyToOne relationship to User entity
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userID", referencedColumnName = "UserID", insertable = false, updatable = false)
-    private UserRepresentation user;
+   @ManyToOne // ou @OneToOne selon le lien logique
+@JoinColumn(name = "user_id")
+private UserRepresentation user; // ✅ Entité liée correctement
+
 
     private String position;
 

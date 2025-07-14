@@ -1,11 +1,12 @@
 package com.MaFederation.MaFederation.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
+import com.MaFederation.MaFederation.model.ClubRepresentation;
 
 public record UserDTO(
     Integer userID,
-    Integer clubID,
+    ClubRepresentation club,
     String username,
     String email,
     String firstName,
@@ -16,7 +17,5 @@ public record UserDTO(
     String address,
     String nationalID,
     String nationality,
-    Integer profilePhotoFileID,
-    String userType,
-    LocalDateTime lastLogin
+    String userType
 ) {}
