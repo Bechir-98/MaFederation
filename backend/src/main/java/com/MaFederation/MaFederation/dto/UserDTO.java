@@ -13,6 +13,5 @@ public record UserDTO(
     String phoneNumber,
     String address,
     String nationalID,
-    String nationality,
-    String userType
+    String nationality
 ) {}

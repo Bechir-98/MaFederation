@@ -2,16 +2,14 @@ package com.MaFederation.MaFederation.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "players")
+@DiscriminatorValue("PLAYER")  // valeur à adapter selon ta logique métier
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@PrimaryKeyJoinColumn(name = "user_id") // important pour l’héritage JPA
 public class Player extends ClubMember {
 
     private Integer jerseyNumber;

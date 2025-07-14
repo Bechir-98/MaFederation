@@ -4,11 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "club_members") // Bonne pratique : nom explicite pour la table
+@DiscriminatorValue("CLUB_MEMBER") // valeur du discriminant pour ClubMember
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@PrimaryKeyJoinColumn(name = "user_id") // Lien avec la clé primaire de User
 public class ClubMember extends User {
 
     private String position;

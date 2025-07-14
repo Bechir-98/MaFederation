@@ -22,8 +22,7 @@ public class UserMapper {
             user.getPhoneNumber(),
             user.getAddress(),
             user.getNationalID(),
-            user.getNationality(),
-            user.getUserType()
+            user.getNationality()
         );
     }
 
@@ -44,7 +43,6 @@ public class UserMapper {
         user.setAddress(dto.address());
         user.setNationalID(dto.nationalID());
         user.setNationality(dto.nationality());
-        user.setUserType(dto.userType());
 
         return user;
     }
