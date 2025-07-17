@@ -20,12 +20,12 @@ public class PlayerMapper {
         if (player.getCategories() != null) {
             categoryIds = player.getCategories()
                 .stream()
-                .map(Category::getCategoryID)
+                .map(Category::getCategoryId)
                 .collect(Collectors.toList());
         }
 
         return new PlayerDTO(
-            player.getUserID(),
+            player.getUserId(),
             player.getPosition(),
             player.getJerseyNumber(),
             player.getHeight(),
@@ -40,7 +40,7 @@ public class PlayerMapper {
         }
 
         Player player = new Player();
-        player.setUserID(dto.userId()); // si setter existe et gestion possible, sinon gérer l'id autrement
+        player.setUserId(dto.userId()); // si setter existe et gestion possible, sinon gérer l'id autrement
         player.setPosition(dto.position());
         player.setJerseyNumber(dto.jerseyNumber());
         player.setHeight(dto.height());

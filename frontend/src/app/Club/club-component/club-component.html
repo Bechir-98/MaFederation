@@ -4,7 +4,7 @@
 <div class="club-container">
   <div class="header">
     <div class="image-container">
-  <img [src]="club?.logoUrl" alt="Club Logo" class="image" />
+<img [src]="club?.files?.logoUrl" alt="Club Logo" class="image" />
     </div>
 
     <div class="club-info-header">
@@ -14,7 +14,9 @@
           <button class="edit-button">Edit</button>
           <button class="delete-button">Delete</button>
         </div>
-        <div class="status"></div>
+        <div class="status">
+          validated or not
+        </div>
       </div>
     </div>
   </div>
@@ -49,8 +51,7 @@
         <div>
           <h2>Club Information</h2>
           <p><strong>Name:</strong> {{ club?.name }}</p>
-          <p><strong>Founded:</strong> {{ club?.foundedYear }}</p>
-          <p><strong>Location:</strong> {{ club?.location }}</p>
+          <p><strong>Director :</strong> di</p>
         </div>
 
         <div>

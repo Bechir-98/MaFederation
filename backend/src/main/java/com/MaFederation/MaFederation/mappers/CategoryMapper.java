@@ -11,7 +11,7 @@ public class CategoryMapper {
         if (category == null) return null;
 
         return new CategoryDTO(
-            category.getCategoryID(),
+            category.getCategoryId(),
             category.getName(),
             category.getDescription(),
             category.getAgeMin(),
@@ -23,7 +23,7 @@ public class CategoryMapper {
         if (dto == null) return null;
 
         Category category = new Category();
-        category.setCategoryID(dto.categoryId());
+        category.setCategoryId(dto.categoryId());
         category.setName(dto.name());
         category.setDescription(dto.description());
         category.setAgeMin(dto.ageMin());

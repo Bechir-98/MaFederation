@@ -1,7 +1,7 @@
 export interface CategoryRepresentation {
-    id: number;
+    categoryId: number;
     name: string;
     description: string;
-    AgeMin: number;
-    AgeMax: number;
+    ageMin: number;
+    ageMax: number;
 }

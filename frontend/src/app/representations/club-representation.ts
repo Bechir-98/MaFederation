@@ -1,3 +1,7 @@
+import { CategoryRepresentation } from "./category-representation";
+import { MemberRepresentation } from "./member-representation";
+
+
 export interface ClubRepresentation {
   clubId: number;
   name: string;
@@ -7,5 +11,16 @@ export interface ClubRepresentation {
   contactPhone: string;
   bankAccount: string;
   bankName: string;
-  logoUrl:string;
+  categories: CategoryRepresentation[];      
+  members: MemberRepresentation[];          
+  files: ClubFile ; 
+}
+
+
+
+export interface ClubFile {
+  id: number;
+  licenseUrl: string;
+  logoUrl: string;
+
 }

@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 export class AddUserComponent {
   user: UserRepresentation = {
     userId: 0,
-    clubId:0,
     firstName: '',
     lastName: '',
     email: '',
@@ -24,8 +23,7 @@ export class AddUserComponent {
     nationality: '',
     gender: 'Male',        // initialized to Male by default
     dateOfBirth: '',
-    country: '',
-    role: '',      
+    country: '',     
       // added status field
       // optional, empty string initially
   };

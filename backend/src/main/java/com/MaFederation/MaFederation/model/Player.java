@@ -18,6 +18,8 @@ public class Player extends ClubMember {
 
     private BigDecimal weight;
 
+     private Integer licenseNumber;
+
     @ManyToMany
     @JoinTable(
         name = "player_category",
@@ -25,4 +27,5 @@ public class Player extends ClubMember {
         inverseJoinColumns = @JoinColumn(name = "category_id")   // FK vers Category
     )
     private List<Category> categories;
+
 }

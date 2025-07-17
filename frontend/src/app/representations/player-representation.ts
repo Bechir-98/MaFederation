@@ -1,13 +1,10 @@
-import { MemberRepresenation } from './member-representation';
+import { MemberRepresentation } from './member-representation';
+import { CategoryRepresentation } from './category-representation';
 
-
-export interface PlayerRepresentation extends MemberRepresenation {
-  playerId:number;
-  licenseNumber: string;
-  clubId: number;
-  position: string;
+export interface PlayerRepresentation extends MemberRepresentation {
   jerseyNumber: number;
-  height: number;      
+  height: number;
   weight: number;
-  categoryid:number;
+  categories: CategoryRepresentation[];  // Liste des catégories associées
+  licenseNumber:number,
 }

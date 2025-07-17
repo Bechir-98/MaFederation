@@ -11,7 +11,7 @@ public class AdministrationMapper {
         if (admin == null) return null;
 
         return new AdministrationDTO(
-            admin.getUserID(),
+            admin.getUserId(),
             admin.getRole()
         );
     }
@@ -20,7 +20,7 @@ public class AdministrationMapper {
         if (dto == null) return null;
 
         Administration admin = new Administration();
-        admin.setUserID(dto.userId());
+        admin.setUserId(dto.userId());
         admin.setRole(dto.role());
 
         return admin;

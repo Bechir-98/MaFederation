@@ -1,0 +1,76 @@
+/* Conteneur principal centré */
+.main {
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Contenu du formulaire */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Labels */
+label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+  display: block;
+  font-size: 1rem;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="number"] {
+  padding: 10px 14px;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+}
+
+/* Bouton de soumission */
+button {
+  margin-top: 20px;
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive (mobile) */
+@media (max-width: 500px) {
+  .main {
+    margin: 20px 16px;
+    padding: 16px;
+  }
+  button {
+    font-size: 1rem;
+    padding: 10px;
+  }
+}

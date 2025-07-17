@@ -1,11 +1,8 @@
 import { UserRepresentation } from "./user-representation";
 
-
-
-export  interface MemberRepresenation extends UserRepresentation
-{
-
-    memberId:Number;
-    clubId: number;
+export interface MemberRepresentation extends UserRepresentation {
+    clubId?: number; 
+    role: string;
 
 }
+

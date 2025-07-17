@@ -18,12 +18,12 @@ public class StaffMapper {
         if (staff.getCategories() != null) {
             categoryIds = staff.getCategories()
                 .stream()
-                .map(Category::getCategoryID)
+                .map(Category::getCategoryId)
                 .collect(Collectors.toList());
         }
 
         return new StaffDTO(
-            staff.getUserID(),
+            staff.getUserId(),
             staff.getSpecialty(),
             categoryIds
         );
@@ -33,7 +33,7 @@ public class StaffMapper {
         if (dto == null) return null;
 
         Staff staff = new Staff();
-        staff.setUserID(dto.userId());
+        staff.setUserId(dto.userId());
         staff.setSpecialty(dto.specialty());
         staff.setCategories(categories);
 

@@ -7,12 +7,12 @@
     <div class="info-block">
       <div class="name">
         <h1>{{ user.firstName }} {{ user.lastName }}</h1>
-        <span class="status-badge" [title]="user.role">
-          {{ user.role }}
+        <span class="status-badge" [title]="user">
+          {{ user }}
         </span>
         <button class="edit-button" >Edit</button>
       </div>
-      <div class="status">Role: {{ user.role }}</div>
+      <div class="status">Role: {{ user}}</div>
     </div>
 
     <div class="club">
@@ -62,7 +62,7 @@
     <div class="sport-section">
       <h2>User Summary</h2>
       <p><strong>User ID:</strong> {{ user.userId }}</p>
-      <p><strong>Role:</strong> {{ user.role }}</p>
+      <p><strong>Role:</strong> {{ user}}</p>
       <p><strong>Profile Photo:</strong> etat</p>
     </div>
   </div>

@@ -10,6 +10,7 @@
     import { UsersComponent} from './User/users-component/users-component'
     import { ListClubsComponent } from './Club/list-clubs-component/list-clubs-component';
     import {AddClubComponent} from './Club/add-club-component/add-club-component'
+    import { AddCategoryComponent} from'./categories/add-category-component/add-category-component';
 
     export const routes: Routes = [
     
@@ -25,6 +26,8 @@
         {path:'club/:id' , component:ClubComponent},
         {path:'clubs' , component:ListClubsComponent},
         {path:'addclub' , component:AddClubComponent},
+        {path:'addcat' , component:AddCategoryComponent},
+
         {path:'**',component:ClubComponent },
         
     ];  

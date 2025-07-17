@@ -16,7 +16,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userID;
+    private Integer userId;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -42,6 +42,9 @@ public class User {
     private String nationalID;
 
     private String nationality;
+
+
+   
 
 
 }

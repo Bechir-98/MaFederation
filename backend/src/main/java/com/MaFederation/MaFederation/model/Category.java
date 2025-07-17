@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "categories") // nom pluriel recommandé pour éviter ambiguïté
+@Table(name = "categories")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,14 +15,11 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer categoryID;
+    private Integer categoryId;  // ✅ fixed naming
 
     private String name;
-
     private String description;
-
     private Integer ageMin;
-
     private Integer ageMax;
 
     @ManyToMany(mappedBy = "categories")
@@ -30,4 +27,7 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private List<Staff> staff;
+
+    @ManyToMany(mappedBy = "categories")
+    private List<Club> clubs;
 }

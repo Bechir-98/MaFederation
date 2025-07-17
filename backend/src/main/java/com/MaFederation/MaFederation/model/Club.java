@@ -25,8 +25,6 @@ public class Club {
 
     private Integer foundedYear;
 
-    private String logoUrl;
-
     private String contactEmail;
 
     private String contactPhone;
@@ -35,8 +33,21 @@ public class Club {
 
     private String bankName;
 
-    private Boolean isMember;
-
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubMember> members = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "club_categories",
+        joinColumns = @JoinColumn(name = "club_id"),           // FK vers Player (user_id)
+        inverseJoinColumns = @JoinColumn(name = "category_id")   // FK vers Category
+    )
+    private List<Category> categories= new ArrayList<>();
+
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_file_id")
+    private ClubFile files;
+
+
 }

@@ -1,9 +1,10 @@
-<form #clubForm="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="player-form">
+<form #clubForm="ngForm" (ngSubmit)="onSubmit()" class="player-form">
   <h2>Club Registration</h2>
 
-  <!-- Step 1: Club Details -->
-  <div *ngIf="step === 1" class="form-wrapper">
-    <div class="details">
+  <div class="form-wrapper">
+
+    <!-- Step 1: Basic Club Info -->
+    <div class="details" *ngIf="step === 1">
       <label>Club Name</label>
       <input type="text" name="name" [(ngModel)]="club.name" required />
 
@@ -24,45 +25,23 @@
 
       <label>Bank Name</label>
       <input type="text" name="bankName" [(ngModel)]="club.bankName" required />
-
-     
     </div>
 
-    <div class="photo">
-      <label>Club Logo</label>
-      <input type="file" accept="image/*" (change)="onLogoSelected($event)" />
-      <div class="photo-preview" *ngIf="logoPreview">
-        <img [src]="logoPreview" alt="Logo Preview" />
-      </div>
-    </div>
-  </div>
+    <!-- Step 2: Files -->
+    <div *ngIf="step === 2">
+      <label>Logo URL</label>
+      <input type="text" [(ngModel)]="club.files.logoUrl" name="logoUrl" />
 
-  <div *ngIf="step === 1" class="actions">
-    <button type="button" (click)="nextStep()" [disabled]="!clubForm.form.valid">Next</button>
-  </div>
-
-  <!-- Step 2: Submission -->
-  <div *ngIf="step === 2" class="form-wrapper-column">
-    <div class="review-section">
-      <div>
-      <h3>Review Club Details</h3>
-      <p><strong>Name:</strong> {{club.name}}</p>
-      <p><strong>Location:</strong> {{club.location}}</p>
-      <p><strong>Founded Year:</strong> {{club.foundedYear}}</p>
-      <p><strong>Contact Email:</strong> {{club.contactEmail}}</p>
-      <p><strong>Contact Phone:</strong> {{club.contactPhone}}</p>
-      <p><strong>Bank Account:</strong> {{club.bankAccount}}</p>
-      <p><strong>Bank Name:</strong> {{club.bankName}}</p>
-      </div>
-      <div *ngIf="logoPreview" class="logo-preview">
-        <strong>Logo Preview:</strong>
-        <img [src]="logoPreview" alt="Logo Preview" style="max-width: 200px; max-height: 200px;"  class="logoPreview"/>
-      </div>
+      <label>License URL</label>
+      <input type="text" [(ngModel)]="club.files.licenseUrl" name="licenseUrl" />
     </div>
 
+    <!-- Actions -->
     <div class="actions">
-      <button type="button" (click)="step = 1">Back</button>
-      <button type="submit" [disabled]="!clubForm.form.valid">Submit</button>
+      <button type="button" (click)="next()" *ngIf="step === 1">Next</button>
+      <button type="button" (click)="step = 1" *ngIf="step === 2">Back</button>
+      <button type="submit" [disabled]="!clubForm.form.valid" *ngIf="step === 2">Submit</button>
     </div>
+
   </div>
 </form>

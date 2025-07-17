@@ -30,13 +30,14 @@ export class ClubComponent implements OnInit {
       }
     });
   }
-
+  
   loadClub(): void {
     this.clubService.getClubById(this.clubId).subscribe({
       next: (club) => {
         this.club = club;
         console.log('Club loaded:', this.club);
-        this.cdr.detectChanges(); // Force change detection
+
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error loading club:', err);

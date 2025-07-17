@@ -1,5 +1,7 @@
 package com.MaFederation.MaFederation.dto;
 
+import java.util.List;
+
 public record ClubDTO(
     Integer clubId,
     String name,
@@ -7,8 +9,9 @@ public record ClubDTO(
     Integer foundedYear,
     String contactEmail,
     String contactPhone,
-    String logoUrl,
     String bankAccount,
     String bankName,
-    Boolean isMember
+    List<CategoryDTO> categories,
+    List<ClubMemberDTO> members,
+    ClubFileDTO files
 ) {}
