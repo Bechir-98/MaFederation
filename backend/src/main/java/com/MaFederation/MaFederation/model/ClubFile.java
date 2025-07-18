@@ -18,7 +18,7 @@ public class ClubFile {
     private String licenseUrl;
     private String logoUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "club_id")
     private Club club;
 }

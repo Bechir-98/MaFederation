@@ -6,8 +6,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "users") 
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)  // stratégie d’héritage unique
-@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING) // pour différencier les sous-classes
+@Inheritance(strategy = InheritanceType.JOINED) 
+// @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING) 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

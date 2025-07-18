@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@DiscriminatorValue("ADMINISTRATION")  // valeur à adapter selon ta logique métier
+@DiscriminatorValue("ADMINISTRATION") 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.util.List;
 
+
+
 @Entity
 @Table(name = "categories")
 @Data
@@ -15,19 +17,19 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer categoryId;  // ✅ fixed naming
+    private Integer categoryId; 
 
     private String name;
     private String description;
     private Integer ageMin;
     private Integer ageMax;
 
-    @ManyToMany(mappedBy = "categories")
+    @OneToMany(mappedBy = "categories")
     private List<Player> players;
 
-    @ManyToMany(mappedBy = "categories")
+    @OneToMany(mappedBy = "categories")
     private List<Staff> staff;
 
-    @ManyToMany(mappedBy = "categories")
+    @OneToMany(mappedBy = "categories")
     private List<Club> clubs;
 }

@@ -36,16 +36,16 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubMember> members = new ArrayList<>();
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(
         name = "club_categories",
-        joinColumns = @JoinColumn(name = "club_id"),           // FK vers Player (user_id)
-        inverseJoinColumns = @JoinColumn(name = "category_id")   // FK vers Category
+        joinColumns = @JoinColumn(name = "club_id"),          
+        inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories= new ArrayList<>();
 
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "club_file_id")
     private ClubFile files;
 

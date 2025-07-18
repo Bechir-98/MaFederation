@@ -28,6 +28,7 @@ export class ClubServices {
 
   // Create new club
   createClub(club: ClubRepresentation): Observable<ClubRepresentation> {
+    
     return this.http.post<ClubRepresentation>(this.baseUrl+"/clubs/register-club", club);
   }
 

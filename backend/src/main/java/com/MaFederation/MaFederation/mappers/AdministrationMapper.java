@@ -16,6 +16,8 @@ public class AdministrationMapper {
         );
     }
 
+    
+
     public Administration toEntity(AdministrationDTO dto) {
         if (dto == null) return null;
 

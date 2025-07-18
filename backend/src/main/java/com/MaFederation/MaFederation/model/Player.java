@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("PLAYER")  // valeur à adapter selon ta logique métier
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,11 +19,11 @@ public class Player extends ClubMember {
 
      private Integer licenseNumber;
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(
         name = "player_category",
-        joinColumns = @JoinColumn(name = "player_id"),           // FK vers Player (user_id)
-        inverseJoinColumns = @JoinColumn(name = "category_id")   // FK vers Category
+        joinColumns = @JoinColumn(name = "player_id"),        
+        inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
 

@@ -29,29 +29,80 @@ public class ClubController {
         this.clubservices=clubservices;
     }
 
-
-    @GetMapping("/clubs")
-    public List getMethodName() {
-        return this.clubservices.getAllClubs();
-    }
-    
-    
-    @PostMapping("/clubs/register-club")
+    //Create
+      @PostMapping("/clubs/register-club")
     public Club postMethodName(@RequestBody ClubDTO club) {
         
         return this.clubservices.addClub(club);
     }
+
+    
+    //Get
+    @GetMapping("/clubs")
+    public List getMethodName() {
+        return this.clubservices.getAllClubs();
+    }
+
     
     @GetMapping("/club/{id}")
     public ClubDTO getMethodName(@PathVariable int id ) {
         return this.clubservices.getClubById(id );
     }
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //delete
     @DeleteMapping("delete/club/{id}")
     public void DeleteByID (@PathVariable int id  )
     {
           this.clubservices.DeleteById(id); 
     }
+
+
+
 
 
     @DeleteMapping("/delete/clubs")

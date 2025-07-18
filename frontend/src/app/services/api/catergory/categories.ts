@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CategoryRepresentation } from '../../../representations/category-representation';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  private baseUrl = 'http://localhost:8080/api/categories'; // Adjust to your backend URL
+  private baseUrl = 'http://localhost:8080/getCategories';
 
   constructor(private http: HttpClient) {}
 
@@ -19,5 +20,12 @@ export class CategoryService {
   loadCategoriesByClub(clubId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/club/${clubId}`);
   }
+
+
+  loadAllCategories ( ): Observable<CategoryRepresentation[]>
+  {
+    return this.http.get<CategoryRepresentation[]>(this.baseUrl);
+  }
+
 
 }

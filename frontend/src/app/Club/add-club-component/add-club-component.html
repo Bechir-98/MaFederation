@@ -1,47 +1,84 @@
 <form #clubForm="ngForm" (ngSubmit)="onSubmit()" class="player-form">
-  <h2>Club Registration</h2>
+  <h2>Enregistrement d’un Club</h2>
 
   <div class="form-wrapper">
 
-    <!-- Step 1: Basic Club Info -->
+    <!-- Étape 1 : Infos Club -->
     <div class="details" *ngIf="step === 1">
-      <label>Club Name</label>
-      <input type="text" name="name" [(ngModel)]="club.name" required />
+      <h3>Informations générales</h3>
 
-      <label>Location</label>
-      <input type="text" name="location" [(ngModel)]="club.location" required />
+      <div class="form-group">
+        <label for="name">Nom du Club</label>
+        <input type="text" id="name" name="name" [(ngModel)]="club.name" required />
+      </div>
 
-      <label>Founded Year</label>
-      <input type="number" name="foundedYear" [(ngModel)]="club.foundedYear" required min="1800" max="2099" />
+      <div class="form-group">
+        <label for="location">Localisation</label>
+        <input type="text" id="location" name="location" [(ngModel)]="club.location" required />
+      </div>
 
-      <label>Contact Email</label>
-      <input type="email" name="contactEmail" [(ngModel)]="club.contactEmail" required />
+      <div class="form-group">
+        <label for="foundedYear">Année de fondation</label>
+        <input type="number" id="foundedYear" name="foundedYear" [(ngModel)]="club.foundedYear" min="1800" max="2099" required />
+      </div>
 
-      <label>Contact Phone</label>
-      <input type="tel" name="contactPhone" [(ngModel)]="club.contactPhone" required />
+      <div class="form-group">
+        <label for="contactEmail">Email</label>
+        <input type="email" id="contactEmail" name="contactEmail" [(ngModel)]="club.contactEmail" required />
+      </div>
 
-      <label>Bank Account</label>
-      <input type="text" name="bankAccount" [(ngModel)]="club.bankAccount" required />
+      <div class="form-group">
+        <label for="contactPhone">Téléphone</label>
+        <input type="tel" id="contactPhone" name="contactPhone" [(ngModel)]="club.contactPhone" required />
+      </div>
 
-      <label>Bank Name</label>
-      <input type="text" name="bankName" [(ngModel)]="club.bankName" required />
+      <div class="form-group">
+        <label for="bankAccount">Compte Bancaire</label>
+        <input type="text" id="bankAccount" name="bankAccount" [(ngModel)]="club.bankAccount" required />
+      </div>
+
+      <div class="form-group">
+        <label for="bankName">Banque</label>
+        <input type="text" id="bankName" name="bankName" [(ngModel)]="club.bankName" required />
+      </div>
+
+      <div class="form-group">
+        <label>Catégories disponibles</label>
+        <div class="checkbox-group">
+          <label *ngFor="let c of categories" class="checkbox-item">
+            <input type="checkbox" [value]="c" (change)="onCategoryChange(c, $event)" />
+            {{ c.name }} ({{ c.ageMin }} - {{ c.ageMax }} ans)
+          </label>
+        </div>
+      </div>
     </div>
 
-    <!-- Step 2: Files -->
-    <div *ngIf="step === 2">
-      <label>Logo URL</label>
-      <input type="text" [(ngModel)]="club.files.logoUrl" name="logoUrl" />
+    <!-- Étape 2 : Documents -->
+    <div *ngIf="step === 2" class="details">
+      <h3>Documents</h3>
 
-      <label>License URL</label>
-      <input type="text" [(ngModel)]="club.files.licenseUrl" name="licenseUrl" />
+      <div class="form-group">
+        <label for="logoUrl">Lien du Logo</label>
+        <input type="text" id="logoUrl" name="logoUrl" [(ngModel)]="club.files.logoUrl" />
+      </div>
+
+      <div class="form-group">
+        <label for="licenseUrl">Lien de la licence</label>
+        <input type="text" id="licenseUrl" name="licenseUrl" [(ngModel)]="club.files.licenseUrl" />
+      </div>
+
+      <!-- Affichage du logo -->
+      <div class="logo-preview" *ngIf="club.files.logoUrl">
+        <p>Prévisualisation du logo :</p>
+        <img [src]="club.files.logoUrl" alt="Club Logo" />
+      </div>
     </div>
 
-    <!-- Actions -->
+    <!-- Navigation -->
     <div class="actions">
-      <button type="button" (click)="next()" *ngIf="step === 1">Next</button>
-      <button type="button" (click)="step = 1" *ngIf="step === 2">Back</button>
-      <button type="submit" [disabled]="!clubForm.form.valid" *ngIf="step === 2">Submit</button>
+      <button type="button" (click)="next()" *ngIf="step === 1">Suivant</button>
+      <button type="button" (click)="step = 1" *ngIf="step === 2">Retour</button>
+      <button type="submit" [disabled]="!clubForm.form.valid" *ngIf="step === 2">Soumettre</button>
     </div>
-
   </div>
 </form>

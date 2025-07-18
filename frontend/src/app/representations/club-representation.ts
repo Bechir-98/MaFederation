@@ -3,7 +3,7 @@ import { MemberRepresentation } from "./member-representation";
 
 
 export interface ClubRepresentation {
-  clubId: number;
+  clubId?: number;
   name: string;
   location: string;
   foundedYear: number;
