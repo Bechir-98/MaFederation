@@ -27,5 +27,9 @@ export class CategoryService {
     return this.http.get<CategoryRepresentation[]>(this.baseUrl);
   }
 
+  
+
+
+
 
 }

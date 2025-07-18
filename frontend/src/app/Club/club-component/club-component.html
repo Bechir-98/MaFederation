@@ -36,7 +36,7 @@
 
     <div class="sport-info">
       <div class="buttons">
-        <button class="button">View Credentials</button>
+        <button class="button" (click)="toggleCategoryViewer()">View Credentials</button>
         <button class="button">View Categories</button>
         <button class="button">View All Players</button>
       </div>
@@ -71,4 +71,16 @@
       </div>
     </div>
   </div>
+
+
+<div *ngIf="categoryviewer">
+  <app-categroy-list-component 
+    [clubId]!="club?.clubId">
+  </app-categroy-list-component>
+</div>
+
+
+
+
+
 </div>

@@ -19,7 +19,7 @@ public class Player extends ClubMember {
 
      private Integer licenseNumber;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
         name = "player_category",
         joinColumns = @JoinColumn(name = "player_id"),        

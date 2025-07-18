@@ -24,12 +24,12 @@ public class Category {
     private Integer ageMin;
     private Integer ageMax;
 
-    @OneToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories")
     private List<Player> players;
 
-    @OneToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories")
     private List<Staff> staff;
 
-    @OneToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories")
     private List<Club> clubs;
 }

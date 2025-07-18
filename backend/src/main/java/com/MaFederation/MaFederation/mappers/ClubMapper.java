@@ -6,10 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.MaFederation.MaFederation.dto.CategoryDTO;
 import com.MaFederation.MaFederation.dto.ClubDTO;
 import com.MaFederation.MaFederation.dto.ClubFileDTO;
-import com.MaFederation.MaFederation.dto.ClubMemberDTO;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.model.ClubFile;
@@ -25,31 +23,31 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClubMapper {
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryRepository   categoryRepository;
     private final ClubMemberRepository clubMemberRepository;
-    private final ClubFileRepository clubfileRepository;
+    private final ClubFileRepository   clubFileRepository;
 
+    /*------------------------------------------------------
+     * Entity ➜ DTO
+     *-----------------------------------------------------*/
     public ClubDTO toDto(Club club) {
         if (club == null) return null;
 
-        List<CategoryDTO> categories = club.getCategories().stream()
-            .map(c -> new CategoryDTO(
-                c.getCategoryId(),
-                c.getName(),
-                c.getDescription(),
-                c.getAgeMin(),
-                c.getAgeMax()
-            ))
-            .collect(Collectors.toList());
+        // Categories → IDs uniquement
+        List<Integer> categoryIds = club.getCategories() == null ? new ArrayList<>()
+            : club.getCategories()
+                  .stream()
+                  .map(Category::getCategoryId)
+                  .collect(Collectors.toList());
 
-        List<ClubMemberDTO> members = club.getMembers().stream()
-            .map(m -> new ClubMemberDTO(
-                m.getUserId(),
-                m.getPosition(),
-                m.getClub().getClubID()
-            ))
-            .collect(Collectors.toList());
+        // Members → uniquement les IDs des membres
+        List<Integer> memberIds = club.getMembers() == null ? new ArrayList<>()
+            : club.getMembers()
+                  .stream()
+                  .map(ClubMember::getUserId)
+                  .collect(Collectors.toList());
 
+        // Fichier club
         ClubFile file = club.getFiles();
         ClubFileDTO fileDto = null;
         if (file != null) {
@@ -69,71 +67,56 @@ public class ClubMapper {
             club.getContactPhone(),
             club.getBankAccount(),
             club.getBankName(),
-            categories,
-            members,
+            categoryIds,
+            memberIds,
             fileDto
         );
     }
 
-    public Club fromDto(ClubDTO clubDto) {
-        if (clubDto == null) return null;
+    /*------------------------------------------------------
+     * DTO ➜ Entity
+     *-----------------------------------------------------*/
+    public Club fromDto(ClubDTO dto) {
+        if (dto == null) return null;
 
         Club club = new Club();
 
-        // Si ID existe (mise à jour), sinon création (ID null)
-        club.setClubID(clubDto.clubId());
+        club.setClubID(dto.clubId());
+        club.setName(dto.name());
+        club.setLocation(dto.location());
+        club.setFoundedYear(dto.foundedYear());
+        club.setContactEmail(dto.contactEmail());
+        club.setContactPhone(dto.contactPhone());
+        club.setBankAccount(dto.bankAccount());
+        club.setBankName(dto.bankName());
 
-        club.setName(clubDto.name());
-        club.setLocation(clubDto.location());
-        club.setFoundedYear(clubDto.foundedYear());
-        club.setContactEmail(clubDto.contactEmail());
-        club.setContactPhone(clubDto.contactPhone());
-        club.setBankAccount(clubDto.bankAccount());
-        club.setBankName(clubDto.bankName());
-
-        // Gestion du ClubFile
-        if (clubDto.files() != null) {
-            ClubFileDTO fileDto = clubDto.files();
-            ClubFile file;
-            if (fileDto.id() != null) {
-                // Mise à jour fichier existant
-                file = clubfileRepository.findById(fileDto.id())
-                    .orElse(new ClubFile());
-            } else {
-                file = new ClubFile();
-            }
-            file.setLicenseUrl(fileDto.licenseUrl());
-            file.setLogoUrl(fileDto.logoUrl());
+        // ClubFile mapping
+        if (dto.files() != null) {
+            ClubFileDTO fDto = dto.files();
+            ClubFile file = (fDto.id() != null)
+                ? clubFileRepository.findById(fDto.id()).orElse(new ClubFile())
+                : new ClubFile();
+            file.setLicenseUrl(fDto.licenseUrl());
+            file.setLogoUrl(fDto.logoUrl());
             club.setFiles(file);
         }
 
-        // Gestion des catégories (création si nouvelle)
-        if (clubDto.categories() != null && !clubDto.categories().isEmpty()) {
-            List<Category> categories = clubDto.categories().stream()
-                .map(dto -> {
-                    if (dto.categoryId() != null) {
-                        return categoryRepository.findById(dto.categoryId())
-                            .orElseThrow(() -> new EntityNotFoundException("Category not found: " + dto.categoryId()));
-                    } else {
-                        Category cat = new Category();
-                        cat.setName(dto.name());
-                        cat.setDescription(dto.description());
-                        cat.setAgeMin(dto.ageMin());
-                        cat.setAgeMax(dto.ageMax());
-                        return categoryRepository.save(cat);
-                    }
-                }).collect(Collectors.toList());
+        // Categories (à partir des IDs)
+        if (dto.categoryIds() != null && !dto.categoryIds().isEmpty()) {
+            List<Category> categories = categoryRepository.findAllById(dto.categoryIds());
+            if (categories.size() != dto.categoryIds().size()) {
+                throw new EntityNotFoundException("One or more category IDs are invalid");
+            }
             club.setCategories(categories);
         } else {
             club.setCategories(new ArrayList<>());
         }
 
-        // Gestion des membres (ignore membres sans ID)
-        if (clubDto.members() != null && !clubDto.members().isEmpty()) {
-            List<ClubMember> members = clubDto.members().stream()
-                .filter(dto -> dto.userId() != null)
-                .map(dto -> clubMemberRepository.findById(dto.userId())
-                    .orElseThrow(() -> new EntityNotFoundException("Member not found: " + dto.userId())))
+        // Membres (à partir des IDs)
+        if (dto.memberIds() != null && !dto.memberIds().isEmpty()) {
+            List<ClubMember> members = dto.memberIds().stream()
+                .map(id -> clubMemberRepository.findById(id)
+                      .orElseThrow(() -> new EntityNotFoundException("Member not found: " + id)))
                 .collect(Collectors.toList());
             club.setMembers(members);
         } else {

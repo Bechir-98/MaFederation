@@ -1,4 +1,4 @@
-<form #clubForm="ngForm" (ngSubmit)="onSubmit()" class="player-form">
+<form #clubForm="ngForm" (ngSubmit)="onSubmit()" class="player-form" novalidate>
   <h2>Enregistrement d’un Club</h2>
 
   <div class="form-wrapper">
@@ -9,44 +9,120 @@
 
       <div class="form-group">
         <label for="name">Nom du Club</label>
-        <input type="text" id="name" name="name" [(ngModel)]="club.name" required />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="club.name"
+          required
+          #name="ngModel"
+        />
+        <div *ngIf="name.invalid && name.touched" class="error">
+          Ce champ est obligatoire.
+        </div>
       </div>
 
       <div class="form-group">
         <label for="location">Localisation</label>
-        <input type="text" id="location" name="location" [(ngModel)]="club.location" required />
+        <input
+          type="text"
+          id="location"
+          name="location"
+          [(ngModel)]="club.location"
+          required
+          #location="ngModel"
+        />
+        <div *ngIf="location.invalid && location.touched" class="error">
+          Ce champ est obligatoire.
+        </div>
       </div>
 
       <div class="form-group">
         <label for="foundedYear">Année de fondation</label>
-        <input type="number" id="foundedYear" name="foundedYear" [(ngModel)]="club.foundedYear" min="1800" max="2099" required />
+        <input
+          type="number"
+          id="foundedYear"
+          name="foundedYear"
+          [(ngModel)]="club.foundedYear"
+          min="1800"
+          max="2099"
+          required
+          #foundedYear="ngModel"
+        />
+        <div *ngIf="foundedYear.invalid && foundedYear.touched" class="error">
+          Année invalide.
+        </div>
       </div>
 
       <div class="form-group">
         <label for="contactEmail">Email</label>
-        <input type="email" id="contactEmail" name="contactEmail" [(ngModel)]="club.contactEmail" required />
+        <input
+          type="email"
+          id="contactEmail"
+          name="contactEmail"
+          [(ngModel)]="club.contactEmail"
+          required
+          #contactEmail="ngModel"
+        />
+        <div *ngIf="contactEmail.invalid && contactEmail.touched" class="error">
+          Email invalide.
+        </div>
       </div>
 
       <div class="form-group">
         <label for="contactPhone">Téléphone</label>
-        <input type="tel" id="contactPhone" name="contactPhone" [(ngModel)]="club.contactPhone" required />
+        <input
+          type="tel"
+          id="contactPhone"
+          name="contactPhone"
+          [(ngModel)]="club.contactPhone"
+          required
+          #contactPhone="ngModel"
+        />
+        <div *ngIf="contactPhone.invalid && contactPhone.touched" class="error">
+          Ce champ est obligatoire.
+        </div>
       </div>
 
       <div class="form-group">
         <label for="bankAccount">Compte Bancaire</label>
-        <input type="text" id="bankAccount" name="bankAccount" [(ngModel)]="club.bankAccount" required />
+        <input
+          type="text"
+          id="bankAccount"
+          name="bankAccount"
+          [(ngModel)]="club.bankAccount"
+          required
+          #bankAccount="ngModel"
+        />
+        <div *ngIf="bankAccount.invalid && bankAccount.touched" class="error">
+          Ce champ est obligatoire.
+        </div>
       </div>
 
       <div class="form-group">
         <label for="bankName">Banque</label>
-        <input type="text" id="bankName" name="bankName" [(ngModel)]="club.bankName" required />
+        <input
+          type="text"
+          id="bankName"
+          name="bankName"
+          [(ngModel)]="club.bankName"
+          required
+          #bankName="ngModel"
+        />
+        <div *ngIf="bankName.invalid && bankName.touched" class="error">
+          Ce champ est obligatoire.
+        </div>
       </div>
 
       <div class="form-group">
         <label>Catégories disponibles</label>
         <div class="checkbox-group">
           <label *ngFor="let c of categories" class="checkbox-item">
-            <input type="checkbox" [value]="c" (change)="onCategoryChange(c, $event)" />
+            <input
+              type="checkbox"
+              [checked]="club.categoryIds.includes(c.categoryId!)"
+              (change)="onCategoryChange(c, $event)"
+            />
             {{ c.name }} ({{ c.ageMin }} - {{ c.ageMax }} ans)
           </label>
         </div>
@@ -59,15 +135,26 @@
 
       <div class="form-group">
         <label for="logoUrl">Lien du Logo</label>
-        <input type="text" id="logoUrl" name="logoUrl" [(ngModel)]="club.files.logoUrl" />
+        <input
+          type="text"
+          id="logoUrl"
+          name="logoUrl"
+          [(ngModel)]="club.files.logoUrl"
+          #logoUrl="ngModel"
+        />
       </div>
 
       <div class="form-group">
         <label for="licenseUrl">Lien de la licence</label>
-        <input type="text" id="licenseUrl" name="licenseUrl" [(ngModel)]="club.files.licenseUrl" />
+        <input
+          type="text"
+          id="licenseUrl"
+          name="licenseUrl"
+          [(ngModel)]="club.files.licenseUrl"
+          #licenseUrl="ngModel"
+        />
       </div>
 
-      <!-- Affichage du logo -->
       <div class="logo-preview" *ngIf="club.files.logoUrl">
         <p>Prévisualisation du logo :</p>
         <img [src]="club.files.logoUrl" alt="Club Logo" />
@@ -76,9 +163,13 @@
 
     <!-- Navigation -->
     <div class="actions">
-      <button type="button" (click)="next()" *ngIf="step === 1">Suivant</button>
+      <button type="button" (click)="next()" *ngIf="step === 1" [disabled]="clubForm.invalid">
+        Suivant
+      </button>
       <button type="button" (click)="step = 1" *ngIf="step === 2">Retour</button>
-      <button type="submit" [disabled]="!clubForm.form.valid" *ngIf="step === 2">Soumettre</button>
+      <button type="submit" [disabled]="clubForm.invalid" *ngIf="step === 2">
+        Soumettre
+      </button>
     </div>
   </div>
 </form>

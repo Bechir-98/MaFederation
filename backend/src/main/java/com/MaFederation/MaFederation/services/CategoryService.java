@@ -21,8 +21,10 @@ public class CategoryService {
     }
 
     public Category createCategory(CategoryDTO categoryDTO) {
+        
+
         Category category = categorymapper.toEntity(categoryDTO);
-        // Persist the new category entity
+    
         return categoryrepository.save(category);
     }
 

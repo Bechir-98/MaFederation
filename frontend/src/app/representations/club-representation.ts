@@ -11,9 +11,9 @@ export interface ClubRepresentation {
   contactPhone: string;
   bankAccount: string;
   bankName: string;
-  categories: CategoryRepresentation[];      
-  members: MemberRepresentation[];          
-  files: ClubFile ; 
+  categoryIds: number[];           // match backend: list of category IDs only
+  memberIds: number[];
+  files: ClubFile;
 }
 
 

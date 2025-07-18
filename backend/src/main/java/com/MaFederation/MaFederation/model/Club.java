@@ -36,13 +36,14 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubMember> members = new ArrayList<>();
 
-    @OneToMany
-    @JoinTable(
-        name = "club_categories",
-        joinColumns = @JoinColumn(name = "club_id"),          
-        inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private List<Category> categories= new ArrayList<>();
+    @ManyToMany
+@JoinTable(
+    name = "club_categories", // The join table
+    joinColumns = @JoinColumn(name = "club_id"), // FK to Club
+    inverseJoinColumns = @JoinColumn(name = "category_id") // FK to Category
+)
+private List<Category> categories = new ArrayList<>();
+
 
 
     @OneToOne(cascade = CascadeType.PERSIST)

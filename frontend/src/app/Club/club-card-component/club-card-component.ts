@@ -9,5 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class ClubCardComponent {
   @Input() clubName!: string;
-  @Input() logoUrl!: string;
+  @Input() logoUrl?: string;
 }

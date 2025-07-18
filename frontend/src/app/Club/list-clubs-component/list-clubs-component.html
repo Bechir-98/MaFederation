@@ -5,6 +5,7 @@
       <a [routerLink]="['/club', c.clubId]" class="clublink">  <!-- clubID en majuscule selon ton modèle -->
         <app-club-card-component 
           [clubName]="c.name"
+          [logoUrl]="c.files.logoUrl"
         >
         </app-club-card-component>
       </a>

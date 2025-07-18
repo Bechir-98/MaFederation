@@ -51,66 +51,23 @@ public class ClubController {
     
 
 
+    // //del
+    // @DeleteMapping("delete/club/{id}")
+    // public void DeleteByID (@PathVariable int id  )
+    // {
+    //       this.clubservices.DeleteById(id); 
+    // }
 
 
 
 
 
+    // @DeleteMapping("/delete/clubs")
+    // public void DeleteAllclubs ( )
+    // {
+    //     this.clubservices.DeleteAll();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //delete
-    @DeleteMapping("delete/club/{id}")
-    public void DeleteByID (@PathVariable int id  )
-    {
-          this.clubservices.DeleteById(id); 
-    }
-
-
-
-
-
-    @DeleteMapping("/delete/clubs")
-    public void DeleteAllclubs ( )
-    {
-        this.clubservices.DeleteAll();
-
-    }
+    // }
 
 
 
