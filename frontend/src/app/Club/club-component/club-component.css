@@ -197,3 +197,63 @@
   transform: none;
   box-shadow: none;
 }
+
+/* === Category Panel Styles === */
+/* Backdrop semi-transparent couvrant toute la page */
+.categoryviewer-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Conteneur du panneau catégorie centré */
+.categoryviewer {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  position: relative;
+  outline: none;
+}
+
+/* Liste des catégories */
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+/* Carte individuelle d’une catégorie */
+.category-card {
+  background-color: #ffffff;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+  min-width: 120px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.category-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Message fallback quand il n’y a pas de catégories */
+.no-categories-message {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+  margin-top: 1rem;
+}

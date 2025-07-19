@@ -34,11 +34,12 @@ public class CategoryController {
     }
 
 
-    @GetMapping("/Categories/club/Categories")
-    public List<CategoryDTO>  getCategoriesByIds (List<Integer> categoryIds)
-    {
-            return categoryService.getCategoriesByIds(categoryIds);
-    }
+    @PostMapping("/Categories/categories/byIds")
+public List<CategoryDTO> getCategoriesByIds(@RequestBody List<Integer> categoryIds) {
+    return categoryService.getCategoriesByIds(categoryIds);
+}
+
+
 
 
 }

@@ -1,9 +1,11 @@
-<div class="category-panel">
-  <h3>Club Categories</h3>
-
-  <div class="category-list">
-
-    <div class="category-card" *ngFor="let category of categories">
-      {{ category.name }}
-   
+  <div class="category-panel" *ngIf="categories && categories.length > 0; else noCategories">
+    <div class="category-list">
+      <div class="category-card" *ngFor="let category of categories; let i = index">
+        <h1>{{ i }} = {{ category.name }}</h1>
+      </div>
+    </div>
   </div>
+
+  <ng-template #noCategories>
+    <p>Aucune catégorie trouvée.</p>
+  </ng-template>

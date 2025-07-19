@@ -36,8 +36,8 @@
 
     <div class="sport-info">
       <div class="buttons">
-        <button class="button" (click)="toggleCategoryViewer()">View Credentials</button>
-        <button class="button">View Categories</button>
+        <button class="button">View Credentials</button>
+        <button class="button"  (click)="toggleCategoryViewer()"> View Categories</button>
         <button class="button">View All Players</button>
       </div>
 
@@ -73,11 +73,29 @@
   </div>
 
 
-<div *ngIf="categoryviewer">
-  <app-categroy-list-component
-  *ngIf="club?.categoryIds"
-  [categoryIds]="club?.categoryIds">
-</app-categroy-list-component>
+<!-- Fond + fenêtre modale centrée -->
+<!-- Backdrop plein écran, qui ferme le modal au clic -->
+<div *ngIf="categoryviewer" class="categoryviewer-backdrop" (click)="onBackdropClick($event)">
+  <!-- Contenu modal, clics ici ne ferment pas la fenêtre -->
+  <div class="categoryviewer" (click)="$event.stopPropagation()" tabindex="0">
+    <div *ngIf="loadedCategories.length > 0; else noCategories">
+      <div class="category-list">
+        <div class="category-card" *ngFor="let category of loadedCategories">
+          <h1>{{ category.name }}</h1>
+        </div>
+      </div>
+    </div>
+    <ng-template #noCategories>
+      <p class="no-categories-message">Aucune catégorie trouvée.</p>
+    </ng-template>
+
+    <button (click)="categoryviewer = false">Fermer</button>
+  </div>
 </div>
 
+<!-- Bouton pour ouvrir/fermer -->
+<button (click)="toggleCategoryViewer()">View Categories</button>
+
 </div>
+
+

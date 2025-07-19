@@ -1,35 +1,29 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { CategoryRepresentation } from '../../representations/category-representation';
 import { CategoryService } from '../../services/api/catergory/categories';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-categroy-list-component',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './categroy-list-component.html',
   styleUrls: ['./categroy-list-component.css'],
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CategroyListComponent implements OnInit {
+export class CategroyListComponent implements OnChanges {
 
-  @Input() categoryIds?: number[]; // ✅ correction ici
+  @Input() categoryIds?: number[];
+  categories: CategoryRepresentation[] = [];
 
-  categories: CategoryRepresentation[] = []; // les données à afficher
+  constructor(
+    private categoryService: CategoryService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  constructor(private categoryService: CategoryService) {}
-
-  ngOnInit(): void {
-    if (this.categoryIds && this.categoryIds.length > 0) {
-      this.categoryService.loadCategoriesByIds(this.categoryIds).subscribe({
-        next: (data) => {
-          this.categories = data;
-        },
-        error: (err) => {
-          console.error('Error loading categories:', err);
-        }
-      });
-    } else {
-      console.warn('No category IDs provided');
+  ngOnChanges(changes: SimpleChanges): void {
+   
+      
     }
   }
-}
+

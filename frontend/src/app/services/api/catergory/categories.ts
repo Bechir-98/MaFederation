@@ -17,9 +17,15 @@ export class CategoryService {
    * @param clubId - the ID of the logged-in club
    * @returns Observable of category array
    */
-  loadCategoriesByIds( clubCategories : number[]): Observable<any> {
-    return this.http.get(`${this.baseUrl}/club/Categories}`);
-  }
+
+
+
+ loadCategoriesByIds(ids: number[]): Observable<CategoryRepresentation[]> {
+  return this.http.post<CategoryRepresentation[]>(
+    `${this.baseUrl}/categories/byIds`,
+    ids 
+  );
+}
 
   loadAllCategories ( ): Observable<CategoryRepresentation[]>
   {
