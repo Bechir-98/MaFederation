@@ -75,7 +75,7 @@
 
 <div *ngIf="categoryviewer" class="categoryviewer-backdrop" (click)="onBackdropClick($event)">
   <div class="categoryviewer" (click)="$event.stopPropagation()" tabindex="0">
-   <button (click)="categoryviewer = false" class="close">Fermer</button>
+   <button (click)="categoryviewer = false" class="close-button"><i class="fas fa-times"></i></button>
     <div *ngIf="loadedCategories.length > 0; else noCategories">
       <div class="category-list">
         <div class="category-card" *ngFor="let category of loadedCategories">
@@ -90,9 +90,6 @@
     
   </div>
 </div>
-
-<!-- Bouton pour ouvrir/fermer -->
-<button (click)="toggleCategoryViewer()">View Categories</button>
 
 </div>
 

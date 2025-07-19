@@ -3,7 +3,6 @@ package com.MaFederation.MaFederation.controllers.Club;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MaFederation.MaFederation.dto.ClubDTO;
