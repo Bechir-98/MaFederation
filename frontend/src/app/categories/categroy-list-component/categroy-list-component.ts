@@ -7,18 +7,20 @@ import { CommonModule } from '@angular/common';
   selector: 'app-categroy-list-component',
   imports: [CommonModule],
   templateUrl: './categroy-list-component.html',
-  styleUrl: './categroy-list-component.css',
+  styleUrls: ['./categroy-list-component.css'],
   standalone: true
 })
 export class CategroyListComponent implements OnInit {
 
-  @Input () clubId!:number;  
-  categories:CategoryRepresentation[]=[];
+  @Input() categoryIds?: number[]; // ✅ correction ici
 
-   constructor(private categoryservice:CategoryService) {}
-   ngOnInit(): void {
-    if (this.clubId) {
-      this.categoryservice.loadCategoriesByClub(this.clubId).subscribe({
+  categories: CategoryRepresentation[] = []; // les données à afficher
+
+  constructor(private categoryService: CategoryService) {}
+
+  ngOnInit(): void {
+    if (this.categoryIds && this.categoryIds.length > 0) {
+      this.categoryService.loadCategoriesByIds(this.categoryIds).subscribe({
         next: (data) => {
           this.categories = data;
         },
@@ -27,7 +29,7 @@ export class CategroyListComponent implements OnInit {
         }
       });
     } else {
-      console.warn('clubId is undefined');
+      console.warn('No category IDs provided');
     }
   }
 }

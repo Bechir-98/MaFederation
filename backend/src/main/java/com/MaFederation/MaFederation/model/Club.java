@@ -36,7 +36,7 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubMember> members = new ArrayList<>();
 
-    @ManyToMany
+@ManyToMany
 @JoinTable(
     name = "club_categories", // The join table
     joinColumns = @JoinColumn(name = "club_id"), // FK to Club

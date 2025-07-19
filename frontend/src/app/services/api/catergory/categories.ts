@@ -8,7 +8,7 @@ import { CategoryRepresentation } from '../../../representations/category-repres
 })
 export class CategoryService {
 
-  private baseUrl = 'http://localhost:8080/getCategories';
+  private baseUrl = 'http://localhost:8080/Categories';
 
   constructor(private http: HttpClient) {}
 
@@ -17,14 +17,13 @@ export class CategoryService {
    * @param clubId - the ID of the logged-in club
    * @returns Observable of category array
    */
-  loadCategoriesByClub(clubId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/club/${clubId}`);
+  loadCategoriesByIds( clubCategories : number[]): Observable<any> {
+    return this.http.get(`${this.baseUrl}/club/Categories}`);
   }
-
 
   loadAllCategories ( ): Observable<CategoryRepresentation[]>
   {
-    return this.http.get<CategoryRepresentation[]>(this.baseUrl);
+    return this.http.get<CategoryRepresentation[]>(this.baseUrl+"/AllCategories");
   }
 
   

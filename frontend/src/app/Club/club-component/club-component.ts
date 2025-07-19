@@ -54,5 +54,4 @@ export class ClubComponent implements OnInit {
   this.categoryviewer = !this.categoryviewer;
 }
 
-
 }

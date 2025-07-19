@@ -1,10 +1,13 @@
 package com.MaFederation.MaFederation.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Collections;
 
 import org.springframework.stereotype.Service;
 
 import com.MaFederation.MaFederation.dto.CategoryDTO;
+import com.MaFederation.MaFederation.dto.ClubDTO;
 import com.MaFederation.MaFederation.mappers.CategoryMapper;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.repository.CategoryRepository;
@@ -34,4 +37,21 @@ public class CategoryService {
             .map(categorymapper::toDto)
             .toList();
     }
+
+  
+
+     /** Obtenir les catégories d’un club, renvoyées en DTO */
+    
+  public List<CategoryDTO> getCategoriesByIds(List<Integer> categoryIds) {
+    if (categoryIds == null || categoryIds.isEmpty()) {
+        return Collections.emptyList();
+    }
+    List<Category> categories = categoryrepository.findAllById(categoryIds);
+
+    return categories.stream()
+            .map(categorymapper::toDto)
+            .collect(Collectors.toList());
+}
+
+
 }

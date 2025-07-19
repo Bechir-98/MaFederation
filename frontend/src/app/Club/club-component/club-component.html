@@ -74,13 +74,10 @@
 
 
 <div *ngIf="categoryviewer">
-  <app-categroy-list-component 
-    [clubId]!="club?.clubId">
-  </app-categroy-list-component>
+  <app-categroy-list-component
+  *ngIf="club?.categoryIds"
+  [categoryIds]="club?.categoryIds">
+</app-categroy-list-component>
 </div>
-
-
-
-
 
 </div>

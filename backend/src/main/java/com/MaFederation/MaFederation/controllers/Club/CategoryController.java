@@ -28,8 +28,17 @@ public class CategoryController {
         return this.categoryService.createCategory(categorydto);
     }
 
-    @GetMapping("/getCategories")
+    @GetMapping("/Categories/AllCategories")
     public List<CategoryDTO> loadAllCategories() { 
         return this.categoryService.loadAllCategories();
     }
+
+
+    @GetMapping("/Categories/club/Categories")
+    public List<CategoryDTO>  getCategoriesByIds (List<Integer> categoryIds)
+    {
+            return categoryService.getCategoriesByIds(categoryIds);
+    }
+
+
 }

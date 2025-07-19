@@ -12,11 +12,12 @@
 
         private String specialty;
 
-        @OneToMany
-        @JoinTable(
-            name = "staff_category",
-            joinColumns = @JoinColumn(name = "staff_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-        )
-        private List<Category> categories;
+     @ManyToMany
+    @JoinTable(
+    name = "staff_category",
+    joinColumns = @JoinColumn(name = "staff_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
+
     }
