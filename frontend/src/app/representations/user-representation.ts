@@ -3,14 +3,11 @@ export interface UserRepresentation {
   firstName: string;
   lastName: string;
   email: string;
+  dateOfBirth: string; // Format: YYYY-MM-DD;
   phoneNumber: string;
-  address: string;
-  city: string;
-  postalCode: string;
   nationality: string;
+  address: string;
   gender: string;
-  dateOfBirth: string; // Format: YYYY-MM-DD
   country: string;
-  
-
+  nationalID?: string;
 }

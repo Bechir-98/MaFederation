@@ -1,51 +1,46 @@
 .player-form {
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
   background: white;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h2 {
   text-align: center;
   color: #2563eb;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .form-wrapper {
   display: flex;
-  justify-content: space-between;
   gap: 40px;
-}
-
-.form-wrapper-column {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .details {
   flex: 2;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.details label,
-.doc label,
-.photo label {
-  display: block;
-  margin-top: 10px;
+.details label {
   font-weight: 600;
+  margin-top: 10px;
+  display: block;
 }
 
 .details input,
-.details select,
-.doc input {
+.details select {
   width: 100%;
-  padding: 8px;
+  padding: 9px 12px;
   border-radius: 6px;
   border: 1.5px solid #ccc;
-  margin-bottom: 10px;
+  font-size: 15px;
   transition: border-color 0.2s ease;
 }
 
@@ -57,17 +52,29 @@ h2 {
 
 .photo {
   flex: 1;
+  min-width: 180px;
   text-align: center;
 }
 
+.photo label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.photo input[type="file"] {
+  cursor: pointer;
+}
+
 .photo-preview {
-  margin-top: 10px;
+  margin-top: 12px;
   border: 1px solid #ccc;
-  width: 100%;
-  max-width: 150px;
+  width: 150px;
   height: 150px;
-  overflow: hidden;
   border-radius: 8px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .photo-preview img {
@@ -79,19 +86,19 @@ h2 {
 .actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 button {
   background-color: #2563eb;
   color: white;
   border: none;
-  padding: 14px 20px;
+  padding: 14px 24px;
   font-size: 16px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 700;
-  transition: 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 button:disabled {

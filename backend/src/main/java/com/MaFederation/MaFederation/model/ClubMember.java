@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class ClubMember extends User {
 
-    private String position;
+    private String role;
 
 
     @ManyToOne()

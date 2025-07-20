@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { UserRepresentation } from '../../representations/user-representation';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { COUNTRIES } from '../../representations/Countries';
+import { MemberRepresentation } from '../../representations/member-representation';
 @Component({
   selector: 'app-user-form',
   standalone: true,
@@ -11,23 +12,33 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
 })
 export class AddUserComponent {
-  user: UserRepresentation = {
+  countries=COUNTRIES;
+   clubs = [
+    { id: 1, name: 'Club One' },
+    { id: 2, name: 'Club Two' },
+    // add your clubs here or fetch from backend
+  ];
+  
+  user: MemberRepresentation= {
     userId: 0,
+    clubId: 0,
+    role: "",
     firstName: '',
     lastName: '',
     email: '',
     phoneNumber: '',
     address: '',
-    city: '',
-    postalCode: '',
     nationality: '',
-    gender: 'Male',        // initialized to Male by default
+    gender: 'Male',  
     dateOfBirth: '',
-    country: '',     
-      // added status field
-      // optional, empty string initially
+    country: '',   
   };
 
+    isClubMember(type: string): boolean {
+    return ['Player', 'Staff', 'Admin'].includes(type);
+  }
+
+   
   previewUrl: string | ArrayBuffer | null = null;
 
   onPhotoSelected(event: Event) {

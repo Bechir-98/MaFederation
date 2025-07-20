@@ -26,7 +26,7 @@ public class PlayerMapper {
 
         return new PlayerDTO(
             player.getUserId(),
-            player.getPosition(),
+            player.getRole(),
             player.getJerseyNumber(),
             player.getHeight(),
             player.getWeight(),

@@ -1,13 +1,18 @@
 package com.MaFederation.MaFederation.dto;
 
+import lombok.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-public record PlayerDTO(
-    Integer userId,
-    String position,
-    Integer jerseyNumber,
-    BigDecimal height,
-    BigDecimal weight,
-    List<Integer> categoryIds    // Liste des IDs des categories associées
-) {}
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)  // include fields from ClubMemberDTO + UserDTO
+@Builder
+public class PlayerDTO extends ClubMemberDTO {
+    private String position;
+    private Integer jerseyNumber;
+    private BigDecimal height;
+    private BigDecimal weight;
+    private List<Integer> categoryIds;  // list of associated category IDs
+}

@@ -12,7 +12,7 @@ public class ClubMemberMapper {
 
         return new ClubMemberDTO(
             member.getUserId(),
-            member.getPosition(),
+            member.getRole(),
             member.getClub() != null ? member.getClub().getClubID() : null
         );
     }
@@ -22,7 +22,7 @@ public class ClubMemberMapper {
 
         ClubMember member = new ClubMember();
         member.setUserId(dto.userId());
-        member.setPosition(dto.position());
+        member.setRole(dto.role());
         // Pour le club, tu dois charger l’entité Club via son ID avant de la setter ici
         // Exemple (hors mapper): member.setClub(clubRepository.findById(dto.clubId()).orElse(null));
 

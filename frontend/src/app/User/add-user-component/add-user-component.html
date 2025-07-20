@@ -3,6 +3,24 @@
 
   <div class="form-wrapper">
     <div class="details">
+
+      <label>User Type</label>
+      <select name="userType" [(ngModel)]="user.userType"  required>
+        <option value="" disabled>Select User Type</option>
+        <option value="User">User</option>
+        <option value="Player">Player</option>
+        <option value="Staff">Staff</option>
+        <option value="Admin">Admin</option>
+      </select>
+
+      <div *ngIf="isClubMember(user.userType)">
+        <label>Club</label>
+        <select name="clubId" [(ngModel)]="user.clubId" required>
+          <option value="" disabled>Select Club</option>
+          <option *ngFor="let club of clubs" [value]="club.id">{{ club.name }}</option>
+        </select>
+      </div>
+
       <label>First Name</label>
       <input
         type="text"
@@ -41,33 +59,11 @@
         [(ngModel)]="user.address"
       />
 
-      <label>City</label>
-      <input
-        type="text"
-        name="city"
-        [(ngModel)]="user.city"
-      />
-
-      <label>Postal Code</label>
-      <input
-        type="text"
-        name="postalCode"
-        [(ngModel)]="user.postalCode"
-      />
-
-      <label>Country</label>
-      <input
-        type="text"
-        name="country"
-        [(ngModel)]="user.country"
-      />
-
       <label>Nationality</label>
-      <input
-        type="text"
-        name="nationality"
-        [(ngModel)]="user.nationality"
-      />
+      <select name="nationality" [(ngModel)]="user.nationality" required>
+        <option value="" disabled>Select Nationality</option>
+        <option *ngFor="let c of countries" [value]="c.code">{{ c.name }}</option>
+      </select>
 
       <label>Gender</label>
       <select name="gender" [(ngModel)]="user.gender" required>
