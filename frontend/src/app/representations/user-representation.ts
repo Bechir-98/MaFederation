@@ -1,13 +1,16 @@
 export interface UserRepresentation {
   userId: number;
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
-  dateOfBirth: string; // Format: YYYY-MM-DD;
-  phoneNumber: string;
-  nationality: string;
-  address: string;
+  dateOfBirth: string; // Format: YYYY-MM-DD
   gender: string;
-  country: string;
+  phoneNumber: string;
+  address: string;
   nationalID?: string;
+  nationality: string;
+  country: string;
+  fileIds: number[]; // correspond à List<Integer> fileIds en Java
 }
+
+

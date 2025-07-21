@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.MaFederation.MaFederation.dto.ClubDTO;
+import com.MaFederation.MaFederation.dto.Club.ClubDTO;
 import com.MaFederation.MaFederation.mappers.ClubMapper;
 import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.model.ClubFile;

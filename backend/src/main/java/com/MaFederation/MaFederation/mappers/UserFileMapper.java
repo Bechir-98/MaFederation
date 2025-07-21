@@ -1,6 +1,6 @@
 package com.MaFederation.MaFederation.mappers;
 
-import com.MaFederation.MaFederation.dto.UserFileDTO;
+import com.MaFederation.MaFederation.dto.User.UserFileDTO;
 import com.MaFederation.MaFederation.model.User;
 import com.MaFederation.MaFederation.model.UserFile;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,8 @@
 package com.MaFederation.MaFederation.mappers;
 
 import org.springframework.stereotype.Service;
-import com.MaFederation.MaFederation.dto.CategoryDTO;
+
+import com.MaFederation.MaFederation.dto.Category.CategoryDTO;
 import com.MaFederation.MaFederation.model.Category;
 
 @Service

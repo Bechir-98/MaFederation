@@ -1,5 +1,7 @@
 package com.MaFederation.MaFederation.dto;
 
+import com.MaFederation.MaFederation.dto.User.UserDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

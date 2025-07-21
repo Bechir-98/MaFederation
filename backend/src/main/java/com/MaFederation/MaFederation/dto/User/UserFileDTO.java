@@ -1,4 +1,4 @@
-package com.MaFederation.MaFederation.dto;
+package com.MaFederation.MaFederation.dto.User;
 
 import com.MaFederation.MaFederation.enums.FileType;
 import lombok.*;
@@ -10,6 +10,6 @@ import lombok.*;
 public class UserFileDTO {
     private Integer id;
     private String fileUrl;
-    private FileType type;   // ✅ now using enum
+    private FileType type;   
     private Integer userId;
 }

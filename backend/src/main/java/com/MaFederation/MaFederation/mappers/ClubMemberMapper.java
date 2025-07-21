@@ -2,8 +2,8 @@ package com.MaFederation.MaFederation.mappers;
 
 import org.springframework.stereotype.Service;
 
-import com.MaFederation.MaFederation.dto.ClubMemberDTO;
-import com.MaFederation.MaFederation.dto.UserDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.ClubMemberDTO;
+import com.MaFederation.MaFederation.dto.User.UserDTO;
 import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.model.User;
 import com.MaFederation.MaFederation.services.ClubServices;

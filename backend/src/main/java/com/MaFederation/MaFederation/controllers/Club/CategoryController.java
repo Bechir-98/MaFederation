@@ -2,7 +2,7 @@ package com.MaFederation.MaFederation.controllers.Club;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.MaFederation.MaFederation.dto.CategoryDTO;
+import com.MaFederation.MaFederation.dto.Category.CategoryDTO;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.services.CategoryService;
 

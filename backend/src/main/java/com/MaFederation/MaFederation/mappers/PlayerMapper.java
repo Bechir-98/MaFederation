@@ -1,7 +1,7 @@
 package com.MaFederation.MaFederation.mappers;
 
-import com.MaFederation.MaFederation.dto.ClubMemberDTO;
-import com.MaFederation.MaFederation.dto.PlayerDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.ClubMemberDTO;
+import com.MaFederation.MaFederation.dto.Player.PlayerDTO;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.model.Player;

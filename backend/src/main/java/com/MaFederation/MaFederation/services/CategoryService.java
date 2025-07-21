@@ -6,8 +6,8 @@ import java.util.Collections;
 
 import org.springframework.stereotype.Service;
 
-import com.MaFederation.MaFederation.dto.CategoryDTO;
-import com.MaFederation.MaFederation.dto.ClubDTO;
+import com.MaFederation.MaFederation.dto.Category.CategoryDTO;
+import com.MaFederation.MaFederation.dto.Club.ClubDTO;
 import com.MaFederation.MaFederation.mappers.CategoryMapper;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.repository.CategoryRepository;

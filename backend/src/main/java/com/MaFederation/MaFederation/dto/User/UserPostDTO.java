@@ -1,4 +1,4 @@
-package com.MaFederation.MaFederation.dto;
+package com.MaFederation.MaFederation.dto.User;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
-    private Integer userId;
+public class UserPostDTO {
+     private Integer userId;
     private String email;
     private String firstName;
     private String lastName;
@@ -21,5 +21,6 @@ public class UserDTO {
     private String address;
     private String nationalID;
     private String nationality;
-    private List<Integer> fileIds;
+    private List<UserFileDTO> fileIds;
+
 }

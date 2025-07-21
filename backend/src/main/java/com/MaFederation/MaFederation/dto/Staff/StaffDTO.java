@@ -1,6 +1,9 @@
-package com.MaFederation.MaFederation.dto;
+package com.MaFederation.MaFederation.dto.Staff;
 
 import java.util.List;
+
+import com.MaFederation.MaFederation.dto.ClubMemberDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

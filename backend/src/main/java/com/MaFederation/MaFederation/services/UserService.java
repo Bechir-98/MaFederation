@@ -1,7 +1,7 @@
 package com.MaFederation.MaFederation.services;
 
-import com.MaFederation.MaFederation.dto.UserDTO;
-import com.MaFederation.MaFederation.dto.UserFileDTO;
+import com.MaFederation.MaFederation.dto.User.UserDTO;
+import com.MaFederation.MaFederation.dto.User.UserFileDTO;
 import com.MaFederation.MaFederation.mappers.UserFileMapper;
 import com.MaFederation.MaFederation.mappers.UserMapper;
 import com.MaFederation.MaFederation.model.User;

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.MaFederation.MaFederation.dto.ClubDTO;
+import com.MaFederation.MaFederation.dto.Club.ClubDTO;
 import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.services.ClubServices;
 
