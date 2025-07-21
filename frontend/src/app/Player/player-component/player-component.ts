@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PlayerRepresentation } from '../../representations/player-representation';
+import { PlayerRepresentation } from '../../representations/Player/player-representation';
 import { PlayerService } from '../../services/api/player/player-service';
 
 @Component({

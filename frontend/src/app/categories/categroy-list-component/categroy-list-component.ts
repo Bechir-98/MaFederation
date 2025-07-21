@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CategoryRepresentation } from '../../representations/category-representation';
+import { CategoryRepresentation } from '../../representations/Category/category-representation';
 import { CategoryService } from '../../services/api/catergory/categories';
 
 @Component({

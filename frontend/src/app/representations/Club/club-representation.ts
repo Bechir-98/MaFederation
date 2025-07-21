@@ -1,4 +1,4 @@
-import { CategoryRepresentation } from "./category-representation";
+import { CategoryRepresentation } from "./Category/category-representation";
 import { MemberRepresentation } from "./member-representation";
 
 

@@ -1,4 +1,4 @@
-package com.MaFederation.MaFederation.dto;
+package com.MaFederation.MaFederation.dto.ClubMember;
 
 import com.MaFederation.MaFederation.dto.User.UserDTO;
 

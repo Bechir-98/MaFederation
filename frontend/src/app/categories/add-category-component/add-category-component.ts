@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CategoryRepresentation } from '../../representations/category-representation';
+import { CategoryRepresentation } from '../../representations/Category/category-representation';
 import { FormsModule } from '@angular/forms';
 
 @Component({

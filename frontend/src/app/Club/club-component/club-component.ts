@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ClubRepresentation } from '../../representations/club-representation';
 import { ClubServices } from '../../services/api/club/club-services';
 import { CategoryService } from '../../services/api/catergory/categories';
-import { CategoryRepresentation } from '../../representations/category-representation';
+import { CategoryRepresentation } from '../../representations/Category/category-representation';
 
 @Component({
   selector: 'app-club-component',

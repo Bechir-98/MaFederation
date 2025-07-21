@@ -21,6 +21,5 @@ public class UserPostDTO {
     private String address;
     private String nationalID;
     private String nationality;
-    private List<UserFileDTO> fileIds;
 
 }

@@ -2,7 +2,7 @@ package com.MaFederation.MaFederation.dto.Staff;
 
 import java.util.List;
 
-import com.MaFederation.MaFederation.dto.ClubMemberDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.ClubMemberDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

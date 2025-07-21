@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ClubServices } from '../../services/api/club/club-services';
 import { ClubRepresentation } from '../../representations/club-representation';
-import { CategoryRepresentation } from '../../representations/category-representation';
+import { CategoryRepresentation } from '../../representations/Category/category-representation';
 import { CategoryService } from '../../services/api/catergory/categories';
 
 @Component({
