@@ -7,28 +7,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.MaFederation.MaFederation.dto.ClubDTO;
-import com.MaFederation.MaFederation.mappers.CategoryMapper;
 import com.MaFederation.MaFederation.mappers.ClubMapper;
 import com.MaFederation.MaFederation.model.Club;
+import com.MaFederation.MaFederation.model.ClubFile;
+import com.MaFederation.MaFederation.repository.ClubFileRepository;
 import com.MaFederation.MaFederation.repository.ClubRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class ClubServices {
 
-    private final ClubRepository clubRepository;
-    private final ClubMapper     clubMapper;
-
-    public ClubServices(ClubRepository clubRepository,
-                        ClubMapper clubMapper,
-                        CategoryMapper categoryMapper) {
-        this.clubRepository  = clubRepository;
-        this.clubMapper      = clubMapper;
-    }
-
-    /* ----------------------------------------------------------------------
-     * CRUD de base
-     * -------------------------------------------------------------------- */
+    private final ClubRepository      clubRepository;
+    private final ClubMapper          clubMapper;
+    private final ClubFileRepository  clubFileRepository;
 
     /** Récupérer tous les clubs (DTO) */
     public List<ClubDTO> getAllClubs() {
@@ -42,6 +37,20 @@ public class ClubServices {
     @Transactional
     public Club addClub(ClubDTO clubDto) {
         Club club = clubMapper.fromDto(clubDto);
+
+        // ✅ Attach files to the club entity
+        if (clubDto.fileIds() != null && !clubDto.fileIds().isEmpty()) {
+            List<ClubFile> files = clubFileRepository.findAllById(clubDto.fileIds());
+
+            if (files.size() != clubDto.fileIds().size()) {
+                throw new EntityNotFoundException("One or more club file IDs are invalid.");
+            }
+
+            // Set club reference in each file (to persist the owning side)
+            files.forEach(file -> file.setClub(club));
+            club.setFiles(files);
+        }
+
         return clubRepository.save(club);
     }
 
@@ -51,6 +60,13 @@ public class ClubServices {
                                   .orElseThrow(() ->
                                        new RuntimeException("Club not found with id: " + id));
         return clubMapper.toDto(club);
+    }
+
+    /** Récupérer un club par ID (Entity) */
+    public Club getClub(Integer clubId) {
+        return clubRepository.findById(clubId)
+                             .orElseThrow(() ->
+                                  new RuntimeException("Club not found with id: " + clubId));
     }
 
     /** Supprimer tous les clubs */
@@ -64,14 +80,4 @@ public class ClubServices {
     public void deleteById(int id) {
         clubRepository.deleteById(id);
     }
-
-    /* ----------------------------------------------------------------------
-     * Méthodes spécifiques
-     * -------------------------------------------------------------------- */
-
-   
-
-
-
-
 }

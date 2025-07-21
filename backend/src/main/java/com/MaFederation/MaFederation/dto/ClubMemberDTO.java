@@ -12,5 +12,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class ClubMemberDTO extends UserDTO {
     private String role;
-    private Integer clubId;  // référence à Club par ID
+    private Integer clubId; 
+    
+    // référence à Club par ID
 }

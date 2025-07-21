@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.MaFederation.MaFederation.dto.ClubDTO;
-import com.MaFederation.MaFederation.dto.ClubFileDTO;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.model.ClubFile;
@@ -23,9 +22,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClubMapper {
 
-    private final CategoryRepository   categoryRepository;
+    private final CategoryRepository categoryRepository;
     private final ClubMemberRepository clubMemberRepository;
-    private final ClubFileRepository   clubFileRepository;
+    private final ClubFileRepository clubFileRepository;
 
     /*------------------------------------------------------
      * Entity ➜ DTO
@@ -40,23 +39,19 @@ public class ClubMapper {
                   .map(Category::getCategoryId)
                   .collect(Collectors.toList());
 
-        // Members → uniquement les IDs des membres
+        // Members → IDs uniquement
         List<Integer> memberIds = club.getMembers() == null ? new ArrayList<>()
             : club.getMembers()
                   .stream()
                   .map(ClubMember::getUserId)
                   .collect(Collectors.toList());
 
-        // Fichier club
-        ClubFile file = club.getFiles();
-        ClubFileDTO fileDto = null;
-        if (file != null) {
-            fileDto = new ClubFileDTO(
-                file.getId(),
-                file.getLicenseUrl(),
-                file.getLogoUrl()
-            );
-        }
+        // Files → IDs uniquement
+        List<Integer> fileIds = club.getFiles() == null ? new ArrayList<>()
+            : club.getFiles()
+                  .stream()
+                  .map(ClubFile::getId)
+                  .collect(Collectors.toList());
 
         return new ClubDTO(
             club.getClubID(),
@@ -69,7 +64,7 @@ public class ClubMapper {
             club.getBankName(),
             categoryIds,
             memberIds,
-            fileDto
+            fileIds
         );
     }
 
@@ -90,18 +85,18 @@ public class ClubMapper {
         club.setBankAccount(dto.bankAccount());
         club.setBankName(dto.bankName());
 
-        // ClubFile mapping
-        if (dto.files() != null) {
-            ClubFileDTO fDto = dto.files();
-            ClubFile file = (fDto.id() != null)
-                ? clubFileRepository.findById(fDto.id()).orElse(new ClubFile())
-                : new ClubFile();
-            file.setLicenseUrl(fDto.licenseUrl());
-            file.setLogoUrl(fDto.logoUrl());
-            club.setFiles(file);
+        // Files
+        if (dto.fileIds() != null && !dto.fileIds().isEmpty()) {
+            List<ClubFile> files = clubFileRepository.findAllById(dto.fileIds());
+            if (files.size() != dto.fileIds().size()) {
+                throw new EntityNotFoundException("One or more club file IDs are invalid");
+            }
+            club.setFiles(files);
+        } else {
+            club.setFiles(new ArrayList<>());
         }
 
-        // Categories (à partir des IDs)
+        // Categories
         if (dto.categoryIds() != null && !dto.categoryIds().isEmpty()) {
             List<Category> categories = categoryRepository.findAllById(dto.categoryIds());
             if (categories.size() != dto.categoryIds().size()) {
@@ -112,7 +107,7 @@ public class ClubMapper {
             club.setCategories(new ArrayList<>());
         }
 
-        // Membres (à partir des IDs)
+        // Members
         if (dto.memberIds() != null && !dto.memberIds().isEmpty()) {
             List<ClubMember> members = dto.memberIds().stream()
                 .map(id -> clubMemberRepository.findById(id)

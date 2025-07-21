@@ -1,6 +1,8 @@
 package com.MaFederation.MaFederation.dto;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +21,5 @@ public class UserDTO {
     private String address;
     private String nationalID;
     private String nationality;
+    private List<Integer> fileIds;
 }

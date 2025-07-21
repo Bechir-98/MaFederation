@@ -46,9 +46,9 @@ private List<Category> categories = new ArrayList<>();
 
 
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "club_file_id")
-    private ClubFile files;
+   @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClubFile> files = new ArrayList<>();
+
 
 
 }

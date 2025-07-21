@@ -2,7 +2,7 @@ package com.MaFederation.MaFederation.dto;
 
 import java.util.List;
 
-public record ClubDTO(
+public record ClubDTO (
     Integer clubId,
     String name,
     String location,
@@ -13,5 +13,5 @@ public record ClubDTO(
     String bankName,
     List<Integer> categoryIds,     
     List<Integer> memberIds,
-    ClubFileDTO files
+    List<Integer> fileIds // ✅ Changed from ClubFileDTO to list of IDs
 ) {}

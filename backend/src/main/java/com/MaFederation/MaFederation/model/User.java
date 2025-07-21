@@ -3,6 +3,7 @@ package com.MaFederation.MaFederation.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "users") 
@@ -40,7 +41,7 @@ public class User {
     private String nationality;
 
 
-   
-
+   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+private List<UserFile> files;
 
 }

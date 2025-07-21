@@ -1,8 +1,12 @@
 package com.MaFederation.MaFederation.mappers;
 
-import org.springframework.stereotype.Service;
 import com.MaFederation.MaFederation.dto.UserDTO;
 import com.MaFederation.MaFederation.model.User;
+import com.MaFederation.MaFederation.model.UserFile;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserMapper {
@@ -11,6 +15,16 @@ public class UserMapper {
         if (user == null) {
             return null;
         }
+
+        // Map file IDs from associated UserFile objects
+        List<Integer> fileIds = null;
+        if (user.getFiles() != null) {
+            fileIds = user.getFiles()
+                    .stream()
+                    .map(UserFile::getId)
+                    .collect(Collectors.toList());
+        }
+
         return new UserDTO(
             user.getUserId(),
             user.getEmail(),
@@ -21,7 +35,8 @@ public class UserMapper {
             user.getPhoneNumber(),
             user.getAddress(),
             user.getNationalID(),
-            user.getNationality()
+            user.getNationality(),
+            fileIds // ✅ added file IDs
         );
     }
 
@@ -29,18 +44,21 @@ public class UserMapper {
         if (dto == null) {
             return null;
         }
-        User user = new User();
 
-        user.setUserId(dto.userId());
-        user.setEmail(dto.email());
-        user.setFirstName(dto.firstName());
-        user.setLastName(dto.lastName());
-        user.setDateOfBirth(dto.dateOfBirth());
-        user.setGender(dto.gender());
-        user.setPhoneNumber(dto.phoneNumber());
-        user.setAddress(dto.address());
-        user.setNationalID(dto.nationalID());
-        user.setNationality(dto.nationality());
+        User user = new User();
+        user.setUserId(dto.getUserId());
+        user.setEmail(dto.getEmail());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setDateOfBirth(dto.getDateOfBirth());
+        user.setGender(dto.getGender());
+        user.setPhoneNumber(dto.getPhoneNumber());
+        user.setAddress(dto.getAddress());
+        user.setNationalID(dto.getNationalID());
+        user.setNationality(dto.getNationality());
+
+        // ❌ Don't map files from fileIds in DTO directly — should be handled at the service level
+        // (e.g. fetch UserFile by ID and set the list in the service layer if needed)
 
         return user;
     }
