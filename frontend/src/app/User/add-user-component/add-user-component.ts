@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { COUNTRIES } from '../../representations/Countries';
-import { UserRepresentation } from '../../representations/user-representation';
+import { UserRepresentation } from '../../representations/User/user-representation';
 
 @Component({
   selector: 'app-user-form',

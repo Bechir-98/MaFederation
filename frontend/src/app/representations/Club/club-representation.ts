@@ -1,5 +1,5 @@
-import { CategoryRepresentation } from "./Category/category-representation";
-import { MemberRepresentation } from "./member-representation";
+import { CategoryRepresentation } from "../Category/category-representation";
+import { MemberRepresentation } from "../ClubMember/ClubMember-representation";
 
 
 export interface ClubRepresentation {

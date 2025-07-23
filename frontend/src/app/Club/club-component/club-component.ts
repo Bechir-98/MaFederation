@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { ClubRepresentation } from '../../representations/club-representation';
+import { ClubRepresentation } from '../../representations/Club/club-representation';
 import { ClubServices } from '../../services/api/club/club-services';
 import { CategoryService } from '../../services/api/catergory/categories';
 import { CategoryRepresentation } from '../../representations/Category/category-representation';

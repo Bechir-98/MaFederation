@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserRepresentation } from '../../../representations/user-representation';
+import { UserRepresentation } from '../../../representations/User/user-representation';
 import { Observable } from 'rxjs';
 
 @Injectable({

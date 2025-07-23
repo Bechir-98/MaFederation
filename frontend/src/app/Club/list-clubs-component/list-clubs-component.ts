@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClubRepresentation } from '../../representations/club-representation';
+import { ClubRepresentation } from '../../representations/Club/club-representation';
 import { ClubServices } from '../../services/api/club/club-services';
 import { ClubCardComponent} from  '../club-card-component/club-card-component';
 import { RouterModule } from '@angular/router';
