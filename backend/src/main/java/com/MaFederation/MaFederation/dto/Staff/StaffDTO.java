@@ -14,6 +14,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class StaffDTO extends ClubMemberDTO {
+
+
+    
     private String specialty;
     private List<Integer> categoryIds;
+
+
 }

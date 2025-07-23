@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ClubRepresentation } from '../../../representations/club-representation';
+import { ClubRepresentation } from '../../../representations/Club/club-representation';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +31,12 @@ export class ClubServices {
     
     return this.http.post<ClubRepresentation>(this.baseUrl+"/clubs/register-club", club);
   }
+
+
+uploadMember(memberData: FormData) {
+  return this.http.post(this.baseUrl + "/addmember", memberData);
+}
+
 
 
   

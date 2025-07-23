@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { UserRepresentation } from '../../representations/user-representation';
+import { UserRepresentation } from '../../representations/User/user-representation';
 
 @Component({
   selector: 'app-users-component',

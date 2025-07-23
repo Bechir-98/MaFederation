@@ -1,5 +1,4 @@
-export interface UserRepresentation {
-  userId: number;
+export interface UserPost {
   email: string;
   firstName: string;
   lastName: string;
@@ -9,7 +8,6 @@ export interface UserRepresentation {
   address: string;
   nationalID?: string;
   nationality: string;
-  fileIds: number[]; 
 }
 
 

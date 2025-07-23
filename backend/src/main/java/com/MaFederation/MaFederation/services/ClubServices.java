@@ -80,4 +80,21 @@ public class ClubServices {
     public void deleteById(int id) {
         clubRepository.deleteById(id);
     }
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
 }

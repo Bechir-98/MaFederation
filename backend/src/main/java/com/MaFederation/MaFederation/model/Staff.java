@@ -5,6 +5,7 @@
     import java.util.List;
 
     @Entity
+    @DiscriminatorValue("STAFF")
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

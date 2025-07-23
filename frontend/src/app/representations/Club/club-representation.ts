@@ -1,5 +1,5 @@
-import { CategoryRepresentation } from "./Category/category-representation";
-import { MemberRepresentation } from "./member-representation";
+import { CategoryRepresentation } from "../Category/category-representation";
+
 
 
 export interface ClubRepresentation {
@@ -16,11 +16,8 @@ export interface ClubRepresentation {
   files: ClubFile;
 }
 
-
-
 export interface ClubFile {
   id: number;
   licenseUrl: string;
   logoUrl: string;
-
 }

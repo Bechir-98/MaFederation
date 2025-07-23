@@ -1,22 +1,22 @@
 <div class="header">
   <div class="image-container">
-    <img [src]="user" [alt]="user.firstName + ' ' + user.lastName" class="image" />
+    <img [src]=" 'default-profile.png'" [alt]="user.firstName + ' ' + user.lastName" class="image" />
   </div>
 
   <div class="player-info-header">
     <div class="info-block">
       <div class="name">
         <h1>{{ user.firstName }} {{ user.lastName }}</h1>
-        <span class="status-badge" [title]="user">
-          {{ user }}
+        <span class="status-badge" [title]="user.type">
+          {{ user.type }}
         </span>
-        <button class="edit-button" >Edit</button>
+        <button class="edit-button">Edit</button>
       </div>
-      <div class="status">Role: {{ user}}</div>
+      <div class="status">Role: {{ user.type || user.type }}</div>
     </div>
 
     <div class="club">
-      <button class="button" >More Details</button>
+      <button class="button">More Details</button>
     </div>
   </div>
 </div>
@@ -25,45 +25,51 @@
   <!-- Basic Info -->
   <div class="basic-info">
     <div class="infos">
-      <h2>User ID</h2><h3>{{ user.userId }}</h3>
       <h2>Email</h2><h3>{{ user.email }}</h3>
       <h2>Phone</h2><h3>{{ user.phoneNumber }}</h3>
       <h2>Gender</h2><h3>{{ user.gender }}</h3>
       <h2>Date of Birth</h2><h3>{{ user.dateOfBirth }}</h3>
       <h2>Nationality</h2><h3>{{ user.nationality }}</h3>
-      <h2>Country</h2><h3>{{ user.country }}</h3>
       <h2>Address</h2><h3>{{ user.address }}</h3>
     </div>
   </div>
 
-  <!-- Role-specific info (if needed later with more data) -->
-  <!-- <div *ngIf="user.role === 'PLAYER'">
-    <h2>Player Role</h2>
-    <p>This user is registered as a player.</p>
-  </div> -->
+  <!-- Role-specific info
+  <div *ngIf="isPlayer">
+    <h2>Player Details</h2>
+    <p>Position: {{ user.position }}</p>
+    <p>Jersey Number: {{ user.jerseyNumber }}</p>
+    <p>Height: {{ user.height }} cm</p>
+    <p>Weight: {{ user.weight }} kg</p>
+    <p>License Number: {{ user.licenseNumber }}</p>
+  
 
-  <!-- <div *ngIf="user.role === 'COACH'">
-    <h2>Coach Role</h2>
-    <p>This user is registered as a coach.</p>
-  </div> -->
 
-  <!-- <div *ngIf="user.role === 'ADMIN' || user.role === 'Super'">
-    <h2>Administrator</h2>
-    <p>This user is part of the administration.</p>
-  </div> -->
+  <div *ngIf="isStaff">
+    <h2>Staff Details</h2>
+    <p>Department: {{ user.department }}</p>
+    <p>Role: {{ user.role }}</p>
+   Add more staff-specific info here -->
+  </div>
 
-  <!-- Federation/Access Buttons -->
+  <!-- <div *ngIf="isAdmin">
+    <h2>Admin Details</h2>
+    <p>Privileges: {{ user.privileges }}</p>
+   Add more admin-specific info here -->
+  
+
+  Federation/Access Buttons
   <div class="sport-info">
     <div class="buttons">
-      <button class="button" >View Access</button>
-      <button class="button" >Federation Info</button>
+      <button class="button">View Access</button>
+      <button class="button">Federation Info</button>
     </div>
-
+<!-- 
     <div class="sport-section">
       <h2>User Summary</h2>
       <p><strong>User ID:</strong> {{ user.userId }}</p>
-      <p><strong>Role:</strong> {{ user}}</p>
-      <p><strong>Profile Photo:</strong> etat</p>
+      <p><strong>Role:</strong> {{ user.type }}</p>
+      <p><strong>Profile Photo:</strong> <img [src]="user.profilePictureUrl || 'default-profile.png'" alt="Profile photo" width="100" /></p>
     </div>
   </div>
-</div>
+</div> -->

@@ -9,12 +9,15 @@
     import {AddClubComponent} from './Club/add-club-component/add-club-component'
     import { AddCategoryComponent} from'./categories/add-category-component/add-category-component';
     import{AddUserComponent} from './User/add-user-component/add-user-component'
+    import { AddMemberComponent } from './ClubMember/add-member-component/add-member-component';
+    
 
     export const routes: Routes = [
     
         { path:'' , component:ClubComponent},
         {path: "user", component :UserComponent },
         {path: "adduser", component :AddUserComponent },
+        {path: "addmember", component :AddMemberComponent },
         {path: "listusers", component :UsersComponent },
         {path:'admins' , component:ListAdminstrationComponent},
         { path:'player' , component:PlayerComponent},
