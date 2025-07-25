@@ -74,8 +74,9 @@ export class AddClubComponent implements OnInit {
       }
     } else {
       this.club.categoryIds = this.club.categoryIds.filter(
-        id => id !== category.categoryId
-      );
+  (id: number) => id !== category.categoryId
+  );
+
     }
   }
 }

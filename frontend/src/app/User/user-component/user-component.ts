@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
 import { ClubMember } from '../../representations/ClubMember/ClubMember-representation';
+=======
+import { UserRepresentation } from '../../representations/User/user-representation';
+>>>>>>> 4c8e664d1a3a0828495cc8346603a037aa807cce
 
 @Component({
   selector: 'app-user-component',
