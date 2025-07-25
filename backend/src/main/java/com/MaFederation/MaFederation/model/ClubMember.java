@@ -1,14 +1,12 @@
-    package com.MaFederation.MaFederation.model;
+package com.MaFederation.MaFederation.model;
 
-    import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-import lombok.*;   
-
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // or JOINED
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -24,15 +22,14 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+public abstract class ClubMember extends User {
 
-public class ClubMember extends User {
     private String role;
 
     @ManyToOne
     @JoinColumn(name = "club_id")
     private Club club;
 
-    // You must have the 'type' field visible to Jackson
-    @Column(insertable = false, updatable = false)
+    @Column(name = "type", insertable = false, updatable = false)
     private String type;
 }

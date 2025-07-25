@@ -11,63 +11,22 @@ export class ClubServices {
 
   constructor(private http: HttpClient) {}
 
-  // Get all clubs
+
   loadClubs(): Observable<ClubRepresentation[]> {
-    return this.http.get<ClubRepresentation[]>(this.baseUrl+"/clubs");
+    return this.http.get<ClubRepresentation[]>(this.baseUrl + '/clubs');
   }
 
-  // Get club by ID
-
-
-  getClubById(clubId: number): Observable<ClubRepresentation> {
-    return this.http.get<ClubRepresentation>(`${this.baseUrl}/club/${clubId}`);
+    // ✅ Add this method
+  getClubById(id: number): Observable<ClubRepresentation> {
+    return this.http.get<ClubRepresentation>(`${this.baseUrl}/clubs/${id}`);
   }
 
-
-
-
-  // Create new club
+  // ✅ Create a new club
   createClub(club: ClubRepresentation): Observable<ClubRepresentation> {
-    
-    return this.http.post<ClubRepresentation>(this.baseUrl+"/clubs/register-club", club);
+    return this.http.post<ClubRepresentation>(`${this.baseUrl}`, club);
   }
 
-
-uploadMember(memberData: FormData) {
-  return this.http.post(this.baseUrl + "/addmember", memberData);
-}
-
-
-
-  
-
-  // Update existing club
-  updateClub(clubId: number, club: ClubRepresentation): Observable<ClubRepresentation> {
-    return this.http.put<ClubRepresentation>(`${this.baseUrl}/${clubId}`, club);
-  }
-
-  // Delete club
-  deleteClub(clubId: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${clubId}`);
-  }
-
-  // Validate club by federation
-  validateClub(clubId: number, userId: number): Observable<ClubRepresentation> {
-    return this.http.put<ClubRepresentation>(`${this.baseUrl}/${clubId}/validate`, { validatedByUserId: userId });
-  }
-
-  // Reject club validation
-  rejectClub(clubId: number, rejectionReason: string): Observable<ClubRepresentation> {
-    return this.http.put<ClubRepresentation>(`${this.baseUrl}/${clubId}/reject`, { rejectionReason });
-  }
-
-  // Get validated clubs only
-  getValidatedClubs(): Observable<ClubRepresentation[]> {
-    return this.http.get<ClubRepresentation[]>(`${this.baseUrl}/validated`);
-  }
-
-  // Get pending clubs only
-  getPendingClubs(): Observable<ClubRepresentation[]> {
-    return this.http.get<ClubRepresentation[]>(`${this.baseUrl}/pending`);
+  uploadMember(memberData: FormData): Observable<any> {
+    return this.http.post(this.baseUrl + '/addmember', memberData);
   }
 }

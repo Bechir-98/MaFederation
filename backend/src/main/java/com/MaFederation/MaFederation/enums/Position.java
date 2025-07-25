@@ -5,6 +5,4 @@ public enum Position {
     DEFENDER,
     MIDFIELDER,
     FORWARD
-
-
 }

@@ -29,11 +29,12 @@ export class AddMemberComponent implements OnInit {
     address: '',
     nationalID: '',
     nationality: '',
-    type: '',
+    type: 'PLAYER', // or "STAFF", "ADMIN"
     clubId: 0,
+    password: '', // Add password field
   };
 
-     filesMap = new Map<string, File>();
+  filesMap = new Map<string, File>();
 
   constructor(private clubservice: ClubServices) {}
 
@@ -47,7 +48,6 @@ export class AddMemberComponent implements OnInit {
 
   OnnextStep(): void {
     this.step = !this.step;
-    console.log('Moved to step:', this.step);
   }
 
   onFileSelect(event: Event, type: string): void {
@@ -55,23 +55,64 @@ export class AddMemberComponent implements OnInit {
     if (input && input.files && input.files.length > 0) {
       const file = input.files[0];
       this.filesMap.set(type, file);
-      console.log(`Selected ${type}:`, file);
     }
   }
 
-submitForm(): void {
-  const formData = new FormData();
-  formData.append('user', new Blob([JSON.stringify(this.member)], { type: 'application/json' }));
+  submitForm(): void {
+    // Validate required fields
+    if (!this.member.firstName || !this.member.lastName || !this.member.email) {
+      alert('Please fill in all required fields (First Name, Last Name, Email)');
+      return;
+    }
 
-  this.filesMap.forEach((file, type) => {
-    formData.append('files', file);
-    formData.append('fileTypes', type);
-  });
+    if (!this.member.clubId || this.member.clubId <= 0) {
+      alert('Please select a valid club');
+      return;
+    }
 
-  this.clubservice.uploadMember(formData).subscribe({
-    next: (res) => console.log('Success:', res),
-    error: (err) => console.error('Error:', err),
-  });
-}
+    const formData = new FormData();
 
+    // Ensure dateOfBirth is in correct ISO format for LocalDate parsing
+    const memberData = {
+      ...this.member,
+      dateOfBirth: this.member.dateOfBirth ? 
+        new Date(this.member.dateOfBirth).toISOString().split('T')[0] : 
+        null
+    };
+
+    console.log('Sending member data:', memberData); // Debug log
+
+    // Create a proper JSON blob for the user data
+    const userBlob = new Blob(
+      [JSON.stringify(memberData)],
+      { type: 'application/json' }
+    );
+    formData.append('user', userBlob, 'user.json');
+
+    // Only add files and file types if there are files selected
+    if (this.filesMap.size > 0) {
+      const filesArray: File[] = [];
+      const fileTypesArray: string[] = [];
+
+      this.filesMap.forEach((file, type) => {
+        filesArray.push(file);
+        fileTypesArray.push(type);
+      });
+
+      // Append files
+      filesArray.forEach(file => {
+        formData.append('files', file);
+      });
+
+      // Append file types
+      fileTypesArray.forEach(type => {
+        formData.append('fileTypes', type);
+      });
+    }
+
+    this.clubservice.uploadMember(formData).subscribe({
+      next: (res) => console.log('Success:', res),
+      error: (err) => console.error('Error:', err),
+    });
+  }
 }
