@@ -15,10 +15,11 @@ public class UserFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private String fileUrl;
-
+    @Lob
+    private byte[] content;
     @Enumerated(EnumType.STRING)
+
+    
     private FileType type;
 
     @ManyToOne

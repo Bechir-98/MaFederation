@@ -13,7 +13,7 @@ public class UserFileMapper {
 
         return UserFileDTO.builder()
                 .id(file.getId())
-                .fileUrl(file.getFileUrl())
+                .content(file.getContent())
                 .type(file.getType())
                 .userId(file.getUser().getUserId())
                 .build();
@@ -23,8 +23,7 @@ public class UserFileMapper {
         if (dto == null) return null;
 
         return UserFile.builder()
-                .id(dto.getId()) // optional: omit if you're letting JPA generate
-                .fileUrl(dto.getFileUrl())
+                .content(dto.getContent())
                 .type(dto.getType())
                 .user(user)
                 .build();

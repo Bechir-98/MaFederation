@@ -8,8 +8,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UserFileDTO {
+
+
     private Integer id;
-    private String fileUrl;
+    private byte[] content;
     private FileType type;   
     private Integer userId;
 }
