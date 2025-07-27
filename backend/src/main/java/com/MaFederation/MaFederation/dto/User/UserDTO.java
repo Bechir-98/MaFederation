@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDTO {
     private Integer userId;
+    private String passwordHash;
     private String email;
     private String firstName;
     private String lastName;
@@ -21,5 +22,5 @@ public class UserDTO {
     private String address;
     private String nationalID;
     private String nationality;
-    private List<Integer> fileIds;
+   
 }

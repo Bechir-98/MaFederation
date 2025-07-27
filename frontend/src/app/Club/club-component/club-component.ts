@@ -1,4 +1,3 @@
-<<<<<<< HEAD
   import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { ActivatedRoute } from '@angular/router';
@@ -6,15 +5,6 @@
   import { ClubServices } from '../../services/api/club/club-services';
   import { CategoryService } from '../../services/api/catergory/categories';
   import { CategoryRepresentation } from '../../representations/Category/category-representation';
-=======
-import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { ClubRepresentation } from '../../representations/Club/club-representation';
-import { ClubServices } from '../../services/api/club/club-services';
-import { CategoryService } from '../../services/api/catergory/categories';
-import { CategoryRepresentation } from '../../representations/Category/category-representation';
->>>>>>> 4c8e664d1a3a0828495cc8346603a037aa807cce
 
   @Component({
     selector: 'app-club-component',

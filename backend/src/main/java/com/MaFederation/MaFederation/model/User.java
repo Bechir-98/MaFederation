@@ -18,13 +18,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
-    @Column(nullable = false)
-    private String passwordHash;
+    // @Column(nullable = false)
+    // private String passwordHash;
 
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String passwordHash;
+
     private String firstName;
+
     private String lastName;
 
     private LocalDate dateOfBirth;

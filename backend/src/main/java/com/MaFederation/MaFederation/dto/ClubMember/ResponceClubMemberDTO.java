@@ -1,6 +1,9 @@
 package com.MaFederation.MaFederation.dto.ClubMember;
 
-import com.MaFederation.MaFederation.dto.User.UserDTO;
+import java.util.List;
+
+import com.MaFederation.MaFederation.dto.User.ResponceUserDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,8 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ClubMemberDTO extends UserDTO {
-    private String role;
+public class ResponceClubMemberDTO extends ResponceUserDTO{
     private Integer clubId;
-    private String type; // ✅ Needed for polymorphic deserialization and mapping
+    private String type;
+    private List<Integer> categoryIds;
 }
+
+

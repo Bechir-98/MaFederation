@@ -1,28 +1,30 @@
 package com.MaFederation.MaFederation.mappers;
-
-import org.springframework.stereotype.Service;
-
-import com.MaFederation.MaFederation.dto.ClubMember.ClubMemberDTO;
-import com.MaFederation.MaFederation.dto.Admin.AdministrationDTO;
+import com.MaFederation.MaFederation.dto.Admin.PostAdminstrationDTO;
+import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.ResponceClubMemberDTO;
 import com.MaFederation.MaFederation.model.Administration;
-import com.MaFederation.MaFederation.model.ClubMember;
+import com.MaFederation.MaFederation.services.ClubServices;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AdministrationMapper {
 
     private final ClubMemberMapper clubMemberMapper;
+    private final ClubServices clubServices;
 
-    public AdministrationMapper(ClubMemberMapper clubMemberMapper) {
+    public AdministrationMapper(ClubMemberMapper clubMemberMapper, ClubServices clubServices) {
         this.clubMemberMapper = clubMemberMapper;
+        this.clubServices = clubServices;
+        
     }
 
-    public AdministrationDTO toDto(Administration admin) {
-        if (admin == null) return null;
+    // Convert Administration entity to AdministrationDTO
+    public ResponceAdministrationDTO toDto(Administration administration) {
+        if (administration == null) return null;
 
-        AdministrationDTO dto = new AdministrationDTO();
+        ResponceClubMemberDTO baseDto = clubMemberMapper.toResponseDto(administration);
 
-        // Map common ClubMember fields via ClubMemberMapper
-        ClubMemberDTO baseDto = clubMemberMapper.toDto(admin);
+        ResponceAdministrationDTO dto = new ResponceAdministrationDTO();
         dto.setUserId(baseDto.getUserId());
         dto.setEmail(baseDto.getEmail());
         dto.setFirstName(baseDto.getFirstName());
@@ -33,43 +35,36 @@ public class AdministrationMapper {
         dto.setAddress(baseDto.getAddress());
         dto.setNationalID(baseDto.getNationalID());
         dto.setNationality(baseDto.getNationality());
-        dto.setRole(baseDto.getRole());
         dto.setClubId(baseDto.getClubId());
 
-        // Include file IDs if available in ClubMemberDTO
-        dto.setFileIds(baseDto.getFileIds());
-
-        // Administration-specific fields can be set here if you add any
+        // Administration-specific fields (if any) can go here
 
         return dto;
     }
 
-    public Administration toEntity(AdministrationDTO dto) {
+    // Convert AdministrationDTO to Administration entity
+    public Administration toEntity(PostAdminstrationDTO dto) {
         if (dto == null) return null;
-
-        // Reuse ClubMember mapping for common fields
-        ClubMember base = clubMemberMapper.toEntity(dto);
 
         Administration admin = new Administration();
 
-        // Copy inherited ClubMember fields
-        admin.setUserId(base.getUserId());
-        admin.setEmail(base.getEmail());
-        admin.setFirstName(base.getFirstName());
-        admin.setLastName(base.getLastName());
-        admin.setDateOfBirth(base.getDateOfBirth());
-        admin.setGender(base.getGender());
-        admin.setPhoneNumber(base.getPhoneNumber());
-        admin.setAddress(base.getAddress());
-        admin.setNationalID(base.getNationalID());
-        admin.setNationality(base.getNationality());
-        admin.setRole(base.getRole());
-        admin.setClub(base.getClub());
+        // Common ClubMember fields
+        admin.setUserId(dto.getUserId());
+        admin.setEmail(dto.getEmail());
+        admin.setFirstName(dto.getFirstName());
+        admin.setLastName(dto.getLastName());
+        admin.setDateOfBirth(dto.getDateOfBirth());
+        admin.setGender(dto.getGender());
+        admin.setPhoneNumber(dto.getPhoneNumber());
+        admin.setAddress(dto.getAddress());
+        admin.setNationalID(dto.getNationalID());
+        admin.setNationality(dto.getNationality());
+        admin.setType("ADMINISTRATION");
+        admin.setPasswordHash(dto.getPasswordHash()); // ✅ Include password hash!
 
-        // Copy files from base entity if you store files in ClubMember/User entity
-        admin.setFiles(base.getFiles());
-
-        // Administration-specific fields can be set here if you add any
+        if (dto.getClubId() != null) {
+            admin.setClub(clubServices.getClub(dto.getClubId()));
+        }
 
         return admin;
     }

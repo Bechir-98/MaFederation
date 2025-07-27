@@ -1,18 +1,15 @@
 package com.MaFederation.MaFederation.dto.User;
 
 import java.time.LocalDate;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserPostDTO {
+public class ResponceUserDTO {
+
     private Integer userId;
-    private String passwordHash;
     private String email;
     private String firstName;
     private String lastName;
@@ -24,3 +21,5 @@ public class UserPostDTO {
     private String nationality;
 
 }
+    
+

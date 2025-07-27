@@ -1,8 +1,7 @@
 package com.MaFederation.MaFederation.dto.Staff;
 
-import java.util.List;
 
-import com.MaFederation.MaFederation.dto.ClubMember.ClubMemberDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,12 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class StaffDTO extends ClubMemberDTO {
-
-
-    
+public class PostStaffDTO extends PostClubMemberDTO {
     private String specialty;
-    private List<Integer> categoryIds;
-
-
 }

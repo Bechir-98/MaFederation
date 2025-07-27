@@ -7,11 +7,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.MaFederation.MaFederation.dto.Club.ClubDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.ResponceClubMemberDTO;
 import com.MaFederation.MaFederation.mappers.ClubMapper;
+import com.MaFederation.MaFederation.mappers.ClubMemberMapper;
 import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.model.ClubFile;
+import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.repository.ClubFileRepository;
 import com.MaFederation.MaFederation.repository.ClubRepository;
+import com.MaFederation.MaFederation.repository.ClubMemberRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +26,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClubServices {
 
-    private final ClubRepository      clubRepository;
-    private final ClubMapper          clubMapper;
-    private final ClubFileRepository  clubFileRepository;
+    private final ClubRepository clubRepository;
+    private final ClubMapper clubMapper;
+    private final ClubFileRepository clubFileRepository;
+    private final ClubMemberMapper clubMemberMapper;
+    private final ClubMemberRepository clubMemberRepository;
 
-    /** Récupérer tous les clubs (DTO) */
+    /** Get all clubs as DTOs */
     public List<ClubDTO> getAllClubs() {
         return clubRepository.findAll()
                              .stream()
@@ -33,12 +40,11 @@ public class ClubServices {
                              .collect(Collectors.toList());
     }
 
-    /** Ajouter un club depuis un DTO */
+    /** Add a new club from DTO */
     @Transactional
     public Club addClub(ClubDTO clubDto) {
         Club club = clubMapper.fromDto(clubDto);
 
-        // ✅ Attach files to the club entity
         if (clubDto.fileIds() != null && !clubDto.fileIds().isEmpty()) {
             List<ClubFile> files = clubFileRepository.findAllById(clubDto.fileIds());
 
@@ -46,7 +52,6 @@ public class ClubServices {
                 throw new EntityNotFoundException("One or more club file IDs are invalid.");
             }
 
-            // Set club reference in each file (to persist the owning side)
             files.forEach(file -> file.setClub(club));
             club.setFiles(files);
         }
@@ -54,47 +59,62 @@ public class ClubServices {
         return clubRepository.save(club);
     }
 
-    /** Récupérer un club par ID (DTO) */
+    /** Get a club DTO by ID */
     public ClubDTO getClubById(int id) {
         Club club = clubRepository.findById(id)
-                                  .orElseThrow(() ->
-                                       new RuntimeException("Club not found with id: " + id));
+                                  .orElseThrow(() -> new RuntimeException("Club not found with id: " + id));
         return clubMapper.toDto(club);
     }
 
-    /** Récupérer un club par ID (Entity) */
+    /** Get Club Entity */
     public Club getClub(Integer clubId) {
         return clubRepository.findById(clubId)
-                             .orElseThrow(() ->
-                                  new RuntimeException("Club not found with id: " + clubId));
+                             .orElseThrow(() -> new RuntimeException("Club not found with id: " + clubId));
     }
 
-    /** Supprimer tous les clubs */
+    /** Delete all clubs */
     @Transactional
     public void deleteAll() {
         clubRepository.deleteAll();
     }
 
-    /** Supprimer un club par ID */
+    /** Delete a club by ID */
     @Transactional
     public void deleteById(int id) {
         clubRepository.deleteById(id);
     }
 
+    /** Create and attach a member to a club */
+    @Transactional
+    public ClubMember createMemberFromClub(PostClubMemberDTO memberDTO, Integer clubID) {
+        if (clubID == null) {
+            throw new IllegalArgumentException("Club ID cannot be null when creating a member from club.");
+        }
 
+        memberDTO.setClubId(clubID);
+        ClubMember member = clubMemberMapper.toEntity(memberDTO);
+        return clubMemberRepository.save(member);
+    }
 
+    /** Get all members of a club */
+    public List<ResponceClubMemberDTO> getMembers(Integer id) {
+        Club club = clubRepository.findById(id)
+                                  .orElseThrow(() -> new RuntimeException("Club not found with id: " + id));
 
+        return club.getMembers().stream()
+                   .map(clubMemberMapper::toResponseDto)
+                   .collect(Collectors.toList());
+    }
 
+    /** Get a single member by club + member ID */
+    public ResponceClubMemberDTO getClubMember(Integer memberId, Integer clubId) {
+        Club club = clubRepository.findById(clubId)
+                                  .orElseThrow(() -> new RuntimeException("Club not found with id: " + clubId));
 
-
-   
-
-
-
-
-
-
-
-
-
+        return club.getMembers().stream()
+                   .filter(member -> member.getUserId().equals(memberId))
+                   .findFirst()
+                   .map(clubMemberMapper::toResponseDto)
+                   .orElseThrow(() -> new RuntimeException("Member not found with id: " + memberId));
+    }
 }

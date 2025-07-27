@@ -7,7 +7,6 @@ import java.util.Collections;
 import org.springframework.stereotype.Service;
 
 import com.MaFederation.MaFederation.dto.Category.CategoryDTO;
-import com.MaFederation.MaFederation.dto.Club.ClubDTO;
 import com.MaFederation.MaFederation.mappers.CategoryMapper;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.repository.CategoryRepository;
@@ -52,6 +51,16 @@ public class CategoryService {
             .map(categorymapper::toDto)
             .collect(Collectors.toList());
 }
+
+ public List<Category> getCategoriesByIdsEntity(List<Integer> categoryIds) {
+    if (categoryIds == null || categoryIds.isEmpty()) {
+        return Collections.emptyList();
+    }
+    List<Category> categories = categoryrepository.findAllById(categoryIds);
+
+    return categories;
+}
+
 
 
 }

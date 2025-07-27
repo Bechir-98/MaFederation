@@ -18,8 +18,7 @@ export interface UserResponse {
   nationalID: string;
 
   nationality: string;
-
-
+  
   fileIds: number[]; // correspond à List<Integer> fileIds en Java
 }
 

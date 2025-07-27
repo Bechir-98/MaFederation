@@ -1,6 +1,6 @@
 package com.MaFederation.MaFederation.dto.Admin;
 
-import com.MaFederation.MaFederation.dto.ClubMember.ClubMemberDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.ResponceClubMemberDTO;
 
 import lombok.*;
 
@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)  // include fields from ClubMemberDTO
-public class AdministrationDTO extends ClubMemberDTO {
+public class ResponceAdministrationDTO extends  ResponceClubMemberDTO {
     private String role;
 }

@@ -1,6 +1,7 @@
 package com.MaFederation.MaFederation.mappers;
 
 import com.MaFederation.MaFederation.dto.User.UserDTO;
+import com.MaFederation.MaFederation.dto.User.UserPostDTO;
 import com.MaFederation.MaFederation.model.User;
 import com.MaFederation.MaFederation.model.UserFile;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class UserMapper {
 
         return new UserDTO(
             user.getUserId(),
+            user.getPasswordHash(),
             user.getEmail(),
             user.getFirstName(),
             user.getLastName(),
@@ -35,12 +37,11 @@ public class UserMapper {
             user.getPhoneNumber(),
             user.getAddress(),
             user.getNationalID(),
-            user.getNationality(),
-            fileIds // ✅ added file IDs
+            user.getNationality()
         );
     }
 
-    public User fromDto(UserDTO dto) {
+    public User toEntity(UserPostDTO dto) {
         if (dto == null) {
             return null;
         }
@@ -57,8 +58,6 @@ public class UserMapper {
         user.setNationalID(dto.getNationalID());
         user.setNationality(dto.getNationality());
 
-        // ❌ Don't map files from fileIds in DTO directly — should be handled at the service level
-        // (e.g. fetch UserFile by ID and set the list in the service layer if needed)
 
         return user;
     }

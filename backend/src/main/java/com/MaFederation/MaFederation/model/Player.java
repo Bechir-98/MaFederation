@@ -24,11 +24,5 @@ public class Player extends ClubMember {
 
     private Integer licenseNumber;
 
-    @ManyToMany
-    @JoinTable(
-        name = "player_category",
-        joinColumns = @JoinColumn(name = "player_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private List<Category> categories;
+    
 }

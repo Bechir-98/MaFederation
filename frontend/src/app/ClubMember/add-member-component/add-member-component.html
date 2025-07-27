@@ -2,7 +2,7 @@
   <h2>Add Club Member</h2>
 
   <!-- Step 1: Personal Info -->
-  <form *ngIf="!step" #stepOneForm="ngForm" (ngSubmit)="OnnextStep()" class="form-step">
+  <form *ngIf="!step" #stepOneForm="ngForm" (ngSubmit)="submitForm()" class="form-step">
     <div class="form-group">
       <label>Email</label>
       <input type="email" name="email" [(ngModel)]="member.email" required />
@@ -55,27 +55,6 @@
     </div>
 
     <div class="form-group">
-      <label>Profile Picture</label>
-      <input type="file" (change)="onFileSelect($event, 'PROFILE_PICTURE')" />
-    </div>
-
-    <button type="submit">Next</button>
-  </form>
-
-  <!-- Step 2: Files + Club Info -->
-  <form *ngIf="step" #stepTwoForm="ngForm" (ngSubmit)="submitForm()" class="form-step">
-
-    <div class="form-group">
-      <label>CV</label>
-      <input type="file" (change)="onFileSelect($event, 'CV')" />
-    </div>
-
-    <div class="form-group">
-      <label>Passport</label>
-      <input type="file" (change)="onFileSelect($event, 'PASSPORT')" />
-    </div>
-
-    <div class="form-group">
       <label>Club</label>
       <select name="clubId" [(ngModel)]="member.clubId">
         <option *ngFor="let club of clubs" [value]="club.clubId">{{ club.name }}</option>
@@ -93,7 +72,6 @@
     </div>
 
     <div class="form-actions">
-      <button type="button" (click)="OnnextStep()">Back</button>
       <button type="submit">Submit</button>
     </div>
   </form>

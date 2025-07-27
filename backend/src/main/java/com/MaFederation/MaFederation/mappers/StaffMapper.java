@@ -1,34 +1,38 @@
 package com.MaFederation.MaFederation.mappers;
 
-import com.MaFederation.MaFederation.dto.ClubMember.ClubMemberDTO;
-import com.MaFederation.MaFederation.dto.Staff.StaffDTO;
+import com.MaFederation.MaFederation.dto.Staff.PostStaffDTO;
+import com.MaFederation.MaFederation.dto.Staff.ResponceStaffDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.ResponceClubMemberDTO;
 import com.MaFederation.MaFederation.model.Category;
-import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.model.Staff;
+import com.MaFederation.MaFederation.services.CategoryService;
+import com.MaFederation.MaFederation.services.ClubServices;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class StaffMapper {
 
     private final ClubMemberMapper clubMemberMapper;
+    private final ClubServices clubServices;
+    private final CategoryService categoryService;
 
-    public StaffMapper(ClubMemberMapper clubMemberMapper) {
+    public StaffMapper(ClubMemberMapper clubMemberMapper, ClubServices clubServices, CategoryService categoryService) {
         this.clubMemberMapper = clubMemberMapper;
+        this.clubServices = clubServices;
+        this.categoryService = categoryService;
     }
 
-    public StaffDTO toDto(Staff staff) {
+    // Convert Staff entity to StaffDTO
+    public ResponceStaffDTO toDto(Staff staff) {
         if (staff == null) {
             return null;
         }
 
-        StaffDTO dto = new StaffDTO();
-        ClubMember base = staff;
+        ResponceClubMemberDTO baseDto = clubMemberMapper.toResponseDto(staff);
 
-        // Map common ClubMember fields
-        ClubMemberDTO baseDto = clubMemberMapper.toDto(base);
+        ResponceStaffDTO dto = new ResponceStaffDTO();
         dto.setUserId(baseDto.getUserId());
         dto.setEmail(baseDto.getEmail());
         dto.setFirstName(baseDto.getFirstName());
@@ -39,57 +43,56 @@ public class StaffMapper {
         dto.setAddress(baseDto.getAddress());
         dto.setNationalID(baseDto.getNationalID());
         dto.setNationality(baseDto.getNationality());
-        dto.setRole(baseDto.getRole());
         dto.setClubId(baseDto.getClubId());
 
-        // Add file IDs from baseDto (ClubMemberDTO)
-        dto.setFileIds(baseDto.getFileIds());
-
-        // Staff-specific fields
         dto.setSpecialty(staff.getSpecialty());
 
-        // Handle categories
         if (staff.getCategories() != null) {
-            List<Integer> categoryIds = staff.getCategories()
-                .stream()
-                .map(Category::getCategoryId)
-                .collect(Collectors.toList());
-            dto.setCategoryIds(categoryIds);
+            dto.setCategoryIds(
+                staff.getCategories()
+                     .stream()
+                     .map(Category::getCategoryId)
+                     .collect(Collectors.toList())
+            );
         }
 
         return dto;
     }
 
-    public Staff toEntity(StaffDTO dto, List<Category> categories) {
+    // Convert StaffDTO to Staff entity, fetching categories and club internally
+    public Staff toEntity(PostStaffDTO dto) {
         if (dto == null) {
             return null;
         }
 
-        // Reuse ClubMember mapping for common fields
-        ClubMember base = clubMemberMapper.toEntity(dto);
-
         Staff staff = new Staff();
 
-        // Copy inherited ClubMember fields
-        staff.setUserId(base.getUserId());
-        staff.setEmail(base.getEmail());
-        staff.setFirstName(base.getFirstName());
-        staff.setLastName(base.getLastName());
-        staff.setDateOfBirth(base.getDateOfBirth());
-        staff.setGender(base.getGender());
-        staff.setPhoneNumber(base.getPhoneNumber());
-        staff.setAddress(base.getAddress());
-        staff.setNationalID(base.getNationalID());
-        staff.setNationality(base.getNationality());
-        staff.setRole(base.getRole());
-        staff.setClub(base.getClub());
+        // Common ClubMember fields
+        staff.setUserId(dto.getUserId());
+        staff.setEmail(dto.getEmail());
+        staff.setFirstName(dto.getFirstName());
+        staff.setLastName(dto.getLastName());
+        staff.setDateOfBirth(dto.getDateOfBirth());
+        staff.setGender(dto.getGender());
+        staff.setPhoneNumber(dto.getPhoneNumber());
+        staff.setAddress(dto.getAddress());
+        staff.setNationalID(dto.getNationalID());
+        staff.setNationality(dto.getNationality());
+        staff.setType("STAFF");
+        staff.setPasswordHash(dto.getPasswordHash());
 
-        // Copy files from base entity
-        staff.setFiles(base.getFiles());
+        // Club (if present)
+        if (dto.getClubId() != null) {
+            staff.setClub(clubServices.getClub(dto.getClubId()));
+        }
 
-        // Set Staff-specific fields
+        // Categories (if present)
+        if (dto.getCategoryIds() != null && !dto.getCategoryIds().isEmpty()) {
+            staff.setCategories(categoryService.getCategoriesByIdsEntity(dto.getCategoryIds()));
+        }
+
+        // Staff-specific field
         staff.setSpecialty(dto.getSpecialty());
-        staff.setCategories(categories);
 
         return staff;
     }
