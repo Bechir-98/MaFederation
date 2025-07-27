@@ -1,25 +1,26 @@
 package com.MaFederation.MaFederation.mappers;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+
 import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
 import com.MaFederation.MaFederation.dto.ClubMember.ResponceClubMemberDTO;
 import com.MaFederation.MaFederation.model.Administration;
+import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.model.Player;
 import com.MaFederation.MaFederation.model.Staff;
+import com.MaFederation.MaFederation.repository.ClubRepository;
 import com.MaFederation.MaFederation.services.CategoryService;
-import com.MaFederation.MaFederation.services.ClubServices;
 
-@Service
+@Component
 public class ClubMemberMapper {
 
     private final CategoryService categoryService;
-    private final ClubServices clubServices;
+    private final ClubRepository   clubRepository;
 
-    public ClubMemberMapper(ClubServices clubServices, CategoryService categoryService) {
-        this.clubServices = clubServices;
-
+    public ClubMemberMapper(CategoryService categoryService, ClubRepository clubRepository) {
         this.categoryService = categoryService;
+        this.clubRepository = clubRepository;
     }
 
     // Convert ClubMember entity (or subclass) to DTO
@@ -76,17 +77,12 @@ public class ClubMemberMapper {
         member.setNationalID(dto.getNationalID());
         member.setNationality(dto.getNationality());
         member.setType(dto.getType());
+        member.setClub(clubRepository.findById(dto.getClubId()).orElse(null));
         member.setPasswordHash(dto.getPasswordHash());
         member.setCategories(categoryService.getCategoriesByIdsEntity( dto.getCategoryIds()));
 
-        // Load club entity via service if clubId is present
-        if (dto.getClubId() != null) {
-            member.setClub(clubServices.getClub(dto.getClubId()));
-        }
-
         return member;
     }
-
 
 
 

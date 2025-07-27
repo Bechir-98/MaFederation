@@ -12,35 +12,22 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/clubs/{clubId}/members")
 public class ClubMemberController {
 
     private final ClubServices clubServices;
 
-    @Autowired
     public ClubMemberController(ClubServices clubServices) {
         this.clubServices = clubServices;
     }
 
     // Create and add member to club
-    @PostMapping("/add")
+    @PostMapping("/clubs/{clubId}/members/add")
     public ClubMember addClubMemberToClub(
             @RequestBody PostClubMemberDTO memberDTO,
             @PathVariable Integer clubId) {
         return clubServices.createMemberFromClub(memberDTO, clubId);
     }
 
-    // Get a specific club member by ID
-    @GetMapping("/{memberId}")
-    public ResponceClubMemberDTO getClubMemberById(
-            @PathVariable Integer clubId,
-            @PathVariable Integer memberId) {
-        return clubServices.getClubMember(memberId, clubId);
-    }
-
-    // Get all members of a club
-    @GetMapping
-    public List<ResponceClubMemberDTO> getAllMembers(@PathVariable Integer clubId) {
-        return clubServices.getMembers(clubId);
-    }
 }
+
+    

@@ -13,5 +13,5 @@ public record ClubDTO (
     String bankName,
     List<Integer> categoryIds,     
     List<Integer> memberIds,
-    List<Integer> fileIds // ✅ Changed from ClubFileDTO to list of IDs
+    List<Integer> fileIds 
 ) {}

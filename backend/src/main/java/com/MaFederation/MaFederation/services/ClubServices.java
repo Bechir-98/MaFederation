@@ -3,6 +3,7 @@ package com.MaFederation.MaFederation.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,18 +20,26 @@ import com.MaFederation.MaFederation.repository.ClubRepository;
 import com.MaFederation.MaFederation.repository.ClubMemberRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional(readOnly = true)
-@RequiredArgsConstructor
 public class ClubServices {
-
     private final ClubRepository clubRepository;
+    private final ClubMemberMapper clubMemberMapper;
     private final ClubMapper clubMapper;
     private final ClubFileRepository clubFileRepository;
-    private final ClubMemberMapper clubMemberMapper;
     private final ClubMemberRepository clubMemberRepository;
+
+    public ClubServices(ClubRepository clubRepository, ClubMemberMapper clubMemberMapper,
+                         ClubMapper clubMapper, ClubFileRepository clubFileRepository,
+                         ClubMemberRepository clubMemberRepository) {
+        this.clubRepository = clubRepository;
+        this.clubMemberMapper = clubMemberMapper;
+        this.clubMapper = clubMapper;
+        this.clubFileRepository = clubFileRepository;
+        this.clubMemberRepository = clubMemberRepository;
+    }
+
+
 
     /** Get all clubs as DTOs */
     public List<ClubDTO> getAllClubs() {

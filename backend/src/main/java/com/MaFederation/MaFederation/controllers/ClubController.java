@@ -13,13 +13,12 @@ import com.MaFederation.MaFederation.services.ClubServices;
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/clubs")
 public class ClubController {
-
-    private final ClubServices clubServices;
-
+    
+    private ClubServices clubServices;
     public ClubController(ClubServices clubServices) {
         this.clubServices = clubServices;
     }
-
+    
     // Create a new club
     @PostMapping("/register")
     public Club registerClub(@RequestBody ClubDTO clubDto) {
@@ -46,7 +45,18 @@ public class ClubController {
 
     // Optional: Uncomment if needed for full CRUD
     /*
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")    @RestController
+    @RequestMapping("/api/clubs")
+    public class ClubController {
+        
+        @Autowired
+        private ClubServices clubServices;
+        
+        // Use field injection instead of constructor injection
+        // Remove any constructor and let Spring handle injection
+        
+        // ...existing code...
+    }
     public void deleteClubById(@PathVariable int id) {
         clubServices.deleteById(id);
     }
