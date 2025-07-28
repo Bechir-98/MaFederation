@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClubMember } from '../../representations/ClubMember/ClubMember-representation';
+import { ClubMemberPost } from '../../representations/ClubMember/ClubMemberPost';
 
 @Component({
   selector: 'app-user-component',
@@ -10,7 +10,7 @@ import { ClubMember } from '../../representations/ClubMember/ClubMember-represen
   styleUrls: ['./user-component.css']
 })
 export class UserComponent {
-  @Input() user!: ClubMember;
+  @Input() user!: ClubMemberPost;
 
   get isPlayer(): boolean {
     return this.user?.type === 'PLAYER';

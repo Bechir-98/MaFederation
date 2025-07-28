@@ -1,10 +1,11 @@
   import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { ActivatedRoute } from '@angular/router';
-  import { ClubRepresentation } from '../../representations/Club/club-representation';
+  
   import { ClubServices } from '../../services/api/club/club-services';
   import { CategoryService } from '../../services/api/catergory/categories';
-  import { CategoryRepresentation } from '../../representations/Category/category-representation';
+  import { Category } from '../../representations/Category/category';
+import { ResponseClub } from '../../representations/Club/ResponseClub';
 
   @Component({
     selector: 'app-club-component',
@@ -16,10 +17,10 @@
   export class ClubComponent implements OnInit {
 
     categoryviewer = false;
-    club: ClubRepresentation | null = null;
+    club: ResponseClub | null = null;
     clubId: number = 0;
 
-    loadedCategories: CategoryRepresentation[] = [];
+    loadedCategories: Category[] = [];
 
     constructor(
       private clubService: ClubServices,

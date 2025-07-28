@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
 import com.MaFederation.MaFederation.dto.ClubMember.ResponceClubMemberDTO;
 import com.MaFederation.MaFederation.model.Administration;
-import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.model.Player;
 import com.MaFederation.MaFederation.model.Staff;
@@ -65,7 +64,6 @@ public class ClubMemberMapper {
         }
 
         // Map User fields
-      
         member.setUserId(dto.getUserId());
         member.setEmail(dto.getEmail());
         member.setFirstName(dto.getFirstName());

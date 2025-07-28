@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { UserRepresentation } from '../../representations/User/user-representation';
+import { UserResponse } from '../../representations/User/userResponse';
+
 
 @Component({
   selector: 'app-users-component',
@@ -11,7 +12,7 @@ import { UserRepresentation } from '../../representations/User/user-representati
 })
 export class UsersComponent {
   
-  Users: Array<UserRepresentation> =[];
+  Users: Array<UserResponse> =[];
 
   
 

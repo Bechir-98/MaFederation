@@ -1,5 +1,5 @@
-import { ClubMember } from '../ClubMember/ClubMember-representation';
+import {  ClubMemberPost } from '../ClubMember/ClubMemberPost';
 
-export interface AdministrationRepresentation extends ClubMember {
+export interface AdministrationRepresentation extends ClubMemberPost {
   role: string;  // corresponds to the 'role' field in Administration entity
 }

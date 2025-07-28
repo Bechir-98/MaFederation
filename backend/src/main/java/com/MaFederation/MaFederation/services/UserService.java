@@ -2,10 +2,8 @@ package com.MaFederation.MaFederation.services;
 
 
 import com.MaFederation.MaFederation.dto.User.UserPostDTO;
-import com.MaFederation.MaFederation.mappers.UserFileMapper;
 import com.MaFederation.MaFederation.mappers.UserMapper;
 import com.MaFederation.MaFederation.model.User;
-import com.MaFederation.MaFederation.repository.UserFileRepository;
 import com.MaFederation.MaFederation.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;

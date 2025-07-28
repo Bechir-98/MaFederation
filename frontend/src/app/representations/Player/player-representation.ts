@@ -1,16 +1,14 @@
-import { ClubMember } from '../ClubMember/ClubMember-representation';
-import { CategoryRepresentation } from '../Category/category-representation';
+import { ClubMemberPost } from '../ClubMember/ClubMemberPost';
+import { Category } from '../Category/category';
 
-export interface PlayerRepresentation extends ClubMember {
+export interface PlayerRepresentation extends ClubMemberPost {
 
   
   jerseyNumber: number;
   height: number;
   weight: number;
-  categories: CategoryRepresentation[];  // Liste des catégories associées
+  categories: Category[];  // Liste des catégories associées
   licenseNumber:number,
-
-
 
 
 }

@@ -42,13 +42,15 @@ public class Club {
     joinColumns = @JoinColumn(name = "club_id"), // FK to Club
     inverseJoinColumns = @JoinColumn(name = "category_id") // FK to Category
 )
-private List<Category> categories = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
 
 
    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubFile> files = new ArrayList<>();
 
+
+    
 
 
 }

@@ -129,45 +129,9 @@
       </div>
     </div>
 
-    <!-- Étape 2 : Documents -->
-    <div *ngIf="step === 2" class="details">
-      <h3>Documents</h3>
-
-      <div class="form-group">
-        <label for="logoUrl">Lien du Logo</label>
-        <input
-          type="text"
-          id="logoUrl"
-          name="logoUrl"
-          [(ngModel)]="club.files.logoUrl"
-          #logoUrl="ngModel"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="licenseUrl">Lien de la licence</label>
-        <input
-          type="text"
-          id="licenseUrl"
-          name="licenseUrl"
-          [(ngModel)]="club.files.licenseUrl"
-          #licenseUrl="ngModel"
-        />
-      </div>
-
-      <div class="logo-preview" *ngIf="club.files.logoUrl">
-        <p>Prévisualisation du logo :</p>
-        <img [src]="club.files.logoUrl" alt="Club Logo" />
-      </div>
-    </div>
-
     <!-- Navigation -->
     <div class="actions">
-      <button type="button" (click)="next()" *ngIf="step === 1" [disabled]="clubForm.invalid">
-        Suivant
-      </button>
-      <button type="button" (click)="step = 1" *ngIf="step === 2">Retour</button>
-      <button type="submit" [disabled]="clubForm.invalid" *ngIf="step === 2">
+      <button type="submit" [disabled]="clubForm.invalid">
         Soumettre
       </button>
     </div>

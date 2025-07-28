@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CategoryRepresentation } from '../../representations/Category/category-representation';
+import { Category } from '../../representations/Category/category';
 import { CategoryService } from '../../services/api/catergory/categories';
 
 @Component({
@@ -14,7 +14,7 @@ import { CategoryService } from '../../services/api/catergory/categories';
 export class CategroyListComponent implements OnChanges {
 
   @Input() categoryIds?: number[];
-  categories: CategoryRepresentation[] = [];
+  categories: Category[] = [];
 
   constructor(
     private categoryService: CategoryService,

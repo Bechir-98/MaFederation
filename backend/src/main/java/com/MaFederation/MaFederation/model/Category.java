@@ -25,10 +25,9 @@ public class Category {
     private Integer ageMax;
 
     @ManyToMany(mappedBy = "categories")
-    private List<Player> players;
+    private List<ClubMember> clubMembers;
 
-    @ManyToMany(mappedBy = "categories")
-    private List<Staff> staff;
+    
 
     @ManyToMany(mappedBy = "categories")
     private List<Club> clubs;

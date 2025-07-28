@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClubRepresentation } from '../../representations/Club/club-representation';
+import { ResponseClub } from '../../representations/Club/ResponseClub';
 import { ClubServices } from '../../services/api/club/club-services';
 import { ClubCardComponent} from  '../club-card-component/club-card-component';
 import { RouterModule } from '@angular/router';
@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush  // Optional: for better performance
 })
 export class ListClubsComponent implements OnInit {
-  clubs: ClubRepresentation[] = [];
+  clubs: ResponseClub[] = [];
 
   constructor(
     private clubservice: ClubServices,

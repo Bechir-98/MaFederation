@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ClubServices } from '../../services/api/club/club-services';
-import { ClubRepresentation } from '../../representations/Club/club-representation';
-import { CategoryRepresentation } from '../../representations/Category/category-representation';
+import { Category } from '../../representations/Category/category';
 import { CategoryService } from '../../services/api/catergory/categories';
+import { PostClub } from '../../representations/Club/PostClub';
 
 @Component({
   selector: 'app-club-add-component',
@@ -16,9 +16,9 @@ import { CategoryService } from '../../services/api/catergory/categories';
 export class AddClubComponent implements OnInit {
   step = 1;
 
-  categories: CategoryRepresentation[] = [];
+  categories: Category[] = [];
 
-  club: ClubRepresentation = {
+  club: PostClub = {
     name: '',
     location: '',
     foundedYear: new Date().getFullYear(),
@@ -27,12 +27,7 @@ export class AddClubComponent implements OnInit {
     bankAccount: '',
     bankName: '',
     categoryIds: [],      
-    memberIds: [],
-    files: {
-      id: 0,
-      licenseUrl: '',
-      logoUrl: ''
-    }
+   
   };
 
   constructor(
@@ -50,11 +45,6 @@ export class AddClubComponent implements OnInit {
       }
     });
   }
-
-  next(): void {
-    this.step = 2;
-  }
-
   onSubmit(): void {
     console.log('Submitted club:', this.club);
 
@@ -67,7 +57,7 @@ export class AddClubComponent implements OnInit {
     });
   }
 
-  onCategoryChange(category: CategoryRepresentation, event: any) {
+  onCategoryChange(category: Category, event: any) {
     if (event.target.checked) {
       if (!this.club.categoryIds.includes(category.categoryId!)) {
         this.club.categoryIds.push(category.categoryId!);

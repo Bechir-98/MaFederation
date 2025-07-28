@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CategoryRepresentation } from '../../representations/Category/category-representation';
+import { Category } from '../../representations/Category/category';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AddCategoryComponent {
 
-  category: CategoryRepresentation = {
+  category: Category = {
     categoryId: 0,
     name: '',
     description: '',
@@ -21,6 +21,6 @@ export class AddCategoryComponent {
 
   onSubmit() {
     console.log('Category submitted:', this.category);
-    // Ici tu peux appeler ton service pour envoyer la catégorie au backend
+    
   }
 }

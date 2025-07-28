@@ -1,5 +1,7 @@
 package com.MaFederation.MaFederation.model;
 
+import com.MaFederation.MaFederation.enums.FileType;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +17,7 @@ public class ClubFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String licenseUrl;
+    private FileType type;
     @Lob
     private byte[] content;
 

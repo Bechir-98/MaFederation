@@ -3,7 +3,6 @@ package com.MaFederation.MaFederation.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
-import java.util.List;
 import com.MaFederation.MaFederation.enums.Position;
 
 @Entity

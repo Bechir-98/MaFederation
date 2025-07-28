@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CategoryRepresentation } from '../../../representations/Category/category-representation';
+import { Category } from '../../../representations/Category/category';
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,21 +19,24 @@ export class CategoryService {
    * @returns Observable of category array
    */
 
-
-
- loadCategoriesByIds(ids: number[]): Observable<CategoryRepresentation[]> {
-  return this.http.post<CategoryRepresentation[]>(
+ loadCategoriesByIds(ids: number[]): Observable<Category[]> {
+  return this.http.post<Category[]>(
     `${this.baseUrl}/categories/byIds`,
     ids 
   );
 }
 
-  loadAllCategories ( ): Observable<CategoryRepresentation[]>
+
+  loadAllCategories ( ): Observable<Category[]>
   {
-    return this.http.get<CategoryRepresentation[]>(this.baseUrl+"/AllCategories");
+    return this.http.get<Category[]>(this.baseUrl+"/AllCategories");
   }
 
   
+  getCategoriesByClubId(id :number): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.baseUrl}/categories/club/${id}`);
+  }
+
 
 
 

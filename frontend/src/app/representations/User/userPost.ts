@@ -1,13 +1,17 @@
 export interface UserPost {
+
+  
   email: string;
+  passwordHash: string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
   gender: string;
   phoneNumber: string;
   address: string;
-  nationalID?: string;
+  nationalID: string;
   nationality: string;
 }
+
 
 

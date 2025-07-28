@@ -1,32 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ClubRepresentation } from '../../../representations/Club/club-representation';
+import { PostClub } from '../../../representations/Club/PostClub';
+import { ResponseClub } from '../../../representations/Club/ResponseClub';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClubServices {
-  private baseUrl: string = 'http://localhost:8080';
+  private baseUrl: string = 'http://localhost:8080/clubs';
 
   constructor(private http: HttpClient) {}
 
 
-  loadClubs(): Observable<ClubRepresentation[]> {
-    return this.http.get<ClubRepresentation[]>(this.baseUrl + '/clubs');
+  loadClubs(): Observable<ResponseClub[]> {
+    return this.http.get<ResponseClub[]>(this.baseUrl );
   }
 
     // ✅ Add this method
-  getClubById(id: number): Observable<ClubRepresentation> {
-    return this.http.get<ClubRepresentation>(`${this.baseUrl}/clubs/${id}`);
+  getClubById(id: number): Observable<ResponseClub> {
+    return this.http.get<ResponseClub>(`${this.baseUrl}/${id}`);
   }
 
   // ✅ Create a new club
-  createClub(club: ClubRepresentation): Observable<ClubRepresentation> {
-    return this.http.post<ClubRepresentation>(`${this.baseUrl}`, club);
+  createClub(club: PostClub): Observable<PostClub> {
+    return this.http.post<PostClub>(`${this.baseUrl}/register`, club);
   }
 
-  uploadMember(memberData: FormData): Observable<any> {
-    return this.http.post(this.baseUrl + '/addmember', memberData);
-  }
+  // uploadMember(memberData: FormData): Observable<any> {
+  //   return this.http.post(this.baseUrl + '/addmember', memberData);
+  // }
 }

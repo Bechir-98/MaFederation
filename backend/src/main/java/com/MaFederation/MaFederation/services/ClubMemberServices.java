@@ -29,6 +29,10 @@ public class ClubMemberServices {
         return clubMemberRepository.save(member);
     }
 
+
+
+    
+
     public ClubMember getMemberById(Integer id) {
         return clubMemberRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Club member not found with id: " + id));

@@ -1,8 +1,8 @@
 
 
 
-export interface ClubRepresentation {
-  clubId?: number;
+export interface ResponseClub{
+  clubId: number;
   name: string;
   location: string;
   foundedYear: number;
@@ -10,7 +10,7 @@ export interface ClubRepresentation {
   contactPhone: string;
   bankAccount: string;
   bankName: string;
-  categoryIds: number[];           // match backend: list of category IDs only
+  categoryIds: number[];    
   memberIds: number[];
   files: ClubFile;
 }
