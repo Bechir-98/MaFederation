@@ -1,3 +1,11 @@
+/* === General Container === */
+.club-container {
+  padding: 1.5em;
+  max-width: 1200px;
+  margin: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 /* === Header Section === */
 .header {
   border: 4px solid black;
@@ -6,10 +14,8 @@
   padding: 1em;
   gap: 1.5em;
   background-color: #f9f9f9;
-}
-
-.image-container {
-  flex-shrink: 0;
+  border-radius: 10px;
+  flex-wrap: wrap;
 }
 
 .image {
@@ -17,6 +23,9 @@
   width: 120px;
   border-radius: 8px;
   object-fit: cover;
+  border: 2px solid #ccc;
+  padding: 4px;
+  background-color: white;
 }
 
 /* === Club Header Info === */
@@ -26,6 +35,7 @@
   flex: 1;
   align-items: flex-start;
   gap: 2em;
+  flex-wrap: wrap;
 }
 
 .info-block {
@@ -40,6 +50,12 @@
   align-items: center;
   gap: 1em;
   flex-wrap: wrap;
+}
+
+.status {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #555;
 }
 
 .status-badge {
@@ -62,7 +78,8 @@
   color: black;
 }
 
-.edit-button {
+.edit-button,
+.delete-button {
   background-color: #ffc107;
   color: #212529;
   border: none;
@@ -73,28 +90,30 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.edit-button:hover {
+.edit-button:hover,
+.delete-button:hover {
   background-color: #e0a800;
   transform: scale(1.05);
 }
 
-/* === Layout === */
+/* === Main Content Layout === */
 .main {
   margin-top: 3%;
   display: flex;
   justify-content: space-between;
   gap: 25px;
   padding: 20px;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   background-color: #f8f9fa;
   border-radius: 10px;
 }
 
-/* === Club Info Panel === */
+/* === Basic Club Info === */
 .basic-info {
   border: 2px solid #0077cc;
   border-radius: 10px;
-  width: 25%;
+  width: 100%;
+  max-width: 300px;
   padding: 20px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -112,11 +131,11 @@
   color: #666;
 }
 
-/* === Staff / Assignment / Stadium Info === */
+/* === Sport Info === */
 .sport-info {
   border: 2px solid rgba(0, 123, 255, 0.4);
   border-radius: 10px;
-  width: 70%;
+  flex: 1;
   padding: 20px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -131,7 +150,6 @@
 
 .sport-info .sport-section {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -143,7 +161,6 @@
   border-left: 3px solid #007bff10;
 }
 
-/* === Titles and Paragraphs === */
 .sport-info h2 {
   font-size: 18px;
   margin-bottom: 10px;
@@ -156,20 +173,7 @@
   color: #444;
 }
 
-/* === Lists (for categories) === */
-.sport-info ul {
-  padding-left: 20px;
-  margin: 0;
-}
-
-.sport-info ul li {
-  list-style-type: disc;
-  font-size: 14px;
-  color: #444;
-  margin-bottom: 4px;
-}
-
-/* === Button === */
+/* === Action Buttons === */
 .button {
   background-color: #007bff;
   color: white;
@@ -198,68 +202,7 @@
   box-shadow: none;
 }
 
-/* === Category Panel Styles === */
-/* Backdrop semi-transparent couvrant toute la page */
-.categoryviewer-backdrop {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Conteneur du panneau catégorie centré */
-.categoryviewer {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5em;
-  max-width: 500px;
-  height: 450px;
-  width: 90%;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  position: relative;
-  outline: none;
-}
-
-/* Liste des catégories */
-.category-list {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  gap: 15 px;
-  margin-top: 4rem;
-  
-}
-
-.category-card {
-  background-color: #ffffff;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  font-weight: 500;
-  height: 100px;
-  min-width: 200px;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: default;
-}
-
-.category-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Message fallback quand il n’y a pas de catégories */
-.no-categories-message {
-  text-align: center;
-  color: #777;
-  font-style: italic;
-  margin-top: 1rem;
-}
-
-
+/* === Close Button for Modals === */
 .close-button {
   position: absolute;
   top: 10px;
@@ -270,4 +213,100 @@
   font-size: 1.5rem;
   color: #333;
   z-index: 10;
+}
+
+/* === Responsive Layout === */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .club-info-header {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .main {
+    flex-direction: column;
+  }
+
+  .basic-info,
+  .sport-info {
+    width: 100%;
+  }
+}
+
+/* === Credential Previews (small cards) === */
+.credential-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 8px;
+  width: 140px;
+  height: 140px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.credential-preview:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transform: translateY(-3px);
+}
+
+.credential-type {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #444;
+  margin-top: 4px;
+  text-align: center;
+  word-break: break-word;
+}
+
+/* === Big Add Button for missing credentials === */
+.add-credential-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.5rem;
+  width: 140px;
+  height: 140px;
+  border: 3px dashed #007bff;
+  border-radius: 12px;
+  color: #007bff;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.add-credential-button:hover {
+  background-color: #007bff22;
+  color: #0056b3;
+}
+
+/* === Centered message for no credentials found === */
+.no-credentials-message {
+  margin-top: 3rem;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: #666;
+  text-align: center;
+}
+
+/* === Link for Download/View in credential preview === */
+.credential-preview a {
+  margin-top: auto;
+  font-size: 0.8rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.credential-preview a:hover {
+  text-decoration: underline;
 }

@@ -2,9 +2,8 @@
   <h2>Enregistrement d’un Club</h2>
 
   <div class="form-wrapper">
-
-    <!-- Étape 1 : Infos Club -->
-    <div class="details" *ngIf="step === 1">
+    <!-- Left side: Club info -->
+    <div class="details">
       <h3>Informations générales</h3>
 
       <div class="form-group">
@@ -129,11 +128,30 @@
       </div>
     </div>
 
-    <!-- Navigation -->
-    <div class="actions">
-      <button type="submit" [disabled]="clubForm.invalid">
-        Soumettre
-      </button>
+    <!-- Right side: Logo upload and preview -->
+    <div class="logo-upload-container">
+      <h3>Logo du Club</h3>
+      <input
+        type="file"
+        accept="image/*"
+        (change)="onLogoSelected($event)"
+        required
+      />
+      <div *ngIf="logoInvalid" class="error">
+        Veuillez sélectionner un logo valide.
+      </div>
+
+      <div class="logo-preview" *ngIf="logoPreview">
+        <p>Aperçu du logo :</p>
+        <img [src]="logoPreview" alt="Logo Preview" />
+      </div>
     </div>
+  </div>
+
+  <!-- Form actions -->
+  <div class="actions">
+    <button type="submit" [disabled]="clubForm.invalid || logoInvalid">
+      Soumettre
+    </button>
   </div>
 </form>

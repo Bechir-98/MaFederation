@@ -10,20 +10,26 @@
     import { AddCategoryComponent} from'./categories/add-category-component/add-category-component';
     import{AddUserComponent} from './User/add-user-component/add-user-component'
     import { AddMemberComponent } from './ClubMember/add-member-component/add-member-component';
-    
+    import{ClubCategories} from './Club/club-categories/club-categories/club-categories';
+import { ClubMemberComponent } from './ClubMember/club-member-component/club-member-component';
 
     export const routes: Routes = [
     
         { path:'' , component:ClubComponent},
         {path: "user", component :UserComponent },
         {path: "adduser", component :AddUserComponent },
-        {path: "addmember", component :AddMemberComponent },
         {path: "listusers", component :UsersComponent },
+
+
+        {path: "addmember", component :AddMemberComponent },
+        {path:'clubs/:id/members/:memberid',component:ClubMemberComponent},
+
         {path:'admins' , component:ListAdminstrationComponent},
-        { path:'player' , component:PlayerComponent},
+        
         {path:'liststaff' , component:ListStaffComponent},
-        {path:'club/:id' , component:ClubComponent},
+        {path:'clubs/:id' , component:ClubComponent},
         {path:'clubs' , component:ListClubsComponent},
+        {path:'clubs/:id/categories',component:ClubCategories},
         {path:'addclub' , component:AddClubComponent},
         {path:'addcat' , component:AddCategoryComponent},
         {path:'**',component:ClubComponent },

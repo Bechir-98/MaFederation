@@ -1,34 +1,19 @@
 package com.MaFederation.MaFederation.mappers;
 
-import com.MaFederation.MaFederation.dto.User.UserDTO;
+import com.MaFederation.MaFederation.dto.User.ResponseUserDTO;
 import com.MaFederation.MaFederation.dto.User.UserPostDTO;
 import com.MaFederation.MaFederation.model.User;
-import com.MaFederation.MaFederation.model.UserFile;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserMapper {
 
-    public UserDTO toDto(User user) {
-        if (user == null) {
-            return null;
-        }
+    public ResponseUserDTO toResponseDto(User user) {
+        if (user == null) return null;
 
-        // Map file IDs from associated UserFile objects
-        List<Integer> fileIds = null;
-        if (user.getFiles() != null) {
-            fileIds = user.getFiles()
-                    .stream()
-                    .map(UserFile::getId)
-                    .collect(Collectors.toList());
-        }
-
-        return new UserDTO(
+        return new ResponseUserDTO(
             user.getUserId(),
-            user.getPasswordHash(),
+            user.getProfilePicture(),
             user.getEmail(),
             user.getFirstName(),
             user.getLastName(),
@@ -42,23 +27,20 @@ public class UserMapper {
     }
 
     public User toEntity(UserPostDTO dto) {
-        if (dto == null) {
-            return null;
-        }
+        if (dto == null) return null;
 
-        User user = new User();
-        user.setUserId(dto.getUserId());
-        user.setEmail(dto.getEmail());
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setDateOfBirth(dto.getDateOfBirth());
-        user.setGender(dto.getGender());
-        user.setPhoneNumber(dto.getPhoneNumber());
-        user.setAddress(dto.getAddress());
-        user.setNationalID(dto.getNationalID());
-        user.setNationality(dto.getNationality());
-
-
-        return user;
+        return User.builder()
+                .profilePicture(dto.getProfilePicture())
+                .passwordHash(dto.getPasswordHash())
+                .email(dto.getEmail())
+                .firstName(dto.getFirstName())
+                .lastName(dto.getLastName())
+                .dateOfBirth(dto.getDateOfBirth())
+                .gender(dto.getGender())
+                .phoneNumber(dto.getPhoneNumber())
+                .address(dto.getAddress())
+                .nationalID(dto.getNationalID())
+                .nationality(dto.getNationality())
+                .build();
     }
 }

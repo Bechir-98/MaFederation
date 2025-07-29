@@ -2,7 +2,7 @@ package com.MaFederation.MaFederation.dto.ClubMember;
 
 import java.util.List;
 
-import com.MaFederation.MaFederation.dto.User.ResponceUserDTO;
+import com.MaFederation.MaFederation.dto.User.ResponseUserDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ResponceClubMemberDTO extends ResponceUserDTO{
+public class ResponseClubMemberDTO extends ResponseUserDTO{
     private Integer clubId;
     private String type;
     private List<Integer> categoryIds;

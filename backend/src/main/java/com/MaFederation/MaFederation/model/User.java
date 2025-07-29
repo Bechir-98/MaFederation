@@ -21,6 +21,9 @@ public class User {
     // @Column(nullable = false)
     // private String passwordHash;
 
+    @Lob
+    private byte[] profilePicture;
+
     @Column(nullable = false, unique = true)
     private String email;
 

@@ -19,15 +19,16 @@ public class ClubMemberServices {
         this.clubMemberMapper = clubMemberMapper;
     }
 
-    @Transactional
-    public ClubMember createMember(PostClubMemberDTO memberDTO) {
-        if (memberDTO == null) {
-            throw new IllegalArgumentException("Member DTO cannot be null");
-        }
-
-        ClubMember member = clubMemberMapper.toEntity(memberDTO);
-        return clubMemberRepository.save(member);
+   @Transactional
+public ClubMember createMember(PostClubMemberDTO memberDTO) {
+    if (memberDTO == null) {
+        throw new IllegalArgumentException("Member DTO cannot be null");
     }
+
+    ClubMember member = clubMemberMapper.toEntity(memberDTO);
+    return clubMemberRepository.save(member);
+}
+
 
 
 

@@ -1,6 +1,6 @@
 package com.MaFederation.MaFederation.mappers;
 
-import com.MaFederation.MaFederation.dto.ClubMember.ResponceClubMemberDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.dto.Player.PostPlayerDTO;
 import com.MaFederation.MaFederation.dto.Player.ResponcePlayerDTO;
 import com.MaFederation.MaFederation.model.Category;
@@ -28,8 +28,7 @@ public class PlayerMapper {
     public ResponcePlayerDTO toDto(Player player) {
         if (player == null) return null;
 
-        // Reuse shared ClubMember mapping
-        ResponceClubMemberDTO baseDto = clubMemberMapper.toResponseDto(player);
+        ResponseClubMemberDTO baseDto = clubMemberMapper.toResponseDto(player);
 
         ResponcePlayerDTO dto = new ResponcePlayerDTO();
         dto.setUserId(baseDto.getUserId());
@@ -44,7 +43,6 @@ public class PlayerMapper {
         dto.setNationality(baseDto.getNationality());
         dto.setClubId(baseDto.getClubId());
 
-        // Player-specific fields
         dto.setPosition(player.getPosition());
         dto.setJerseyNumber(player.getJerseyNumber());
         dto.setHeight(player.getHeight());
@@ -52,7 +50,8 @@ public class PlayerMapper {
 
         if (player.getCategories() != null) {
             dto.setCategoryIds(
-                player.getCategories().stream()
+                player.getCategories()
+                      .stream()
                       .map(Category::getCategoryId)
                       .collect(Collectors.toList())
             );
@@ -67,9 +66,9 @@ public class PlayerMapper {
 
         Player player = new Player();
 
-        // Common ClubMember fields
-        player.setUserId(dto.getUserId());
         player.setEmail(dto.getEmail());
+        player.setPasswordHash(dto.getPasswordHash());
+        player.setProfilePicture(dto.getProfilePicture());
         player.setFirstName(dto.getFirstName());
         player.setLastName(dto.getLastName());
         player.setDateOfBirth(dto.getDateOfBirth());
@@ -79,19 +78,15 @@ public class PlayerMapper {
         player.setNationalID(dto.getNationalID());
         player.setNationality(dto.getNationality());
         player.setType("PLAYER");
-        player.setPasswordHash(dto.getPasswordHash());
 
-        // Club (if present)
         if (dto.getClubId() != null) {
             player.setClub(clubServices.getClub(dto.getClubId()));
         }
 
-        // Categories (if present)
         if (dto.getCategoryIds() != null && !dto.getCategoryIds().isEmpty()) {
             player.setCategories(categoryService.getCategoriesByIdsEntity(dto.getCategoryIds()));
         }
 
-        // Player-specific fields
         player.setPosition(dto.getPosition());
         player.setJerseyNumber(dto.getJerseyNumber());
         player.setHeight(dto.getHeight());

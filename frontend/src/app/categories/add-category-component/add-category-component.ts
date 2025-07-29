@@ -21,6 +21,6 @@ export class AddCategoryComponent {
 
   onSubmit() {
     console.log('Category submitted:', this.category);
-    
+  
   }
 }

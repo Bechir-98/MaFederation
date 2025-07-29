@@ -17,6 +17,8 @@ public class ResponseClubDTO {
     private String contactPhone;
     private String bankAccount;
     private String bankName;
+    private byte[] logo;
     private List<Integer> categoryIds;
     private List<Integer> memberIds;
+    private List<Integer> fileIds;
 }

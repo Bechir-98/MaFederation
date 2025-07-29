@@ -19,6 +19,7 @@ public class ClubFile {
 
     private FileType type;
     @Lob
+    @Basic(fetch = FetchType.LAZY) // optional, depending on your access pattern
     private byte[] content;
 
     @ManyToOne

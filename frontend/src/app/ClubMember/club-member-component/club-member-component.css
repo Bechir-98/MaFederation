@@ -1,0 +1,119 @@
+.member-card {
+  max-width: 850px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fff;
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.member-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1.2rem;
+}
+
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+  background-color: #f8f9fa;
+}
+
+.member-basic-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+.member-basic-info h1 {
+  font-size: 1.6rem;
+  margin: 0;
+  color: #003366;
+}
+
+.role-badge {
+  margin: 0.3rem 0;
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  background-color: #007bff;
+  color: white;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.action-buttons {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 10px;
+}
+
+.outline-btn {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  background-color: white;
+  border: 1px solid #007bff;
+  color: #007bff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.outline-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.outline-btn.delete {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.outline-btn.delete:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.member-body {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.info-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+.info-section h2 {
+  margin-bottom: 1rem;
+  color: #003366;
+  font-size: 1.2rem;
+}
+
+.info-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-section ul li {
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .member-body {
+    flex-direction: column;
+  }
+}

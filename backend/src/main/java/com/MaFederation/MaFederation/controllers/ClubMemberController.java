@@ -1,6 +1,10 @@
 package com.MaFederation.MaFederation.controllers;
 
+import java.io.IOException;
+
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
 import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.services.ClubMemberServices;
@@ -21,9 +25,16 @@ public class ClubMemberController {
 
     //create a new club member Alone
     @PostMapping("/addmember")
-    public ClubMember createMember(@RequestBody PostClubMemberDTO memberDTO) {
-        return clubMemberServices.createMember(memberDTO);
+    public ClubMember createMember(
+    @RequestPart("member") PostClubMemberDTO memberDTO,
+    @RequestPart(value = "profilePicture", required = false) MultipartFile profilePicture
+) throws IOException {
+    if (profilePicture != null && !profilePicture.isEmpty()) {
+        memberDTO.setProfilePicture(profilePicture.getBytes());  // You need to add this field in DTO (see below)
     }
+    return clubMemberServices.createMember(memberDTO);
+}
+
 
 
 

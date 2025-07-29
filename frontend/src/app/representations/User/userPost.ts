@@ -2,6 +2,7 @@ export interface UserPost {
 
   
   email: string;
+  profilePicture: File|null; 
   passwordHash: string;
   firstName: string;
   lastName: string;

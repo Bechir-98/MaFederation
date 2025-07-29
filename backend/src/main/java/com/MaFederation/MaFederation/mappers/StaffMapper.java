@@ -1,8 +1,8 @@
 package com.MaFederation.MaFederation.mappers;
 
+import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.dto.Staff.PostStaffDTO;
 import com.MaFederation.MaFederation.dto.Staff.ResponceStaffDTO;
-import com.MaFederation.MaFederation.dto.ClubMember.ResponceClubMemberDTO;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Staff;
 import com.MaFederation.MaFederation.services.CategoryService;
@@ -24,16 +24,15 @@ public class StaffMapper {
         this.categoryService = categoryService;
     }
 
-    // Convert Staff entity to StaffDTO
+    // Convert Staff entity to ResponceStaffDTO
     public ResponceStaffDTO toDto(Staff staff) {
-        if (staff == null) {
-            return null;
-        }
+        if (staff == null) return null;
 
-        ResponceClubMemberDTO baseDto = clubMemberMapper.toResponseDto(staff);
+        ResponseClubMemberDTO baseDto = clubMemberMapper.toResponseDto(staff);
 
         ResponceStaffDTO dto = new ResponceStaffDTO();
         dto.setUserId(baseDto.getUserId());
+        dto.setProfilePicture(baseDto.getProfilePicture());
         dto.setEmail(baseDto.getEmail());
         dto.setFirstName(baseDto.getFirstName());
         dto.setLastName(baseDto.getLastName());
@@ -59,16 +58,14 @@ public class StaffMapper {
         return dto;
     }
 
-    // Convert StaffDTO to Staff entity, fetching categories and club internally
+    // Convert PostStaffDTO to Staff entity
     public Staff toEntity(PostStaffDTO dto) {
-        if (dto == null) {
-            return null;
-        }
+        if (dto == null) return null;
 
         Staff staff = new Staff();
 
-        // Common ClubMember fields
-        staff.setUserId(dto.getUserId());
+        staff.setProfilePicture(dto.getProfilePicture());
+        staff.setPasswordHash(dto.getPasswordHash());
         staff.setEmail(dto.getEmail());
         staff.setFirstName(dto.getFirstName());
         staff.setLastName(dto.getLastName());
@@ -79,19 +76,15 @@ public class StaffMapper {
         staff.setNationalID(dto.getNationalID());
         staff.setNationality(dto.getNationality());
         staff.setType("STAFF");
-        staff.setPasswordHash(dto.getPasswordHash());
 
-        // Club (if present)
         if (dto.getClubId() != null) {
             staff.setClub(clubServices.getClub(dto.getClubId()));
         }
 
-        // Categories (if present)
         if (dto.getCategoryIds() != null && !dto.getCategoryIds().isEmpty()) {
             staff.setCategories(categoryService.getCategoriesByIdsEntity(dto.getCategoryIds()));
         }
 
-        // Staff-specific field
         staff.setSpecialty(dto.getSpecialty());
 
         return staff;

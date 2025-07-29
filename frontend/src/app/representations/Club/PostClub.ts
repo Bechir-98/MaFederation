@@ -9,5 +9,6 @@ name: string;
   bankAccount: string;
   bankName: string;
   categoryIds: number[]; 
+  logo: File|null; 
 
 }

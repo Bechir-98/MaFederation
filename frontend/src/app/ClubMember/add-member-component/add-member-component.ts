@@ -14,13 +14,11 @@ import { ClubMemberService } from '../../services/api/clubMember/club-member-ser
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-member-component.html',
-  styleUrl: './add-member-component.css',
+  styleUrls: ['./add-member-component.css'], // fixed typo here
 })
 export class AddMemberComponent implements OnInit {
-
   countries = COUNTRIES;
   categories: Category[] = [];
-
   clubs: ResponseClub[] = [];
   step = false;
 
@@ -37,8 +35,12 @@ export class AddMemberComponent implements OnInit {
     type: 'PLAYER', 
     clubId: 0,
     passwordHash: '',
-    categoryIds: []
+    categoryIds: [],
+    profilePicture: null
   };
+
+  profilePreview: string | ArrayBuffer | null = null;
+  profileInvalid = false;
 
   constructor(
     private clubservice: ClubServices,
@@ -54,45 +56,87 @@ export class AddMemberComponent implements OnInit {
     });
   }
 
-  onCategoryChange(event: any): void {
-  const categoryId = +event.target.value;
+  onProfilePicSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
 
-  if (event.target.checked) {
-    if (!this.member.categoryIds.includes(categoryId)) {
-      this.member.categoryIds.push(categoryId);
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+
+      if (!file.type.startsWith('image/')) {
+        this.profileInvalid = true;
+        this.profilePreview = null;
+        this.member.profilePicture = null;
+        return;
+      }
+
+      this.profileInvalid = false;
+      this.member.profilePicture = file;
+
+      // Preview image
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profilePreview = reader.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.profileInvalid = true;
+      this.profilePreview = null;
+      this.member.profilePicture = null;
     }
-  } else {
-    this.member.categoryIds = this.member.categoryIds.filter(id => id !== categoryId);
   }
-}
 
-onClubChange(event: any): void {
-  const clubId = +event.target.value;
+  onCategoryChange(event: any): void {
+    const categoryId = +event.target.value;
 
-  this.member.clubId = clubId;
-  this.categoryService.getCategoriesByClubId(clubId).subscribe({
-    next: (categories) => {
-      this.categories = categories;
-    },
-    error: (err) => {
-      console.error('Error fetching categories:', err);
+    if (event.target.checked) {
+      if (!this.member.categoryIds.includes(categoryId)) {
+        this.member.categoryIds.push(categoryId);
+      }
+    } else {
+      this.member.categoryIds = this.member.categoryIds.filter(id => id !== categoryId);
     }
-  });
-}
+  }
+
+  onClubChange(event: any): void {
+    const clubId = +event.target.value;
+
+    this.member.clubId = clubId;
+    this.categoryService.getCategoriesByClubId(clubId).subscribe({
+      next: (categories) => {
+        this.categories = categories;
+      },
+      error: (err) => {
+        console.error('Error fetching categories:', err);
+      }
+    });
+  }
 
   submitForm(): void {
-    this.clubMemberService.addClubMember(this.member).subscribe({
-      next: (response: ClubMemberPost) => {
+    // Validate profile picture if needed
+    if (this.profileInvalid) {
+      alert('Please select a valid profile picture.');
+      return;
+    }
+
+    // Prepare FormData to send member and profilePicture separately
+    const { profilePicture, ...memberWithoutPic } = this.member;
+
+    const formData = new FormData();
+    formData.append('member', new Blob([JSON.stringify(memberWithoutPic)], { type: 'application/json' }));
+
+    if (profilePicture) {
+      formData.append('profilePicture', profilePicture);
+    }
+
+    this.clubMemberService.addClubMember(formData).subscribe({
+      next: (response) => {
         console.log('Member added successfully:', response);
+        alert('Member added!');
       },
-      error: () => {
-        console.log(this.member)
-        console.error('Error adding member:');
-
+      error: (err) => {
+        console.error('Error adding member:', err);
+        alert('Failed to add member.');
       }
-   });
-}
-
-
-
+    });
+  }
 }

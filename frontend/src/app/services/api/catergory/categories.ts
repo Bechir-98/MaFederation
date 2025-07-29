@@ -9,7 +9,7 @@ import { Category } from '../../../representations/Category/category';
 })
 export class CategoryService {
 
-  private baseUrl = 'http://localhost:8080/Categories';
+  private baseUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {}
 
@@ -19,23 +19,31 @@ export class CategoryService {
    * @returns Observable of category array
    */
 
- loadCategoriesByIds(ids: number[]): Observable<Category[]> {
+   loadCategoriesByIds(ids: number[]): Observable<Category[]> {
   return this.http.post<Category[]>(
     `${this.baseUrl}/categories/byIds`,
     ids 
   );
-}
-
+  }
 
   loadAllCategories ( ): Observable<Category[]>
   {
-    return this.http.get<Category[]>(this.baseUrl+"/AllCategories");
+    return this.http.get<Category[]>(this.baseUrl+"/Categories/AllCategories");
   }
 
   
   getCategoriesByClubId(id :number): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.baseUrl}/categories/club/${id}`);
+    return this.http.get<Category[]>(`${this.baseUrl}/clubs/${id}/categories`);
   }
+
+ addCategoryToClub(clubId: number, categoryId: number): Observable<any> {
+  return this.http.post(`${this.baseUrl}/clubs/${clubId}/categories`, { categoryId });
+}
+
+removeCategoryFromClub(clubId: number, categoryId: number): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/clubs/${clubId}/categories/${categoryId}`);
+}
+
 
 
 

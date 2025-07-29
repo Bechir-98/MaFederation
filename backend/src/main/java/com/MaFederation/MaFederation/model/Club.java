@@ -15,8 +15,8 @@ import java.util.List;
 public class Club {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer clubID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    private Integer clubId;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -36,21 +36,19 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubMember> members = new ArrayList<>();
 
-@ManyToMany
+@ManyToMany(fetch = FetchType.LAZY)
 @JoinTable(
-    name = "club_categories", // The join table
-    joinColumns = @JoinColumn(name = "club_id"), // FK to Club
-    inverseJoinColumns = @JoinColumn(name = "category_id") // FK to Category
+    name = "club_categories",
+    joinColumns = @JoinColumn(name = "club_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id")
 )
-    private List<Category> categories = new ArrayList<>();
+private List<Category> categories = new ArrayList<>();
 
 
+    @Lob
+    private byte[] logo;
 
    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+   
     private List<ClubFile> files = new ArrayList<>();
-
-
-    
-
-
 }

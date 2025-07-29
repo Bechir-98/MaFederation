@@ -4,7 +4,7 @@ import lombok.*;
 import java.math.BigDecimal;
 
 
-import com.MaFederation.MaFederation.dto.ClubMember.ResponceClubMemberDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.enums.Position;
 
 
@@ -14,7 +14,7 @@ import com.MaFederation.MaFederation.enums.Position;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)  // include fields from ClubMemberDTO + UserDTO
 @Builder
-public class ResponcePlayerDTO extends ResponceClubMemberDTO {
+public class ResponcePlayerDTO extends ResponseClubMemberDTO {
     private Position position;
     private Integer jerseyNumber;
     private BigDecimal height;

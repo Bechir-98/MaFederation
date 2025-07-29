@@ -3,7 +3,8 @@
     import lombok.AllArgsConstructor;
     import lombok.Data;
     import lombok.NoArgsConstructor;
-    import java.util.List;
+
+import java.util.List;
 
     @Data
     @NoArgsConstructor
@@ -17,5 +18,7 @@
         private String contactPhone;
         private String bankAccount;
         private String bankName;
+        private byte[] logo; 
         private List<Integer> categoryIds;
+        
     }

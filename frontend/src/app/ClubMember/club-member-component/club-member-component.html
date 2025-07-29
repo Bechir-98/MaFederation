@@ -1,0 +1,46 @@
+<div class="member-card">
+  <div class="member-header">
+    <img 
+      *ngIf="member?.profilePicture; else placeholder" 
+      [src]="'data:image/png;base64,' + member?.profilePicture" 
+      alt="Profile Picture" 
+      class="profile-pic"
+    />
+    <ng-template #placeholder>
+      <img src="assets/default-profile.png" alt="Default Profile" class="profile-pic" />
+    </ng-template>
+
+    <div class="member-basic-info">
+      <h1>{{ member?.firstName }} {{ member?.lastName }}</h1>
+      <p class="role-badge">{{ member?.type }}</p>
+      <div class="action-buttons">
+        <button class="outline-btn">Edit</button>
+        <button class="outline-btn delete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="member-body">
+    <div class="info-section">
+      <h2>Basic Info</h2>
+      <ul>
+        <li><strong>Email:</strong> {{ member?.email }}</li>
+        <li><strong>DOB:</strong> {{ member?.dateOfBirth | date }}</li>
+        <li><strong>Gender:</strong> {{ member?.gender }}</li>
+        <li><strong>Phone:</strong> {{ member?.phoneNumber }}</li>
+        <li><strong>Nationality:</strong> {{ member?.nationality }}</li>
+        <li><strong>National ID:</strong> {{ member?.nationalID }}</li>
+        <li><strong>Address:</strong> {{ member?.address }}</li>
+        <li><strong>Club ID:</strong> {{ member?.clubId }}</li>
+      </ul>
+    </div>
+
+    <div class="info-section">
+      <h2>Categories</h2>
+      <ul *ngIf="member && member.categoryIds && member.categoryIds.length > 0; else noCat">
+        <li *ngFor="let id of member?.categoryIds">Category #{{ id }}</li>
+      </ul>
+      <ng-template #noCat><p>No categories assigned.</p></ng-template>
+    </div>
+  </div>
+</div>

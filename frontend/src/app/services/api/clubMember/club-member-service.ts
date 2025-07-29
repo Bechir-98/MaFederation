@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClubMemberPost } from '../../../representations/ClubMember/ClubMemberPost';
+import { ClubMemberResponse } from '../../../representations/ClubMember/ClubMemberResponce';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +16,14 @@ export class ClubMemberService {
 
 
 
-   public addClubMember (memberData: ClubMemberPost): Observable<ClubMemberPost> {
-     return this.http.post<ClubMemberPost>(this.baseUrl + 'addmember', memberData);
-   }
+   public addClubMember(formData: FormData): Observable<ClubMemberPost> {
+  return this.http.post<ClubMemberPost>(this.baseUrl + 'addmember', formData);
+}
 
 
+  public getMemberById(memberId: number): Observable<ClubMemberResponse> {
+      return this.http.get<ClubMemberResponse>(`${this.baseUrl}/members/${memberId}`);
+  }
 
-    public getMemberById(memberId: number): Observable<ClubMemberPost> {
-      return this.http.get<ClubMemberPost>(`${this.baseUrl}/members/${memberId}`);
-    }
+
 }

@@ -30,15 +30,14 @@ public class CategoryService {
         return categoryrepository.save(category);
     }
 
+
+
     public List<CategoryDTO> loadAllCategories() {
         return categoryrepository.findAll()
             .stream()
             .map(categorymapper::toDto)
             .toList();
     }
-
-  
-
      /** Obtenir les catégories d’un club, renvoyées en DTO */
     
   public List<CategoryDTO> getCategoriesByIds(List<Integer> categoryIds) {
@@ -52,6 +51,8 @@ public class CategoryService {
             .collect(Collectors.toList());
 }
 
+
+
  public List<Category> getCategoriesByIdsEntity(List<Integer> categoryIds) {
     if (categoryIds == null || categoryIds.isEmpty()) {
         return Collections.emptyList();
@@ -60,7 +61,6 @@ public class CategoryService {
 
     return categories;
 }
-
 
 
 }

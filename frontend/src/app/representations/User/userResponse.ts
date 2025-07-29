@@ -2,10 +2,11 @@ export interface UserResponse {
 
 
   userId: number;
+  profilePicture: string;   
   email: string;
   firstName: string;
   lastName: string;
-  dateOfBirth: string; // Format: YYYY-MM-DD
+  dateOfBirth: string;
   gender: string;
   phoneNumber: string;
   address: string;

@@ -10,6 +10,7 @@ import com.MaFederation.MaFederation.dto.Club.PostClubDTO;
 import com.MaFederation.MaFederation.dto.Club.ResponseClubDTO;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Club;
+import com.MaFederation.MaFederation.model.ClubFile;
 import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.repository.CategoryRepository;
 
@@ -34,6 +35,7 @@ public class ClubMapper {
         club.setContactPhone(dto.getContactPhone());
         club.setBankAccount(dto.getBankAccount());
         club.setBankName(dto.getBankName());
+        club.setLogo(dto.getLogo());
 
         if (dto.getCategoryIds() != null && !dto.getCategoryIds().isEmpty()) {
             List<Category> categories = categoryRepository.findAllById(dto.getCategoryIds());
@@ -62,8 +64,13 @@ public class ClubMapper {
                 .map(ClubMember::getUserId)
                 .collect(Collectors.toList());
 
+        List<Integer> fileIds = club.getFiles() == null ? new ArrayList<>() :
+            club.getFiles().stream()
+                .map(ClubFile::getId)
+                .collect(Collectors.toList());
+
         return new ResponseClubDTO(
-            club.getClubID(),
+            club.getClubId(),
             club.getName(),
             club.getLocation(),
             club.getFoundedYear(),
@@ -71,8 +78,10 @@ public class ClubMapper {
             club.getContactPhone(),
             club.getBankAccount(),
             club.getBankName(),
+            club.getLogo(), // already byte[]
             categoryIds,
-            memberIds
+            memberIds,
+            fileIds
         );
     }
 }

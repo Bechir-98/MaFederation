@@ -12,11 +12,12 @@ export interface ResponseClub{
   bankName: string;
   categoryIds: number[];    
   memberIds: number[];
-  files: ClubFile;
+  logo: string;
+  fileIds: number[]; 
 }
 
-export interface ClubFile {
-  id: number;
-  licenseUrl: string;
-  logoUrl: string;
-}
+// export interface ClubFile {
+//   id: number;
+//   type: 'PROFILE_PICTURE' | 'PASSPORT' | 'CV' | 'LICENSE' | 'OTHER';
+//   content: string; // Base64 encoded string (if coming from JSON)
+// }

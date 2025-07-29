@@ -1,11 +1,15 @@
-
-
 <!-- Club Content -->
 <div class="club-container">
   <div class="header">
-    <div class="image-container">
-<img [src]="club?.files?.logoUrl" alt="Club Logo" class="image" />
-    </div>
+    <img 
+      *ngIf="club?.logo; else placeholder"
+      [src]="'data:image/png;base64,' + club?.logo"
+      alt="Club Logo"
+      class="image"
+    />
+    <ng-template #placeholder>
+      <img src="assets/default-logo.png" alt="Default Logo" class="image" />
+    </ng-template>
 
     <div class="club-info-header">
       <div class="info-block">
@@ -14,9 +18,7 @@
           <button class="edit-button">Edit</button>
           <button class="delete-button">Delete</button>
         </div>
-        <div class="status">
-          validated or not
-        </div>
+        <div class="status">Validated or Not</div>
       </div>
     </div>
   </div>
@@ -36,27 +38,19 @@
 
     <div class="sport-info">
       <div class="buttons">
-        <button class="button">View Credentials</button>
-        <button class="button"  (click)="toggleCategoryViewer()"> View Categories</button>
-        <button class="button">View All Players</button>
+        <button class="button" (click)="toggleCredentialViewer()">View Credentials</button>
       </div>
-
-      <!-- <div class="admin-actions">
-        <h3>Admin Actions</h3>
-        <button class="button validate-button">Validate Club</button>
-        <button class="button reject-button">Reject Club</button>
-      </div> -->
 
       <div class="sport-section">
         <div>
           <h2>Club Information</h2>
           <p><strong>Name:</strong> {{ club?.name }}</p>
-          <p><strong>Director :</strong> di</p>
+          <p><strong>Director:</strong> di</p>
         </div>
 
         <div>
           <h2>Federation Validation</h2>
-          <p><strong>Status:</strong> </p>
+          <p><strong>Status:</strong></p>
           <p><strong>Validated At:</strong></p>
           <p><strong>Validated By User ID:</strong></p>
           <p><strong>Rejection Reason:</strong></p>
@@ -72,25 +66,39 @@
     </div>
   </div>
 
+ <!-- CATEGORY VIEWER MODAL -->
 
-<div *ngIf="categoryviewer" class="categoryviewer-backdrop" (click)="onBackdropClick($event)">
+
+
+<!-- CREDENTIALS VIEWER MODAL -->
+<div *ngIf="credentialsViewer" class="categoryviewer-backdrop" (click)="onBackdropClick($event)">
   <div class="categoryviewer" (click)="$event.stopPropagation()" tabindex="0">
-   <button (click)="categoryviewer = false" class="close-button"><i class="fas fa-times">close</i></button>
-    <div *ngIf="loadedCategories.length > 0; else noCategories">
-      <div class="category-list">
-        <div class="category-card" *ngFor="let category of loadedCategories">
-          <h1>{{ category.name }}</h1>
-        </div>
+    <button (click)="credentialsViewer = false" class="close-button">✕</button>
+
+    <h2>Club Credentials</h2>
+
+    <div class="credential-grid">
+      <div *ngFor="let credential of loadedCredentials" class="credential-card">
+        <h3>{{ credential.type }}</h3>
+        <p>📄 Document Available</p>
+        <a [href]="credential.content" target="_blank">View / Download</a>
+      </div>
+
+      <!-- Show add buttons for missing credentials -->
+      <div *ngFor="let type of requiredCredentialTypes">
+        <ng-container *ngIf="!hasCredential(type)">
+          <div class="add-credential-card" (click)="openUploadDialog(type)">
+            <span class="plus-icon">＋</span>
+            <p>Add {{ type.replace('_', ' ') }}</p>
+          </div>
+        </ng-container>
       </div>
     </div>
-    <ng-template #noCategories>
-      <p class="no-categories-message">Aucune catégorie trouvée.</p>
-    </ng-template>
 
-    
+    <ng-template #noCredentials>
+      <p class="no-categories-message">Aucune pièce justificative trouvée.</p>
+    </ng-template>
   </div>
 </div>
 
 </div>
-
-

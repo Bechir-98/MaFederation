@@ -1,87 +1,120 @@
-  import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
-  import { CommonModule } from '@angular/common';
-  import { ActivatedRoute } from '@angular/router';
-  
-  import { ClubServices } from '../../services/api/club/club-services';
-  import { CategoryService } from '../../services/api/catergory/categories';
-  import { Category } from '../../representations/Category/category';
+import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+
+import { ClubServices } from '../../services/api/club/club-services';
+import { CategoryService } from '../../services/api/catergory/categories';
+import { Category } from '../../representations/Category/category';
 import { ResponseClub } from '../../representations/Club/ResponseClub';
 
-  @Component({
-    selector: 'app-club-component',
-    standalone: true,
-    imports: [CommonModule],
-    templateUrl: './club-component.html',
-    styleUrls: ['./club-component.css']
-  })
-  export class ClubComponent implements OnInit {
+interface ClubCredential {
+  type: string;    // e.g. 'INSURANCE_CERTIFICATE'
+  content: string; // URL or base64 string to the document
+}
 
-    categoryviewer = false;
-    club: ResponseClub | null = null;
-    clubId: number = 0;
+@Component({
+  selector: 'app-club-component',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './club-component.html',
+  styleUrls: ['./club-component.css']
+})
+export class ClubComponent implements OnInit {
 
-    loadedCategories: Category[] = [];
+  credentialsViewer = false;
 
-    constructor(
-      private clubService: ClubServices,
-      private categoryService: CategoryService,
-      private route: ActivatedRoute,
-      private cdr: ChangeDetectorRef
-    ) {}
+  club: ResponseClub | null = null;
+  clubId = 0;
 
-    ngOnInit(): void {
-      this.route.paramMap.subscribe(params => {
-        const id = params.get('id');
-        if (id) {
-          this.clubId = +id;
-          this.loadClub();
-        }
-      });
-    }
+  loadedCategories: Category[] = [];
+  loadedCredentials: ClubCredential[] = [];
 
-    loadClub(): void {
-      this.clubService.getClubById(this.clubId).subscribe({
-        next: (club) => {
-          this.club = club;
-          this.cdr.detectChanges();
-        },
-        error: (err) => {
-          console.error('Error loading club:', err);
-        }
-      });
-    }
+  // Define required credential types here
+  requiredCredentialTypes = ['INSURANCE_CERTIFICATE', 'LICENSE', 'TAX_DOCUMENT'];
 
-    toggleCategoryViewer(): void {
-      this.categoryviewer = !this.categoryviewer;
-      if (this.categoryviewer && this.loadedCategories.length === 0 && this.club?.categoryIds?.length) {
-        this.loadCategories(this.club.categoryIds);
+  constructor(
+    private clubService: ClubServices,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.clubId = +id;
+        this.loadClub();
+        
+        this.loadClubFiles();
       }
-    }
+    });
+  }
 
-    loadCategories(categoryIds: number[]): void {
-      this.categoryService.loadCategoriesByIds(categoryIds).subscribe({
-        next: (data) => {
-          this.loadedCategories = data;
-          this.cdr.detectChanges();
-        },
-        error: (err) => {
-          console.error('Error loading categories:', err);
-        }
-      });
-    }
+  loadClub(): void {
+    this.clubService.getClubById(this.clubId).subscribe({
+      next: (club) => {
+        this.club = club;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error loading club:', err);
+      }
+    });
+  }
 
-    // Fermer la fenêtre quand on clique en dehors du panneau
-    onBackdropClick(event: MouseEvent) {
-      this.categoryviewer = false;
-      this.cdr.detectChanges();
-    }
+  loadClubFiles(): void {
+    this.clubService.loadClubFiles(this.clubId).subscribe({
+      next: (files: ClubCredential[]) => {
+        this.loadedCredentials = files;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error loading credentials:', err);
+      }
+    });
+  }
 
-    // Fermer la fenêtre quand on appuie sur Échap
-    @HostListener('window:keydown', ['$event'])
-    handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape' && this.categoryviewer) {
-        this.categoryviewer = false;
+  uploadClubFile(file: File, type: string): void {
+    this.clubService.uploadClubFiles(this.clubId, [file], type).subscribe({
+      next: (files: ClubCredential[]) => {
+        this.loadedCredentials = files;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error uploading club file:', err);
+      }
+    });
+  }
+
+
+  toggleCredentialViewer(): void {
+    this.credentialsViewer = !this.credentialsViewer;
+  }
+
+  // Returns true if a credential of the given type exists
+  hasCredential(type: string): boolean {
+    return this.loadedCredentials.some(c => c.type === type);
+  }
+
+  // Handler to open file upload dialog (you'd implement the actual UI)
+  openUploadDialog(type: string): void {
+    // This could open a file input dialog or modal
+    console.log(`Open upload dialog for credential type: ${type}`);
+  }
+
+  onBackdropClick(event: MouseEvent): void {
+    this.credentialsViewer = false;
+    this.cdr.detectChanges();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      if ( this.credentialsViewer) {
+      
+        this.credentialsViewer = false;
         this.cdr.detectChanges();
       }
     }
   }
+}

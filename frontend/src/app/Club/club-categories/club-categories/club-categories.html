@@ -1,0 +1,53 @@
+<div class="categories-container">
+  <h2 class="section-title">Categories</h2>
+
+  <div class="category-list">
+    <!-- Existing Category Cards -->
+    <div *ngFor="let category of loadedCategories" class="category-card">
+      <h3 class="category-title">{{ category.name }}</h3>
+      <p class="category-description">{{ category.description || 'No description provided.' }}</p>
+      <p class="category-age-range">Age: {{ category.ageMin }} - {{ category.ageMax }}</p>
+      
+      <button class="delete-button" (click)="removeCategoryFromClub(category.categoryId)">
+        Delete
+      </button>
+    </div>
+    <div>
+     <p *ngIf="loadedCategories.length === 0" class="no-categories-message">
+    No categories available for this club.
+    </p>
+    <div class="add-category-card" (click)="openAddCategoryDialog()">
+      <span class="plus-icon">
+        <img src="images/addLogo.png" alt="Add" />
+      </span>
+      <p>Add Category</p>
+    </div>
+    </div>
+  </div>
+ 
+</div>
+
+<!-- Custom Notification -->
+<div *ngIf="showNotification" class="custom-notification">
+  {{ notificationMessage }}
+</div>
+
+<!-- Add Category Dialog -->
+<div *ngIf="addCategoryDialogOpen" class="add-category-dialog">
+  <div class="dialog-content">
+    <button class="close-button" (click)="addCategoryDialogOpen = false">✕</button>
+    <h2>Add New Category</h2>
+
+    <div *ngIf="availableCategories.length > 0; else allAdded">
+      <div *ngFor="let category of availableCategories" class="available-category-card">
+        <h3>{{ category.name }}</h3>
+        <p>{{ category.description }}</p>
+        <button (click)="addCategoryToClub(category.categoryId)">Add</button>
+      </div>
+    </div>
+
+    <ng-template #allAdded>
+      <p>All available categories have already been added to this club.</p>
+    </ng-template>
+  </div>
+</div>

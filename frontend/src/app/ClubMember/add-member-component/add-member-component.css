@@ -89,3 +89,34 @@ button[type="submit"]:hover {
     width: 100%;
   }
 }
+
+
+.profile-pic-preview {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  background-color: #f0f0f0;
+}
+
+.profile-pic-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+/* Make sure container is relative for absolute positioning */
+.form-container {
+  position: relative;
+}
