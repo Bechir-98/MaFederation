@@ -1,119 +1,251 @@
-.member-card {
-  max-width: 850px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background-color: #fff;
-  font-family: 'Roboto', sans-serif;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+.member-card-container {
+  padding: 1.5em;
+  max-width: 1200px;
+  margin: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.member-header {
+.header {
+  border: 4px solid black;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  padding: 1em;
+  gap: 1.5em;
+  background-color: #f9f9f9;
+  border-radius: 10px;
   flex-wrap: wrap;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 1.2rem;
 }
 
-.profile-pic {
-  width: 100px;
-  height: 100px;
+.image {
+  height: 120px;
+  width: 120px;
+  border-radius: 8px;
   object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #007bff;
-  background-color: #f8f9fa;
-}
-
-.member-basic-info {
-  flex: 1;
-  min-width: 250px;
-}
-
-.member-basic-info h1 {
-  font-size: 1.6rem;
-  margin: 0;
-  color: #003366;
-}
-
-.role-badge {
-  margin: 0.3rem 0;
-  display: inline-block;
-  padding: 4px 12px;
-  font-size: 0.85rem;
-  background-color: #007bff;
-  color: white;
-  border-radius: 20px;
-  font-weight: 500;
-}
-
-.action-buttons {
-  margin-top: 0.5rem;
-  display: flex;
-  gap: 10px;
-}
-
-.outline-btn {
-  padding: 6px 12px;
-  font-size: 0.9rem;
+  border: 2px solid #ccc;
+  padding: 4px;
   background-color: white;
-  border: 1px solid #007bff;
-  color: #007bff;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
 }
 
-.outline-btn:hover {
-  background-color: #007bff;
+.club-info-header {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  align-items: flex-start;
+  gap: 2em;
+  flex-wrap: wrap;
+}
+
+.info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  flex: 1;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+.status {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  margin-left: 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  user-select: none;
+  background-color: #28a745;
   color: white;
 }
 
-.outline-btn.delete {
-  border-color: #dc3545;
-  color: #dc3545;
+/* Buttons */
+.edit-button,
+.delete-button {
+  background-color: #ffc107;
+  color: #212529;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.outline-btn.delete:hover {
+.edit-button:hover,
+.delete-button:hover {
+  background-color: #e0a800;
+  transform: scale(1.05);
+}
+
+.delete-button {
   background-color: #dc3545;
   color: white;
 }
 
-.member-body {
-  margin-top: 1.5rem;
+.delete-button:hover {
+  background-color: #a71d2a;
+}
+
+/* === Main Content === */
+.main {
+  margin-top: 3%;
   display: flex;
-  flex-direction: row;
-  gap: 2rem;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 20px;
   flex-wrap: wrap;
+  background-color: #f8f9fa;
+  border-radius: 10px;
 }
 
-.info-section {
-  flex: 1;
-  min-width: 250px;
+/* Basic Info: 30% */
+.basic-info {
+  border: 2px solid #0077cc;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 300px;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.info-section h2 {
-  margin-bottom: 1rem;
-  color: #003366;
+.basic-info {
+  /* existing styles... */
+  font-size: 1rem; /* Adjust this as needed (try 0.8rem, 0.75rem if you want smaller) */
+}
+
+.basic-info h2 {
   font-size: 1.2rem;
-}
-
-.info-section ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.info-section ul li {
-  margin-bottom: 0.5rem;
+  font-weight: 600;
   color: #333;
-  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.basic-info h3 {
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+
+/* Federation & Categories: 70% */
+.sport-info {
+  border: 2px solid rgba(0, 123, 255, 0.4);
+  border-radius: 10px;
+  flex: 1;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sport-info .buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.sport-info .sport-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.sport-info .sport-section > div {
+  flex: 1 1 45%;
+  min-width: 220px;
+  padding: 10px;
+  border-left: 3px solid #007bff10;
+}
+
+.sport-info h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #004080;
+}
+
+.sport-info p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #444;
+}
+
+/* Credential styles reused */
+.button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
-  .member-body {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .main {
     flex-direction: column;
   }
+
+  .basic-info,
+  .sport-info {
+    width: 100%;
+  }
+}
+
+.no-categories-message {
+  font-style: italic;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+
+.validation-section {
+  margin-top: 1.5rem;
+}
+
+.validation-box {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.validator-block {
+  flex: 1;
+  min-width: 250px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.validator-block h3 {
+  margin-top: 0;
+  color: #003366;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }

@@ -1,14 +1,13 @@
+<!-- Club List Section -->
 <div class="section">
 
   <div *ngIf="clubs && clubs.length > 0" class="cards main">
     <div *ngFor="let c of clubs">
-      <a [routerLink]="['/club', c.clubId]" class="clublink">  <!-- clubID en majuscule selon ton modèle -->
+      <a [routerLink]="['/clubs', c.clubId]" class="clublink">
         <app-club-card-component 
           [clubName]="c.name"
-          [logo]="c.logo"
-        >
+          [logo]="c.logo">
         </app-club-card-component>
-
       </a>
     </div>
   </div>

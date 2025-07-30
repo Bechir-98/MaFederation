@@ -1,13 +1,36 @@
-
-
-
-
 <div class="layout">
   <app-nav class="sidebar"></app-nav>
 
-  <div class="content-area">
-    <app-user-component/>
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="header-content">
+        <div class="page-info">
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Welcome back to your club management system</p>
+        </div>
+        
+        <div class="header-actions">
+          <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" placeholder="Search..." class="search-input">
+          </div>
+          
+          <div class="notifications">
+            <button class="notification-btn">
+              <i class="fas fa-bell"></i>
+              <span class="notification-badge">3</span>
+            </button>
+          </div>
+          
+          <app-user-component class="user-profile"></app-user-component>
+        </div>
+      </div>
+    </header>
 
-    <router-outlet></router-outlet>
+    <main class="content-area">
+      <div class="content-container">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
   </div>
 </div>

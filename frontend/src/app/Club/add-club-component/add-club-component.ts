@@ -97,7 +97,6 @@
   if (logo) {
     formData.append('logo', logo);
   }
-
   this.clubservice.createClub(formData).subscribe({
     next: (createdClub) => {
       alert('✅ Club registered successfully!');

@@ -3,12 +3,16 @@ package com.MaFederation.MaFederation.mappers;
 import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
 import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.model.Administration;
+import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.model.Player;
 import com.MaFederation.MaFederation.model.Staff;
 import com.MaFederation.MaFederation.repository.ClubRepository;
 import com.MaFederation.MaFederation.services.CategoryService;
 import lombok.RequiredArgsConstructor;
+
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,6 +21,7 @@ public class ClubMemberMapper {
 
     private final CategoryService categoryService;
     private final ClubRepository clubRepository;
+    
 
     public ResponseClubMemberDTO toResponseDto(ClubMember member) {
         if (member == null) return null;
@@ -32,8 +37,15 @@ public class ClubMemberMapper {
         dto.setAddress(member.getAddress());
         dto.setNationalID(member.getNationalID());
         dto.setNationality(member.getNationality());
+        dto.setProfilePicture(member.getProfilePicture());
         dto.setType(member.getType());
         dto.setClubId(member.getClub() != null ? member.getClub().getClubId() : null);
+        dto.setCategories(member.getCategories()
+                      .stream()
+                      .map(Category::getName)
+                      .collect(Collectors.toList())
+            );
+        
         return dto;
     }
 
@@ -61,6 +73,7 @@ public class ClubMemberMapper {
         member.setType(dto.getType());
         member.setClub(clubRepository.findById(dto.getClubId()).orElse(null));
         member.setCategories(categoryService.getCategoriesByIdsEntity(dto.getCategoryIds()));
+        member.setProfilePicture(dto.getProfilePicture());
 
         return member;
     }

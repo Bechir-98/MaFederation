@@ -43,14 +43,16 @@ public class StaffMapper {
         dto.setNationalID(baseDto.getNationalID());
         dto.setNationality(baseDto.getNationality());
         dto.setClubId(baseDto.getClubId());
+        dto.setProfilePicture(baseDto.getProfilePicture());
+        
 
         dto.setSpecialty(staff.getSpecialty());
 
         if (staff.getCategories() != null) {
-            dto.setCategoryIds(
+            dto.setCategories(
                 staff.getCategories()
                      .stream()
-                     .map(Category::getCategoryId)
+                     .map(Category::getName)
                      .collect(Collectors.toList())
             );
         }
@@ -76,6 +78,7 @@ public class StaffMapper {
         staff.setNationalID(dto.getNationalID());
         staff.setNationality(dto.getNationality());
         staff.setType("STAFF");
+        staff.setProfilePicture(dto.getProfilePicture());
 
         if (dto.getClubId() != null) {
             staff.setClub(clubServices.getClub(dto.getClubId()));

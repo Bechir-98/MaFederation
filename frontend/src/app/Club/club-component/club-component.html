@@ -14,11 +14,13 @@
     <div class="club-info-header">
       <div class="info-block">
         <div class="name">
-          <h1>{{ club?.name }}</h1>
-          <button class="edit-button">Edit</button>
-          <button class="delete-button">Delete</button>
+          <h1>{{ club?.name || 'Loading...' }}</h1>
+          <button class="edit-button" [disabled]="!club">✏️ Edit</button>
+          <button class="delete-button" [disabled]="!club">🗑️ Delete</button>
         </div>
-        <div class="status">Validated or Not</div>
+        <div class="status">
+        
+        </div>
       </div>
     </div>
   </div>
@@ -26,79 +28,144 @@
   <div class="main">
     <div class="basic-info">
       <div class="infos">
-        <h2>Location</h2><h3>{{ club?.location }}</h3>
-        <h2>Founded Year</h2><h3>{{ club?.foundedYear }}</h3>
-        <h2>Contact Email</h2><h3>{{ club?.contactEmail }}</h3>
-        <h2>Phone</h2><h3>{{ club?.contactPhone }}</h3>
-        <h2>Bank Name</h2><h3>{{ club?.bankName }}</h3>
-        <h2>Bank Account</h2><h3>{{ club?.bankAccount }}</h3>
-        <h2>Validation Status</h2><h3></h3>
+        <h2>📍 Location</h2>
+        <h3>{{ club?.location || 'Not specified' }}</h3>
+        
+        <h2>📅 Founded Year</h2>
+        <h3>{{ club?.foundedYear || 'Unknown' }}</h3>
+        
+        <h2>📧 Contact Email</h2>
+        <h3>{{ club?.contactEmail || 'Not provided' }}</h3>
+        
+        <h2>📞 Phone</h2>
+        <h3>{{ club?.contactPhone || 'Not provided' }}</h3>
+        
+        <h2>🏦 Bank Name</h2>
+        <h3>{{ club?.bankName || 'Not specified' }}</h3>
+        
+        <h2>💳 Bank Account</h2>
+        <h3>{{ club?.bankAccount || 'Not specified' }}</h3>
+        
+        <h2>✅ Validation Status</h2>
+        <h3>
+          <span  ></span>
+         
+        </h3>
+        
+        <!-- Additional fields that might need backend data -->
+        <h2>🌐 Website</h2>
+        <h3></h3>
+        
+        <h2>📱 Social Media</h2>
+        <h3></h3>
+        
+        <h2>🏟️ Facilities</h2>
+        <h3> facilities</h3>
+        
+        <h2>🎯 Club Type</h2>
+        <h3></h3>
+        
+        <h2>👥 Membership</h2>
+        <h3></h3>
       </div>
     </div>
 
     <div class="sport-info">
       <div class="buttons">
-        <button class="button" (click)="toggleCredentialViewer()">View Credentials</button>
+        <button class="button" (click)="toggleCredentialViewer()" [disabled]="!club">
+          📄 View Credentials
+        </button>
       </div>
 
       <div class="sport-section">
         <div>
-          <h2>Club Information</h2>
-          <p><strong>Name:</strong> {{ club?.name }}</p>
-          <p><strong>Director:</strong> di</p>
+          <h2>🏢 Club Information</h2>
+          <p><strong>Full Name:</strong> {{ club || 'Loading...' }}</p>
+          <p><strong>Director:</strong> {{ club|| 'Not specified' }}</p>
+          <p><strong>Vice Director:</strong> {{ club || 'Not specified' }}</p>
+          <p><strong>Secretary:</strong> {{ club|| 'Not specified' }}</p>
+          <p><strong>Treasurer:</strong> {{ club|| 'Not specified' }}</p>
+          <p><strong>Description:</strong> {{ club || 'No description available' }}</p>
+          <p><strong>Mission Statement:</strong> </p>
         </div>
 
         <div>
-          <h2>Federation Validation</h2>
-          <p><strong>Status:</strong></p>
+          <h2>✅ Federation Validation</h2>
+          <p><strong>Status:</strong> 
+            <span >
+              
+            </span>
+          </p>
           <p><strong>Validated At:</strong></p>
-          <p><strong>Validated By User ID:</strong></p>
-          <p><strong>Rejection Reason:</strong></p>
+          <p><strong>Validated By:</strong> </p>
+          <p><strong>Rejection Reason:</strong> </p>
+          <p><strong>Federation ID:</strong> </p>
+          <p><strong>License Number:</strong>  </p>
         </div>
 
         <div>
-          <h2>Club Statistics</h2>
-          <p><strong>Total Players:</strong></p>
+          <h2>📊 Club Statistics</h2>
+          <p><strong>Total Players:</strong> </p>
           <p><strong>Total Staff:</strong></p>
-          <p><strong>Total Administrators:</strong></p>
+          <p><strong>Total Administrators:</strong>  </p>
+          
+        </div>
+
+        <div>
+          <h2>🏆 Sports & Categories</h2>
+          <p><strong>Primary Sport:</strong> </p>
+          <p><strong>Secondary Sports:</strong> </p>
+          <p><strong>Age Categories:</strong></p>
+          <p><strong>Competition Level:</strong></p>
+          <p><strong>Divisions:</strong> </p>
+        </div>
+
+        <div>
+          <h2>💰 Financial Information</h2>
+          <p><strong>Annual Budget:</strong> </p>
+          <p><strong>Membership Fee:</strong> </p>
+          <p><strong>Sponsorship Status:</strong> </p>
+          <p><strong>Tax ID:</strong> </p>
+          <p><strong>Non-Profit Status:</strong> </p>
+        </div>
+
+        <div>
+          <h2>📋 Administrative Details</h2>
+          <p><strong>Registration Date:</strong> </p>
+          <p><strong>Last Updated:</strong> </p>
+          <p><strong>Legal Status:</strong> </p>
+          <p><strong>Insurance Status:</strong></p>
+          <p><strong>Safety Certification:</strong> </p>
+        </div>
+
+        <div>
+          <h2>📞 Additional Contacts</h2>
+          <p><strong>Emergency Contact:</strong> </p>
+          <p><strong>Media Contact:</strong> </p>
+          <p><strong>Parent/Guardian Contact:</strong> </p>
+          <p><strong>Medical Contact:</strong> </p>
+        </div>
+
+        <div>
+          <h2>🏟️ Facilities & Equipment</h2>
+          <p><strong>Home Venue:</strong> </p>
+          <p><strong>Training Facilities:</strong> </p>
+          <p><strong>Equipment Status:</strong> </p>
+          <p><strong>Capacity:</strong> </p>
+          <p><strong>Accessibility:</strong>   'Yes' ' </p>
         </div>
       </div>
     </div>
   </div>
 
- <!-- CATEGORY VIEWER MODAL -->
+  <!-- CREDENTIALS VIEWER MODAL -->
+  <div *ngIf="credentialsViewer" class="modal-backdrop" (click)="onBackdropClick($event)">
+    <div class="modal-content" (click)="$event.stopPropagation()" tabindex="0">
+      <button (click)="credentialsViewer = false" class="close-button">✕</button>
 
+      <h2>🏆 Club Credentials</h2>
 
-
-<!-- CREDENTIALS VIEWER MODAL -->
-<div *ngIf="credentialsViewer" class="categoryviewer-backdrop" (click)="onBackdropClick($event)">
-  <div class="categoryviewer" (click)="$event.stopPropagation()" tabindex="0">
-    <button (click)="credentialsViewer = false" class="close-button">✕</button>
-
-    <h2>Club Credentials</h2>
-
-    <div class="credential-grid">
-      <div *ngFor="let credential of loadedCredentials" class="credential-card">
-        <h3>{{ credential.type }}</h3>
-        <p>📄 Document Available</p>
-        <a [href]="credential.content" target="_blank">View / Download</a>
-      </div>
-
-      <!-- Show add buttons for missing credentials -->
-      <div *ngFor="let type of requiredCredentialTypes">
-        <ng-container *ngIf="!hasCredential(type)">
-          <div class="add-credential-card" (click)="openUploadDialog(type)">
-            <span class="plus-icon">＋</span>
-            <p>Add {{ type.replace('_', ' ') }}</p>
-          </div>
-        </ng-container>
-      </div>
+      <app-file-card-component [clubId]="club!.clubId"></app-file-card-component>
     </div>
-
-    <ng-template #noCredentials>
-      <p class="no-categories-message">Aucune pièce justificative trouvée.</p>
-    </ng-template>
   </div>
-</div>
-
 </div>

@@ -38,6 +38,9 @@ public class ClubServices {
 
     /** Get all clubs as Response DTOs */
     public List<ResponseClubDTO> getAllClubs() {
+
+
+
         return clubRepository.findAll()
                 .stream()
                 .map(clubMapper::toResponseDto)
@@ -51,6 +54,7 @@ public class ClubServices {
     Club savedClub = clubRepository.save(club);
     clubRepository.flush();
     return clubMapper.toResponseDto(savedClub);
+
 }//////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +105,8 @@ public class ClubServices {
     }
 
     /** Get a single member by club + member ID */
-    public ResponseClubMemberDTO getClubMember(Integer memberId, Integer clubId) {
+    @Transactional
+    public ResponseClubMemberDTO getClubMember( Integer clubId,Integer memberId) {
         Club club = getClub(clubId);
         return club.getMembers().stream()
                 .filter(member -> member.getUserId().equals(memberId))
@@ -109,12 +114,6 @@ public class ClubServices {
                 .map(clubMemberMapper::toResponseDto)
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
     }
-
-
-
-
-
-
 
 
 

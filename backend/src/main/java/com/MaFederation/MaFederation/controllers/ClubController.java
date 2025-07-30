@@ -1,6 +1,7 @@
 package com.MaFederation.MaFederation.controllers;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,13 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.MaFederation.MaFederation.dto.Category.CategoryDTO;
 import com.MaFederation.MaFederation.dto.Category.ClubPostCategoryDTO;
+import com.MaFederation.MaFederation.dto.Club.ClubFileContent;
+import com.MaFederation.MaFederation.dto.Club.ClubFileDTO;
 import com.MaFederation.MaFederation.dto.Club.PostClubDTO;
 import com.MaFederation.MaFederation.dto.Club.ResponseClubDTO;
 import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
-import com.MaFederation.MaFederation.enums.FileType;
+
 import com.MaFederation.MaFederation.services.ClubFilesServices;
 import com.MaFederation.MaFederation.services.ClubServices;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 
@@ -49,6 +53,7 @@ public ResponseEntity<ResponseClubDTO> registerClub(
 
     ////////////////////////////GETING CLUB////////////////////////
     // Get all clubs as Response DTOs
+    @Transactional
     @GetMapping
     public List<ResponseClubDTO> getAllClubs() {
         return clubServices.getAllClubs();
@@ -83,15 +88,43 @@ public ResponseEntity<ResponseClubDTO> registerClub(
     public ResponseEntity<?> uploadFile(
         @PathVariable Integer clubId,
         @RequestParam("file") MultipartFile file,
-        @RequestParam("type") FileType type) throws IOException {
-
+        @RequestParam("type") String type) throws IOException {
+    Map<String, String> response = new HashMap<>();
     clubFileService.saveFile(clubId, file, type);
-    return ResponseEntity.ok("File uploaded successfully");
+    response.put("message", "File uploaded successfully");
+    return ResponseEntity.ok(response);
 }
+
+@GetMapping("/{clubId}/files")
+public List<ClubFileDTO> getFilesByClubId(@PathVariable Integer clubId) {
+    return clubFileService.getFilesByClubId(clubId);
+}
+
+@GetMapping("/{clubId}/files/content")
+public ClubFileContent getFileContent( @RequestParam Integer id) {
+    return clubFileService.getFileContent(id);
+}
+
+@PutMapping("/{clubId}/files")
+public ResponseEntity<ClubFileDTO> updateFile(
+    @PathVariable Long clubId,
+    @RequestParam("file") MultipartFile file,
+    @RequestParam("fileId") Integer fileId
+) {
+    ClubFileDTO updated = clubFileService.updateFile(fileId, file);
+    return ResponseEntity.ok(updated);
+}
+
+@DeleteMapping("/{clubId}/files")
+public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId) {
+    clubFileService.deleteFile(fileId);
+    return ResponseEntity.ok("File deleted successfully.");
+}
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
-
-
-
 
 
 ////////////////////////////RELATED TO CATEGORIES/////////////////////

@@ -10,20 +10,30 @@ import { ClubMemberResponse } from '../../../representations/ClubMember/ClubMemb
 export class ClubMemberService {
 
 
-  private baseUrl: string = 'http://localhost:8080/';
+  private baseUrl: string = 'http://localhost:8080';
 
    constructor(private http: HttpClient) {}
 
 
 
-   public addClubMember(formData: FormData): Observable<ClubMemberPost> {
-  return this.http.post<ClubMemberPost>(this.baseUrl + 'addmember', formData);
+   public addClubMember(formData: FormData): Observable<ClubMemberResponse> {
+  return this.http.post<ClubMemberResponse>(this.baseUrl + '/addmember', formData);
 }
 
 
-  public getMemberById(memberId: number): Observable<ClubMemberResponse> {
-      return this.http.get<ClubMemberResponse>(`${this.baseUrl}/members/${memberId}`);
+  public getMemberById(memberId: number,clubId:number): Observable<ClubMemberResponse> {
+      return this.http.get<ClubMemberResponse>(`${this.baseUrl}/clubs/${clubId}/members/${memberId}`);
   }
+
+
+  // Add to your ClubMemberService
+deleteMember(memberId: number, clubId: number): Observable<any> {
+  return this.http.delete(`/api/clubs/${clubId}/members/${memberId}`);
+}
+
+updateMemberCategories(memberId: number, clubId: number, categories: string[]): Observable<any> {
+  return this.http.put(`/api/clubs/${clubId}/members/${memberId}/categories`, { categories });
+}
 
 
 }

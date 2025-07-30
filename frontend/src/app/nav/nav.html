@@ -1,18 +1,94 @@
 <div class="navbar">
-  <div class="logo">
-    <h1>Club Management</h1>
+  <div class="navbar-header">
+    <div class="logo">
+      <i class="fas fa-futbol logo-icon"></i>
+      <h1>Club Management</h1>
+    </div>
+    <div class="user-info">
+      <div class="user-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+    </div>
   </div>
 
-  <ul class="nav-links">
-    <li><a routerLink="/club" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Club</a></li>
-    <li><a routerLink="/players" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Players</a></li>
-    <li><a routerLink="/liststaff" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Staff</a></li>
-    <li><a routerLink="/admins" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Administrators</a></li>
-    <li><a routerLink="/contracts" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Contracts</a></li>
-    <li><a routerLink="/categories" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Categories</a></li>
-    <li><a routerLink="/games" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Games</a></li>
-    <li><a routerLink="/statistics" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Statistics</a></li>
-    <li><a routerLink="/user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">My Profile</a></li>
-    <li><a routerLink="/logout" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Logout</a></li>
-  </ul>
+  <nav class="nav-section">
+    <div class="nav-group">
+      <span class="nav-group-title">Management</span>
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/club" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-building"></i>
+            <span>Club</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/players" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-users"></i>
+            <span>Players</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/liststaff" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-user-tie"></i>
+            <span>Staff</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admins" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-user-shield"></i>
+            <span>Administrators</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="nav-group">
+      <span class="nav-group-title">Operations</span>
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/contracts" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-file-contract"></i>
+            <span>Contracts</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/categories" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-tags"></i>
+            <span>Categories</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/games" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Games</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/statistics" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-chart-bar"></i>
+            <span>Statistics</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="navbar-footer">
+    <div class="nav-group">
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-user-circle"></i>
+            <span>My Profile</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/logout" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

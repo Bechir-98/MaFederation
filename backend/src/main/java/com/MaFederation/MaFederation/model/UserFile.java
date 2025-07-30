@@ -1,6 +1,6 @@
 package com.MaFederation.MaFederation.model;
 
-import com.MaFederation.MaFederation.enums.FileType;
+import com.MaFederation.MaFederation.enums.PlayerFileType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +20,7 @@ public class UserFile {
     @Enumerated(EnumType.STRING)
 
     
-    private FileType type;
+    private PlayerFileType type;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

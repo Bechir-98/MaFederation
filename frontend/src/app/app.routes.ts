@@ -15,14 +15,13 @@ import { ClubMemberComponent } from './ClubMember/club-member-component/club-mem
 
     export const routes: Routes = [
     
-        { path:'' , component:ClubComponent},
+        { path:'' , component:ListClubsComponent},
         {path: "user", component :UserComponent },
         {path: "adduser", component :AddUserComponent },
         {path: "listusers", component :UsersComponent },
-
-
+        
         {path: "addmember", component :AddMemberComponent },
-        {path:'clubs/:id/members/:memberid',component:ClubMemberComponent},
+        {path:'clubs/:clubId/members/:memberId',component:ClubMemberComponent},
 
         {path:'admins' , component:ListAdminstrationComponent},
         
@@ -32,7 +31,7 @@ import { ClubMemberComponent } from './ClubMember/club-member-component/club-mem
         {path:'clubs/:id/categories',component:ClubCategories},
         {path:'addclub' , component:AddClubComponent},
         {path:'addcat' , component:AddCategoryComponent},
-        {path:'**',component:ClubComponent },
+        {path:'**',component:ListClubsComponent },
         
     ];  
     

@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class ResponseClubMemberDTO extends ResponseUserDTO{
     private Integer clubId;
     private String type;
-    private List<Integer> categoryIds;
+    private List<String> categories;
 }
 
 

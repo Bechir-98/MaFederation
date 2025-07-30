@@ -60,7 +60,7 @@ public class AdministrationMapper {
         admin.setAddress(dto.getAddress());
         admin.setNationalID(dto.getNationalID());
         admin.setNationality(dto.getNationality());
-        admin.setType("ADMINISTRATION");
+        admin.setType("ADMIN");
 
         if (dto.getClubId() != null) {
             admin.setClub(clubServices.getClub(dto.getClubId()));

@@ -42,6 +42,7 @@ public class PlayerMapper {
         dto.setNationalID(baseDto.getNationalID());
         dto.setNationality(baseDto.getNationality());
         dto.setClubId(baseDto.getClubId());
+        dto.setProfilePicture(baseDto.getProfilePicture());
 
         dto.setPosition(player.getPosition());
         dto.setJerseyNumber(player.getJerseyNumber());
@@ -49,10 +50,10 @@ public class PlayerMapper {
         dto.setWeight(player.getWeight());
 
         if (player.getCategories() != null) {
-            dto.setCategoryIds(
+            dto.setCategories(
                 player.getCategories()
                       .stream()
-                      .map(Category::getCategoryId)
+                      .map(Category::getName)
                       .collect(Collectors.toList())
             );
         }
@@ -78,6 +79,7 @@ public class PlayerMapper {
         player.setNationalID(dto.getNationalID());
         player.setNationality(dto.getNationality());
         player.setType("PLAYER");
+        player.setProfilePicture(dto.getProfilePicture());
 
         if (dto.getClubId() != null) {
             player.setClub(clubServices.getClub(dto.getClubId()));

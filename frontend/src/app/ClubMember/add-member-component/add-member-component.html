@@ -1,111 +1,154 @@
 <div class="form-container">
-  <h2>Add Club Member</h2>
-
-  <!-- Profile pic preview on top right -->
-  <div class="profile-pic-preview" *ngIf="profilePreview">
-    <img [src]="profilePreview" alt="Profile Picture Preview" />
+  <div class="form-header">
+    <h2>Add Club Member</h2>
+    <p>Create a new member profile with all necessary details</p>
   </div>
 
+  <!-- Profile pic preview -->
+  <div class="profile-pic-preview" *ngIf="profilePreview; else placeholderProfile">
+    <img [src]="profilePreview" alt="Profile Picture Preview" />
+  </div>
+  
+  <ng-template #placeholderProfile>
+    <div class="profile-pic-preview">
+      <div class="placeholder">
+        <i class="fas fa-user"></i>
+      </div>
+    </div>
+  </ng-template>
+
   <form *ngIf="!step" #stepOneForm="ngForm" (ngSubmit)="submitForm()" class="form-step">
-    <!-- Profile picture input -->
-    <div class="form-group">
-      <label>Profile Picture</label>
-      <input type="file" accept="image/*" (change)="onProfilePicSelected($event)" />
-      <div *ngIf="profileInvalid" class="error-text">Invalid image file selected.</div>
-    </div>
+    <div class="form-grid">
+      <!-- Profile picture input -->
+      <div class="form-group full-width">
+        <label><i class="fas fa-camera"></i> Profile Picture</label>
+        <div class="file-input-wrapper">
+          <input type="file" accept="image/*" (change)="onProfilePicSelected($event)" />
+          <div class="file-input-display">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span>Click to upload profile picture</span>
+          </div>
+        </div>
+        <div *ngIf="profileInvalid" class="error-text">
+          <i class="fas fa-exclamation-circle"></i>
+          Invalid image file selected.
+        </div>
+      </div>
 
-    <!-- Rest of the fields -->
+      <!-- Email -->
+      <div class="form-group">
+        <label><i class="fas fa-envelope"></i> Email</label>
+        <input type="email" name="email" [(ngModel)]="member.email" required />
+      </div>
 
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" name="email" [(ngModel)]="member.email" required />
-    </div>
+      <!-- First Name -->
+      <div class="form-group">
+        <label><i class="fas fa-user"></i> First Name</label>
+        <input type="text" name="firstName" [(ngModel)]="member.firstName" required />
+      </div>
 
-    <div class="form-group">
-      <label>First Name</label>
-      <input type="text" name="firstName" [(ngModel)]="member.firstName" required />
-    </div>
+      <!-- Last Name -->
+      <div class="form-group">
+        <label><i class="fas fa-user"></i> Last Name</label>
+        <input type="text" name="lastName" [(ngModel)]="member.lastName" required />
+      </div>
 
-    <div class="form-group">
-      <label>Last Name</label>
-      <input type="text" name="lastName" [(ngModel)]="member.lastName" required />
-    </div>
+      <!-- Date of Birth -->
+      <div class="form-group">
+        <label><i class="fas fa-calendar"></i> Date of Birth</label>
+        <input type="date" name="dateOfBirth" [(ngModel)]="member.dateOfBirth" />
+      </div>
 
-    <div class="form-group">
-      <label>Date of Birth</label>
-      <input type="date" name="dateOfBirth" [(ngModel)]="member.dateOfBirth" />
-    </div>
+      <!-- Gender -->
+      <div class="form-group">
+        <label><i class="fas fa-venus-mars"></i> Gender</label>
+        <select name="gender" [(ngModel)]="member.gender">
+          <option value="">Select Gender</option>
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label>Gender</label>
-      <select name="gender" [(ngModel)]="member.gender">
-        <option value="">Select</option>
-        <option value="MALE">Male</option>
-        <option value="FEMALE">Female</option>
-      </select>
-    </div>
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label><i class="fas fa-phone"></i> Phone Number</label>
+        <input type="tel" name="phoneNumber" [(ngModel)]="member.phoneNumber" />
+      </div>
 
-    <div class="form-group">
-      <label>Phone Number</label>
-      <input type="text" name="phoneNumber" [(ngModel)]="member.phoneNumber" />
-    </div>
+      <!-- Address -->
+      <div class="form-group full-width">
+        <label><i class="fas fa-map-marker-alt"></i> Address</label>
+        <input type="text" name="address" [(ngModel)]="member.address" />
+      </div>
 
-    <div class="form-group">
-      <label>Address</label>
-      <input type="text" name="address" [(ngModel)]="member.address" />
-    </div>
+      <!-- National ID -->
+      <div class="form-group">
+        <label><i class="fas fa-id-card"></i> National ID</label>
+        <input type="text" name="nationalID" [(ngModel)]="member.nationalID" />
+      </div>
 
-    <div class="form-group">
-      <label>National ID</label>
-      <input type="text" name="nationalID" [(ngModel)]="member.nationalID" />
-    </div>
+      <!-- Nationality -->
+      <div class="form-group">
+        <label><i class="fas fa-flag"></i> Nationality</label>
+        <select name="nationality" [(ngModel)]="member.nationality">
+          <option value="">Select Nationality</option>
+          <option *ngFor="let country of countries" [value]="country.code">
+            {{ country.name }}
+          </option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label>Nationality</label>
-      <select name="nationality" [(ngModel)]="member.nationality">
-        <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>
-      </select>
-    </div>
+      <!-- Club -->
+      <div class="form-group">
+        <label><i class="fas fa-users"></i> Club</label>
+        <select name="clubId" [(ngModel)]="member.clubId" (change)="onClubChange($event)">
+          <option value="">Select Club</option>
+          <option *ngFor="let club of clubs" [value]="club.clubId">
+            {{ club.name }}
+          </option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label>Club</label>
-      <select name="clubId" [(ngModel)]="member.clubId" (change)="onClubChange($event)">
-        <option *ngFor="let club of clubs" [value]="club.clubId">{{ club.name }}</option>
-      </select>
-    </div>
+      <!-- User Type -->
+      <div class="form-group">
+        <label><i class="fas fa-user-tag"></i> User Type</label>
+        <select name="type" [(ngModel)]="member.type" required (change)="onUserTypeChange($event)">
+          <option value="">Select user type</option>
+          <option value="PLAYER">Player</option>
+          <option value="STAFF">Staff</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label>User Type</label>
-      <select name="type" [(ngModel)]="member.type" required>
-        <option value="">Select user type</option>
-        <option value="PLAYER">Player</option>
-        <option value="STAFF">Staff</option>
-        <option value="ADMIN">Admin</option>
-      </select>
-    </div>
+      <!-- Categories (for staff) -->
+      <div class="form-group full-width" *ngIf="member.type === 'STAFF'">
+        <label><i class="fas fa-tags"></i> Categories</label>
+        <div class="checkbox-group">
+          <div *ngFor="let category of categories" class="checkbox-item">
+            <input
+              type="checkbox"
+              [id]="'category-' + category.categoryId"
+              [value]="category.categoryId"
+              (change)="onCategoryChange($event)"
+              [checked]="member.categoryIds.includes(category.categoryId)"
+            />
+            <label [for]="'category-' + category.categoryId">{{ category.name }}</label>
+          </div>
+        </div>
+      </div>
 
-    <div class="form-group" *ngIf="member.type === 'STAFF'">
-      <label>Categories</label>
-      <div *ngFor="let category of categories">
-        <label>
-          <input
-            type="checkbox"
-            [value]="category.categoryId"
-            (change)="onCategoryChange($event)"
-            [checked]="member.categoryIds.includes(category.categoryId)"
-          />
-          {{ category.name }}
-        </label>
+      <!-- Password -->
+      <div class="form-group full-width">
+        <label><i class="fas fa-lock"></i> Password</label>
+        <input type="password" name="passwordHash" [(ngModel)]="member.passwordHash" required />
       </div>
     </div>
 
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" name="passwordHash" [(ngModel)]="member.passwordHash" required />
-    </div>
-
     <div class="form-actions">
-      <button type="submit">Submit</button>
+      <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+        <i class="fas" [ngClass]="getSubmitButtonIcon()"></i>
+        {{ getSubmitButtonText() }}
+      </button>
     </div>
   </form>
 </div>

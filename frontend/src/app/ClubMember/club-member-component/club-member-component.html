@@ -1,46 +1,114 @@
-<div class="member-card">
-  <div class="member-header">
+<div class="member-card-container">
+  <div class="header">
     <img 
       *ngIf="member?.profilePicture; else placeholder" 
       [src]="'data:image/png;base64,' + member?.profilePicture" 
       alt="Profile Picture" 
-      class="profile-pic"
+      class="image"
     />
     <ng-template #placeholder>
-      <img src="assets/default-profile.png" alt="Default Profile" class="profile-pic" />
+      <img src="assets/default-profile.png" alt="Default Profile" class="image" />
     </ng-template>
 
-    <div class="member-basic-info">
-      <h1>{{ member?.firstName }} {{ member?.lastName }}</h1>
-      <p class="role-badge">{{ member?.type }}</p>
-      <div class="action-buttons">
-        <button class="outline-btn">Edit</button>
-        <button class="outline-btn delete">Delete</button>
+    <div class="club-info-header">
+      <div class="info-block">
+        <div class="name">
+          <h1>{{ member?.firstName }} {{ member?.lastName }}</h1>
+          <button class="edit-button">Edit</button>
+          <button class="delete-button">Delete</button>
+        </div>
+        <div class="status">Role: 
+          <span class="status-badge validated">{{ member?.type }}</span>
+        </div>  
       </div>
     </div>
   </div>
 
-  <div class="member-body">
-    <div class="info-section">
-      <h2>Basic Info</h2>
-      <ul>
-        <li><strong>Email:</strong> {{ member?.email }}</li>
-        <li><strong>DOB:</strong> {{ member?.dateOfBirth | date }}</li>
-        <li><strong>Gender:</strong> {{ member?.gender }}</li>
-        <li><strong>Phone:</strong> {{ member?.phoneNumber }}</li>
-        <li><strong>Nationality:</strong> {{ member?.nationality }}</li>
-        <li><strong>National ID:</strong> {{ member?.nationalID }}</li>
-        <li><strong>Address:</strong> {{ member?.address }}</li>
-        <li><strong>Club ID:</strong> {{ member?.clubId }}</li>
-      </ul>
+  <div class="main">
+    <!-- === LEFT: Basic Info (30%) === -->
+    <div class="basic-info">
+      <div class="infos">
+        <h2>Email</h2><h3>{{ member?.email }}</h3>
+        <h2>Date of Birth</h2><h3>{{ member?.dateOfBirth | date }}</h3>
+        <h2>Gender</h2><h3>{{ member?.gender }}</h3>
+        <h2>Phone</h2><h3>{{ member?.phoneNumber }}</h3>
+        <h2>Nationality</h2><h3>{{ member?.nationality }}</h3>
+        <h2>National ID</h2><h3>{{ member?.nationalID }}</h3>
+        <h2>Address</h2><h3>{{ member?.address }}</h3>
+        <h2>Club ID</h2><h3>{{ member?.clubId }}</h3>
+      </div>
     </div>
 
-    <div class="info-section">
-      <h2>Categories</h2>
-      <ul *ngIf="member && member.categoryIds && member.categoryIds.length > 0; else noCat">
-        <li *ngFor="let id of member?.categoryIds">Category #{{ id }}</li>
-      </ul>
-      <ng-template #noCat><p>No categories assigned.</p></ng-template>
+    <!-- === RIGHT: Federation & Categories (70%) === -->
+    <div class="sport-info">
+      <div class="buttons">
+        <button class="button" >View Credentials</button>
+      </div>
+
+      <div class="sport-section">
+        <div class="validation-section">
+  <h2>Validation Status</h2>
+
+  <div class="validation-box">
+    <div class="validator-block">
+      <h3>Club Admin</h3>
+      <p><strong>Status:</strong> {{ member}}</p>
+      <p><strong>Validated At:</strong> {{  '-' }}</p>
+      <p><strong>Validated By:</strong> {{ '-' }}</p>
+      <p *ngIf>
+        <strong>Reason:</strong> {{ member }}
+      </p>
+    </div>
+
+    <div class="validator-block">
+      <h3>Federation</h3>
+      <p><strong>Status:</strong></p>
+      <p><strong>Validated At:</strong> {{  '-' }}</p>
+      <p><strong>Validated By:</strong> {{  '-' }}</p>
+      <p *ngIf >
+        <strong>Reason:</strong>
+      </p>
     </div>
   </div>
+</div>
+
+
+        <div>
+          <h2>Categories</h2>
+          <ul *ngIf="member?.categories?.length ; else noCat">
+            <li *ngFor="let cat of member?.categories">{{ cat }}</li>
+          </ul>
+          <ng-template #noCat>
+            <p class="no-categories-message">No categories assigned.</p>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === CREDENTIALS MODAL === -->
+  <!-- <div *ngIf="credentialsViewer" class="categoryviewer-backdrop" (click)="onBackdropClick($event)">
+    <div class="categoryviewer" (click)="$event.stopPropagation()" tabindex="0">
+      <button (click)="credentialsViewer = false" class="close-button">✕</button>
+      <h2>Member Credentials</h2>
+      <div class="credential-grid">
+        <div *ngFor="let credential of loadedCredentials" class="credential-card">
+          <h3>{{ credential.type }}</h3>
+          <p>📄 Document Available</p>
+          <a [href]="credential.content" target="_blank">View / Download</a>
+        </div>
+        <div *ngFor="let type of requiredCredentialTypes">
+          <ng-container *ngIf="!hasCredential(type)">
+            <div class="add-credential-card" (click)="openUploadDialog(type)">
+              <span class="plus-icon">＋</span>
+              <p>Add {{ type.replace('_', ' ') }}</p>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <ng-template #noCredentials>
+        <p class="no-categories-message">No credentials found.</p>
+      </ng-template>
+    </div>
+  </div> -->
 </div>

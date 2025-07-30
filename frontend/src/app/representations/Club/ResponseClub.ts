@@ -16,8 +16,10 @@ export interface ResponseClub{
   fileIds: number[]; 
 }
 
-// export interface ClubFile {
-//   id: number;
-//   type: 'PROFILE_PICTURE' | 'PASSPORT' | 'CV' | 'LICENSE' | 'OTHER';
-//   content: string; // Base64 encoded string (if coming from JSON)
-// }
+export interface ClubFile {
+  id: number;
+  type:  "LICENSE" | "REGISTRATION_CERTIFICATE" | "AFFILIATION_AGREEMENT" | "CLUB_OFFICIALS";
+  content: string; 
+}
+
+

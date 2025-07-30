@@ -8,19 +8,24 @@ import { CommonModule } from '@angular/common';
 import { Category } from '../../representations/Category/category';
 import { CategoryService } from '../../services/api/catergory/categories';
 import { ClubMemberService } from '../../services/api/clubMember/club-member-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-member-component',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-member-component.html',
-  styleUrls: ['./add-member-component.css'], // fixed typo here
+  styleUrls: ['./add-member-component.css']
 })
 export class AddMemberComponent implements OnInit {
   countries = COUNTRIES;
   categories: Category[] = [];
   clubs: ResponseClub[] = [];
   step = false;
+  profilePreview: string | ArrayBuffer | null = null;
+  profileInvalid = false;
+  isSubmitting = false;
+  submitSuccess = false;
 
   member: ClubMemberPost = {
     email: '',
@@ -39,13 +44,11 @@ export class AddMemberComponent implements OnInit {
     profilePicture: null
   };
 
-  profilePreview: string | ArrayBuffer | null = null;
-  profileInvalid = false;
-
   constructor(
     private clubservice: ClubServices,
     private categoryService: CategoryService,
-    private clubMemberService: ClubMemberService
+    private clubMemberService: ClubMemberService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -85,10 +88,40 @@ export class AddMemberComponent implements OnInit {
     }
   }
 
-  onCategoryChange(event: any): void {
-    const categoryId = +event.target.value;
+  onClubChange(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    const clubId = +select.value;
+    this.member.clubId = clubId;
+    
+    if (clubId) {
+      this.categoryService.getCategoriesByClubId(clubId).subscribe({
+        next: (categories) => {
+          this.categories = categories;
+        },
+        error: (err) => {
+          console.error('Error fetching categories:', err);
+        }
+      });
+    } else {
+      this.categories = [];
+    }
+  }
 
-    if (event.target.checked) {
+  onUserTypeChange(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    this.member.type = select.value;
+    
+    // Clear categories when user type changes
+    if (select.value !== 'STAFF') {
+      this.member.categoryIds = [];
+    }
+  }
+
+  onCategoryChange(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    const categoryId = +checkbox.value;
+    
+    if (checkbox.checked) {
       if (!this.member.categoryIds.includes(categoryId)) {
         this.member.categoryIds.push(categoryId);
       }
@@ -97,26 +130,37 @@ export class AddMemberComponent implements OnInit {
     }
   }
 
-  onClubChange(event: any): void {
-    const clubId = +event.target.value;
+  getSubmitButtonIcon(): string {
+    if (this.isSubmitting) {
+      return 'fa-spinner fa-spin';
+    } else if (this.submitSuccess) {
+      return 'fa-check';
+    } else {
+      return 'fa-plus';
+    }
+  }
 
-    this.member.clubId = clubId;
-    this.categoryService.getCategoriesByClubId(clubId).subscribe({
-      next: (categories) => {
-        this.categories = categories;
-      },
-      error: (err) => {
-        console.error('Error fetching categories:', err);
-      }
-    });
+  getSubmitButtonText(): string {
+    if (this.isSubmitting) {
+      return 'Creating Member...';
+    } else if (this.submitSuccess) {
+      return 'Member Created!';
+    } else {
+      return 'Create Member';
+    }
   }
 
   submitForm(): void {
+    if (this.isSubmitting) return;
+
     // Validate profile picture if needed
     if (this.profileInvalid) {
       alert('Please select a valid profile picture.');
       return;
     }
+
+    this.isSubmitting = true;
+    this.submitSuccess = false;
 
     // Prepare FormData to send member and profilePicture separately
     const { profilePicture, ...memberWithoutPic } = this.member;
@@ -131,12 +175,23 @@ export class AddMemberComponent implements OnInit {
     this.clubMemberService.addClubMember(formData).subscribe({
       next: (response) => {
         console.log('Member added successfully:', response);
-        alert('Member added!');
+        this.isSubmitting = false;
+        this.submitSuccess = true;
+        
+        // Show success state for 2 seconds, then navigate
+        setTimeout(() => {
+          this.router.navigate(['/clubs', response.clubId, 'members', response.userId]);
+
+        }, 2000);
       },
       error: (err) => {
         console.error('Error adding member:', err);
+        console.log(formData);
+        this.isSubmitting = false;
+        this.submitSuccess = false;
         alert('Failed to add member.');
       }
     });
   }
+
 }

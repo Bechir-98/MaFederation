@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
+import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.mappers.ClubMemberMapper;
 import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.repository.ClubMemberRepository;
@@ -20,19 +21,14 @@ public class ClubMemberServices {
     }
 
    @Transactional
-public ClubMember createMember(PostClubMemberDTO memberDTO) {
+public ResponseClubMemberDTO createMember(PostClubMemberDTO memberDTO) {
     if (memberDTO == null) {
         throw new IllegalArgumentException("Member DTO cannot be null");
     }
 
-    ClubMember member = clubMemberMapper.toEntity(memberDTO);
-    return clubMemberRepository.save(member);
+    ClubMember member = clubMemberRepository.save(clubMemberMapper.toEntity(memberDTO));
+    return clubMemberMapper.toResponseDto(member);
 }
-
-
-
-
-    
 
     public ClubMember getMemberById(Integer id) {
         return clubMemberRepository.findById(id)

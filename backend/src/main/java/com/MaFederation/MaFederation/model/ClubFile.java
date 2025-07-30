@@ -1,6 +1,6 @@
 package com.MaFederation.MaFederation.model;
 
-import com.MaFederation.MaFederation.enums.FileType;
+import com.MaFederation.MaFederation.enums.ClubFileType;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,10 +17,11 @@ public class ClubFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private FileType type;
+    private ClubFileType type;
     @Lob
-    @Basic(fetch = FetchType.LAZY) // optional, depending on your access pattern
+    @Basic(fetch = FetchType.EAGER)
     private byte[] content;
+
 
     @ManyToOne
     @JoinColumn(name = "club_id", nullable = false)
