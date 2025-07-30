@@ -12,7 +12,7 @@ type ClubFileType = 'LICENSE' | 'REGISTRATION_CERTIFICATE' | 'AFFILIATION_AGREEM
   templateUrl: './club-files-component.html',
   styleUrls: ['./club-files-component.css']
 })
-export class FileCardComponent implements OnInit {
+export class ClubFiles implements OnInit {
 
   @Input() clubId!: number;
 

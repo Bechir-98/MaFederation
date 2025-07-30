@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileCardComponent } from './club-files-component';
+import { ClubFiles } from './club-files-component';
 
 describe('FileCardComponent', () => {
-  let component: FileCardComponent;
-  let fixture: ComponentFixture<FileCardComponent>;
+  let component: ClubFiles;
+  let fixture: ComponentFixture<ClubFiles>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FileCardComponent]
+      imports: [ClubFiles]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FileCardComponent);
+    fixture = TestBed.createComponent(ClubFiles);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

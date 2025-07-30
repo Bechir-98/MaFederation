@@ -86,29 +86,4 @@
     </div>
   </div>
 
-  <!-- === CREDENTIALS MODAL === -->
-  <!-- <div *ngIf="credentialsViewer" class="categoryviewer-backdrop" (click)="onBackdropClick($event)">
-    <div class="categoryviewer" (click)="$event.stopPropagation()" tabindex="0">
-      <button (click)="credentialsViewer = false" class="close-button">✕</button>
-      <h2>Member Credentials</h2>
-      <div class="credential-grid">
-        <div *ngFor="let credential of loadedCredentials" class="credential-card">
-          <h3>{{ credential.type }}</h3>
-          <p>📄 Document Available</p>
-          <a [href]="credential.content" target="_blank">View / Download</a>
-        </div>
-        <div *ngFor="let type of requiredCredentialTypes">
-          <ng-container *ngIf="!hasCredential(type)">
-            <div class="add-credential-card" (click)="openUploadDialog(type)">
-              <span class="plus-icon">＋</span>
-              <p>Add {{ type.replace('_', ' ') }}</p>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-      <ng-template #noCredentials>
-        <p class="no-categories-message">No credentials found.</p>
-      </ng-template>
-    </div>
-  </div> -->
 </div>

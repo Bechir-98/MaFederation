@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClubServices } from '../../services/api/club/club-services';
 import { Category } from '../../representations/Category/category';
 import { ClubFile, ResponseClub } from '../../representations/Club/ResponseClub';
-import { FileCardComponent } from '../../files/club-files-component/club-files-component'
+import { ClubFiles } from '../../files/club-files-component/club-files-component'
 
 @Component({
   selector: 'app-club-component',
   standalone: true,
-  imports: [CommonModule, FileCardComponent],
+  imports: [CommonModule, ClubFiles],
   templateUrl: './club-component.html',
   styleUrls: ['./club-component.css']
 })
