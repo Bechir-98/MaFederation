@@ -25,7 +25,11 @@
       bankAccount: '',
       bankName: '',
       categoryIds: [],
-      logo: null  // now a File or null
+      logo: null ,
+      createdAt: '',
+      createdBy: '',
+      updatedAt: '',
+      updatedBy: '' // now a File or null
     };
 
     logoPreview: string | ArrayBuffer | null = null;
@@ -97,10 +101,11 @@
   if (logo) {
     formData.append('logo', logo);
   }
+
   this.clubservice.createClub(formData).subscribe({
     next: (createdClub) => {
       alert('✅ Club registered successfully!');
-      this.router.navigate(['/clubs', createdClub.clubId]);
+      this.router.navigate(['/clubs', createdClub.id]);
     },
     error: (err) => {
       console.error('❌ Error creating club:', err);
@@ -112,12 +117,12 @@
 
     onCategoryChange(category: Category, event: any) {
       if (event.target.checked) {
-        if (!this.club.categoryIds.includes(category.categoryId!)) {
-          this.club.categoryIds.push(category.categoryId!);
+        if (!this.club.categoryIds.includes(category.id!)) {
+          this.club.categoryIds.push(category.id!);
         }
       } else {
         this.club.categoryIds = this.club.categoryIds.filter(
-          (id: number) => id !== category.categoryId
+          (id: number) => id !== category.id
         );
       }
     }

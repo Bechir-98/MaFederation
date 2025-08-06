@@ -2,24 +2,20 @@ package com.MaFederation.MaFederation.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "users") 
-@Inheritance(strategy = InheritanceType.JOINED) 
-// @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING) 
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
-    // @Column(nullable = false)
-    // private String passwordHash;
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true) // Inherit equals/hashCode from Audit
+public class User extends Audit {
 
     @Lob
     private byte[] profilePicture;
@@ -45,10 +41,11 @@ public class User {
     @Column(unique = true)
     private String nationalID;
 
+    @Column(name = "type", updatable = false)
+    private String type;
+
     private String nationality;
 
-
-   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-private List<UserFile> files;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserFile> files;
 }

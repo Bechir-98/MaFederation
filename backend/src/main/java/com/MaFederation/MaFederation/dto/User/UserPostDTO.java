@@ -1,7 +1,7 @@
 package com.MaFederation.MaFederation.dto.User;
 
 import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,5 +22,11 @@ public class UserPostDTO {
     private String address;
     private String nationalID;
     private String nationality;
+    private String type;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private String createdBy;
+    private String updatedBy;
+
 
 }

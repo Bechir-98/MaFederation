@@ -103,7 +103,7 @@
         <label><i class="fas fa-users"></i> Club</label>
         <select name="clubId" [(ngModel)]="member.clubId" (change)="onClubChange($event)">
           <option value="">Select Club</option>
-          <option *ngFor="let club of clubs" [value]="club.clubId">
+          <option *ngFor="let club of clubs" [value]="club.id">
             {{ club.name }}
           </option>
         </select>
@@ -127,12 +127,12 @@
           <div *ngFor="let category of categories" class="checkbox-item">
             <input
               type="checkbox"
-              [id]="'category-' + category.categoryId"
-              [value]="category.categoryId"
+              [id]="'category-' + category.id"
+              [value]="category.id"
               (change)="onCategoryChange($event)"
-              [checked]="member.categoryIds.includes(category.categoryId)"
+              [checked]="member.categoryIds.includes(category.id)"
             />
-            <label [for]="'category-' + category.categoryId">{{ category.name }}</label>
+            <label [for]="'category-' + category.id">{{ category.name }}</label>
           </div>
         </div>
       </div>

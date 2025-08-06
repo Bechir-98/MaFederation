@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {  ClubFile, ResponseClub } from '../../../representations/Club/ResponseClub';
+import { StaffRepresentation } from '../../../representations/Staff/staffResponce';
+import { PlayerRepresentation } from '../../../representations/Player/player-representation';
+import { AdministrationRepresentation } from '../../../representations/Admin/adminstration-representation';
 
 
 @Injectable({
@@ -26,6 +29,31 @@ export class ClubServices {
 createClub(formData: FormData): Observable<ResponseClub> {
   return this.http.post<ResponseClub>(`${this.baseUrl}/register`, formData);
 }
+
+
+
+loadstaff(clubId: number): Observable<StaffRepresentation[]> {
+  return this.http.get<StaffRepresentation[]>(`${this.baseUrl}/staff`, {
+    params: { clubId: clubId.toString() }
+  });
+}
+
+loadPlayers(clubId: number): Observable<PlayerRepresentation[]> {
+  return this.http.get<PlayerRepresentation[]>(`${this.baseUrl}/players`, {
+    params: { clubId: clubId.toString() }
+  });
+
+}
+
+loadAdminstration ( clubId: number): Observable<AdministrationRepresentation[]> {
+  return this.http.get<AdministrationRepresentation[]>(`${this.baseUrl}/players`, {
+    params: { clubId: clubId.toString() }
+  });
+
+}
+
+
+
 
 
 // In your club-services.ts or wherever the service is

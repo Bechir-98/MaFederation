@@ -27,22 +27,27 @@ export class AddMemberComponent implements OnInit {
   isSubmitting = false;
   submitSuccess = false;
 
-  member: ClubMemberPost = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
-    gender: '',
-    phoneNumber: '',
-    address: '',
-    nationalID: '',
-    nationality: '',
-    type: 'PLAYER', 
-    clubId: 0,
-    passwordHash: '',
-    categoryIds: [],
-    profilePicture: null
-  };
+ member: ClubMemberPost = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  dateOfBirth: '',
+  gender: '',
+  phoneNumber: '',
+  address: '',
+  nationalID: '',
+  nationality: '',
+  type: 'PLAYER',
+  clubId: 0,
+  passwordHash: '',
+  categoryIds: [],
+  profilePicture: null,
+  createdAt: '',
+  createdBy: '',
+  updatedAt: '',
+  updatedBy: ''
+};
+
 
   constructor(
     private clubservice: ClubServices,
@@ -180,7 +185,7 @@ export class AddMemberComponent implements OnInit {
         
         // Show success state for 2 seconds, then navigate
         setTimeout(() => {
-          this.router.navigate(['/clubs', response.clubId, 'members', response.userId]);
+          this.router.navigate(['/clubs', response.clubId, 'members', response.id]);
 
         }, 2000);
       },

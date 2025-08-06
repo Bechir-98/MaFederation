@@ -13,9 +13,8 @@ public class UserFileMapper {
 
         return UserFileDTO.builder()
                 .id(file.getId())
-                .content(file.getContent())
                 .type(file.getType())
-                .userId(file.getUser().getUserId())
+                .userId(file.getUser().getId())
                 .build();
     }
 
@@ -23,7 +22,6 @@ public class UserFileMapper {
         if (dto == null) return null;
 
         return UserFile.builder()
-                .content(dto.getContent())
                 .type(dto.getType())
                 .user(user)
                 .build();

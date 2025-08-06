@@ -2,7 +2,7 @@ package com.MaFederation.MaFederation.mappers;
 
 import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.dto.Player.PostPlayerDTO;
-import com.MaFederation.MaFederation.dto.Player.ResponcePlayerDTO;
+import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Player;
 import com.MaFederation.MaFederation.services.CategoryService;
@@ -25,13 +25,13 @@ public class PlayerMapper {
     }
 
     // Convert from Player entity to ResponcePlayerDTO
-    public ResponcePlayerDTO toDto(Player player) {
+    public ResponsePlayerDTO toDto(Player player) {
         if (player == null) return null;
 
         ResponseClubMemberDTO baseDto = clubMemberMapper.toResponseDto(player);
 
-        ResponcePlayerDTO dto = new ResponcePlayerDTO();
-        dto.setUserId(baseDto.getUserId());
+        ResponsePlayerDTO dto = new ResponsePlayerDTO();
+        dto.setId(baseDto.getId());
         dto.setEmail(baseDto.getEmail());
         dto.setFirstName(baseDto.getFirstName());
         dto.setLastName(baseDto.getLastName());

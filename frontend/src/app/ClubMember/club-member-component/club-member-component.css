@@ -1,251 +1,343 @@
 .member-card-container {
-  padding: 1.5em;
+  padding: 2rem;
   max-width: 1200px;
   margin: auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  color: #2c3e50;
 }
 
+/* === Header Section === */
 .header {
-  border: 4px solid black;
   display: flex;
   align-items: center;
-  padding: 1em;
-  gap: 1.5em;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.header > * {
+  position: relative;
+  z-index: 1;
 }
 
 .image {
-  height: 120px;
-  width: 120px;
-  border-radius: 8px;
+  width: 140px;
+  height: 140px;
   object-fit: cover;
-  border: 2px solid #ccc;
-  padding: 4px;
-  background-color: white;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
 
 .club-info-header {
-  display: flex;
-  justify-content: space-between;
-  flex: 1;
-  align-items: flex-start;
-  gap: 2em;
-  flex-wrap: wrap;
+  flex-grow: 1;
 }
 
-.info-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
-  flex: 1;
-}
-
-.name {
+.info-block .name {
   display: flex;
   align-items: center;
-  gap: 1em;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
   flex-wrap: wrap;
 }
 
-.status {
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #555;
+.name h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(45deg, #ffffff, #f0f0f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.status-badge {
-  padding: 4px 8px;
-  margin-left: 10px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  user-select: none;
-  background-color: #28a745;
-  color: white;
+/* Status badge in header */
+.status {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  display: inline-block;
 }
 
 /* Buttons */
 .edit-button,
 .delete-button {
-  background-color: #ffc107;
-  color: #212529;
+  padding: 0.75rem 1.5rem;
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 25px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.edit-button:hover,
-.delete-button:hover {
-  background-color: #e0a800;
-  transform: scale(1.05);
+.edit-button {
+  background: linear-gradient(45deg, #4CAF50, #45a049);
+  color: white;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.edit-button:hover {
+  background: linear-gradient(45deg, #45a049, #4CAF50);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
 }
 
 .delete-button {
-  background-color: #dc3545;
+  background: linear-gradient(45deg, #f44336, #d32f2f);
   color: white;
+  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
 }
 
 .delete-button:hover {
-  background-color: #a71d2a;
+  background: linear-gradient(45deg, #d32f2f, #f44336);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
 }
 
-/* === Main Content === */
+/* === Main Layout === */
 .main {
-  margin-top: 3%;
-  display: flex;
-  justify-content: space-between;
-  gap: 25px;
-  padding: 20px;
-  flex-wrap: wrap;
-  background-color: #f8f9fa;
-  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2.5rem;
+  align-items: start;
 }
 
-/* Basic Info: 30% */
-.basic-info {
-  border: 2px solid #0077cc;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 300px;
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.basic-info {
-  /* existing styles... */
-  font-size: 1rem; /* Adjust this as needed (try 0.8rem, 0.75rem if you want smaller) */
-}
-
-.basic-info h2 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 2px;
-}
-
-.basic-info h3 {
-  font-size: 0.8rem;
-  font-weight: normal;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-
-/* Federation & Categories: 70% */
+/* === Info Boxes === */
+.basic-info,
 .sport-info {
-  border: 2px solid rgba(0, 123, 255, 0.4);
-  border-radius: 10px;
-  flex: 1;
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
-.sport-info .buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-bottom: 20px;
+.basic-info:hover,
+.sport-info:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
-.sport-info .sport-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+.basic-info {
+  position: sticky;
+  top: 2rem;
 }
 
-.sport-info .sport-section > div {
-  flex: 1 1 45%;
-  min-width: 220px;
-  padding: 10px;
-  border-left: 3px solid #007bff10;
+.infos h2 {
+  font-size: 1rem;
+  margin: 1.5rem 0 0.5rem;
+  color: #2c3e50;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
 }
 
-.sport-info h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #004080;
+.infos h2::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border-radius: 1px;
 }
 
-.sport-info p {
-  margin: 6px 0;
-  font-size: 14px;
-  color: #444;
+.infos h2:first-child {
+  margin-top: 0;
 }
 
-/* Credential styles reused */
+.infos h3 {
+  margin: 0 0 1rem;
+  font-weight: 500;
+  color: #34495e;
+  font-size: 1.1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+/* Buttons container */
+.buttons {
+  margin-bottom: 2rem;
+  text-align: right;
+}
+
+/* General button style */
 .button {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  padding: 1rem 2rem;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 25px;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.button:hover::before {
+  left: 100%;
 }
 
 .button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
+/* Sport section styling */
+.sport-section {
+  display: grid;
+  gap: 2rem;
+}
+
+.sport-section > div {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 15px;
+  border-left: 4px solid #667eea;
+  transition: all 0.3s ease;
+}
+
+.sport-section > div:hover {
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sport-section h2 {
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+  color: #2c3e50;
+  font-weight: 700;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.sport-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+.sport-section p {
+  margin: 0.8rem 0;
+  color: #495057;
+  font-size: 1rem;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sport-section p strong {
+  color: #2c3e50;
+  font-weight: 600;
+  min-width: 150px;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
+  .member-card-container {
+    padding: 1rem;
+  }
+
   .header {
     flex-direction: column;
     text-align: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .name {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .name h1 {
+    font-size: 2rem;
   }
 
   .main {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  .basic-info,
-  .sport-info {
-    width: 100%;
+  .basic-info {
+    position: static;
   }
 }
 
-.no-categories-message {
-  font-style: italic;
-  color: #666;
-  margin-top: 0.5rem;
-}
+@media (max-width: 480px) {
+  .edit-button,
+  .delete-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
 
+  .button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.8rem;
+  }
 
-.validation-section {
-  margin-top: 1.5rem;
-}
-
-.validation-box {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  background-color: #f9f9f9;
-  padding: 1rem;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-}
-
-.validator-block {
-  flex: 1;
-  min-width: 250px;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-}
-
-.validator-block h3 {
-  margin-top: 0;
-  color: #003366;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
+  .image {
+    width: 100px;
+    height: 100px;
+  }
 }

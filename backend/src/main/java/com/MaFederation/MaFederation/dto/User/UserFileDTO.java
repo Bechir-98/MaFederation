@@ -1,6 +1,6 @@
 package com.MaFederation.MaFederation.dto.User;
 
-import com.MaFederation.MaFederation.enums.PlayerFileType;
+import com.MaFederation.MaFederation.enums.UserFileType;
 import lombok.*;
 
 @Data
@@ -11,7 +11,6 @@ public class UserFileDTO {
 
 
     private Integer id;
-    private byte[] content;
-    private PlayerFileType type;   
+    private UserFileType type;   
     private Integer userId;
 }

@@ -4,6 +4,7 @@
     import lombok.Data;
     import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
     @Data
@@ -20,5 +21,10 @@ import java.util.List;
         private String bankName;
         private byte[] logo; 
         private List<Integer> categoryIds;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+        private String createdBy;
+        private String updatedBy;
+
         
     }

@@ -1,9 +1,8 @@
 package com.MaFederation.MaFederation.enums;
 
-public enum PlayerFileType {
+public enum UserFileType {
     PASSPORT,
     CIN,
     CV,
     LICENSE,
-    OTHER
 }

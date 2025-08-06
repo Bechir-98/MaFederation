@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class ClubPostCategoryDTO {
 
     @NotNull(message = "Category ID must not be null")
-    private Integer categoryId;
+    private Integer id;
 }

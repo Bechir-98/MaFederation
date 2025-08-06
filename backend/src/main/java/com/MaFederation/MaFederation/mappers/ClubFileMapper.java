@@ -16,7 +16,7 @@ public ClubFileDTO toDto(ClubFile clubFile) {
     return new ClubFileDTO(
         clubFile.getId(),
         clubFile.getType(),
-        clubFile.getClub() != null ? clubFile.getClub().getClubId() : null
+        clubFile.getClub() != null ? clubFile.getClub().getId() : null
     );
 }
 
@@ -29,7 +29,7 @@ public ClubFile toEntity(ClubFileDTO dto) {
 
     if (dto.getClubId() != null) {
         Club club = new Club();
-        club.setClubId(dto.getClubId());
+        club.setId(dto.getClubId());
         clubFile.setClub(club);
     }
 

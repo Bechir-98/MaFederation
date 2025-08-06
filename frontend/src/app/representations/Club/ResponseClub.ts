@@ -1,8 +1,8 @@
+import { ResponceAudit } from "../Audit/ResponceAudit";
 
 
 
-export interface ResponseClub{
-  clubId: number;
+export interface ResponseClub extends ResponceAudit{
   name: string;
   location: string;
   foundedYear: number;
@@ -16,8 +16,7 @@ export interface ResponseClub{
   fileIds: number[]; 
 }
 
-export interface ClubFile {
-  id: number;
+export interface ClubFile extends ResponceAudit {
   type:  "LICENSE" | "REGISTRATION_CERTIFICATE" | "AFFILIATION_AGREEMENT" | "CLUB_OFFICIALS";
   content: string; 
 }

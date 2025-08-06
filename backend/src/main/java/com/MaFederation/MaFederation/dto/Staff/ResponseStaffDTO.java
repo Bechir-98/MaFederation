@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ResponceStaffDTO extends  ResponseClubMemberDTO {
+public class ResponseStaffDTO extends  ResponseClubMemberDTO {
     private String specialty;
 }

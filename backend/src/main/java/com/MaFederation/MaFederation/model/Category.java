@@ -2,6 +2,7 @@ package com.MaFederation.MaFederation.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -12,12 +13,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Category {
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class Category extends Audit {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer categoryId; 
 
     private String name;
     private String description;

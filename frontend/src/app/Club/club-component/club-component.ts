@@ -77,48 +77,11 @@ export class ClubComponent implements OnInit {
       }
     }
   }
-
-  // Additional helper methods for the enhanced template
-
-  /**
-   * Get validation status text using utility service
-   */
-
-  /**
-   * Get CSS class for validation status using utility service
-   */
- 
-
-  /**
-   * Format date for display using utility service
-   */
-  
-  /**
-   * Format currency for display using utility service
-   */
-  
-  /**
-   * Get club summary information
-   */
-
-
-  /**
-   * Check if club is ready for validation
-   */
-
-
-  /**
-   * Get next steps for club completion
-   */
-
-  /**
-   * Handle edit button click
-   */
   onEditClub(): void {
     if (!this.club) return;
     
     // Navigate to edit page or open edit modal
-    console.log('Edit club:', this.club.clubId);
+    console.log('Edit club:', this.club.id);
     // TODO: Implement edit functionality
   }
 
@@ -130,7 +93,7 @@ export class ClubComponent implements OnInit {
     
     const confirmed = confirm(`Are you sure you want to delete ${this.club.name}?`);
     if (confirmed) {
-      console.log('Delete club:', this.club.clubId);
+      console.log('Delete club:', this.club.id);
       // TODO: Implement delete functionality
       // this.clubService.deleteClub(this.club.clubId).subscribe(...)
     }

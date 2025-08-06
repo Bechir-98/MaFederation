@@ -25,7 +25,6 @@ export class ClubMemberService {
       return this.http.get<ClubMemberResponse>(`${this.baseUrl}/clubs/${clubId}/members/${memberId}`);
   }
 
-
   // Add to your ClubMemberService
 deleteMember(memberId: number, clubId: number): Observable<any> {
   return this.http.delete(`/api/clubs/${clubId}/members/${memberId}`);

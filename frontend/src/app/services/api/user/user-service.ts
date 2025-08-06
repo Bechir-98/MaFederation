@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserResponse } from '../../../representations/User/userResponse';
+import { UserFile, UserResponse } from '../../../representations/User/userResponse';
 import { UserPost } from '../../../representations/User/userPost';
 
 @Injectable({
@@ -14,8 +14,14 @@ export class UserService {
     // Constructor implementation
   }
 
-  getUserById(id: number): Observable<UserResponse> {
-    return this.http.get<UserResponse>(`${this.baseUrl}/users/${id}`);
+   createUser(user: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/users`, user);
+  }
+
+  getUserById(id: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.baseUrl}/users/${id}`
+    );
   }
 
   // Additional methods you might need
@@ -23,15 +29,56 @@ export class UserService {
     return this.http.get<UserResponse[]>(`${this.baseUrl}/users`);
   }
 
-  createUser(user: UserPost): Observable<UserPost> {
-    return this.http.post<UserPost>(`${this.baseUrl}/users`, user);
+   
+
+    updateUser(id: number, user: UserPost): Observable<UserPost> {
+      return this.http.put<UserPost>(`${this.baseUrl}/users/${id}`, user);
+    } 
+
+    deleteUser(id: number): Observable<void> {
+      return this.http.delete<void>(`${this.baseUrl}/users/${id}`);
+    }
+
+
+
+
+  
+uploadUserFiles(userId: number, files: File[], type: string): Observable<string> {
+  const formData = new FormData();
+  // Backend expects "file" and "type" as separate fields (1 file per request)
+  if (files.length > 0) {
+    formData.append('file', files[0], files[0].name);
+    formData.append('userId', userId.toString());
+    formData.append('type', type);
   }
 
-  updateUser(id: number, user: UserPost): Observable<UserPost> {
-    return this.http.put<UserPost>(`${this.baseUrl}/users/${id}`, user);
-  }
+  return this.http.post<string>(`${this.baseUrl}/userfiles/upload`, formData);
+}
 
-  deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/users/${id}`);
-  }
+loadUserFiles(userId: number): Observable<UserFile[]> {
+  return this.http.get<UserFile[]>(`${this.baseUrl}/userfiles/files`, {
+    params: { userId: userId.toString() }
+  });
+}
+
+loadUserFileById(fileId: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/userfiles/file`, {
+    params: { fileId: fileId.toString() }
+  });
+}
+
+deleteUserFile(fileId: number): Observable<void> {
+  return this.http.delete<void>(`${this.baseUrl}/userfiles/file/delete`, {
+    params: { fileId: fileId.toString() }
+  });
+}
+
+updateUserFile(file: File, fileId: number): Observable<any> {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('fileId', fileId.toString());
+
+  return this.http.put<any>(`${this.baseUrl}/userfiles/file/update`, formData);
+}
+
 }

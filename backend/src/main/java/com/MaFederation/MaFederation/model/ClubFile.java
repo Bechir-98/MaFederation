@@ -4,18 +4,16 @@ import com.MaFederation.MaFederation.enums.ClubFileType;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "club_files")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class ClubFile {
+@SuperBuilder
+public class ClubFile extends Audit{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     private ClubFileType type;
     @Lob

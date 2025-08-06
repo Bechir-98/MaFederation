@@ -20,9 +20,7 @@ public abstract class ClubMember extends User {
     @JsonIgnore
     private Club club;
 
-    @Column(name = "type", updatable = false)
-    private String type;
-
+    private String MemberType;
 
     @ManyToMany
     @JoinTable(

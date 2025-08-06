@@ -36,8 +36,8 @@ export class CategoryService {
     return this.http.get<Category[]>(`${this.baseUrl}/clubs/${id}/categories`);
   }
 
- addCategoryToClub(clubId: number, categoryId: number): Observable<any> {
-  return this.http.post(`${this.baseUrl}/clubs/${clubId}/categories`, { categoryId });
+ addCategoryToClub(clubId: number, id: number): Observable<any> {
+  return this.http.post(`${this.baseUrl}/clubs/${clubId}/categories`, { id });
 }
 
 removeCategoryFromClub(clubId: number, categoryId: number): Observable<any> {

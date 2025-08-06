@@ -1,6 +1,7 @@
+import { PostAudit } from "../Audit/PostAudit";
 
 
-export interface PostClub {
+export interface PostClub extends PostAudit{
 name: string;
   location: string;
   foundedYear: number;
@@ -10,5 +11,4 @@ name: string;
   bankName: string;
   categoryIds: number[]; 
   logo: File|null; 
-
 }

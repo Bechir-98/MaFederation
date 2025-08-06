@@ -1,7 +1,6 @@
-export interface UserResponse {
+import { ResponceAudit } from "../Audit/ResponceAudit";
 
-
-  userId: number;
+export interface UserResponse extends ResponceAudit{
   profilePicture: string;   
   email: string;
   firstName: string;
@@ -12,7 +11,15 @@ export interface UserResponse {
   address: string;
   nationalID: string;
   nationality: string;
+  type: string;
   
 }
 
+
+export interface UserFile extends ResponceAudit{
+
+  type:  'PASSPORT' | 'CV' | 'LICENSE' | 'OTHER';
+  content: string; 
+
+}
 

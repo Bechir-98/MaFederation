@@ -1,51 +1,50 @@
-package com.MaFederation.MaFederation.mappers;
+        package com.MaFederation.MaFederation.mappers;
 
-import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
-import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
-import com.MaFederation.MaFederation.model.Administration;
-import com.MaFederation.MaFederation.model.Category;
-import com.MaFederation.MaFederation.model.ClubMember;
-import com.MaFederation.MaFederation.model.Player;
-import com.MaFederation.MaFederation.model.Staff;
-import com.MaFederation.MaFederation.repository.ClubRepository;
-import com.MaFederation.MaFederation.services.CategoryService;
-import lombok.RequiredArgsConstructor;
+        import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
+        import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
+    import com.MaFederation.MaFederation.dto.User.ResponseUserDTO;
+    import com.MaFederation.MaFederation.model.Administration;
+        import com.MaFederation.MaFederation.model.Category;
+        import com.MaFederation.MaFederation.model.ClubMember;
+        import com.MaFederation.MaFederation.model.Player;
+        import com.MaFederation.MaFederation.model.Staff;
+        import com.MaFederation.MaFederation.repository.ClubRepository;
+        import com.MaFederation.MaFederation.services.CategoryService;
+        import lombok.RequiredArgsConstructor;
+        import org.springframework.beans.BeanUtils;
 
-import java.util.stream.Collectors;
+    import java.util.List;
 
-import org.springframework.stereotype.Component;
+        import org.springframework.stereotype.Component;
 
-@Component
+     @Component
 @RequiredArgsConstructor
 public class ClubMemberMapper {
 
     private final CategoryService categoryService;
     private final ClubRepository clubRepository;
-    
+    private final UserMapper userMapper;
 
     public ResponseClubMemberDTO toResponseDto(ClubMember member) {
         if (member == null) return null;
 
+        ResponseUserDTO baseDto = userMapper.toResponseDto(member);
+
         ResponseClubMemberDTO dto = new ResponseClubMemberDTO();
-        dto.setUserId(member.getUserId());
-        dto.setEmail(member.getEmail());
-        dto.setFirstName(member.getFirstName());
-        dto.setLastName(member.getLastName());
-        dto.setDateOfBirth(member.getDateOfBirth());
-        dto.setGender(member.getGender());
-        dto.setPhoneNumber(member.getPhoneNumber());
-        dto.setAddress(member.getAddress());
-        dto.setNationalID(member.getNationalID());
-        dto.setNationality(member.getNationality());
-        dto.setProfilePicture(member.getProfilePicture());
-        dto.setType(member.getType());
-        dto.setClubId(member.getClub() != null ? member.getClub().getClubId() : null);
-        dto.setCategories(member.getCategories()
-                      .stream()
-                      .map(Category::getName)
-                      .collect(Collectors.toList())
-            );
-        
+
+        // Copy all common user fields
+        BeanUtils.copyProperties(baseDto, dto);
+
+        // Set ClubMember-specific fields
+        dto.setClubId(member.getClub() != null ? member.getClub().getId() : null);
+        dto.setMemberType(member.getMemberType());
+
+        dto.setCategories(
+            member.getCategories() != null
+                ? member.getCategories().stream().map(Category::getName).toList()
+                : List.of()
+        );
+
         return dto;
     }
 
@@ -53,13 +52,14 @@ public class ClubMemberMapper {
         if (dto == null) return null;
 
         ClubMember member;
-        switch (dto.getType()) {
+        switch (dto.getMemberType()) {
             case "PLAYER" -> member = new Player();
             case "STAFF" -> member = new Staff();
             case "ADMIN" -> member = new Administration();
             default -> throw new IllegalArgumentException("Unknown member type: " + dto.getType());
         }
 
+        // Common User fields
         member.setEmail(dto.getEmail());
         member.setPasswordHash(dto.getPasswordHash());
         member.setFirstName(dto.getFirstName());
@@ -71,9 +71,11 @@ public class ClubMemberMapper {
         member.setNationalID(dto.getNationalID());
         member.setNationality(dto.getNationality());
         member.setType(dto.getType());
+        member.setProfilePicture(dto.getProfilePicture());
+
         member.setClub(clubRepository.findById(dto.getClubId()).orElse(null));
         member.setCategories(categoryService.getCategoriesByIdsEntity(dto.getCategoryIds()));
-        member.setProfilePicture(dto.getProfilePicture());
+        member.setMemberType(dto.getMemberType());
 
         return member;
     }

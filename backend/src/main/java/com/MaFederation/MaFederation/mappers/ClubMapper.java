@@ -56,12 +56,12 @@ public class ClubMapper {
 
         List<Integer> categoryIds = club.getCategories() == null ? new ArrayList<>() :
             club.getCategories().stream()
-                .map(Category::getCategoryId)
+                .map(Category::getId)
                 .collect(Collectors.toList());
 
         List<Integer> memberIds = club.getMembers() == null ? new ArrayList<>() :
             club.getMembers().stream()
-                .map(ClubMember::getUserId)
+                .map(ClubMember::getId)
                 .collect(Collectors.toList());
 
         List<Integer> fileIds = club.getFiles() == null ? new ArrayList<>() :
@@ -70,18 +70,23 @@ public class ClubMapper {
                 .collect(Collectors.toList());
 
         return new ResponseClubDTO(
-            club.getClubId(),
-            club.getName(),
-            club.getLocation(),
-            club.getFoundedYear(),
-            club.getContactEmail(),
-            club.getContactPhone(),
-            club.getBankAccount(),
-            club.getBankName(),
-            club.getLogo(), // already byte[]
-            categoryIds,
-            memberIds,
-            fileIds
-        );
+                club.getId(),
+                club.getName(),
+                club.getLocation(),
+                club.getFoundedYear(),
+                club.getContactEmail(),
+                club.getContactPhone(),
+                club.getBankAccount(),
+                club.getBankName(),
+                club.getLogo(),        
+                categoryIds,         
+                memberIds,
+                fileIds,
+                club.getCreatedAt(),   
+                club.getUpdatedAt(),
+                club.getCreatedBy(),
+                club.getUpdatedBy()
+                );
+
     }
 }

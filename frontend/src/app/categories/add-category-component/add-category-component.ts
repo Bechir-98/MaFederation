@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class AddCategoryComponent {
 
   category: Category = {
-    categoryId: 0,
+    id: 0,
     name: '',
     description: '',
     ageMin: 0,

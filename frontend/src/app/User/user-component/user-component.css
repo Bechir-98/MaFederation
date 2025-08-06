@@ -1,11 +1,18 @@
-/* ===== Header ===== */
+:host {
+  display: block;
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #10151c;
+  color: white;
+}
+
 .header {
-  border: 4px solid black;
   display: flex;
   align-items: center;
-  padding: 1em;
-  gap: 1.5em;
-  background-color: #f9f9f9;
+  gap: 20px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 20px;
 }
 
 .image-container {
@@ -13,194 +20,159 @@
 }
 
 .image {
-  height: 120px;
-  width: 120px;
-  border-radius: 8px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
   object-fit: cover;
+  border: 3px solid #00bcd4;
 }
 
-/* ===== Top Info Block ===== */
 .player-info-header {
-  display: flex;
-  justify-content: space-between;
-  flex: 1;
-  align-items: flex-start;
-  gap: 2em;
-}
-
-.info-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
-  flex: 1;
+  flex-grow: 1;
 }
 
 .name {
   display: flex;
   align-items: center;
-  gap: 1em;
-  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.name h1 {
+  font-size: 28px;
+  margin: 0;
+  font-weight: bold;
 }
 
 .status-badge {
-  padding: 4px 8px;
-  margin-left: 10px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  cursor: help;
-  user-select: none;
+  background-color: #00bcd4;
+  color: #000;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
 }
 
-.validated {
-  background-color: #28a745;
+.edit-button,
+.delete-button {
+  padding: 6px 12px;
+  margin-left: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button {
+  background-color: #4caf50;
   color: white;
 }
 
-.not-validated {
-  background-color: #ffc107;
-  color: black;
+.delete-button {
+  background-color: #f44336;
+  color: white;
 }
 
-.club {
-  text-align: center;
-}
-
-.logo {
-  height: 60px;
-  width: 60px;
-  object-fit: contain;
-  margin-bottom: 0.5em;
-}
-
-/* ===== Edit Button ===== */
-.edit-button {
-  background-color: #ffc107;
-  color: #212529;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.edit-button:hover {
-  background-color: #e0a800;
-  transform: scale(1.05);
-}
-
-/* ===== Layout Main ===== */
 .main {
-  margin-top: 3%;
   display: flex;
-  justify-content: space-between;
-  gap: 25px;
-  padding: 20px;
-  flex-wrap: nowrap;
-  background-color: #f8f9fa;
-  border-radius: 10px;
+  flex-direction: column;
+  gap: 40px;
 }
 
-/* ===== Basic Info Card ===== */
-.basic-info {
-  border: 2px solid #0606cd;
-  border-radius: 10px;
-  width: 25%;
+.basic-info, .sport-info {
   padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #1a222d;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.basic-info .infos h2 {
+.infos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.infos h2 {
   font-size: 16px;
-  margin-bottom: 4px;
-  color: #333;
+  margin: 0;
+  color: #aaa;
 }
 
-.basic-info .infos h3 {
-  font-size: 14px;
-  margin-bottom: 12px;
-  color: #666;
+.infos h3 {
+  font-size: 18px;
+  margin: 0 0 12px 0;
+  font-weight: normal;
 }
 
-/* ===== Sport Info (used for user metadata) ===== */
-.sport-info {
-  border: 2px solid rgba(5, 118, 3, 0.64);
-  border-radius: 10px;
-  width: 70%;
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.sport-section {
+  margin-top: 20px;
 }
 
-.sport-info .buttons {
+.buttons {
   display: flex;
-  justify-content: flex-end;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.sport-info .sport-section {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.sport-info .sport-section > div {
-  flex: 1 1 30%;
-  min-width: 200px;
-}
-
-.sport-info h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #004225;
-}
-
-.sport-info p {
-  margin: 6px 0;
-  font-size: 14px;
-  color: #444;
-}
-
-/* ===== Validation / Loan ===== */
-.validation-status.not-validated {
-  color: #dc3545;
-  font-weight: bold;
-}
-
-.validation-status.validated {
-  color: #28a745;
-  font-weight: bold;
-}
-
-/* ===== Button Style ===== */
 .button {
-  background-color: #007bff;
-  color: white;
+  background-color: #2196f3;
   border: none;
+  color: white;
   padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
 }
 
 .button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
+  background-color: #1976d2;
 }
 
-.button:active {
-  transform: scale(0.98);
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
-.button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+.modal-content {
+  background-color: #1f2a38;
+  color: #fff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #bbb;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #fff;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #00bcd4;
 }

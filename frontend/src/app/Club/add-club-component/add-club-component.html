@@ -147,11 +147,11 @@
       <div class="form-group" aria-labelledby="categories-label" role="group">
         <label id="categories-label">Catégories disponibles</label>
         <div class="checkbox-group">
-          <label *ngFor="let c of categories" class="checkbox-item" [attr.for]="'category-'+c.categoryId">
+          <label *ngFor="let c of categories" class="checkbox-item" [attr.for]="'category-'+c.id">
             <input
               type="checkbox"
-              [id]="'category-'+c.categoryId"
-              [checked]="club.categoryIds.includes(c.categoryId!)"
+              [id]="'category-'+c.id"
+              [checked]="club.categoryIds.includes(c.id!)"
               (change)="onCategoryChange(c, $event)"
             />
             {{ c.name }} ({{ c.ageMin }} - {{ c.ageMax }} ans)

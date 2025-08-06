@@ -2,7 +2,7 @@ package com.MaFederation.MaFederation.mappers;
 
 import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.dto.Staff.PostStaffDTO;
-import com.MaFederation.MaFederation.dto.Staff.ResponceStaffDTO;
+import com.MaFederation.MaFederation.dto.Staff.ResponseStaffDTO;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Staff;
 import com.MaFederation.MaFederation.services.CategoryService;
@@ -25,13 +25,13 @@ public class StaffMapper {
     }
 
     // Convert Staff entity to ResponceStaffDTO
-    public ResponceStaffDTO toDto(Staff staff) {
+    public ResponseStaffDTO toDto(Staff staff) {
         if (staff == null) return null;
 
         ResponseClubMemberDTO baseDto = clubMemberMapper.toResponseDto(staff);
 
-        ResponceStaffDTO dto = new ResponceStaffDTO();
-        dto.setUserId(baseDto.getUserId());
+        ResponseStaffDTO dto = new ResponseStaffDTO();
+        dto.setId(baseDto.getId());
         dto.setProfilePicture(baseDto.getProfilePicture());
         dto.setEmail(baseDto.getEmail());
         dto.setFirstName(baseDto.getFirstName());

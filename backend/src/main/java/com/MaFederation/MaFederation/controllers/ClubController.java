@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.MaFederation.MaFederation.dto.Admin.ResponseAdministrationDTO;
 import com.MaFederation.MaFederation.dto.Category.CategoryDTO;
 import com.MaFederation.MaFederation.dto.Category.ClubPostCategoryDTO;
 import com.MaFederation.MaFederation.dto.Club.ClubFileContent;
@@ -16,7 +17,8 @@ import com.MaFederation.MaFederation.dto.Club.ClubFileDTO;
 import com.MaFederation.MaFederation.dto.Club.PostClubDTO;
 import com.MaFederation.MaFederation.dto.Club.ResponseClubDTO;
 import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
-
+import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
+import com.MaFederation.MaFederation.dto.Staff.ResponseStaffDTO;
 import com.MaFederation.MaFederation.services.ClubFilesServices;
 import com.MaFederation.MaFederation.services.ClubServices;
 
@@ -136,7 +138,7 @@ public List<CategoryDTO> getCategoriesByClubId(@PathVariable Integer clubId) {
 
 @PostMapping("/{clubId}/categories")
 public CategoryDTO addCategoryToClub(@PathVariable Integer clubId, @RequestBody ClubPostCategoryDTO requestBody) {
-    Integer categoryId = requestBody.getCategoryId();
+    Integer categoryId = requestBody.getId();
     return clubServices.addCategoryToClub(clubId, categoryId);
 }
 @DeleteMapping("/{clubId}/categories/{categoryId}")
@@ -146,4 +148,25 @@ public ResponseEntity<Void> removeCategoryFromClub(@PathVariable Integer clubId,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+
+@GetMapping("/staff")
+    public ResponseEntity<List<ResponseStaffDTO>> getClubStaff(@RequestParam Integer clubId) {
+        List<ResponseStaffDTO> staff = clubServices.getStaffByClubId(clubId);
+        return ResponseEntity.ok(staff);
+    }
+
+    @GetMapping("/administration")
+    public ResponseEntity<List<ResponseAdministrationDTO>> getClubAdministration(@RequestParam Integer clubId) {
+        List<ResponseAdministrationDTO> admins = clubServices.getAdministrationByClubId(clubId);
+        return ResponseEntity.ok(admins);
+    }
+
+    @GetMapping("/players")
+    public ResponseEntity<List<ResponsePlayerDTO>> getClubPlayers(@RequestParam Integer clubId) {
+        List<ResponsePlayerDTO> players = clubServices.getPlayersByClubId(clubId);
+        return ResponseEntity.ok(players);
+    }
 }
+
+

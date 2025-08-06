@@ -3,7 +3,7 @@
 
   <div *ngIf="clubs && clubs.length > 0" class="cards main">
     <div *ngFor="let c of clubs">
-      <a [routerLink]="['/clubs', c.clubId]" class="clublink">
+      <a [routerLink]="['/clubs', c.id]" class="clublink">
         <app-club-card-component 
           [clubName]="c.name"
           [logo]="c.logo">

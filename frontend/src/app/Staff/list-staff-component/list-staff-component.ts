@@ -1,15 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ClubServices } from '../../services/api/club/club-services';
+import { StaffRepresentation } from '../../representations/Staff/staffResponce';
 
 @Component({
   selector: 'app-list-staff-component',
-  imports: [CommonModule,RouterModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './list-staff-component.html',
-  styleUrl: './list-staff-component.css'
+  styleUrls: ['./list-staff-component.css']
 })
-export class ListStaffComponent {
+export class ListStaffComponent implements OnInit {
 
-  Staffs:Array<any>=[];
+Staffs: StaffRepresentation[] = [];
+clubId: number = 0;
 
+constructor(private clubservices: ClubServices) {}
+
+ngOnInit(): void {
+  this.clubservices.loadstaff(this.clubId).subscribe({
+    next: (data: StaffRepresentation[]) => {
+      this.Staffs = data;
+    },
+    error: (err) => {
+      console.error('Failed to load staff:', err);
+    }
+  });
+}
 }

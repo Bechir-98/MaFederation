@@ -1,23 +1,31 @@
 package com.MaFederation.MaFederation.services;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.MaFederation.MaFederation.dto.Admin.ResponseAdministrationDTO;
 import com.MaFederation.MaFederation.dto.Category.CategoryDTO;
 import com.MaFederation.MaFederation.dto.Club.PostClubDTO;
 import com.MaFederation.MaFederation.dto.Club.ResponseClubDTO;
 import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
 import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
+import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
+import com.MaFederation.MaFederation.dto.Staff.ResponseStaffDTO;
+import com.MaFederation.MaFederation.mappers.AdministrationMapper;
 import com.MaFederation.MaFederation.mappers.CategoryMapper;
 import com.MaFederation.MaFederation.mappers.ClubMapper;
 import com.MaFederation.MaFederation.mappers.ClubMemberMapper;
+import com.MaFederation.MaFederation.mappers.PlayerMapper;
+import com.MaFederation.MaFederation.mappers.StaffMapper;
+import com.MaFederation.MaFederation.model.Administration;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.model.ClubMember;
+import com.MaFederation.MaFederation.model.Player;
+import com.MaFederation.MaFederation.model.Staff;
 import com.MaFederation.MaFederation.repository.ClubRepository;
 import com.MaFederation.MaFederation.repository.CategoryRepository;
 import com.MaFederation.MaFederation.repository.ClubMemberRepository;
@@ -35,6 +43,10 @@ public class ClubServices {
     private final ClubMapper clubMapper;
     private final ClubMemberRepository clubMemberRepository;
      private final CategoryMapper categoryMapper;
+    private final StaffMapper staffMapper;
+    private final PlayerMapper playerMapper;
+    private final AdministrationMapper administrationMapper;
+
 
     /** Get all clubs as Response DTOs */
     public List<ResponseClubDTO> getAllClubs() {
@@ -109,7 +121,7 @@ public class ClubServices {
     public ResponseClubMemberDTO getClubMember( Integer clubId,Integer memberId) {
         Club club = getClub(clubId);
         return club.getMembers().stream()
-                .filter(member -> member.getUserId().equals(memberId))
+                .filter(member -> member.getId().equals(memberId))
                 .findFirst()
                 .map(clubMemberMapper::toResponseDto)
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
@@ -175,6 +187,43 @@ public CategoryDTO addCategoryToClub(Integer clubId, Integer categoryId) {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   
+
+    public List<ResponseStaffDTO> getStaffByClubId(Integer clubId) {
+        Club club = clubRepository.findById(clubId)
+            .orElseThrow(() -> new RuntimeException("Club not found"));
+
+        return club.getMembers().stream()
+            .filter(Staff.class::isInstance) // safely filter only Staff
+            .map(Staff.class::cast)          // explicitly cast to Staff
+            .map(staffMapper::toDto)         // now Java knows it's Staff → ResponseStaffDTO
+            .collect(Collectors.toList());
+    }
+
+public List<ResponseAdministrationDTO> getAdministrationByClubId(Integer clubId) {
+    Club club = clubRepository.findById(clubId)
+        .orElseThrow(() -> new RuntimeException("Club not found"));
+
+    return club.getMembers().stream()
+        .filter(Administration.class::isInstance)
+        .map(Administration.class::cast)
+        .map(administrationMapper::toDto)
+        .collect(Collectors.toList());
+}
+
+public List<ResponsePlayerDTO> getPlayersByClubId(Integer clubId) {
+    Club club = clubRepository.findById(clubId)
+        .orElseThrow(() -> new RuntimeException("Club not found"));
+
+    return club.getMembers().stream()
+        .filter(Player.class::isInstance)
+        .map(Player.class::cast)
+        .map(playerMapper::toDto)
+        .collect(Collectors.toList());
+}
+
+
+
 }
 
 

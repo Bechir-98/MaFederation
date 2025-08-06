@@ -1,0 +1,80 @@
+<div class="cards-wrapper">
+  <div *ngFor="let type of allFileTypes" class="file-card">
+    <ng-container *ngIf="getFileByType(type); else uploadBlock">
+      <div class="file-link" (click)="openPreview(getFileByType(type)!.id, type)">
+        <div class="file-type-overlay">{{ type }}</div>
+
+        <!-- Action Icons -->
+        <div class="file-actions">
+          <i class="action-icon view" title="View" (click)="openPreview(getFileByType(type)!.id, type); $event.stopPropagation()">👁️</i>
+          <i class="action-icon edit" title="Edit"  (click)="triggerEdit(type); $event.stopPropagation()">✏️</i>
+          <i class="action-icon delete" title="Delete" (click)="deleteFile(getFileByType(type)!.id); $event.stopPropagation()">🗑️</i>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Upload block -->
+    <ng-template #uploadBlock>
+      <label class="file-link upload-label">
+        <input type="file" hidden (change)="onFileSelected($event, type)" />
+        <div class="file-type-overlay">Add {{ type }}</div>
+      </label>
+    </ng-template>
+  </div>
+</div>
+
+<!-- Preview Modal -->
+<div *ngIf="showPreview" class="preview-backdrop" (click)="closePreview()">
+  <div class="preview-modal" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closePreview()">✕</button>
+    <h3>{{ previewTitle }}</h3>
+    
+    <!-- Image Preview - Only for actual images -->
+    <div *ngIf="isImageFile() && fileContent" class="image-container">
+      <img [src]="fileContent" alt="File Preview" class="image-preview" />
+    </div>
+    
+    <!-- PDF Files - No preview, just actions -->
+    <div *ngIf="isPdfFile()" class="pdf-no-preview">
+      <div class="no-preview-message">
+        <i class="file-icon">📄</i>
+        <p>PDF Preview not available</p>
+        <small>Use the options below to view or download the file</small>
+      </div>
+      
+      <div class="file-actions-container">
+        <a [href]="fileContent" target="_blank" class="action-button primary">
+          <i>👁️</i> Open in New Tab
+        </a>
+        <a [href]="fileContent" [download]="previewTitle + '.pdf'" class="action-button secondary">
+          <i>⬇️</i> Download PDF
+        </a>
+      </div>
+    </div>
+
+    <!-- Other Files - No preview, just download -->
+    <div *ngIf="isOtherFile()" class="other-file-no-preview">
+      <div class="no-preview-message">
+        <i class="file-icon">📁</i>
+        <p>Preview not available</p>
+        <small>Click below to download the file</small>
+      </div>
+      
+      <div class="file-actions-container">
+        <a [href]="fileContent" [download]="previewTitle" class="action-button primary">
+          <i>⬇️</i> Download File
+        </a>
+      </div>
+    </div>
+    
+    <!-- Loading State -->
+    <div *ngIf="!fileContent" class="loading-state">
+      <p>Loading...</p>
+    </div>
+
+    <!-- Unsupported/Error State -->
+    <div *ngIf="isUnsupportedFile()" class="error-state">
+      <p>Unable to load file. Please try again.</p>
+    </div>
+  </div>
+</div>

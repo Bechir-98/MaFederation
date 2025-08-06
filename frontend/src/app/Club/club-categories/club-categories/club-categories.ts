@@ -48,8 +48,8 @@ export class ClubCategories implements OnInit {
 
         this.categoryService.loadAllCategories().subscribe({
           next: (allCategories) => {
-            const loadedIds = new Set(this.loadedCategories.map(c => c.categoryId));
-            this.availableCategories = allCategories.filter(cat => !loadedIds.has(cat.categoryId));
+            const loadedIds = new Set(this.loadedCategories.map(c => c.id));
+            this.availableCategories = allCategories.filter(cat => !loadedIds.has(cat.id));
             this.cdr.detectChanges();
           },
           error: err => console.error('Error loading all categories:', err)
@@ -69,10 +69,10 @@ export class ClubCategories implements OnInit {
   addCategoryToClub(id: number): void {
     this.categoryService.addCategoryToClub(this.clubId, id).subscribe({
       next: () => {
-        const category = this.availableCategories.find(c => c.categoryId === id);
+        const category = this.availableCategories.find(c => c.id === id);
         if (category) {
           this.loadedCategories = [...this.loadedCategories, category];
-          this.availableCategories = this.availableCategories.filter(c => c.categoryId !== id);
+          this.availableCategories = this.availableCategories.filter(c => c.id !== id);
           this.cdr.detectChanges();
         }
         this.showCustomNotification('Category added successfully!');
@@ -107,10 +107,10 @@ export class ClubCategories implements OnInit {
       this.categoryService.removeCategoryFromClub(this.clubId, categoryId).subscribe({
         next: () => {
           // Remove from loaded categories only after successful deletion
-          const removedCategory = this.loadedCategories.find(c => c.categoryId === categoryId);
+          const removedCategory = this.loadedCategories.find(c => c.id === categoryId);
           
           // Create new arrays to ensure change detection works
-          this.loadedCategories = this.loadedCategories.filter(c => c.categoryId !== categoryId);
+          this.loadedCategories = this.loadedCategories.filter(c => c.id !== categoryId);
 
           // Add back to available categories so user can re-add it
           if (removedCategory) {

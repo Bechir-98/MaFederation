@@ -1,7 +1,7 @@
 package com.MaFederation.MaFederation.mappers;
 
 import com.MaFederation.MaFederation.dto.Admin.PostAdminstrationDTO;
-import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
+import com.MaFederation.MaFederation.dto.Admin.ResponseAdministrationDTO;
 import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.model.Administration;
 import com.MaFederation.MaFederation.services.ClubServices;
@@ -19,13 +19,13 @@ public class AdministrationMapper {
     }
 
     // Convert Administration entity to ResponceAdministrationDTO
-    public ResponceAdministrationDTO toDto(Administration administration) {
+    public ResponseAdministrationDTO toDto(Administration administration) {
         if (administration == null) return null;
 
         ResponseClubMemberDTO baseDto = clubMemberMapper.toResponseDto(administration);
 
-        ResponceAdministrationDTO dto = new ResponceAdministrationDTO();
-        dto.setUserId(baseDto.getUserId());
+        ResponseAdministrationDTO dto = new ResponseAdministrationDTO();
+        dto.setId(baseDto.getId());
         dto.setEmail(baseDto.getEmail());
         dto.setProfilePicture(baseDto.getProfilePicture());
         dto.setFirstName(baseDto.getFirstName());

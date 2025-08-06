@@ -1,6 +1,7 @@
-export interface UserPost {
+import { PostAudit } from "../Audit/PostAudit";
 
-  
+
+export interface UserPost extends PostAudit{
   email: string;
   profilePicture: File|null; 
   passwordHash: string;
@@ -12,6 +13,8 @@ export interface UserPost {
   address: string;
   nationalID: string;
   nationality: string;
+  type: string;
+
 }
 
 

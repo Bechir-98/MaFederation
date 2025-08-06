@@ -14,7 +14,7 @@ import com.MaFederation.MaFederation.enums.Position;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)  // include fields from ClubMemberDTO + UserDTO
 @Builder
-public class ResponcePlayerDTO extends ResponseClubMemberDTO {
+public class ResponsePlayerDTO extends ResponseClubMemberDTO {
     private Position position;
     private Integer jerseyNumber;
     private BigDecimal height;
