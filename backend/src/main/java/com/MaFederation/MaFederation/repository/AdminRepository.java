@@ -8,4 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 
-public interface AdminRepository extends JpaRepository<Administration, Long> {}
+public interface AdminRepository extends JpaRepository<Administration, Integer> {}

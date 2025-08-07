@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MaFederationApplication<MaFederation>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.MaFederation.MaFederation.MaFederationApplication",
+            "projectName": "MaFederation",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

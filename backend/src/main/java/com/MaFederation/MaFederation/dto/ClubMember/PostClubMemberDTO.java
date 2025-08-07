@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class PostClubMemberDTO extends UserPostDTO {
+
     private Integer clubId;
-    private String memberType;
     private List<Integer> categoryIds;
+
 }

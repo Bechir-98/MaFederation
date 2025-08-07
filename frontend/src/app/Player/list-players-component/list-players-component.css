@@ -1,0 +1,86 @@
+.all {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+thead tr {
+  background-color: #eb341c;
+  color: white;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e7ff;
+  font-size: 14px;
+}
+
+.filter-row input,
+.filter-row select {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.filter-row input:focus,
+.filter-row select:focus {
+  border-color: #eb341c;
+  outline: none;
+  box-shadow: 0 0 5px rgba(37, 99, 235, 0.5);
+}
+
+tr:hover {
+  background-color: #ffaeae;
+}
+
+a {
+  color: #eb341c;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.add-admin-button {
+  background-color: #eb341c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-admin-button:hover {
+  background-color: #eb341c;
+}

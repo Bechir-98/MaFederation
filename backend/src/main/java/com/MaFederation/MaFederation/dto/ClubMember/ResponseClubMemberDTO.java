@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class ResponseClubMemberDTO extends ResponseUserDTO{
     private Integer clubId;
-    private String memberType;
     private List<String> categories;
 }
 

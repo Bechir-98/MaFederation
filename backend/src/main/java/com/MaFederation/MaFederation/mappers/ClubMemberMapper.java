@@ -1,82 +1,89 @@
-        package com.MaFederation.MaFederation.mappers;
+//         package com.MaFederation.MaFederation.mappers;
 
-        import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
-        import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
-    import com.MaFederation.MaFederation.dto.User.ResponseUserDTO;
-    import com.MaFederation.MaFederation.model.Administration;
-        import com.MaFederation.MaFederation.model.Category;
-        import com.MaFederation.MaFederation.model.ClubMember;
-        import com.MaFederation.MaFederation.model.Player;
-        import com.MaFederation.MaFederation.model.Staff;
-        import com.MaFederation.MaFederation.repository.ClubRepository;
-        import com.MaFederation.MaFederation.services.CategoryService;
-        import lombok.RequiredArgsConstructor;
-        import org.springframework.beans.BeanUtils;
+//         import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
+//         import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
+//     import com.MaFederation.MaFederation.dto.User.ResponseUserDTO;
+//     import com.MaFederation.MaFederation.model.Administration;
+//         import com.MaFederation.MaFederation.model.Category;
+//         import com.MaFederation.MaFederation.model.ClubMember;
+//         import com.MaFederation.MaFederation.model.Player;
+//         import com.MaFederation.MaFederation.model.Staff;
+//         import com.MaFederation.MaFederation.repository.ClubRepository;
+//         import com.MaFederation.MaFederation.services.CategoryService;
+//         import org.springframework.beans.BeanUtils;
+// import org.springframework.context.annotation.Lazy;
 
-    import java.util.List;
+// import java.util.List;
 
-        import org.springframework.stereotype.Component;
+//         import org.springframework.stereotype.Component;
 
-     @Component
-@RequiredArgsConstructor
-public class ClubMemberMapper {
+//      @Component
 
-    private final CategoryService categoryService;
-    private final ClubRepository clubRepository;
-    private final UserMapper userMapper;
+// public class ClubMemberMapper {
 
-    public ResponseClubMemberDTO toResponseDto(ClubMember member) {
-        if (member == null) return null;
+//     private final CategoryService categoryService;
+//     private final ClubRepository clubRepository;
+//     private final UserMapper userMapper;
 
-        ResponseUserDTO baseDto = userMapper.toResponseDto(member);
+//     public ClubMemberMapper (CategoryService categoryService, @Lazy ClubRepository clubRepository,UserMapper userMapper )
+//     {
+//         this.categoryService=categoryService;
+//         this.clubRepository=clubRepository;
+//         this.userMapper=userMapper;
 
-        ResponseClubMemberDTO dto = new ResponseClubMemberDTO();
+//     }
 
-        // Copy all common user fields
-        BeanUtils.copyProperties(baseDto, dto);
+//     public ResponseClubMemberDTO toResponseDto(ClubMember member) {
+//         if (member == null) return null;
 
-        // Set ClubMember-specific fields
-        dto.setClubId(member.getClub() != null ? member.getClub().getId() : null);
-        dto.setMemberType(member.getMemberType());
+//         ResponseUserDTO baseDto = userMapper.toResponseDto(member);
 
-        dto.setCategories(
-            member.getCategories() != null
-                ? member.getCategories().stream().map(Category::getName).toList()
-                : List.of()
-        );
+//         ResponseClubMemberDTO dto = new ResponseClubMemberDTO();
 
-        return dto;
-    }
+//         // Copy all common user fields
+//         BeanUtils.copyProperties(baseDto, dto);
 
-    public ClubMember toEntity(PostClubMemberDTO dto) {
-        if (dto == null) return null;
+//         // Set ClubMember-specific fields
+//         dto.setClubId(member.getClub() != null ? member.getClub().getId() : null);
+//         dto.setType(member.getType());
 
-        ClubMember member;
-        switch (dto.getMemberType()) {
-            case "PLAYER" -> member = new Player();
-            case "STAFF" -> member = new Staff();
-            case "ADMIN" -> member = new Administration();
-            default -> throw new IllegalArgumentException("Unknown member type: " + dto.getType());
-        }
+//         dto.setCategories(
+//             member.getCategories() != null
+//                 ? member.getCategories().stream().map(Category::getName).toList()
+//                 : List.of()
+//         );
 
-        // Common User fields
-        member.setEmail(dto.getEmail());
-        member.setPasswordHash(dto.getPasswordHash());
-        member.setFirstName(dto.getFirstName());
-        member.setLastName(dto.getLastName());
-        member.setDateOfBirth(dto.getDateOfBirth());
-        member.setGender(dto.getGender());
-        member.setPhoneNumber(dto.getPhoneNumber());
-        member.setAddress(dto.getAddress());
-        member.setNationalID(dto.getNationalID());
-        member.setNationality(dto.getNationality());
-        member.setType(dto.getType());
-        member.setProfilePicture(dto.getProfilePicture());
+//         return dto;
+//     }
 
-        member.setClub(clubRepository.findById(dto.getClubId()).orElse(null));
-        member.setCategories(categoryService.getCategoriesByIdsEntity(dto.getCategoryIds()));
-        member.setMemberType(dto.getMemberType());
+//     public ClubMember toEntity(PostClubMemberDTO dto) {
+//         if (dto == null) return null;
 
-        return member;
-    }
-}
+//         ClubMember member;
+//         switch (dto.getType()) {
+//             case "PLAYER" -> member = new Player();
+//             case "STAFF" -> member = new Staff();
+//             case "ADMIN" -> member = new Administration();
+//             default -> throw new IllegalArgumentException("Unknown member type: " + dto.getType());
+//         }
+
+//         // Common User fields
+//         member.setEmail(dto.getEmail());
+//         member.setPasswordHash(dto.getPasswordHash());
+//         member.setFirstName(dto.getFirstName());
+//         member.setLastName(dto.getLastName());
+//         member.setDateOfBirth(dto.getDateOfBirth());
+//         member.setGender(dto.getGender());
+//         member.setPhoneNumber(dto.getPhoneNumber());
+//         member.setAddress(dto.getAddress());
+//         member.setNationalID(dto.getNationalID());
+//         member.setNationality(dto.getNationality());
+//         member.setType(dto.getType());
+//         member.setProfilePicture(dto.getProfilePicture());
+
+//         member.setClub(clubRepository.findById(dto.getClubId()).orElse(null));
+//         member.setCategories(categoryService.getCategoriesByIdsEntity(dto.getCategoryIds()));
+
+//         return member;
+//     }
+// }

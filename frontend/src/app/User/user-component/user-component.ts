@@ -1,37 +1,38 @@
-import { Component, OnInit, ChangeDetectorRef,HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/api/user/user-service';
 import { UserResponse } from '../../representations/User/userResponse';
 import { CommonModule } from '@angular/common';
-import {UserFilesComponent} from '../../files/user-files-component/user-files-component'
+import { UserFilesComponent } from '../../files/user-files-component/user-files-component';
 
 @Component({
   selector: 'app-user-component',
   templateUrl: './user-component.html',
   styleUrls: ['./user-component.css'],
   standalone: true,
-  imports: [CommonModule,UserFilesComponent]
+  imports: [CommonModule, UserFilesComponent]
 })
 export class UserComponent implements OnInit {
   user!: UserResponse;
-   credentialsViewer = false;
+  credentialsViewer = false;
 
   constructor(
-    private userService: UserService,
     private route: ActivatedRoute,
+    private userService: UserService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    const userId = this.getUserIdSomehow();
-
-   
-      this.userService.getUserById(1).subscribe((data: UserResponse) => {
+    const userId = Number(this.route.snapshot.paramMap.get('id')); // ✅ Get id from URL
+    if (!isNaN(userId)) {
+      this.userService.getUserById(userId).subscribe((data: UserResponse) => {
         this.user = data;
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       });
-    
+    } else {
+      console.error('Invalid user ID in URL');
+    }
   }
 
   editUser(): void {
@@ -47,13 +48,6 @@ export class UserComponent implements OnInit {
     }
   }
 
-  private getUserIdSomehow(): number | null {
-    const nav = history.state;
-    return nav?.userId ?? null;
-  }
-
-
-
   toggleCredentialViewer(): void {
     this.credentialsViewer = !this.credentialsViewer;
   }
@@ -65,16 +59,9 @@ export class UserComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Escape') {
-      if (this.credentialsViewer) {
-        this.credentialsViewer = false;
-        this.cdr.detectChanges();
-      }
+    if (event.key === 'Escape' && this.credentialsViewer) {
+      this.credentialsViewer = false;
+      this.cdr.detectChanges();
     }
   }
-
-
-
-
 }
-

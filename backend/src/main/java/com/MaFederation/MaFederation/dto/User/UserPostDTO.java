@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPostDTO {
-    private byte[] profilePicture; // Assuming profile picture is stored as byte array
+    private byte[] profilePicture;
     private String passwordHash;
     private String email;
     private String firstName;

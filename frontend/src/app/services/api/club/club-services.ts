@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {  ClubFile, ResponseClub } from '../../../representations/Club/ResponseClub';
 import { StaffRepresentation } from '../../../representations/Staff/staffResponce';
-import { PlayerRepresentation } from '../../../representations/Player/player-representation';
+import { PlayerResponce } from '../../../representations/Player/playerResponce';
 import { AdministrationRepresentation } from '../../../representations/Admin/adminstration-representation';
 
 
@@ -38,15 +38,15 @@ loadstaff(clubId: number): Observable<StaffRepresentation[]> {
   });
 }
 
-loadPlayers(clubId: number): Observable<PlayerRepresentation[]> {
-  return this.http.get<PlayerRepresentation[]>(`${this.baseUrl}/players`, {
+loadPlayers(clubId: number): Observable<PlayerResponce[]> {
+  return this.http.get<PlayerResponce[]>(`${this.baseUrl}/players`, {
     params: { clubId: clubId.toString() }
   });
 
 }
 
 loadAdminstration ( clubId: number): Observable<AdministrationRepresentation[]> {
-  return this.http.get<AdministrationRepresentation[]>(`${this.baseUrl}/players`, {
+  return this.http.get<AdministrationRepresentation[]>(`${this.baseUrl}/administration`, {
     params: { clubId: clubId.toString() }
   });
 

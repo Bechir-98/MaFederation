@@ -1,49 +1,38 @@
 package com.MaFederation.MaFederation.mappers;
 
-import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.dto.Player.PostPlayerDTO;
 import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Player;
-import com.MaFederation.MaFederation.services.CategoryService;
-import com.MaFederation.MaFederation.services.ClubServices;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class PlayerMapper {
 
-    private final ClubMemberMapper clubMemberMapper;
-    private final ClubServices clubServices;
-    private final CategoryService categoryService;
-
-    public PlayerMapper(ClubMemberMapper clubMemberMapper, ClubServices clubServices, CategoryService categoryService) {
-        this.clubMemberMapper = clubMemberMapper;
-        this.clubServices = clubServices;
-        this.categoryService = categoryService;
-    }
-
-    // Convert from Player entity to ResponcePlayerDTO
+    // Map Player entity to ResponsePlayerDTO
     public ResponsePlayerDTO toDto(Player player) {
         if (player == null) return null;
 
-        ResponseClubMemberDTO baseDto = clubMemberMapper.toResponseDto(player);
-
         ResponsePlayerDTO dto = new ResponsePlayerDTO();
-        dto.setId(baseDto.getId());
-        dto.setEmail(baseDto.getEmail());
-        dto.setFirstName(baseDto.getFirstName());
-        dto.setLastName(baseDto.getLastName());
-        dto.setDateOfBirth(baseDto.getDateOfBirth());
-        dto.setGender(baseDto.getGender());
-        dto.setPhoneNumber(baseDto.getPhoneNumber());
-        dto.setAddress(baseDto.getAddress());
-        dto.setNationalID(baseDto.getNationalID());
-        dto.setNationality(baseDto.getNationality());
-        dto.setClubId(baseDto.getClubId());
-        dto.setProfilePicture(baseDto.getProfilePicture());
 
+        dto.setId(player.getId());
+        dto.setEmail(player.getEmail());
+        dto.setFirstName(player.getFirstName());
+        dto.setLastName(player.getLastName());
+        dto.setDateOfBirth(player.getDateOfBirth());
+        dto.setGender(player.getGender());
+        dto.setPhoneNumber(player.getPhoneNumber());
+        dto.setAddress(player.getAddress());
+        dto.setNationalID(player.getNationalID());
+        dto.setNationality(player.getNationality());
+
+        if (player.getClub() != null) {
+            dto.setClubId(player.getClub().getId());
+        }
+
+        dto.setProfilePicture(player.getProfilePicture());
         dto.setPosition(player.getPosition());
         dto.setJerseyNumber(player.getJerseyNumber());
         dto.setHeight(player.getHeight());
@@ -57,11 +46,15 @@ public class PlayerMapper {
                       .collect(Collectors.toList())
             );
         }
+        dto.setCreatedAt(player.getCreatedAt());
+        dto.setUpdatedAt(player.getUpdatedAt());
+        dto.setCreatedBy(player.getCreatedBy());
+        dto.setUpdatedBy(player.getUpdatedBy());
 
         return dto;
     }
 
-    // Convert from PostPlayerDTO to Player entity
+    // Map PostPlayerDTO to Player entity (without setting relations)
     public Player toEntity(PostPlayerDTO dto) {
         if (dto == null) return null;
 
@@ -78,16 +71,8 @@ public class PlayerMapper {
         player.setAddress(dto.getAddress());
         player.setNationalID(dto.getNationalID());
         player.setNationality(dto.getNationality());
-        player.setType("PLAYER");
-        player.setProfilePicture(dto.getProfilePicture());
 
-        if (dto.getClubId() != null) {
-            player.setClub(clubServices.getClub(dto.getClubId()));
-        }
-
-        if (dto.getCategoryIds() != null && !dto.getCategoryIds().isEmpty()) {
-            player.setCategories(categoryService.getCategoriesByIdsEntity(dto.getCategoryIds()));
-        }
+        // No club or categories set here!
 
         player.setPosition(dto.getPosition());
         player.setJerseyNumber(dto.getJerseyNumber());

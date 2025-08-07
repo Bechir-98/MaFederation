@@ -17,7 +17,7 @@ import { ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 })
 export class ClubCategories implements OnInit {
   club: ResponseClub | null = null;
-  clubId = 0;
+  clubId = 1;
   loadedCategories: Category[] = [];
   availableCategories: Category[] = [];
   addCategoryDialogOpen = false;
@@ -26,22 +26,17 @@ export class ClubCategories implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.clubId = +id;
+ 
         this.loadCategories();
-      }
-    });
+      
+    
   }
 
   private loadCategories(): void {
-    // Load both loadedCategories and all categories in parallel
     this.categoryService.getCategoriesByClubId(this.clubId).subscribe({
       next: (clubCategories) => {
         this.loadedCategories = [...clubCategories];

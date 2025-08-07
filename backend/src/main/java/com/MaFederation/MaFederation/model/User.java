@@ -20,10 +20,10 @@ public class User extends Audit {
     @Lob
     private byte[] profilePicture;
 
-    @Column(nullable = false, unique = true)
+    // @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+
     private String passwordHash;
 
     private String firstName;
@@ -38,10 +38,10 @@ public class User extends Audit {
 
     private String address;
 
-    @Column(unique = true)
+    // @Column(unique = true)
     private String nationalID;
 
-    @Column(name = "type", updatable = false)
+    // @Column(name = "type", updatable = false)
     private String type;
 
     private String nationality;

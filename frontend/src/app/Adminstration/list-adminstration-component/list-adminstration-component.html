@@ -13,7 +13,6 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Role</th>
-            <th>Personnel Type</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -22,7 +21,7 @@
           <tr class="filter-row">
             <td><input type="text" placeholder="Enter First Name" /></td>
             <td><input type="text" placeholder="Enter Last Name" /></td>
-            <td><input type="text" placeholder="Enter Role" /></td>
+
             <td>
               <select>
                 <option value="" disabled selected>Select Personnel Type</option>
@@ -38,10 +37,10 @@
 
           <!-- Admin rows example -->
           <tr *ngFor="let admin of Admins">
-            <td>{{ admin.FirstName }}</td>
-            <td>{{ admin.LastName }}</td>
-            <td>{{ admin.Role }}</td>
-            <td>{{ admin.PersonnelType }}</td>
+            <td>{{ admin.firstName }}</td>
+            <td>{{ admin.lastName }}</td>
+            <td>{{ admin.role }}</td>
+        
             <td><a href="#" >View 👁</a></td>
           </tr>
         </tbody>

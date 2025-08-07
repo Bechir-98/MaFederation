@@ -6,29 +6,25 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.MaFederation.MaFederation.dto.Admin.ResponseAdministrationDTO;
+import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
 import com.MaFederation.MaFederation.dto.Category.CategoryDTO;
 import com.MaFederation.MaFederation.dto.Club.PostClubDTO;
 import com.MaFederation.MaFederation.dto.Club.ResponseClubDTO;
-import com.MaFederation.MaFederation.dto.ClubMember.PostClubMemberDTO;
-import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
+
 import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
-import com.MaFederation.MaFederation.dto.Staff.ResponseStaffDTO;
+import com.MaFederation.MaFederation.dto.Staff.ResponceStaffDTO;
 import com.MaFederation.MaFederation.mappers.AdministrationMapper;
 import com.MaFederation.MaFederation.mappers.CategoryMapper;
 import com.MaFederation.MaFederation.mappers.ClubMapper;
-import com.MaFederation.MaFederation.mappers.ClubMemberMapper;
 import com.MaFederation.MaFederation.mappers.PlayerMapper;
 import com.MaFederation.MaFederation.mappers.StaffMapper;
 import com.MaFederation.MaFederation.model.Administration;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Club;
-import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.model.Player;
 import com.MaFederation.MaFederation.model.Staff;
 import com.MaFederation.MaFederation.repository.ClubRepository;
 import com.MaFederation.MaFederation.repository.CategoryRepository;
-import com.MaFederation.MaFederation.repository.ClubMemberRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -39,9 +35,7 @@ public class ClubServices {
 
     private final ClubRepository clubRepository;
     private final CategoryRepository categoryRepository;
-    private final ClubMemberMapper clubMemberMapper;
     private final ClubMapper clubMapper;
-    private final ClubMemberRepository clubMemberRepository;
      private final CategoryMapper categoryMapper;
     private final StaffMapper staffMapper;
     private final PlayerMapper playerMapper;
@@ -50,9 +44,6 @@ public class ClubServices {
 
     /** Get all clubs as Response DTOs */
     public List<ResponseClubDTO> getAllClubs() {
-
-
-
         return clubRepository.findAll()
                 .stream()
                 .map(clubMapper::toResponseDto)
@@ -98,34 +89,7 @@ public class ClubServices {
         clubRepository.deleteById(id);
     }
  ////////////////////////////////////////////////////////////////////////////////////////////////////   
-    @Transactional
-    public ClubMember createMemberFromClub(PostClubMemberDTO memberDTO, Integer clubID) {
-        if (clubID == null) {
-            throw new IllegalArgumentException("Club ID cannot be null when creating a member from club.");
-        }
-        memberDTO.setClubId(clubID);
-        ClubMember member = clubMemberMapper.toEntity(memberDTO);
-        return clubMemberRepository.save(member);
-    }
-
-    /** Get all members of a club */
-    public List<ResponseClubMemberDTO> getMembers(Integer clubId) {
-        Club club = getClub(clubId);
-        return club.getMembers().stream()
-                .map(clubMemberMapper::toResponseDto)
-                .collect(Collectors.toList());
-    }
-
     /** Get a single member by club + member ID */
-    @Transactional
-    public ResponseClubMemberDTO getClubMember( Integer clubId,Integer memberId) {
-        Club club = getClub(clubId);
-        return club.getMembers().stream()
-                .filter(member -> member.getId().equals(memberId))
-                .findFirst()
-                .map(clubMemberMapper::toResponseDto)
-                .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
-    }
 
 
 
@@ -188,8 +152,8 @@ public CategoryDTO addCategoryToClub(Integer clubId, Integer categoryId) {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
-
-    public List<ResponseStaffDTO> getStaffByClubId(Integer clubId) {
+    @Transactional
+    public List<ResponceStaffDTO> getStaffByClubId(Integer clubId) {
         Club club = clubRepository.findById(clubId)
             .orElseThrow(() -> new RuntimeException("Club not found"));
 
@@ -199,8 +163,8 @@ public CategoryDTO addCategoryToClub(Integer clubId, Integer categoryId) {
             .map(staffMapper::toDto)         // now Java knows it's Staff → ResponseStaffDTO
             .collect(Collectors.toList());
     }
-
-public List<ResponseAdministrationDTO> getAdministrationByClubId(Integer clubId) {
+@Transactional
+public List<ResponceAdministrationDTO> getAdministrationByClubId(Integer clubId) {
     Club club = clubRepository.findById(clubId)
         .orElseThrow(() -> new RuntimeException("Club not found"));
 
@@ -210,7 +174,7 @@ public List<ResponseAdministrationDTO> getAdministrationByClubId(Integer clubId)
         .map(administrationMapper::toDto)
         .collect(Collectors.toList());
 }
-
+@Transactional
 public List<ResponsePlayerDTO> getPlayersByClubId(Integer clubId) {
     Club club = clubRepository.findById(clubId)
         .orElseThrow(() -> new RuntimeException("Club not found"));
@@ -221,9 +185,6 @@ public List<ResponsePlayerDTO> getPlayersByClubId(Integer clubId) {
         .map(playerMapper::toDto)
         .collect(Collectors.toList());
 }
-
-
-
 }
 
 

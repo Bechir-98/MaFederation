@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)  // include fields from ClubMemberDTO
-public class ResponseAdministrationDTO extends  ResponseClubMemberDTO {
+public class ResponceAdministrationDTO extends  ResponseClubMemberDTO {
     private String role;
 }

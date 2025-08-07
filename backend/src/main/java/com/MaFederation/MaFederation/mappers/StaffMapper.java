@@ -1,51 +1,37 @@
 package com.MaFederation.MaFederation.mappers;
 
-import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.dto.Staff.PostStaffDTO;
-import com.MaFederation.MaFederation.dto.Staff.ResponseStaffDTO;
+import com.MaFederation.MaFederation.dto.Staff.ResponceStaffDTO;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Staff;
-import com.MaFederation.MaFederation.services.CategoryService;
-import com.MaFederation.MaFederation.services.ClubServices;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class StaffMapper {
 
-    private final ClubMemberMapper clubMemberMapper;
-    private final ClubServices clubServices;
-    private final CategoryService categoryService;
-
-    public StaffMapper(ClubMemberMapper clubMemberMapper, ClubServices clubServices, CategoryService categoryService) {
-        this.clubMemberMapper = clubMemberMapper;
-        this.clubServices = clubServices;
-        this.categoryService = categoryService;
-    }
-
-    // Convert Staff entity to ResponceStaffDTO
-    public ResponseStaffDTO toDto(Staff staff) {
+    public ResponceStaffDTO toDto(Staff staff) {
         if (staff == null) return null;
 
-        ResponseClubMemberDTO baseDto = clubMemberMapper.toResponseDto(staff);
+        ResponceStaffDTO dto = new ResponceStaffDTO();
 
-        ResponseStaffDTO dto = new ResponseStaffDTO();
-        dto.setId(baseDto.getId());
-        dto.setProfilePicture(baseDto.getProfilePicture());
-        dto.setEmail(baseDto.getEmail());
-        dto.setFirstName(baseDto.getFirstName());
-        dto.setLastName(baseDto.getLastName());
-        dto.setDateOfBirth(baseDto.getDateOfBirth());
-        dto.setGender(baseDto.getGender());
-        dto.setPhoneNumber(baseDto.getPhoneNumber());
-        dto.setAddress(baseDto.getAddress());
-        dto.setNationalID(baseDto.getNationalID());
-        dto.setNationality(baseDto.getNationality());
-        dto.setClubId(baseDto.getClubId());
-        dto.setProfilePicture(baseDto.getProfilePicture());
-        
+        dto.setId(staff.getId());
+        dto.setEmail(staff.getEmail());
+        dto.setFirstName(staff.getFirstName());
+        dto.setLastName(staff.getLastName());
+        dto.setDateOfBirth(staff.getDateOfBirth());
+        dto.setGender(staff.getGender());
+        dto.setPhoneNumber(staff.getPhoneNumber());
+        dto.setAddress(staff.getAddress());
+        dto.setNationalID(staff.getNationalID());
+        dto.setNationality(staff.getNationality());
 
+        if (staff.getClub() != null) {
+            dto.setClubId(staff.getClub().getId());
+        }
+
+        dto.setProfilePicture(staff.getProfilePicture());
         dto.setSpecialty(staff.getSpecialty());
 
         if (staff.getCategories() != null) {
@@ -60,15 +46,14 @@ public class StaffMapper {
         return dto;
     }
 
-    // Convert PostStaffDTO to Staff entity
     public Staff toEntity(PostStaffDTO dto) {
         if (dto == null) return null;
 
         Staff staff = new Staff();
 
-        staff.setProfilePicture(dto.getProfilePicture());
-        staff.setPasswordHash(dto.getPasswordHash());
         staff.setEmail(dto.getEmail());
+        staff.setPasswordHash(dto.getPasswordHash());
+        staff.setProfilePicture(dto.getProfilePicture());
         staff.setFirstName(dto.getFirstName());
         staff.setLastName(dto.getLastName());
         staff.setDateOfBirth(dto.getDateOfBirth());
@@ -77,18 +62,10 @@ public class StaffMapper {
         staff.setAddress(dto.getAddress());
         staff.setNationalID(dto.getNationalID());
         staff.setNationality(dto.getNationality());
-        staff.setType("STAFF");
-        staff.setProfilePicture(dto.getProfilePicture());
-
-        if (dto.getClubId() != null) {
-            staff.setClub(clubServices.getClub(dto.getClubId()));
-        }
-
-        if (dto.getCategoryIds() != null && !dto.getCategoryIds().isEmpty()) {
-            staff.setCategories(categoryService.getCategoriesByIdsEntity(dto.getCategoryIds()));
-        }
 
         staff.setSpecialty(dto.getSpecialty());
+
+        // No club or categories set here!
 
         return staff;
     }

@@ -1,57 +1,46 @@
 package com.MaFederation.MaFederation.mappers;
 
 import com.MaFederation.MaFederation.dto.Admin.PostAdminstrationDTO;
-import com.MaFederation.MaFederation.dto.Admin.ResponseAdministrationDTO;
-import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
+import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
 import com.MaFederation.MaFederation.model.Administration;
-import com.MaFederation.MaFederation.services.ClubServices;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class AdministrationMapper {
 
-    private final ClubMemberMapper clubMemberMapper;
-    private final ClubServices clubServices;
+    public ResponceAdministrationDTO toDto(Administration admin) {
+        if (admin == null) return null;
 
-    public AdministrationMapper(ClubMemberMapper clubMemberMapper, ClubServices clubServices) {
-        this.clubMemberMapper = clubMemberMapper;
-        this.clubServices = clubServices;
-    }
+        ResponceAdministrationDTO dto = new ResponceAdministrationDTO();
 
-    // Convert Administration entity to ResponceAdministrationDTO
-    public ResponseAdministrationDTO toDto(Administration administration) {
-        if (administration == null) return null;
+        dto.setId(admin.getId());
+        dto.setEmail(admin.getEmail());
+        dto.setFirstName(admin.getFirstName());
+        dto.setLastName(admin.getLastName());
+        dto.setDateOfBirth(admin.getDateOfBirth());
+        dto.setGender(admin.getGender());
+        dto.setPhoneNumber(admin.getPhoneNumber());
+        dto.setAddress(admin.getAddress());
+        dto.setNationalID(admin.getNationalID());
+        dto.setNationality(admin.getNationality());
 
-        ResponseClubMemberDTO baseDto = clubMemberMapper.toResponseDto(administration);
+        if (admin.getClub() != null) {
+            dto.setClubId(admin.getClub().getId());
+        }
 
-        ResponseAdministrationDTO dto = new ResponseAdministrationDTO();
-        dto.setId(baseDto.getId());
-        dto.setEmail(baseDto.getEmail());
-        dto.setProfilePicture(baseDto.getProfilePicture());
-        dto.setFirstName(baseDto.getFirstName());
-        dto.setLastName(baseDto.getLastName());
-        dto.setDateOfBirth(baseDto.getDateOfBirth());
-        dto.setGender(baseDto.getGender());
-        dto.setPhoneNumber(baseDto.getPhoneNumber());
-        dto.setAddress(baseDto.getAddress());
-        dto.setNationalID(baseDto.getNationalID());
-        dto.setNationality(baseDto.getNationality());
-        dto.setClubId(baseDto.getClubId());
-
-        // Add Administration-specific fields here if any
+        dto.setProfilePicture(admin.getProfilePicture());
 
         return dto;
     }
 
-    // Convert PostAdminstrationDTO to Administration entity
     public Administration toEntity(PostAdminstrationDTO dto) {
         if (dto == null) return null;
 
         Administration admin = new Administration();
 
+        admin.setEmail(dto.getEmail());
         admin.setPasswordHash(dto.getPasswordHash());
         admin.setProfilePicture(dto.getProfilePicture());
-        admin.setEmail(dto.getEmail());
         admin.setFirstName(dto.getFirstName());
         admin.setLastName(dto.getLastName());
         admin.setDateOfBirth(dto.getDateOfBirth());
@@ -60,11 +49,8 @@ public class AdministrationMapper {
         admin.setAddress(dto.getAddress());
         admin.setNationalID(dto.getNationalID());
         admin.setNationality(dto.getNationality());
-        admin.setType("ADMIN");
 
-        if (dto.getClubId() != null) {
-            admin.setClub(clubServices.getClub(dto.getClubId()));
-        }
+        // No club set here!
 
         return admin;
     }

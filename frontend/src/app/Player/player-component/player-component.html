@@ -1,0 +1,106 @@
+<div *ngIf="loading" class="loading">Loading player data...</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<div *ngIf="!loading && !error" class="player-container">
+  <div class="player-header">
+    <img 
+      *ngIf="player.profilePicture; else noImage"
+      [src]="'data:image/png;base64,' + player.profilePicture" 
+      alt="Profile Picture" 
+      class="player-image" 
+    />
+    <ng-template #noImage>
+      <div class="no-image">No Image Available</div>
+    </ng-template>
+    <div class="player-info">
+      <div class="player-name">
+        <h2>{{ player.firstName || 'First Name' }} {{ player.lastName || 'Last Name' }}</h2>
+        <p>validated or not</p>
+      </div>
+      <div class="action-buttons">
+        <button class="edit-btn"  title="Edit Player">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="m18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          Edit
+        </button>
+        <button class="delete-btn"  title="Delete Player">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3,6 5,6 21,6"/>
+            <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
+            <line x1="10" y1="11" x2="10" y2="17"/>
+            <line x1="14" y1="11" x2="14" y2="17"/>
+          </svg>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-group">
+    <button (click)="showSection('basic')" [class.active]="activeSection === 'basic'">Basic Info</button>
+    <button (click)="showSection('profile')" [class.active]="activeSection === 'profile'">Player Profile</button> 
+    <button (click)="showSection('stats')" [class.active]="activeSection === 'stats'">Stats</button>
+    <button (click)="showSection('medical')" [class.active]="activeSection === 'medical'">Medical Record</button>
+    <button (click)="showSection('credentials')" [class.active]="activeSection === 'credentials'">View Credentials</button>
+    <button (click)="showSection('details')" [class.active]="activeSection === 'details'">More Details</button>
+  </div>
+
+  <div class="section" *ngIf="activeSection === 'basic'">
+    <h3>Basic Information</h3>
+    <p><strong>Date of Birth:</strong> {{ player.dateOfBirth ? (player.dateOfBirth | date:'longDate') : 'N/A' }}</p>
+    <p><strong>Nationality:</strong> {{ player.nationality || 'N/A' }}</p>
+    <p><strong>Gender:</strong> {{ player.gender || 'N/A' }}</p>
+    <p><strong>Phone:</strong> {{ player.phoneNumber || 'N/A' }}</p>
+    <p><strong>Email:</strong> {{ player.email || 'N/A' }}</p>
+    <p><strong>Address:</strong> {{ player.address || 'N/A' }}</p>
+  </div>
+
+  <div class="section" *ngIf="activeSection === 'profile'">
+    <h3>Player Profile</h3>
+    <p><strong>Height:</strong> {{ player.height ? (player.height + ' cm') : 'N/A' }}</p>
+    <p><strong>Weight:</strong> {{ player.weight ? (player.weight + ' kg') : 'N/A' }}</p>
+    <p><strong>Jersey Number:</strong> {{ player.jerseyNumber || 'N/A' }}</p>
+    <p><strong>Position:</strong> {{ player.position || 'Position unknown' }}</p>
+    <p><strong>Categories:</strong> 
+      <span *ngIf="player.categories && player.categories.length; else noCategories">
+        {{ player.categories.join(', ') }}
+      </span>
+      <ng-template #noCategories>N/A</ng-template>
+    </p>
+  </div>
+
+  <div class="section" *ngIf="activeSection === 'stats'">
+    <h3>Player Stats</h3>
+    <p><strong>Matches:</strong>  player.stats?.matches || 0 </p>
+    <p><strong>Goals:</strong>  player.stats?.goals || 0 </p>
+    <p><strong>Assists:</strong>  player.stats?.assists || 0 </p>
+  </div>
+
+  <div class="section" *ngIf="activeSection === 'medical'">
+    <h3>Medical Record</h3>
+    <ng-container *ngIf="1; else noMedRecord">
+      <p><strong>Last Checkup:</strong>  player.medicalRecord?.lastCheckup ? (player.medicalRecord.lastCheckup | date:'mediumDate') : 'N/A' </p>
+      <p><strong>Injuries:</strong>  player.medicalRecord?.injuries || 'None' </p>
+      <p><strong>Notes:</strong>  player.medicalRecord?.notes || 'No notes' </p>
+    </ng-container>
+    <ng-template #noMedRecord>
+      <p>No medical record found.</p>
+      <button class="suggest-btn">Suggest Adding Medical Record</button>
+    </ng-template>
+  </div>
+
+  <div class="section" *ngIf="activeSection === 'credentials'">
+    <h3>Credentials</h3>
+    <app-user-files-component [UserId]="player.id"></app-user-files-component>
+  </div>
+
+  <div class="section" *ngIf="activeSection === 'details'">
+    <h3>Audit Details</h3>
+    <p><strong>Created By:</strong> {{ player.createdBy || 'N/A' }}</p>
+    <p><strong>Created At:</strong> {{ player.createdAt ? (player.createdAt | date:'medium') : 'N/A' }}</p>
+    <p><strong>Updated By:</strong> {{ player.updatedBy || 'N/A' }}</p>
+    <p><strong>Updated At:</strong> {{ player.updatedAt ? (player.updatedAt | date:'medium') : 'N/A' }}</p>
+  </div>
+</div>

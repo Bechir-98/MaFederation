@@ -1,0 +1,46 @@
+<div class="all">
+  <div class="table-header">
+    <div>
+      <!-- Optional search or info -->
+    </div>
+    <button class="add-admin-button" routerLink="/addplayer">+ Add Player</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Position</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filter row -->
+        <tr class="filter-row">
+          <td><input type="text" placeholder="Enter First Name" /></td>
+          <td><input type="text" placeholder="Enter Last Name" /></td>
+          <td>
+            <select>
+              <option value="" disabled selected>Select Position</option>
+              <option>Goalkeeper</option>
+              <option>Defender</option>
+              <option>Midfielder</option>
+              <option>Forward</option>
+            </select>
+          </td>
+          <td></td>
+        </tr>
+
+        <!-- Player rows -->
+        <tr *ngFor="let player of Players">
+          <td>{{ player.firstName }}</td>
+          <td>{{ player.lastName }}</td>
+          <td>{{ player }}</td>
+          <td><a [routerLink]="['/club/players', player.id]">View 👁</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

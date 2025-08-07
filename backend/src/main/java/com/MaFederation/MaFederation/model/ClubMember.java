@@ -20,8 +20,6 @@ public abstract class ClubMember extends User {
     @JsonIgnore
     private Club club;
 
-    private String MemberType;
-
     @ManyToMany
     @JoinTable(
         name = "member_category",
@@ -29,4 +27,13 @@ public abstract class ClubMember extends User {
         inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
+
+
+
+
+
+
+
+
+    
 }

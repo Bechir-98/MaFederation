@@ -12,26 +12,41 @@
     import { AddMemberComponent } from './ClubMember/add-member-component/add-member-component';
     import{ClubCategories} from './Club/club-categories/club-categories/club-categories';
 import { ClubMemberComponent } from './ClubMember/club-member-component/club-member-component';
+import { ListPlayersComponent } from './Player/list-players-component/list-players-component';
+import { AddPlayerComponent } from './Player/add-player-component/add-player-component';
 
     export const routes: Routes = [
     
         { path:'' , component:ListClubsComponent},
         {path: "user", component :UserComponent },
-        {path: "adduser", component :AddUserComponent },
-        {path: "listusers", component :UsersComponent },
+       
         
-        {path: "addmember", component :AddMemberComponent },
+        {path: "addplayer", component :AddPlayerComponent },
         {path:'clubs/:clubId/members/:memberId',component:ClubMemberComponent},
 
-        {path:'admins' , component:ListAdminstrationComponent},
+        {path:'club/admins' , component:ListAdminstrationComponent},
         
-        {path:'liststaff' , component:ListStaffComponent},
-        {path:'clubs/:id' , component:ClubComponent},
+        {path:'club/staff' , component:ListStaffComponent},
+        {path:'club/players' , component:ListPlayersComponent},
+        {path:'club/players/:id' , component:PlayerComponent},
+        {path:'club' , component:ClubComponent},
+
+
+        // {path:'clubs/:id' , component:ClubComponent},
         {path:'clubs' , component:ListClubsComponent},
-        {path:'clubs/:id/categories',component:ClubCategories},
+        {path:'club/categories',component:ClubCategories},
+        
+    
+
+        //admin
         {path:'addclub' , component:AddClubComponent},
         {path:'addcat' , component:AddCategoryComponent},
+
+        {path: "adduser", component :AddUserComponent },
+        {path: "listusers", component :UsersComponent },
+
         {path:'**',component:ListClubsComponent },
+
         
     ];  
     

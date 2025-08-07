@@ -1,168 +1,118 @@
 <!-- Club Content -->
 <div class="club-container">
-  <div class="header">
+  <div class="club-header">
     <img 
       *ngIf="club?.logo; else placeholder"
       [src]="'data:image/png;base64,' + club?.logo"
       alt="Club Logo"
-      class="image"
+      class="club-image"
     />
     <ng-template #placeholder>
-      <img src="assets/default-logo.png" alt="Default Logo" class="image" />
+      <img src="assets/default-logo.png" alt="Default Logo" class="club-image" />
     </ng-template>
 
-    <div class="club-info-header">
-      <div class="info-block">
-        <div class="name">
-          <h1>{{ club?.name || 'Loading...' }}</h1>
-          <button class="edit-button" [disabled]="!club">✏️ Edit</button>
-          <button class="delete-button" [disabled]="!club">🗑️ Delete</button>
-        </div>
-        <div class="status">
-        
-        </div>
+    <div class="club-info">
+      <div class="club-name">
+        <h1>{{ club?.name || 'Loading...' }}</h1>
+        <p>{{ club?.location || 'Location not specified' }} • Founded {{ club?.foundedYear || 'Unknown' }}</p>
       </div>
-    </div>
-  </div>
-
-  <div class="main">
-    <div class="basic-info">
-      <div class="infos">
-        <h2>📍 Location</h2>
-        <h3>{{ club?.location || 'Not specified' }}</h3>
-        
-        <h2>📅 Founded Year</h2>
-        <h3>{{ club?.foundedYear || 'Unknown' }}</h3>
-        
-        <h2>📧 Contact Email</h2>
-        <h3>{{ club?.contactEmail || 'Not provided' }}</h3>
-        
-        <h2>📞 Phone</h2>
-        <h3>{{ club?.contactPhone || 'Not provided' }}</h3>
-        
-        <h2>🏦 Bank Name</h2>
-        <h3>{{ club?.bankName || 'Not specified' }}</h3>
-        
-        <h2>💳 Bank Account</h2>
-        <h3>{{ club?.bankAccount || 'Not specified' }}</h3>
-        
-        <h2>✅ Validation Status</h2>
-        <h3>
-          <span  ></span>
-         
-        </h3>
-        
-        <h2>🌐 Website</h2>
-        <h3></h3>
-        
-        <h2>📱 Social Media</h2>
-        <h3></h3>
-        
-        <h2>🏟️ Facilities</h2>
-        <h3> facilities</h3>
-        
-        <h2>🎯 Club Type</h2>
-        <h3></h3>
-        
-      </div>
-    </div>
-
-    <div class="sport-info">
-      <div class="buttons">
-        <button class="button" (click)="toggleCredentialViewer()" [disabled]="!club">
-          📄 View Credentials
+      <div class="action-buttons">
+        <button class="edit-btn" [disabled]="!club">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="m18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          Edit
+        </button>
+        <button class="delete-btn" [disabled]="!club">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3,6 5,6 21,6"/>
+            <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
+            <line x1="10" y1="11" x2="10" y2="17"/>
+            <line x1="14" y1="11" x2="14" y2="17"/>
+          </svg>
+          Delete
         </button>
       </div>
-
-      <div class="sport-section">
-        <div>
-          <h2>🏢 Club Information</h2>
-          <p><strong>Full Name:</strong> {{ club || 'Loading...' }}</p>
-          <p><strong>Director:</strong> {{ club|| 'Not specified' }}</p>
-          <p><strong>Vice Director:</strong> {{ club || 'Not specified' }}</p>
-          <p><strong>Secretary:</strong> {{ club|| 'Not specified' }}</p>
-          <p><strong>Treasurer:</strong> {{ club|| 'Not specified' }}</p>
-          <p><strong>Description:</strong> {{ club || 'No description available' }}</p>
-          <p><strong>Mission Statement:</strong> </p>
-        </div>
-
-        <div>
-          <h2>✅ Federation Validation</h2>
-          <p><strong>Status:</strong> 
-            <span >
-              
-            </span>
-          </p>
-          <p><strong>Validated At:</strong></p>
-          <p><strong>Validated By:</strong> </p>
-          <p><strong>Rejection Reason:</strong> </p>
-          <p><strong>Federation ID:</strong> </p>
-          <p><strong>License Number:</strong>  </p>
-        </div>
-
-        <div>
-          <h2>📊 Club Statistics</h2>
-          <p><strong>Total Players:</strong> </p>
-          <p><strong>Total Staff:</strong></p>
-          <p><strong>Total Administrators:</strong>  </p>
-          
-        </div>
-
-        <div>
-          <h2>🏆 Sports & Categories</h2>
-          <p><strong>Primary Sport:</strong> </p>
-          <p><strong>Secondary Sports:</strong> </p>
-          <p><strong>Age Categories:</strong></p>
-          <p><strong>Competition Level:</strong></p>
-          <p><strong>Divisions:</strong> </p>
-        </div>
-
-        <div>
-          <h2>💰 Financial Information</h2>
-          <p><strong>Annual Budget:</strong> </p>
-          <p><strong>Membership Fee:</strong> </p>
-          <p><strong>Sponsorship Status:</strong> </p>
-          <p><strong>Tax ID:</strong> </p>
-          <p><strong>Non-Profit Status:</strong> </p>
-        </div>
-
-        <div>
-          <h2>📋 Administrative Details</h2>
-          <p><strong>Registration Date:</strong> </p>
-          <p><strong>Last Updated:</strong> </p>
-          <p><strong>Legal Status:</strong> </p>
-          <p><strong>Insurance Status:</strong></p>
-          <p><strong>Safety Certification:</strong> </p>
-        </div>
-
-        <div>
-          <h2>📞 Additional Contacts</h2>
-          <p><strong>Emergency Contact:</strong> </p>
-          <p><strong>Media Contact:</strong> </p>
-          <p><strong>Parent/Guardian Contact:</strong> </p>
-          <p><strong>Medical Contact:</strong> </p>
-        </div>
-
-        <div>
-          <h2>🏟️ Facilities & Equipment</h2>
-          <p><strong>Home Venue:</strong> </p>
-          <p><strong>Training Facilities:</strong> </p>
-          <p><strong>Equipment Status:</strong> </p>
-          <p><strong>Capacity:</strong> </p>
-          <p><strong>Accessibility:</strong>   'Yes' ' </p>
-        </div>
-      </div>
     </div>
   </div>
 
-  <!-- CREDENTIALS VIEWER MODAL -->
-  <div *ngIf="credentialsViewer" class="modal-backdrop" (click)="onBackdropClick($event)">
-    <div class="modal-content" (click)="$event.stopPropagation()" tabindex="0">
-      <button (click)="credentialsViewer = false" class="close-button">✕</button>
+  <div class="button-group">
+    <button (click)="showSection('basic')" [class.active]="activeSection === 'basic'">Basic Info</button>
+    <button (click)="showSection('validation')" [class.active]="activeSection === 'validation'">Validation Status</button>
+    <button (click)="showSection('statistics')" [class.active]="activeSection === 'statistics'">Statistics</button>
+    <button (click)="showSection('financial')" [class.active]="activeSection === 'financial'">Financial</button>
+    <button (click)="showSection('facilities')" [class.active]="activeSection === 'facilities'">Facilities</button>
+    <button (click)="showSection('credentials')" [class.active]="activeSection === 'credentials'">Credentials</button>
+  </div>
 
-      <h2>🏆 Club Credentials</h2>
+  <!-- Basic Information Section (real data) -->
+  <div class="section" *ngIf="activeSection === 'basic'">
+    <h3>📍 Basic Information</h3>
+    <p><strong>Full Name:</strong> {{ club?.name || 'N/A' }}</p>
+    <p><strong>Location:</strong> {{ club?.location || 'Not specified' }}</p>
+    <p><strong>Founded Year:</strong> {{ club?.foundedYear || 'Unknown' }}</p>
+    <p><strong>Contact Email:</strong> {{ club?.contactEmail || 'Not provided' }}</p>
+    <p><strong>Phone:</strong> {{ club?.contactPhone || 'Not provided' }}</p>
+    <p><strong>Website:</strong> {{ club?.name || 'Not provided' }}</p>
+    <p><strong>Description:</strong> {{ club?.name || 'No description available' }}</p>
+    <p><strong>Mission Statement:</strong> {{ club?.name || 'Not provided' }}</p>
+  </div>
 
-      <app-club-file-component [clubId]="club!.id"></app-club-file-component>
-    </div>
+  
+
+  <!-- Validation Status Section (placeholder) -->
+  <div class="section" *ngIf="activeSection === 'validation'">
+    <h3>✅ Federation Validation</h3>
+    <p><strong>Status:</strong> <span class="status-unknown">Unknown</span></p>
+    <p><strong>Validated At:</strong> N/A</p>
+    <p><strong>Validated By:</strong> N/A</p>
+    <p><strong>Rejection Reason:</strong> N/A</p>
+    <p><strong>Federation ID:</strong> N/A</p>
+    <p><strong>License Number:</strong> N/A</p>
+    
+    <h4>📋 Administrative Details</h4>
+    <p><strong>Registration Date:</strong> N/A</p>
+    <p><strong>Last Updated:</strong> N/A</p>
+    <p><strong>Legal Status:</strong> N/A</p>
+    <p><strong>Insurance Status:</strong> N/A</p>
+    <p><strong>Safety Certification:</strong> N/A</p>
+  </div>
+
+  <!-- Statistics Section (placeholder) -->
+  <div class="section" *ngIf="activeSection === 'statistics'">
+    <h3>📊 Club Statistics</h3>
+    <p><strong>Total Players:</strong> 0</p>
+    <p><strong>Total Staff:</strong> 0</p>
+    <p><strong>Total Administrators:</strong> 0</p>
+  </div>
+
+
+  <!-- Financial Section (placeholder) -->
+  <div class="section" *ngIf="activeSection === 'financial'">
+    <h3>💰 Financial Information</h3>
+    <p><strong>Bank Name:</strong> Xyz</p>
+    <p><strong>Bank Account:</strong> Xyz</p>
+    <p><strong>Annual Budget:</strong> Xyz</p>
+    <p><strong>Sponsorship Status:</strong> Xyz</p>
+    <p><strong>Tax ID:</strong> Xyz</p>
+    <p><strong>Non-Profit Status:</strong> Xyz</p>
+  </div>
+
+  <!-- Facilities Section (placeholder) -->
+  <div class="section" *ngIf="activeSection === 'facilities'">
+    <h3>🏟️ Facilities & Equipment</h3>
+    <p><strong>Home Venue:</strong> Xyz</p>
+    <p><strong>Training Facilities:</strong> Xyz</p>
+    <p><strong>Equipment Status:</strong> Xyz</p>
+    <p><strong>Capacity:</strong> Xyz</p>
+    <p><strong>Accessibility:</strong> Yes</p>
+    <p><strong>Facilities List:</strong> Xyz</p>
+  </div>
+
+  <!-- Credentials Section (real component) -->
+  <div class="section" *ngIf="activeSection === 'credentials'">
+    <h3>📄 Club Credentials</h3>
+    <app-club-file-component [clubId]="club!.id"></app-club-file-component>
   </div>
 </div>
