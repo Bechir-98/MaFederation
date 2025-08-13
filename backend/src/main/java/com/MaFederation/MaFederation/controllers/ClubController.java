@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,139 +26,191 @@ import com.MaFederation.MaFederation.services.ClubServices;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-
-
-
 @RestController
 @CrossOrigin("http://localhost:4200")
 @RequestMapping("/clubs")
 @RequiredArgsConstructor
 public class ClubController {
-    
+
     private final ClubServices clubServices;
     private final ClubFilesServices clubFileService;
 
-   /////////////////////////////////// Create a new club///////////////////////////////////////
+    /////////////////////////////////// Create a new club ///////////////////////////////////////
     @PostMapping("/register")
-public ResponseEntity<ResponseClubDTO> registerClub(
-    @RequestPart("club") PostClubDTO clubDto,
-    @RequestPart(value = "logo", required = false) MultipartFile logoFile) throws IOException {
+    public ResponseEntity<ResponseClubDTO> registerClub(
+        @RequestPart("club") PostClubDTO clubDto,
+        @RequestPart(value = "logo", required = false) MultipartFile logoFile) throws IOException {
 
-    if (logoFile != null && !logoFile.isEmpty()) {
-        clubDto.setLogo(logoFile.getBytes());
+        if (logoFile != null && !logoFile.isEmpty()) {
+            clubDto.setLogo(logoFile.getBytes());
+        }
+
+        ResponseClubDTO response = clubServices.addClub(clubDto);
+        return ResponseEntity.ok(response);
     }
 
-    ResponseClubDTO response = clubServices.addClub(clubDto);
-    return ResponseEntity.ok(response);
-}
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////GETING CLUB////////////////////////
-    // Get all clubs as Response DTOs
+    //////////////////////////// GET ALL CLUBS ////////////////////////
     @Transactional
     @GetMapping
     public List<ResponseClubDTO> getAllClubs() {
         return clubServices.getAllClubs();
     }
 
-    // Get one club by ID as Response DTO
-    @GetMapping("/{id}")
-    public ResponseClubDTO getClubById(@PathVariable int id) {
-        return clubServices.getClubById(id);
+    //////////////////////////// SESSION: SELECT CLUB //////////////////////
+    @PostMapping("/select")
+    public ResponseEntity<Void> selectClub(@RequestBody Map<String, Integer> body, HttpSession session) {
+        Integer clubId = body.get("clubId");
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        session.setAttribute("selectedClubId", clubId);
+        return ResponseEntity.ok().build();
     }
-///////////////////////////////////////////////////////////////////////////
-   
 
-        ////////////////////////MEMBERS RELATED/////////////////////
+    //////////////////////////// SESSION: GET SELECTED CLUB //////////////////////
+    @GetMapping("/profile")
+    public ResponseEntity<ResponseClubDTO> getSelectedClub(HttpSession session) {
+        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        ResponseClubDTO club = clubServices.getClubById(clubId);
+        return ResponseEntity.ok(club);
+    }
 
-// Get all members of a specific club
+    ////////////////////// CLUB FILES RELATED /////////////////////
 
+@PostMapping("/upload-file")
+public ResponseEntity<?> uploadFile(
+    @RequestParam("file") MultipartFile file,
+    @RequestParam("type") String type,
+    HttpSession session) throws IOException {
 
-///////////////////////////////////////////////////////////////////////////////////////////
+    Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    if (clubId == null) {
+        return ResponseEntity.badRequest().body("No club selected in session");
+    }
 
-    ////////////////////////CLUB FILES RELATED/////////////////////
-    @PostMapping("/{clubId}/upload-file")
-    public ResponseEntity<?> uploadFile(
-        @PathVariable Integer clubId,
-        @RequestParam("file") MultipartFile file,
-        @RequestParam("type") String type) throws IOException {
     Map<String, String> response = new HashMap<>();
     clubFileService.saveFile(clubId, file, type);
     response.put("message", "File uploaded successfully");
     return ResponseEntity.ok(response);
 }
 
-@GetMapping("/{clubId}/files")
-public List<ClubFileDTO> getFilesByClubId(@PathVariable Integer clubId) {
-    return clubFileService.getFilesByClubId(clubId);
+@GetMapping("/files")
+public ResponseEntity<List<ClubFileDTO>> getFiles(HttpSession session) {
+    Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    if (clubId == null) {
+        return ResponseEntity.badRequest().build();
+    }
+    List<ClubFileDTO> files = clubFileService.getFilesByClubId(clubId);
+    return ResponseEntity.ok(files);
 }
 
-@GetMapping("/{clubId}/files/content")
-public ClubFileContent getFileContent( @RequestParam Integer id) {
-    return clubFileService.getFileContent(id);
+@GetMapping("/files/content")
+public ResponseEntity<ClubFileContent> getFileContent(@RequestParam Integer id, HttpSession session) {
+    Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    if (clubId == null) {
+        return ResponseEntity.badRequest().build();
+    }
+    // Optionally validate file belongs to clubId here
+    ClubFileContent content = clubFileService.getFileContent(id);
+    return ResponseEntity.ok(content);
 }
 
-@PutMapping("/{clubId}/files")
+@PutMapping("/files")
 public ResponseEntity<ClubFileDTO> updateFile(
-    @PathVariable Long clubId,
     @RequestParam("file") MultipartFile file,
-    @RequestParam("fileId") Integer fileId
+    @RequestParam("fileId") Integer fileId,
+    HttpSession session
 ) {
+    Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    if (clubId == null) {
+        return ResponseEntity.badRequest().build();
+    }
+    // Optionally verify fileId ownership with clubId
+
     ClubFileDTO updated = clubFileService.updateFile(fileId, file);
     return ResponseEntity.ok(updated);
 }
 
-@DeleteMapping("/{clubId}/files")
-public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId) {
+@DeleteMapping("/files")
+public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId, HttpSession session) {
+    Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    if (clubId == null) {
+        return ResponseEntity.badRequest().body("No club selected in session");
+    }
+    // Optionally verify fileId ownership with clubId
+
     clubFileService.deleteFile(fileId);
     return ResponseEntity.ok("File deleted successfully.");
 }
 
 
+    //////////////////////////// RELATED TO CATEGORIES //////////////////////
 
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryDTO>> getCategories(HttpSession session) {
+        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        List<CategoryDTO> categories = clubServices.getCategoriesByClubId(clubId);
+        return ResponseEntity.ok(categories);
+    }
 
-////////////////////////////////////////////////////////////////////////////////
+    @PostMapping("/categories")
+    public ResponseEntity<CategoryDTO> addCategoryToClub(@RequestBody ClubPostCategoryDTO requestBody, HttpSession session) {
+        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Integer categoryId = requestBody.getId();
+        CategoryDTO category = clubServices.addCategoryToClub(clubId, categoryId);
+        return ResponseEntity.ok(category);
+    }
 
+    @DeleteMapping("/categories/{categoryId}")
+    public ResponseEntity<Void> removeCategoryFromClub(@PathVariable Integer categoryId, HttpSession session) {
+        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        clubServices.removeCategoryFromClub(clubId, categoryId);
+        return ResponseEntity.noContent().build();
+    }
 
-////////////////////////////RELATED TO CATEGORIES/////////////////////
+    //////////////////////////////// STAFF, ADMINISTRATION, PLAYERS //////////////////////////////
 
-@GetMapping("/{clubId}/categories")
-public List<CategoryDTO> getCategoriesByClubId(@PathVariable Integer clubId) {
-    return clubServices.getCategoriesByClubId(clubId);
-}
-
-@PostMapping("/{clubId}/categories")
-public CategoryDTO addCategoryToClub(@PathVariable Integer clubId, @RequestBody ClubPostCategoryDTO requestBody) {
-    Integer categoryId = requestBody.getId();
-    return clubServices.addCategoryToClub(clubId, categoryId);
-}
-@DeleteMapping("/{clubId}/categories/{categoryId}")
-public ResponseEntity<Void> removeCategoryFromClub(@PathVariable Integer clubId, @PathVariable Integer categoryId) {
-    clubServices.removeCategoryFromClub(clubId, categoryId);
-    return ResponseEntity.noContent().build();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-
-@GetMapping("/staff")
-    public ResponseEntity<List<ResponceStaffDTO>> getClubStaff(@RequestParam Integer clubId) {
+    @GetMapping("/staff")
+    public ResponseEntity<List<ResponceStaffDTO>> getClubStaff(HttpSession session) {
+        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
         List<ResponceStaffDTO> staff = clubServices.getStaffByClubId(clubId);
         return ResponseEntity.ok(staff);
     }
 
     @GetMapping("/administration")
-    public ResponseEntity<List<ResponceAdministrationDTO>> getClubAdministration(@RequestParam Integer clubId) {
+    public ResponseEntity<List<ResponceAdministrationDTO>> getClubAdministration(HttpSession session) {
+        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
         List<ResponceAdministrationDTO> admins = clubServices.getAdministrationByClubId(clubId);
         return ResponseEntity.ok(admins);
     }
 
     @GetMapping("/players")
-    public ResponseEntity<List<ResponsePlayerDTO>> getClubPlayers(@RequestParam Integer clubId) {
+    public ResponseEntity<List<ResponsePlayerDTO>> getClubPlayers(HttpSession session) {
+        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
         List<ResponsePlayerDTO> players = clubServices.getPlayersByClubId(clubId);
         return ResponseEntity.ok(players);
     }
 }
-
-

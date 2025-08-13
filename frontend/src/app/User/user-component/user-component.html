@@ -59,7 +59,7 @@
     <div class="modal-content" (click)="$event.stopPropagation()" tabindex="0">
       <button class="close-button" (click)="toggleCredentialViewer()">✕</button>
       <h2>📂 User Credentials</h2>
-      <app-user-files-component [UserId]="user.id"></app-user-files-component>
+      <app-user-files-component [UserId]="user.id!"></app-user-files-component>
     </div>
   </div>
 </div>

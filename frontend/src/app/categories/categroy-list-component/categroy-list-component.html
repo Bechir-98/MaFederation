@@ -1,11 +1,139 @@
-  <div class="category-panel" *ngIf="categories && categories.length > 0; else noCategories">
-    <div class="category-list">
-      <div class="category-card" *ngFor="let category of categories; let i = index">
-        <h1>{{ i }} = {{ category.name }}</h1>
+<div class="categories-container">
+  <h2 class="section-title">Categories</h2>
+
+  <div class="category-list">
+    <div *ngFor="let category of loadedCategories" class="category-card">
+      <h3 class="category-title">{{ category.name }}</h3>
+      <p class="category-description">{{ category.description || 'No description provided.' }}</p>
+      <p class="category-age-range">Age: {{ category.ageMin }} - {{ category.ageMax }}</p>
+
+      <div class="button-group">
+        <button
+          class="edit-button"
+          (click)="openEditCategoryDialog(category)"
+          [attr.aria-label]="'Edit category ' + category.name"
+        >
+          <span class="material-icons" aria-hidden="true">edit</span> Edit
+        </button>
+
+        <button
+          class="delete-button"
+          (click)="deleteCategory(category.id)"
+          [attr.aria-label]="'Delete category ' + category.name"
+        >
+          <i class="fas fa-trash-alt" aria-hidden="true"></i> Delete
+        </button>
       </div>
     </div>
-  </div>
 
-  <ng-template #noCategories>
-    <p>Aucune catégorie trouvée.</p>
-  </ng-template>
+    <div *ngIf="loadedCategories.length === 0" class="no-categories-message">
+      No categories available.
+    </div>
+
+    <div
+      class="add-category-card"
+      (click)="openAddCategoryDialog()"
+      tabindex="0"
+      role="button"
+      aria-label="Add new category"
+    >
+      <span class="plus-icon">
+        <img src="images/addLogo.png" alt="Add" />
+      </span>
+      <p>Add Category</p>
+    </div>
+  </div>
+</div>
+
+<!-- Notification -->
+<div *ngIf="showNotification" class="custom-notification" role="alert" aria-live="assertive">
+  {{ notificationMessage }}
+</div>
+
+<!-- Add/Edit Category Dialog -->
+<div
+  *ngIf="addCategoryDialogOpen"
+  class="add-category-dialog"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-labelledby]="isEditing ? 'edit-category-title' : 'add-category-title'"
+>
+  <div class="dialog-content">
+    <button class="close-button" (click)="closeDialog()" aria-label="Close Dialog">✕</button>
+
+    <h2 id="{{ isEditing ? 'edit-category-title' : 'add-category-title' }}">
+      {{ isEditing ? 'Edit Category' : 'Add New Category' }}
+    </h2>
+
+    <form #categoryForm="ngForm" (ngSubmit)="saveCategory(categoryForm)" novalidate>
+      <div class="form-group">
+        <label for="categoryName">Name *</label>
+        <input
+          type="text"
+          id="categoryName"
+          name="name"
+          [(ngModel)]="newCategory.name"
+          required
+          minlength="2"
+          #name="ngModel"
+          [attr.aria-invalid]="name.invalid && name.touched ? 'true' : 'false'"
+          placeholder="Category name"
+        />
+        <div *ngIf="name.invalid && name.touched" class="error" role="alert">
+          Name is required (min 2 characters).
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="categoryDescription">Description</label>
+        <textarea
+          id="categoryDescription"
+          name="description"
+          [(ngModel)]="newCategory.description"
+          rows="3"
+          placeholder="Optional description"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="ageMin">Minimum Age *</label>
+        <input
+          type="number"
+          id="ageMin"
+          name="ageMin"
+          [(ngModel)]="newCategory.ageMin"
+          required
+          min="0"
+          #ageMin="ngModel"
+          [attr.aria-invalid]="ageMin.invalid && ageMin.touched ? 'true' : 'false'"
+          placeholder="e.g. 5"
+        />
+        <div *ngIf="ageMin.invalid && ageMin.touched" class="error" role="alert">
+          Minimum age is required (0 or greater).
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="ageMax">Maximum Age *</label>
+        <input
+          type="number"
+          id="ageMax"
+          name="ageMax"
+          [(ngModel)]="newCategory.ageMax"
+          required
+          [min]="newCategory.ageMin"
+          #ageMax="ngModel"
+          [attr.aria-invalid]="ageMax.invalid && ageMax.touched ? 'true' : 'false'"
+          placeholder="e.g. 15"
+        />
+        <div *ngIf="ageMax.invalid && ageMax.touched" class="error" role="alert">
+          Maximum age is required and must be greater than or equal to minimum age.
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="categoryForm.invalid">
+        {{ isEditing ? 'Save Changes' : 'Add Category' }}
+      </button>
+    </form>
+  </div>
+</div>

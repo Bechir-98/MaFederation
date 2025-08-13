@@ -24,6 +24,9 @@ public class PlayerService {
     private final CategoryRepository categoryRepository;
     private final PlayerMapper playerMapper;
 
+
+
+
 public Player createPlayer(PostPlayerDTO dto) {
     Player player = playerMapper.toEntity(dto);
     Club club = clubRepository.findById(dto.getClubId())
@@ -37,9 +40,9 @@ public Player createPlayer(PostPlayerDTO dto) {
 }
 
 
-    public List<Player> getAllPlayers() {
-        return playerRepository.findAll();
-    }
+    // public List<Player> getAllPlayers() {
+    //     return playerRepository.findAll();
+    // }
 
     public Player getPlayerById(Integer id) {
         return playerRepository.findById(id)
@@ -57,6 +60,7 @@ public Player createPlayer(PostPlayerDTO dto) {
         player.setJerseyNumber(dto.getJerseyNumber());
         player.setHeight(dto.getHeight());
         player.setWeight(dto.getWeight());
+        player.setUpdatedAt(dto.getUpdatedAt());
 
         return playerRepository.save(player);
     }

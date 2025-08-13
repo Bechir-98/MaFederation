@@ -27,5 +27,9 @@ public class ResponseClubDTO {
     private LocalDateTime updatedAt;
     private String createdBy;
     private String updatedBy;
+    private boolean validated;
+    private String validatedBy;
+    private LocalDateTime validationDate;
+    private String rejectionReason;
 
 }

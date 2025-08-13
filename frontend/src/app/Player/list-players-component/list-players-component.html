@@ -1,7 +1,12 @@
 <div class="all">
   <div class="table-header">
-    <div>
-      <!-- Optional search or info -->
+    <div class="filter-valid-status">
+      <label for="validationFilter">Show Players:</label>
+      <select id="validationFilter" [(ngModel)]="validationFilter" (change)="filterPlayers()">
+        <option value="all">All</option>
+        <option value="validated">Validated</option>
+        <option value="notValidated">Not Validated</option>
+      </select>
     </div>
     <button class="add-admin-button" routerLink="/addplayer">+ Add Player</button>
   </div>
@@ -13,6 +18,7 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Position</th>
+          <th>Validated</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -31,14 +37,26 @@
             </select>
           </td>
           <td></td>
+          <td></td>
         </tr>
 
         <!-- Player rows -->
-        <tr *ngFor="let player of Players">
+        <tr *ngFor="let player of filteredPlayers">
           <td>{{ player.firstName }}</td>
           <td>{{ player.lastName }}</td>
-          <td>{{ player }}</td>
-          <td><a [routerLink]="['/club/players', player.id]">View 👁</a></td>
+          <td>{{ player.position }}</td>
+          <td class="validated-cell">
+            <span *ngIf="player.validated; else notValidated" class="validated">&#10003;</span>
+            <ng-template #notValidated>
+              <span class="not-validated">&#10007;</span>
+            </ng-template>
+          </td>
+          <td>
+            <button class="action-btn view-btn" (click)="viewProfile(player!.id)">View 👁</button>
+            <button *ngIf="!player.validated" class="action-btn request-validation-btn">
+              Request Validation
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>

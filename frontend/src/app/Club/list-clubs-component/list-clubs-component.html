@@ -1,15 +1,22 @@
-<!-- Club List Section -->
-<div class="section">
+<div class="section-header">
+  <h2>Clubs</h2>
+  <button class="add-club-btn" [routerLink]="['/admin/clubs/addclub']">
+    <i class="fas fa-plus"></i> Add Club
+  </button>
+</div>
 
-  <div *ngIf="clubs && clubs.length > 0" class="cards main">
-    <div *ngFor="let c of clubs">
-      <a [routerLink]="['/clubs', c.id]" class="clublink">
-        <app-club-card-component 
-          [clubName]="c.name"
-          [logo]="c.logo">
-        </app-club-card-component>
-      </a>
-    </div>
+<div *ngIf="clubs && clubs.length > 0" class="cards main">
+  <div
+    *ngFor="let c of clubs"
+    class="club-item"
+    role="button"
+    tabindex="0"
+    (click)="selectClub(c.id!)"
+    (keydown.enter)="selectClub(c.id!)"
+  >
+    <app-club-card-component
+      [clubName]="c.name"
+      [logo]="c.logo"
+    ></app-club-card-component>
   </div>
-
 </div>

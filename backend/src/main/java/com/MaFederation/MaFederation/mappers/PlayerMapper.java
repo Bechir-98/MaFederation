@@ -50,6 +50,10 @@ public class PlayerMapper {
         dto.setUpdatedAt(player.getUpdatedAt());
         dto.setCreatedBy(player.getCreatedBy());
         dto.setUpdatedBy(player.getUpdatedBy());
+        dto.setValidated(player.isValidated());
+        dto.setValidatedBy(player.getValidatedBy());
+        dto.setValidationDate(player.getValidationDate());
+        
 
         return dto;
     }
@@ -71,6 +75,8 @@ public class PlayerMapper {
         player.setAddress(dto.getAddress());
         player.setNationalID(dto.getNationalID());
         player.setNationality(dto.getNationality());
+        player.setType("PLAYER");
+        player.setValidated(false);
 
         // No club or categories set here!
 

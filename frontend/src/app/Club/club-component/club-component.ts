@@ -16,29 +16,32 @@ export class ClubComponent implements OnInit {
 
   credentialsViewer = false;
   club: ResponseClub | null = null;
-  clubId = 1;
   loadedCategories: Category[] = [];
   isLoading = false;
   error: string | null = null;
-
-  // ADD this:
   activeSection: string = 'basic';
 
   constructor(
     private clubService: ClubServices,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.loadClub();
+    this.loadSelectedClub();
   }
 
-  loadClub(): void {
+  private loadSelectedClub(): void {
     this.isLoading = true;
     this.error = null;
 
-    this.clubService.getClubById(this.clubId).subscribe({
+    this.clubService.getSelectedClub().subscribe({
       next: (club) => {
+        if (!club) {
+          console.log(club);
+          this.error = 'No club selected.';
+          this.isLoading = false;
+          return;
+        }
         this.club = club;
         this.isLoading = false;
         this.cdr.detectChanges();
@@ -56,18 +59,16 @@ export class ClubComponent implements OnInit {
     this.credentialsViewer = !this.credentialsViewer;
   }
 
-  onBackdropClick(event: MouseEvent): void {
+  onBackdropClick(): void {
     this.credentialsViewer = false;
     this.cdr.detectChanges();
   }
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Escape') {
-      if (this.credentialsViewer) {
-        this.credentialsViewer = false;
-        this.cdr.detectChanges();
-      }
+    if (event.key === 'Escape' && this.credentialsViewer) {
+      this.credentialsViewer = false;
+      this.cdr.detectChanges();
     }
   }
 
@@ -83,13 +84,10 @@ export class ClubComponent implements OnInit {
     if (confirmed) {
       console.log('Delete club:', this.club.id);
       // TODO: Implement delete functionality
-      // this.clubService.deleteClub(this.club.clubId).subscribe(...)
     }
   }
 
-  // ADD this method:
   showSection(section: string): void {
     this.activeSection = section;
   }
-
 }

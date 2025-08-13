@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@
 import { CommonModule } from '@angular/common';
 import { ResponseClub } from '../../representations/Club/ResponseClub';
 import { ClubServices } from '../../services/api/club/club-services';
-import { ClubCardComponent} from  '../club-card-component/club-card-component';
-import { RouterModule } from '@angular/router';
+import { ClubCardComponent } from '../club-card-component/club-card-component';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-clubs-component',
@@ -11,25 +11,41 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, ClubCardComponent, RouterModule],
   templateUrl: './list-clubs-component.html',
   styleUrls: ['./list-clubs-component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush  // Optional: for better performance
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListClubsComponent implements OnInit {
   clubs: ResponseClub[] = [];
 
   constructor(
     private clubservice: ClubServices,
-    private cdr: ChangeDetectorRef  // Add ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.clubservice.loadClubs().subscribe({
       next: (data) => {
         this.clubs = data;
-        console.log(this.clubs);
-        this.cdr.detectChanges(); // Force change detection
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Erreur de chargement des clubs:', err);
+      }
+    });
+  }
+
+  // Method to select a club by ID and navigate
+  selectClub(clubId: number) {
+    this.clubservice.selectClub(clubId).subscribe({
+      next: () => {
+        
+        // After storing clubId in session, navigate to club profile route
+       this.router.navigate(['/admin/club/profile']);
+
+      },
+      error: (err) => {
+        console.error('Failed to select club:', err);
+        alert('Failed to select club.');
       }
     });
   }

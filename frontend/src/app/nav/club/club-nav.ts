@@ -5,10 +5,10 @@ import { RouterModule } from '@angular/router';
   selector: 'app-nav',
   standalone: true,
   imports: [RouterModule],
-  templateUrl: './nav.html',
-  styleUrls: ['./nav.css']
+  templateUrl: './club-nav.html',
+  styleUrls: ['./club-nav.css']
 })
 
-export class Nav {
+export class ClubNav {
 
 }

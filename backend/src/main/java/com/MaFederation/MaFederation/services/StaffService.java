@@ -12,6 +12,7 @@ import com.MaFederation.MaFederation.repository.StaffRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,30 +24,43 @@ public class StaffService {
     private final CategoryRepository categoryRepository;
     private final StaffMapper staffMapper;
 
-    public Staff createStaff(PostStaffDTO dto) {
-        Staff staff = staffMapper.toEntity(dto);
+ public Staff createStaff(PostStaffDTO dto) {
+    Staff staff = staffMapper.toEntity(dto);
 
-        Club club = clubRepository.findById(dto.getClubId())
-            .orElseThrow(() -> new RuntimeException("Club not found"));
+    // Set club
+    Club club = clubRepository.findById(dto.getClubId())
+        .orElseThrow(() -> new RuntimeException("Club not found with id: " + dto.getClubId()));
+    staff.setClub(club);
 
-        staff.setClub(club);
-
-        if (dto.getCategoryIds() != null) {
-            List<Category> categories = categoryRepository.findAllById(dto.getCategoryIds());
-            staff.setCategories(categories);
-        }
-
-        return staffRepository.save(staff);
+    // Set categories
+    if (dto.getCategoryIds() != null && !dto.getCategoryIds().isEmpty()) {
+        List<Category> categories = categoryRepository.findAllById(dto.getCategoryIds());
+        staff.setCategories(categories);
     }
+
+    // Set audit fields (assuming Staff extends Auditable)
+    staff.setCreatedAt(LocalDateTime.now());
+    staff.setUpdatedAt(LocalDateTime.now());
+    // If you track createdBy / updatedBy
+    // staff.setCreatedBy(SecurityUtils.getCurrentUserId());
+
+    return staffRepository.save(staff);
+}
+
+
 
     public Staff getStaffById(Integer id) {
         return staffRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Staff not found"));
     }
 
+
+
     public List<Staff> getAllStaff() {
         return staffRepository.findAll();
     }
+
+
 
     public Staff updateStaff(Integer id, PostStaffDTO dto) {
         Staff staff = getStaffById(id);

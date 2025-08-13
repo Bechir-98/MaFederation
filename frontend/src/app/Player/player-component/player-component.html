@@ -2,6 +2,20 @@
 <div *ngIf="error" class="error">{{ error }}</div>
 
 <div *ngIf="!loading && !error" class="player-container">
+  <!-- Completion banner -->
+  <div *ngIf="profileCompletion < 100" class="completion-banner">
+    <div class="completion-left">
+      <strong>Profile Completion:</strong>
+      <span class="progress-number">{{ profileCompletion }}%</span>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="profileCompletion"></div>
+      </div>
+    </div>
+    <div class="completion-actions">
+      <button class="btn-primary" (click)="openEditModal()">Complete Profile</button>
+    </div>
+  </div>
+
   <div class="player-header">
     <img 
       *ngIf="player.profilePicture; else noImage"
@@ -12,20 +26,26 @@
     <ng-template #noImage>
       <div class="no-image">No Image Available</div>
     </ng-template>
+
     <div class="player-info">
       <div class="player-name">
         <h2>{{ player.firstName || 'First Name' }} {{ player.lastName || 'Last Name' }}</h2>
-        <p>validated or not</p>
+        <span class="status-badge" [ngClass]="player.validated ? 'valid' : 'invalid'">
+          {{ player.validated ? 'Validated' : 'Not Validated' }}
+        </span>
       </div>
+
       <div class="action-buttons">
-        <button class="edit-btn"  title="Edit Player">
+        <button class="edit-btn" title="Edit Player" (click)="openEditModal()">
+          <!-- icon kept -->
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
             <path d="m18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
           </svg>
           Edit
         </button>
-        <button class="delete-btn"  title="Delete Player">
+
+        <button class="delete-btn" title="Delete Player">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="3,6 5,6 21,6"/>
             <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
@@ -38,6 +58,7 @@
     </div>
   </div>
 
+  <!-- Section buttons -->
   <div class="button-group">
     <button (click)="showSection('basic')" [class.active]="activeSection === 'basic'">Basic Info</button>
     <button (click)="showSection('profile')" [class.active]="activeSection === 'profile'">Player Profile</button> 
@@ -47,6 +68,7 @@
     <button (click)="showSection('details')" [class.active]="activeSection === 'details'">More Details</button>
   </div>
 
+  <!-- Basic -->
   <div class="section" *ngIf="activeSection === 'basic'">
     <h3>Basic Information</h3>
     <p><strong>Date of Birth:</strong> {{ player.dateOfBirth ? (player.dateOfBirth | date:'longDate') : 'N/A' }}</p>
@@ -57,13 +79,14 @@
     <p><strong>Address:</strong> {{ player.address || 'N/A' }}</p>
   </div>
 
+  <!-- Profile -->
   <div class="section" *ngIf="activeSection === 'profile'">
     <h3>Player Profile</h3>
     <p><strong>Height:</strong> {{ player.height ? (player.height + ' cm') : 'N/A' }}</p>
     <p><strong>Weight:</strong> {{ player.weight ? (player.weight + ' kg') : 'N/A' }}</p>
     <p><strong>Jersey Number:</strong> {{ player.jerseyNumber || 'N/A' }}</p>
     <p><strong>Position:</strong> {{ player.position || 'Position unknown' }}</p>
-    <p><strong>Categories:</strong> 
+    <p><strong>Categories:</strong>
       <span *ngIf="player.categories && player.categories.length; else noCategories">
         {{ player.categories.join(', ') }}
       </span>
@@ -71,6 +94,7 @@
     </p>
   </div>
 
+  <!-- Stats -->
   <div class="section" *ngIf="activeSection === 'stats'">
     <h3>Player Stats</h3>
     <p><strong>Matches:</strong>  player.stats?.matches || 0 </p>
@@ -78,29 +102,88 @@
     <p><strong>Assists:</strong>  player.stats?.assists || 0 </p>
   </div>
 
+  <!-- Medical -->
   <div class="section" *ngIf="activeSection === 'medical'">
     <h3>Medical Record</h3>
-    <ng-container *ngIf="1; else noMedRecord">
-      <p><strong>Last Checkup:</strong>  player.medicalRecord?.lastCheckup ? (player.medicalRecord.lastCheckup | date:'mediumDate') : 'N/A' </p>
-      <p><strong>Injuries:</strong>  player.medicalRecord?.injuries || 'None' </p>
-      <p><strong>Notes:</strong>  player.medicalRecord?.notes || 'No notes' </p>
-    </ng-container>
-    <ng-template #noMedRecord>
-      <p>No medical record found.</p>
-      <button class="suggest-btn">Suggest Adding Medical Record</button>
-    </ng-template>
+    <p><strong>Last Checkup:</strong>  player.medicalRecord?.lastCheckup ? (player.medicalRecord.lastCheckup | date:'mediumDate') : 'N/A' </p>
+    <p><strong>Injuries:</strong>  player.medicalRecord?.injuries || 'None' </p>
+    <p><strong>Notes:</strong>  player.medicalRecord?.notes || 'No notes' </p>
   </div>
 
+  <!-- Credentials -->
   <div class="section" *ngIf="activeSection === 'credentials'">
     <h3>Credentials</h3>
-    <app-user-files-component [UserId]="player.id"></app-user-files-component>
+    <app-user-files-component [UserId]="player.id!"></app-user-files-component>
   </div>
 
+  <!-- Details -->
   <div class="section" *ngIf="activeSection === 'details'">
-    <h3>Audit Details</h3>
+    <h3>Audit & Validation Details</h3>
     <p><strong>Created By:</strong> {{ player.createdBy || 'N/A' }}</p>
     <p><strong>Created At:</strong> {{ player.createdAt ? (player.createdAt | date:'medium') : 'N/A' }}</p>
     <p><strong>Updated By:</strong> {{ player.updatedBy || 'N/A' }}</p>
     <p><strong>Updated At:</strong> {{ player.updatedAt ? (player.updatedAt | date:'medium') : 'N/A' }}</p>
+
+    <p><strong>Validated By:</strong> {{ player.validatedBy || 'N/A' }}</p>
+    <p><strong>Validation Date:</strong> {{ player.validationDate ? (player.validationDate | date:'medium') : 'N/A' }}</p>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-backdrop" *ngIf="isEditModalOpen">
+  <div class="modal">
+    <h3>Edit / Complete Profile</h3>
+
+    <form #editForm="ngForm" (ngSubmit)="saveEditedPlayer(editForm)">
+      <div class="form-grid">
+        <label>First Name *</label>
+        <input name="firstName" [(ngModel)]="editedPlayer.firstName" required />
+
+        <label>Last Name *</label>
+        <input name="lastName" [(ngModel)]="editedPlayer.lastName" required />
+
+        <label>Date of Birth</label>
+        <input type="date" name="dateOfBirth" [(ngModel)]="editedPlayer.dateOfBirth" />
+
+        <label>Nationality</label>
+        <input name="nationality" [(ngModel)]="editedPlayer.nationality" />
+
+        <label>Gender</label>
+        <select name="gender" [(ngModel)]="editedPlayer.gender">
+          <option value="">Select</option>
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+        </select>
+
+        <label>Phone</label>
+        <input name="phoneNumber" [(ngModel)]="editedPlayer.phoneNumber" />
+
+        <label>Email</label>
+        <input type="email" name="email" [(ngModel)]="editedPlayer.email" />
+
+        <label>Address</label>
+        <input name="address" [(ngModel)]="editedPlayer.address" />
+
+        <label>Height (cm)</label>
+        <input type="number" name="height" [(ngModel)]="editedPlayer.height" />
+
+        <label>Weight (kg)</label>
+        <input type="number" name="weight" [(ngModel)]="editedPlayer.weight" />
+
+        <label>Jersey Number</label>
+        <input name="jerseyNumber" [(ngModel)]="editedPlayer.jerseyNumber" />
+
+        <label>Position</label>
+        <input name="position" [(ngModel)]="editedPlayer.position" />
+
+        <label>Categories (comma separated)</label>
+        <input name="categories"  />
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" [disabled]="editForm.invalid" class="btn-primary">Save</button>
+        <button type="button" class="btn-secondary" (click)="closeEditModal()">Cancel</button>
+      </div>
+    </form>
   </div>
 </div>

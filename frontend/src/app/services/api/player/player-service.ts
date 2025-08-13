@@ -11,20 +11,27 @@ export class PlayerService {
 
   constructor(private http: HttpClient) {}
 
+  selectPlayer(playerId: number): Observable<void> {
+  return this.http.post<void>(`${this.baseUrl}/players`, { playerId: playerId }, { withCredentials: true });
+}
+
+
+  getSelectedPlayer(): Observable<PlayerResponce> {
+  return this.http.get<PlayerResponce>(`${this.baseUrl}/players/profile`,{ withCredentials: true });
+}
+
+
+
   getPlayers(): Observable<PlayerResponce[]> {
     return this.http.get<PlayerResponce[]>(`${this.baseUrl}/players`);
   }
 
  createPlayer(formData: FormData): Observable<any> {
-  return this.http.post(`${this.baseUrl}/players`, formData);
+  return this.http.post(`${this.baseUrl}/players/addplayer`, formData);
 }
 
 
-  getPlayerById(playerId: number): Observable<PlayerResponce> {
-    return this.http.get<PlayerResponce>(`${this.baseUrl}/players/${playerId}`);
-  }
-
-  updatePlayer(playerId: number, player: PlayerResponce): Observable<PlayerResponce> {
+  updatePlayer(playerId: number, player: Partial<PlayerResponce>): Observable<PlayerResponce> {
     return this.http.put<PlayerResponce>(`${this.baseUrl}/players/${playerId}`, player);
   }
 

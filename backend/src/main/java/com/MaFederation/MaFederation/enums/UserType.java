@@ -7,6 +7,6 @@ public enum UserType {
         ADMIN,
         CLUBADMIN,
         SUPERADMIN,
-        OWNER,
+        FEDERATION_ADMIN,
 
 }

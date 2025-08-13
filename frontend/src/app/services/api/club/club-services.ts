@@ -1,11 +1,13 @@
+
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {  ClubFile, ResponseClub } from '../../../representations/Club/ResponseClub';
+import { ClubFile, ResponseClub } from '../../../representations/Club/ResponseClub';
 import { StaffRepresentation } from '../../../representations/Staff/staffResponce';
 import { PlayerResponce } from '../../../representations/Player/playerResponce';
-import { AdministrationRepresentation } from '../../../representations/Admin/adminstration-representation';
-
+import { ResponceAdministration } from '../../../representations/Admin/ResponceAdministration';
+import { Category } from '../../../representations/Category/category';
 
 @Injectable({
   providedIn: 'root'
@@ -15,84 +17,108 @@ export class ClubServices {
 
   constructor(private http: HttpClient) {}
 
-
+  // Load all clubs (no session needed)
   loadClubs(): Observable<ResponseClub[]> {
-    return this.http.get<ResponseClub[]>(this.baseUrl );
+    return this.http.get<ResponseClub[]>(this.baseUrl);
   }
 
-    // ✅ Add this method
-  getClubById(id: number): Observable<ResponseClub> {
-    return this.http.get<ResponseClub>(`${this.baseUrl}/${id}`);
+  // Select a club by ID, store in session
+  selectClub(clubId: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/select`, { clubId }, { withCredentials: true });
   }
 
-  // ✅ Create a new club
-createClub(formData: FormData): Observable<ResponseClub> {
-  return this.http.post<ResponseClub>(`${this.baseUrl}/register`, formData);
+  // Get the selected club profile (from session)
+  getSelectedClub(): Observable<ResponseClub> {
+    return this.http.get<ResponseClub>(`${this.baseUrl}/profile`, { withCredentials: true });
+  }
+
+  // Create a new club (no session needed)
+  createClub(formData: FormData): Observable<ResponseClub> {
+    return this.http.post<ResponseClub>(`${this.baseUrl}/register`, formData);
+  }
+
+  // Load staff of selected club (clubId is from session on backend)
+  loadStaff(): Observable<StaffRepresentation[]> {
+    return this.http.get<StaffRepresentation[]>(`${this.baseUrl}/staff`);
+  }
+
+  // Load players of selected club
+  loadPlayers(): Observable<PlayerResponce[]> {
+    return this.http.get<PlayerResponce[]>(`${this.baseUrl}/players`);
+  }
+
+  // Load administration of selected club
+  loadAdministration(): Observable<ResponceAdministration[]> {
+    return this.http.get<ResponceAdministration[]>(`${this.baseUrl}/administration`);
+  }
+
+// Load categories of selected club
+  loadCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.baseUrl}/categories`);
+  }
+
+  // Add category to selected club
+  addCategoryToClub(categoryId: number): Observable<Category> {
+    return this.http.post<Category>(`${this.baseUrl}/categories`, { id: categoryId });
+  }
+
+  // Remove category from selected club
+  removeCategoryFromClub(categoryId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/categories/${categoryId}`);
+  }
+
+
+
+
+
+
+
+  // In your club-services.ts or wherever the service is
+
+uploadClubFiles(files: File[], type: string): Observable<any> {
+    const formData = new FormData();
+    files.forEach(file => formData.append('file', file, file.name));
+    formData.append('type', type);
+
+    return this.http.post<any>(`${this.baseUrl}/upload-file`, formData, {
+      withCredentials: true
+    });
+  }
+
+  loadClubFiles(): Observable<ClubFile[]> {
+    return this.http.get<ClubFile[]>(`${this.baseUrl}/files`, {
+      withCredentials: true
+    });
+  }
+
+  loadClubFileById(fileId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/files/content`, {
+      params: { id: fileId.toString() },
+      withCredentials: true
+    });
+  }
+
+  deleteClubFile(fileId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/files`, {
+      params: { fileId: fileId.toString() },
+      withCredentials: true
+    });
+  }
+
+  updateClubFile(file: File, fileId: number): Observable<ClubFile> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('fileId', fileId.toString());
+
+    return this.http.put<ClubFile>(`${this.baseUrl}/files`, formData, {
+      withCredentials: true
+    });
+  }
+
 }
 
 
 
-loadstaff(clubId: number): Observable<StaffRepresentation[]> {
-  return this.http.get<StaffRepresentation[]>(`${this.baseUrl}/staff`, {
-    params: { clubId: clubId.toString() }
-  });
-}
-
-loadPlayers(clubId: number): Observable<PlayerResponce[]> {
-  return this.http.get<PlayerResponce[]>(`${this.baseUrl}/players`, {
-    params: { clubId: clubId.toString() }
-  });
-
-}
-
-loadAdminstration ( clubId: number): Observable<AdministrationRepresentation[]> {
-  return this.http.get<AdministrationRepresentation[]>(`${this.baseUrl}/administration`, {
-    params: { clubId: clubId.toString() }
-  });
-
-}
-
-
-
-
-
-// In your club-services.ts or wherever the service is
-
-uploadClubFiles(clubId: number, files: File[], type: string): Observable<any> {
-  const formData = new FormData();
-  files.forEach(file => {
-    formData.append('file', file, file.name);
-  });
-  formData.append('type', type);
-
-  return this.http.post<any>(`${this.baseUrl}/${clubId}/upload-file`, formData);
-}
-
-
-loadClubFiles(clubId: number): Observable<ClubFile[]> {
-  return this.http.get<ClubFile[]>(`${this.baseUrl}/${clubId}/files`);
-}
-
-loadClubFileById(clubId: number, fileId: number): Observable<any> {
-  return this.http.get<any>(`${this.baseUrl}/${clubId}/files/content`, {
-    params: { id: fileId.toString() }
-  });
-}
-
-deleteClubFile(clubId: number, fileId: number): Observable<void> {
-  return this.http.delete<void>(`${this.baseUrl}/${clubId}/files`, {
-    params: { fileId: fileId.toString() }
-  });
-}
-
-
-updateClubFile(clubId: number, file: File, fileId: number): Observable<ClubFile> {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('fileId', fileId.toString()); // send fileId as param
-
-  return this.http.put<ClubFile>(`${this.baseUrl}/${clubId}/files`, formData);
-}
 
 
 
@@ -100,4 +126,5 @@ updateClubFile(clubId: number, file: File, fileId: number): Observable<ClubFile>
 
 
 
-}
+
+

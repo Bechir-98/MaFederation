@@ -1,17 +1,17 @@
 import { ResponceAudit } from "../Audit/ResponceAudit";
 
 export interface UserResponse extends ResponceAudit{
-  profilePicture: string;   
-  email: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  gender: string;
-  phoneNumber: string;
-  address: string;
-  nationalID: string;
-  nationality: string;
-  type: string;
+  profilePicture?: string;   
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  phoneNumber?: string;
+  address?: string;
+  nationalID?: string;
+  nationality?: string;
+  type?: string;
   
 }
 

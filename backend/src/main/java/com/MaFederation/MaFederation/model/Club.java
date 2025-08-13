@@ -17,22 +17,26 @@ import java.util.List;
 public class Club extends Audit {
 
 
-    @Column(nullable = false, unique = true)
-    private String name;
+@Column(nullable = false, unique = true)
+private String name;
 
-    private String location;
+private String location;
 
-    private Integer foundedYear;
+private Integer foundedYear;
 
-    private String contactEmail;
+private String contactEmail;
 
-    private String contactPhone;
+private String contactPhone;
 
-    private String bankAccount;
+private String bankAccount;
 
-    private String bankName;
+private String bankName;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+private String website ;
+
+
+
+@OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubMember> members = new ArrayList<>();
 
 @ManyToMany(fetch = FetchType.LAZY)

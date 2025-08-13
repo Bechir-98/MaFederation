@@ -1,0 +1,93 @@
+<div class="form-container">
+  <div class="form-header">
+    <h2>Add Administrator</h2>
+    <p>Create a new Administrator profile with necessary details</p>
+  </div>
+
+  <!-- Profile Picture Preview -->
+  <div class="profile-pic-preview" *ngIf="profilePreview; else placeholder">
+    <img [src]="profilePreview" alt="Profile Preview" />
+  </div>
+  <ng-template #placeholder>
+    <div class="profile-pic-placeholder">
+      <i class="fas fa-user"></i>
+    </div>
+  </ng-template>
+
+  <form (ngSubmit)="submitForm()" class="form-grid">
+
+    <div class="form-group full-width">
+      <label>Profile Picture</label>
+      <input type="file" accept="image/*" (change)="onProfilePicSelected($event)" />
+      <div *ngIf="profileInvalid" class="error">Invalid image file selected</div>
+    </div>
+
+    <div class="form-group">
+      <label>Email *</label>
+      <input type="email" name="email" [(ngModel)]="administration.email" required />
+    </div>
+
+    <div class="form-group">
+      <label>First Name *</label>
+      <input type="text" name="firstName" [(ngModel)]="administration.firstName" required />
+    </div>
+
+    <div class="form-group">
+      <label>Last Name *</label>
+      <input type="text" name="lastName" [(ngModel)]="administration.lastName" required />
+    </div>
+
+    <div class="form-group">
+      <label>Date of Birth</label>
+      <input type="date" name="dateOfBirth" [(ngModel)]="administration.dateOfBirth" />
+    </div>
+
+    <div class="form-group">
+      <label>Gender</label>
+      <select name="gender" [(ngModel)]="administration.gender">
+        <option value="">Select</option>
+        <option value="MALE">Male</option>
+        <option value="FEMALE">Female</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Phone</label>
+      <input type="tel" name="phoneNumber" [(ngModel)]="administration.phoneNumber" />
+    </div>
+
+    <div class="form-group full-width">
+      <label>Address</label>
+      <input type="text" name="address" [(ngModel)]="administration.address" />
+    </div>
+
+    <div class="form-group">
+      <label>National ID</label>
+      <input type="text" name="nationalID" [(ngModel)]="administration.nationalID" />
+    </div>
+
+    <div class="form-group">
+      <label>Nationality</label>
+      <select name="nationality" [(ngModel)]="administration.nationality">
+        <option value="">Select</option>
+        <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group full-width">
+      <label>Role *</label>
+      <select name="role" [(ngModel)]="administration.role" required>
+        <option value="">Select Role</option>
+        <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+      </select>
+    </div>
+
+    <div class="form-actions full-width">
+      <button type="submit" [disabled]="isSubmitting">
+        <span *ngIf="isSubmitting"><i class="fas fa-spinner fa-spin"></i> Saving...</span>
+        <span *ngIf="!isSubmitting">Add Administrator</span>
+      </button>
+    </div>
+
+  </form>
+</div>

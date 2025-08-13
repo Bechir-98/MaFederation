@@ -48,7 +48,10 @@ export class AddMemberComponent implements OnInit {
     createdBy: '',
     updatedAt: '',
     updatedBy: '',
-    clubId: 1 // Hardcoded for now since the club is logged in
+    clubId: 1,
+    validated: false,
+    validatedBy: "",
+    validationDate: ""  // Hardcoded for now since the club is logged in
   };
 
   constructor(

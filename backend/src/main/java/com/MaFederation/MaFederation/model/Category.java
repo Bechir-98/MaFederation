@@ -13,7 +13,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 public class Category extends Audit {
 

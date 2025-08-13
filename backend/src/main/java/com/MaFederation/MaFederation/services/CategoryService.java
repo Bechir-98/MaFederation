@@ -23,14 +23,9 @@ public class CategoryService {
     }
 
     public Category createCategory(CategoryDTO categoryDTO) {
-        
-
         Category category = categorymapper.toEntity(categoryDTO);
-    
         return categoryrepository.save(category);
     }
-
-
 
     public List<CategoryDTO> loadAllCategories() {
         return categoryrepository.findAll()
@@ -38,29 +33,44 @@ public class CategoryService {
             .map(categorymapper::toDto)
             .toList();
     }
-     /** Obtenir les catégories d’un club, renvoyées en DTO */
-    
-  public List<CategoryDTO> getCategoriesByIds(List<Integer> categoryIds) {
-    if (categoryIds == null || categoryIds.isEmpty()) {
-        return Collections.emptyList();
-    }
-    List<Category> categories = categoryrepository.findAllById(categoryIds);
 
-    return categories.stream()
-            .map(categorymapper::toDto)
-            .collect(Collectors.toList());
+    /** Get categories by a list of IDs, return DTOs */
+    public List<CategoryDTO> getCategoriesByIds(List<Integer> categoryIds) {
+        if (categoryIds == null || categoryIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Category> categories = categoryrepository.findAllById(categoryIds);
+
+        return categories.stream()
+                .map(categorymapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<Category> getCategoriesByIdsEntity(List<Integer> categoryIds) {
+        if (categoryIds == null || categoryIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Category> categories = categoryrepository.findAllById(categoryIds);
+
+        return categories;
+    }
+
+    public Category updateCategory(Integer id, CategoryDTO categoryDTO) {
+    return categoryrepository.findById(id)
+        .map(existingCategory -> {
+            categorymapper.updateEntityFromDto(categoryDTO, existingCategory);
+            return categoryrepository.save(existingCategory);
+        })
+        .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
 }
 
 
 
- public List<Category> getCategoriesByIdsEntity(List<Integer> categoryIds) {
-    if (categoryIds == null || categoryIds.isEmpty()) {
-        return Collections.emptyList();
+    /** Delete category by ID */
+    public void deleteCategory(Integer id) {
+        if (!categoryrepository.existsById(id)) {
+            throw new RuntimeException("Category not found with id: " + id);
+        }
+        categoryrepository.deleteById(id);
     }
-    List<Category> categories = categoryrepository.findAllById(categoryIds);
-
-    return categories;
-}
-
-
 }

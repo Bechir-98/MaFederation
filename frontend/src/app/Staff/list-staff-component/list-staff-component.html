@@ -41,7 +41,9 @@
           <td>{{ staff.lastName }}</td>
           <td>{{ staff.categories }}</td>
           <td>{{ staff.specialty }}</td>
-          <td><a href="#" >View 👁</a></td>
+          <td>
+            <button (click)="viewProfile(staff!.id)">View 👁</button>
+          </td>
         </tr>
       </tbody>
     </table>

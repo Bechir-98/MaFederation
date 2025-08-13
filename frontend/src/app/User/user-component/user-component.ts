@@ -41,7 +41,7 @@ export class UserComponent implements OnInit {
 
   deleteUser(): void {
     if (confirm('Are you sure you want to delete this user?')) {
-      this.userService.deleteUser(this.user.id).subscribe(() => {
+      this.userService.deleteUser(this.user.id!).subscribe(() => {
         alert('User deleted.');
         this.router.navigate(['/user-list']);
       });

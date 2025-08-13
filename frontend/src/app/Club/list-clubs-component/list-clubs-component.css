@@ -1,42 +1,75 @@
-.main{
-    margin-top: 3%;
-    box-sizing: border-box;
-    width: 100%;
-    
-}
-.section
-{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 1em;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-}
-.bar{
-padding: 20px;
-width: 20%;
-height: 5%;
-font-size: 0.5em;
-margin-right: 2em;
-border-radius: 8px;
+.main {
+  margin-top: 3%;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-.bar:hover{
-    transform: scale(1.1);
+.section {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.clublink{
-    text-decoration: none;
-    color: black;
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+.section-header h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
 
-.cards{
-    border: 1px solid black;
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 50px ;
+.add-club-btn {
+  background-color: #28a745;
+  color: white;
+  font-size: 0.9em;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease-in-out;
+}
 
+.add-club-btn i {
+  font-size: 0.9em;
+}
+
+.add-club-btn:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.bar {
+  padding: 20px;
+  width: 20%;
+  height: 5%;
+  font-size: 0.5em;
+  margin-right: 2em;
+  border-radius: 8px;
+}
+
+.bar:hover {
+  transform: scale(1.1);
+}
+
+.clublink {
+  text-decoration: none;
+  color: black;
+}
+
+.cards {
+  border: 1px solid black;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 50px;
 }

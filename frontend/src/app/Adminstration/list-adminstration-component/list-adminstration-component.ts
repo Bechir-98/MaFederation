@@ -1,36 +1,54 @@
-import { RouterModule } from '@angular/router';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ClubServices } from '../../services/api/club/club-services';
-import { AdministrationRepresentation } from '../../representations/Admin/adminstration-representation';
+import { ResponceAdministration } from '../../representations/Admin/ResponceAdministration';
+import { FormsModule } from '@angular/forms';
+import { AdminstrationService } from '../../services/api/adminstration/adminstration-services';
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-list-adminstration-component',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule,RouterModule],
   templateUrl: './list-adminstration-component.html',
-  styleUrl: './list-adminstration-component.css'
+  styleUrls: ['./list-adminstration-component.css']
 })
-export class ListAdminstrationComponent implements OnInit{
+export class ListAdminstrationComponent implements OnInit {
 
+  Admins: ResponceAdministration[] = [];
+  selectedAdmin: ResponceAdministration | null = null;
 
-  clubId : number=1;
-  Admins:Array<AdministrationRepresentation>=[];
   constructor(
-    private clubservices: ClubServices,
-    private cdr: ChangeDetectorRef
+    private clubservices: ClubServices,        // for loading all admins list
+    private adminService: AdminstrationService, // for selected admin profile
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
- ngOnInit(): void {
-     this.clubservices.loadAdminstration(this.clubId).subscribe({
-       next: (data: AdministrationRepresentation[]) => {
-         this.Admins = data;
-         console.log(data);
-         this.cdr.detectChanges(); // Force view update if necessary
-       },
-       error: (err) => {
-         console.error('Failed to load staff:', err);
-       }
-     });
-   }
- }
+  ngOnInit(): void {
+    this.loadAdmins();
+  }
+
+  loadAdmins(): void {
+    const clubId = 1; // or get dynamically if needed
+    this.clubservices.loadAdministration().subscribe({
+      next: (data: ResponceAdministration[]) => {
+        this.Admins = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load administrators:', err);
+      }
+    });
+  }
 
 
+  viewAdmin(adminId: number): void {
+    // Assuming you have a way to select admin (set session) before navigating
+    this.adminService.selectAdministration(adminId).subscribe({
+      next: () => this.router.navigate(['/club/admins/profile']),
+      error: (err) => console.error('Failed to select administration', err)
+    });
+  }
+}

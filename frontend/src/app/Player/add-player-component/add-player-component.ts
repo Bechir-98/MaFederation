@@ -1,33 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { COUNTRIES } from '../../representations/Countries';
-import { ResponseClub } from '../../representations/Club/ResponseClub';
 import { Category } from '../../representations/Category/category';
 import { PlayerService } from '../../services/api/player/player-service';
-import { PlayerPost } from '../../representations/Player/PlayerPost';
 import { RegisterClubMember } from '../../representations/ClubMember/RegisterClubMember';
 
 @Component({
   selector: 'app-add-player-component',
+  standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './add-player-component.html',
-  styleUrl: './add-player-component.css'
+  styleUrls: ['./add-player-component.css']
 })
 export class AddPlayerComponent {
 
   countries = COUNTRIES;
   categories: Category[] = [];
-  clubs: ResponseClub[] = [];
-
   step = false;
   profilePreview: string | ArrayBuffer | null = null;
   profileInvalid = false;
   isSubmitting = false;
   submitSuccess = false;
 
-  player: RegisterClubMember= {
+  player: RegisterClubMember = {
     email: '',
     firstName: '',
     lastName: '',
@@ -39,32 +36,35 @@ export class AddPlayerComponent {
     nationality: '',
     passwordHash: '',
     profilePicture: null,
-    type:"PLAYER",
+    type: "PLAYER",
     createdAt: "",
     createdBy: "",
     updatedAt: "",
     updatedBy: "",
-
-
     clubId: 1,
-    
+    validated: false,
+    validatedBy: "",
+    validationDate: "" 
   };
 
   constructor(
     private playerService: PlayerService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef  // Inject ChangeDetectorRef here
   ) {}
 
   onProfilePicSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) {
       this.resetProfilePic();
+      this.cdr.detectChanges();  // update UI immediately
       return;
     }
 
     const file = input.files[0];
     if (!file.type.startsWith('image/')) {
       this.resetProfilePic(true);
+      this.cdr.detectChanges();
       return;
     }
 
@@ -74,6 +74,7 @@ export class AddPlayerComponent {
     const reader = new FileReader();
     reader.onload = () => {
       this.profilePreview = reader.result;
+      this.cdr.detectChanges(); // trigger view update after file loads
     };
     reader.readAsDataURL(file);
   }
@@ -84,47 +85,54 @@ export class AddPlayerComponent {
     this.player.profilePicture = null;
   }
 
-submitForm(): void {
-  if (this.isSubmitting || this.profileInvalid) {
-    alert('Please fix form errors before submitting.');
-    return;
-  }
-
-  this.isSubmitting = true;
-
-  const { profilePicture, ...playerWithoutPic } = this.player;
-  const formData = new FormData();
-  formData.append('player', new Blob(
-    [JSON.stringify(playerWithoutPic)],
-    { type: 'application/json' }
-  ));
-
-  if (profilePicture) {
-    formData.append('profilePicture', profilePicture);
-  }
-
-  this.playerService.createPlayer(formData).subscribe({
-    next: (response) => {
-      console.log('Player added successfully:', response);
-      this.isSubmitting = false;
-      this.submitSuccess = true;
-
-      // Assuming response contains the new player ID in response.id
-      const newPlayerId = response.id;
-
-      // Redirect to /club/players/{playerId}
-      if (newPlayerId) {
-        this.router.navigate(['/club/players', newPlayerId]);
-      } else {
-        console.warn('New player ID not found in response');
-      }
-    },
-    error: (err) => {
-      console.error('Error adding player:', err);
-      this.isSubmitting = false;
+  submitForm(): void {
+    if (this.isSubmitting || this.profileInvalid) {
+      alert('Please fix form errors before submitting.');
+      return;
     }
-  });
-}
 
+    this.isSubmitting = true;
+    this.cdr.detectChanges();
 
+    const { profilePicture, ...playerWithoutPic } = this.player;
+    const formData = new FormData();
+    formData.append('player', new Blob(
+      [JSON.stringify(playerWithoutPic)],
+      { type: 'application/json' }
+    ));
+
+    if (profilePicture) {
+      formData.append('profilePicture', profilePicture);
+    }
+
+    this.playerService.createPlayer(formData).subscribe({
+      next: (response) => {
+        const newPlayerId = response.id;
+        if (newPlayerId) {
+          this.playerService.selectPlayer(newPlayerId).subscribe({
+            next: () => {
+              this.isSubmitting = false;
+              this.submitSuccess = true;
+              this.cdr.detectChanges();
+              this.router.navigate(['/club/players/profile']);
+            },
+            error: (err) => {
+              this.isSubmitting = false;
+              this.cdr.detectChanges();
+              console.error('Failed to select player:', err);
+            }
+          });
+        } else {
+          this.isSubmitting = false;
+          this.cdr.detectChanges();
+          console.warn('New player ID not found in response');
+        }
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        this.cdr.detectChanges();
+        console.error('Error adding player:', err);
+      }
+    });
+  }
 }

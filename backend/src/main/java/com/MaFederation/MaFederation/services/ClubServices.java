@@ -69,7 +69,7 @@ public class ClubServices {
         return clubMapper.toResponseDto(club);
     }
 
-    /** Get Club Entity by ID */
+                             /** Get Club Entity by ID */
     public Club getClub(Integer clubId) {
         return clubRepository.findById(clubId)
                 .orElseThrow(() -> new EntityNotFoundException("Club not found with id: " + clubId));
@@ -88,11 +88,6 @@ public class ClubServices {
     public void deleteById(int id) {
         clubRepository.deleteById(id);
     }
- ////////////////////////////////////////////////////////////////////////////////////////////////////   
-    /** Get a single member by club + member ID */
-
-
-
 
                 ///////////////////////////CATEGORIES RELATED ///////////////////////////////////////
 
@@ -163,6 +158,7 @@ public CategoryDTO addCategoryToClub(Integer clubId, Integer categoryId) {
             .map(staffMapper::toDto)         // now Java knows it's Staff → ResponseStaffDTO
             .collect(Collectors.toList());
     }
+    
 @Transactional
 public List<ResponceAdministrationDTO> getAdministrationByClubId(Integer clubId) {
     Club club = clubRepository.findById(clubId)
@@ -174,6 +170,8 @@ public List<ResponceAdministrationDTO> getAdministrationByClubId(Integer clubId)
         .map(administrationMapper::toDto)
         .collect(Collectors.toList());
 }
+
+
 @Transactional
 public List<ResponsePlayerDTO> getPlayersByClubId(Integer clubId) {
     Club club = clubRepository.findById(clubId)

@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
@@ -20,7 +19,7 @@ import jakarta.persistence.PreUpdate;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Audit {
+public abstract class Audit extends ValidationInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

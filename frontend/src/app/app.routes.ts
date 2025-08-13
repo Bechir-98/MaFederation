@@ -11,39 +11,51 @@
     import{AddUserComponent} from './User/add-user-component/add-user-component'
     import { AddMemberComponent } from './ClubMember/add-member-component/add-member-component';
     import{ClubCategories} from './Club/club-categories/club-categories/club-categories';
-import { ClubMemberComponent } from './ClubMember/club-member-component/club-member-component';
-import { ListPlayersComponent } from './Player/list-players-component/list-players-component';
-import { AddPlayerComponent } from './Player/add-player-component/add-player-component';
+    import { ClubMemberComponent } from './ClubMember/club-member-component/club-member-component';
+    import { ListPlayersComponent } from './Player/list-players-component/list-players-component';
+    import { AddPlayerComponent } from './Player/add-player-component/add-player-component';
+    import { AddStaffComponent } from './Staff/add-staff-component/add-staff-component';
+    import { StaffComponent } from './Staff/staff-component/staff-component';
+    import { AdministrationComponent } from './Adminstration/adminstration-component/administration-component';
+    import { AddAdministrationComponent } from './Adminstration/add-adminstration-component/add-administration-component';
+import { CategroyListComponent } from './categories/categroy-list-component/categroy-list-component';
+
 
     export const routes: Routes = [
     
-        { path:'' , component:ListClubsComponent},
+        
         {path: "user", component :UserComponent },
-       
         
         {path: "addplayer", component :AddPlayerComponent },
-        {path:'clubs/:clubId/members/:memberId',component:ClubMemberComponent},
+        {path: "addstaff", component :AddStaffComponent },
+        {path: "addadmin", component :AddAdministrationComponent },
 
+
+        //list
         {path:'club/admins' , component:ListAdminstrationComponent},
-        
         {path:'club/staff' , component:ListStaffComponent},
         {path:'club/players' , component:ListPlayersComponent},
-        {path:'club/players/:id' , component:PlayerComponent},
+
+        //profiles
+        {path:'club/players/profile' , component:PlayerComponent},
+        {path:'club/staff/profile' , component:StaffComponent},
+        {path:'club/admins/profile' , component:AdministrationComponent},
+       
+
+
         {path:'club' , component:ClubComponent},
+        {path:'club/categories' , component:ClubCategories},
 
-
-        // {path:'clubs/:id' , component:ClubComponent},
-        {path:'clubs' , component:ListClubsComponent},
-        {path:'club/categories',component:ClubCategories},
-        
-    
 
         //admin
-        {path:'addclub' , component:AddClubComponent},
-        {path:'addcat' , component:AddCategoryComponent},
-
-        {path: "adduser", component :AddUserComponent },
-        {path: "listusers", component :UsersComponent },
+        { path:'admin/clubs' , component:ListClubsComponent},
+        {path:'admin/club/profile' , component:ClubComponent},
+        {path:'admin/clubs/addclub' , component:AddClubComponent},
+        {path:'admin/categories/addcategory' , component:AddCategoryComponent},
+        
+        {path:'admin/categories' , component:CategroyListComponent},
+        {path: "admin/adduser", component :AddUserComponent },
+        {path: "admin/listusers", component :UsersComponent },
 
         {path:'**',component:ListClubsComponent },
 

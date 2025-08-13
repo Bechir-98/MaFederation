@@ -85,7 +85,12 @@ public class ClubMapper {
                 club.getCreatedAt(),   
                 club.getUpdatedAt(),
                 club.getCreatedBy(),
-                club.getUpdatedBy()
+                club.getUpdatedBy(),
+                club.isValidated(),
+                club.getValidatedBy(),
+                club.getValidationDate(),
+                club.getRejectionReason()
+
                 );
 
     }
