@@ -1,9 +1,12 @@
 package com.MaFederation.MaFederation.mappers;
 
+import com.MaFederation.MaFederation.model.Moderator;
 import com.MaFederation.MaFederation.model.User;
 import com.MaFederation.MaFederation.model.UserFile;
 import com.MaFederation.MaFederation.dto.User.ResponseUserDTO;
 import com.MaFederation.MaFederation.dto.User.UserPostDTO;
+import com.MaFederation.MaFederation.dto.mod.ModDTO;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -63,4 +66,33 @@ public class UserMapper {
 
         return user;
     }
+
+public ModDTO toModDto(Moderator moderator) {
+    if (moderator == null) return null;
+
+    ModDTO dto = new ModDTO();
+    dto.setId(moderator.getId());
+    dto.setEmail(moderator.getEmail());
+    dto.setFirstName(moderator.getFirstName());
+    dto.setLastName(moderator.getLastName());
+    dto.setDateOfBirth(moderator.getDateOfBirth());
+    dto.setGender(moderator.getGender());
+    dto.setPhoneNumber(moderator.getPhoneNumber());
+    dto.setAddress(moderator.getAddress());
+    dto.setNationalID(moderator.getNationalID());
+    dto.setNationality(moderator.getNationality());
+    dto.setRoles(moderator.getRoles());
+    dto.setActive(moderator.isActive());
+
+    // Audit info
+    dto.setCreatedAt(moderator.getCreatedAt());
+    dto.setUpdatedAt(moderator.getUpdatedAt());
+    dto.setCreatedBy(moderator.getCreatedBy());
+    dto.setUpdatedBy(moderator.getUpdatedBy());
+
+    return dto;
 }
+
+
+}
+

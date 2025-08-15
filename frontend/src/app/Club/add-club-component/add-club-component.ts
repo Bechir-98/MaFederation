@@ -89,35 +89,45 @@ export class AddClubComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.logoInvalid || !this.club.logo) {
-      alert('Veuillez sélectionner un logo valide avant de soumettre.');
-      return;
-    }
-
-    const { logo, ...clubWithoutLogo } = this.club;
-
-    const formData = new FormData();
-
-    const clubJsonBlob = new Blob([JSON.stringify(clubWithoutLogo)], {
-      type: 'application/json'
-    });
-    formData.append('club', clubJsonBlob);
-
-    if (logo) {
-      formData.append('logo', logo);
-    }
-
-    this.clubservice.createClub(formData).subscribe({
-      next: (createdClub) => {
-        alert('✅ Club registered successfully!');
-        this.router.navigate(['/clubs', createdClub.id]);
-      },
-      error: (err) => {
-        console.error('❌ Error creating club:', err);
-        alert('❌ Failed to register club.');
-      }
-    });
+  if (this.logoInvalid || !this.club.logo) {
+    alert('Veuillez sélectionner un logo valide avant de soumettre.');
+    return;
   }
+
+  const { logo, ...clubWithoutLogo } = this.club;
+
+  const formData = new FormData();
+  const clubJsonBlob = new Blob([JSON.stringify(clubWithoutLogo)], {
+    type: 'application/json'
+  });
+  formData.append('club', clubJsonBlob);
+
+  if (logo) {
+    formData.append('logo', logo);
+  }
+
+  this.clubservice.createClub(formData).subscribe({
+    next: (createdClub) => {
+      // After club creation, select the club in session
+      this.clubservice.selectClub(createdClub.id).subscribe({
+        next: () => {
+          alert('✅ Club registered and selected successfully!');
+          this.router.navigate(['/admin/club/profile']);
+        },
+        error: (err) => {
+          console.error('❌ Error selecting club:', err);
+          alert('❌ Club registered but failed to select club session.');
+          // Optionally still navigate or ask user to retry selecting club
+          this.router.navigate(['/clubs',]);
+        }
+      });
+    },
+    error: (err) => {
+      console.error('❌ Error creating club:', err);
+      alert('❌ Failed to register club.');
+    }
+  });
+}
 
   onCategoryChange(category: Category, event: any) {
     if (event.target.checked) {

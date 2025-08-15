@@ -1,16 +1,16 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ClubServices } from '../../services/api/club/club-services';
 import { PlayerResponce } from '../../representations/Player/playerResponce';
-import { HttpClient } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { ResponseClub } from '../../representations/Club/ResponseClub';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-list-players-component',
   standalone: true,
-  imports: [CommonModule, RouterModule,FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './list-players-component.html',
   styleUrls: ['./list-players-component.css']
 })
@@ -18,27 +18,34 @@ export class ListPlayersComponent implements OnInit {
 
   Players: PlayerResponce[] = [];
   filteredPlayers: PlayerResponce[] = [];
-  clubId: number = 1;
+  club: ResponseClub | null = null;
+  validationFilter: 'all' | 'validated' | 'notValidated' = 'all';
 
-  validationFilter: 'all' | 'validated' | 'notValidated' = 'all'; // default filter
-
-  constructor(private clubservices: ClubServices, private cdr: ChangeDetectorRef,
-    private router: Router, private http: HttpClient
+  constructor(
+    private clubservices: ClubServices,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-  this.clubservices.loadPlayers().subscribe({
-    next: (data: PlayerResponce[]) => {
-      this.Players = data;
-      this.filterPlayers(); // <-- update filteredPlayers based on current filter
-      this.cdr.detectChanges(); // optional
-    },
-    error: (err) => {
-      console.error('Failed to load players:', err);
-    }
-  });
-}
+    this.clubservices.getSelectedClub().subscribe({
+      next: (club: ResponseClub) => {
+        if (!club) return;
+        this.club = club;
 
+        this.clubservices.loadPlayers().subscribe({
+          next: (data: PlayerResponce[]) => {
+            this.Players = data;
+            this.filterPlayers();
+            this.cdr.detectChanges();
+          },
+          error: (err) => console.error('Failed to load players:', err)
+        });
+      },
+      error: (err) => console.error('Failed to get selected club:', err)
+    });
+  }
 
   filterPlayers() {
     if (this.validationFilter === 'all') {
@@ -52,14 +59,24 @@ export class ListPlayersComponent implements OnInit {
 
   viewProfile(playerId: number) {
     const baseUrl: string = 'http://localhost:8080';
-    this.http.post(`${baseUrl}/players`, { playerId: playerId }, { withCredentials: true }).subscribe({
-      next: () => {
-        this.router.navigate(['club/players/profile']);
-      },
-      error: err => {
-        console.error('Failed to select player', err);
-      }
+    this.http.post(`${baseUrl}/players/select`, { playerId }, { withCredentials: true }).subscribe({
+      next: () => this.router.navigate(['club/players/profile']),
+      error: err => console.error('Failed to select player', err)
     });
   }
 
+  requestValidation(player: PlayerResponce) {
+    if (!this.club) return;
+
+    this.clubservices.requestMemberValidation(player.id!, this.club.id!).subscribe({
+      next: () => {
+        alert(`${player.firstName} ${player.lastName} requested for verification.`);
+        player.validated = false; // mark as pending
+      },
+      error: (err) => {
+        console.error('Failed to request validation:', err);
+        alert('Failed to request validation.');
+      }
+    });
+  }
 }

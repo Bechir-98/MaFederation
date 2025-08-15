@@ -1,0 +1,146 @@
+.player-container {
+  max-width: 900px;
+  margin: 20px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border: 1px solid #e9ecef;
+}
+
+.player-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #f8f9fa;
+  padding-bottom: 16px;
+}
+
+.player-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 24px;
+  border: 3px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.no-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #6c757d;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 24px;
+  border: 3px solid #e9ecef;
+}
+
+.player-info {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.player-name h2 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #212529;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  margin-left: 10px;
+  color: white;
+  background-color: #28a745;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.edit-btn, .delete-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.edit-btn { background-color: #0d6efd; color: #fff; }
+.delete-btn { background-color: #dc3545; color: #fff; }
+
+.button-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.button-group button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #dfe6f3;
+  background: #f1f3f5;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.button-group button.active {
+  background-color: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+}
+
+.section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.section h3 {
+  margin-bottom: 16px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #212529;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 8px;
+}
+
+.section p {
+  margin: 8px 0;
+  font-size: 15px;
+  color: #495057;
+}
+
+.section p strong {
+  display: inline-block;
+  min-width: 120px;
+  font-weight: 600;
+  color: #212529;
+}
+
+/* responsive */
+@media (max-width: 760px) {
+  .player-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .player-info { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .button-group { width: 100%; gap: 4px; }
+}

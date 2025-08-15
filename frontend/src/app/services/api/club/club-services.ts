@@ -39,32 +39,34 @@ export class ClubServices {
 
   // Load staff of selected club (clubId is from session on backend)
   loadStaff(): Observable<StaffRepresentation[]> {
-    return this.http.get<StaffRepresentation[]>(`${this.baseUrl}/staff`);
+    return this.http.get<StaffRepresentation[]>(`${this.baseUrl}/staff`,{ withCredentials: true });
   }
 
   // Load players of selected club
   loadPlayers(): Observable<PlayerResponce[]> {
-    return this.http.get<PlayerResponce[]>(`${this.baseUrl}/players`);
+    return this.http.get<PlayerResponce[]>(`${this.baseUrl}/players`,{ withCredentials: true } );
   }
 
   // Load administration of selected club
   loadAdministration(): Observable<ResponceAdministration[]> {
-    return this.http.get<ResponceAdministration[]>(`${this.baseUrl}/administration`);
+    return this.http.get<ResponceAdministration[]>(`${this.baseUrl}/administration`,{ withCredentials: true });
   }
 
+
+  
 // Load categories of selected club
   loadCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.baseUrl}/categories`);
+    return this.http.get<Category[]>(`${this.baseUrl}/categories`,{ withCredentials: true });
   }
 
   // Add category to selected club
   addCategoryToClub(categoryId: number): Observable<Category> {
-    return this.http.post<Category>(`${this.baseUrl}/categories`, { id: categoryId });
+    return this.http.post<Category>(`${this.baseUrl}/categories`, { id: categoryId },{ withCredentials: true });
   }
 
   // Remove category from selected club
   removeCategoryFromClub(categoryId: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/categories/${categoryId}`);
+    return this.http.delete<void>(`${this.baseUrl}/categories/${categoryId}`,{ withCredentials: true });
   }
 
 
@@ -113,6 +115,13 @@ uploadClubFiles(files: File[], type: string): Observable<any> {
     return this.http.put<ClubFile>(`${this.baseUrl}/files`, formData, {
       withCredentials: true
     });
+  }
+
+   requestMemberValidation(userId: number, clubId: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/request-validation`, {
+      userId,
+      clubId
+    }, { withCredentials: true });
   }
 
 }

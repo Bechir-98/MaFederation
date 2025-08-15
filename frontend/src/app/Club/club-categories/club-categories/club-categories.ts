@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../../services/api/catergory/categories';
 import { ResponseClub } from '../../../representations/Club/ResponseClub';
 import { Category } from '../../../representations/Category/category';
-import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { ClubServices } from '../../../services/api/club/club-services';
 
 @Component({
   selector: 'app-club-categories',
@@ -12,32 +11,47 @@ import { ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
   templateUrl: './club-categories.html',
   styleUrls: ['./club-categories.css'],
   imports: [CommonModule]
-  // Temporarily removed OnPush to test if that's the issue
-  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ClubCategories implements OnInit {
   club: ResponseClub | null = null;
-  clubId = 1;
   loadedCategories: Category[] = [];
   availableCategories: Category[] = [];
   addCategoryDialogOpen = false;
   showNotification = false;
   notificationMessage = '';
 
+  loadingCategories = false; // NEW: track loading state
+
   constructor(
-    private categoryService: CategoryService,
+    private categoryService: CategoryService,  // For loading all categories
+    private clubService: ClubServices,         // For club-specific categories
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
- 
-        this.loadCategories();
-      
-    
+    // Load selected club from session
+    this.clubService.getSelectedClub().subscribe({
+      next: (club) => {
+        this.club = club;
+        if (this.club) {
+          this.loadCategories();
+        }
+      },
+      error: (err) => {
+        console.error('Error loading selected club:', err);
+      }
+    });
   }
 
   private loadCategories(): void {
-    this.categoryService.getCategoriesByClubId(this.clubId).subscribe({
+    if (!this.club?.id) {
+      console.warn('No club selected, cannot load categories');
+      return;
+    }
+
+    this.loadingCategories = true;
+
+    this.clubService.loadCategories().subscribe({
       next: (clubCategories) => {
         this.loadedCategories = [...clubCategories];
 
@@ -45,29 +59,39 @@ export class ClubCategories implements OnInit {
           next: (allCategories) => {
             const loadedIds = new Set(this.loadedCategories.map(c => c.id));
             this.availableCategories = allCategories.filter(cat => !loadedIds.has(cat.id));
+            this.loadingCategories = false;
             this.cdr.detectChanges();
           },
-          error: err => console.error('Error loading all categories:', err)
+          error: err => {
+            console.error('Error loading all categories:', err);
+            this.loadingCategories = false;
+            this.cdr.detectChanges();
+          }
         });
 
         this.cdr.detectChanges();
       },
-      error: err => console.error('Error loading club categories:', err)
+      error: err => {
+        console.error('Error loading club categories:', err);
+        this.loadingCategories = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
   openAddCategoryDialog(): void {
     this.addCategoryDialogOpen = true;
-    // No need to load again here because we load availableCategories on init
   }
 
-  addCategoryToClub(id: number): void {
-    this.categoryService.addCategoryToClub(this.clubId, id).subscribe({
+  addCategoryToClub(categoryId: number): void {
+    if (!this.club?.id) return;
+
+    this.clubService.addCategoryToClub(categoryId).subscribe({
       next: () => {
-        const category = this.availableCategories.find(c => c.id === id);
+        const category = this.availableCategories.find(c => c.id === categoryId);
         if (category) {
           this.loadedCategories = [...this.loadedCategories, category];
-          this.availableCategories = this.availableCategories.filter(c => c.id !== id);
+          this.availableCategories = this.availableCategories.filter(c => c.id !== categoryId);
           this.cdr.detectChanges();
         }
         this.showCustomNotification('Category added successfully!');
@@ -79,44 +103,28 @@ export class ClubCategories implements OnInit {
     });
   }
 
-  showCustomNotification(message: string): void {
-    this.notificationMessage = message;
-    this.showNotification = true;
-    this.cdr.detectChanges();
-    
-    // Hide notification after 3 seconds
-    setTimeout(() => {
-      this.showNotification = false;
-      this.cdr.detectChanges();
-    }, 3000);
-  }
-
   removeCategoryFromClub(categoryId: number): void {
-    // Show confirmation dialog first
+    if (!this.club?.id) return;
+
     const confirmDelete = confirm('Are you sure you want to delete this category?');
-    
+
     if (confirmDelete) {
-      // Show immediate feedback
       this.showCustomNotification('Deleting category...');
-      
-      this.categoryService.removeCategoryFromClub(this.clubId, categoryId).subscribe({
+
+      this.clubService.removeCategoryFromClub(categoryId).subscribe({
         next: () => {
-          // Remove from loaded categories only after successful deletion
           const removedCategory = this.loadedCategories.find(c => c.id === categoryId);
-          
-          // Create new arrays to ensure change detection works
           this.loadedCategories = this.loadedCategories.filter(c => c.id !== categoryId);
 
-          // Add back to available categories so user can re-add it
           if (removedCategory) {
-            this.availableCategories = [...this.availableCategories, removedCategory].sort((a, b) => a.name.localeCompare(b.name));
+            this.availableCategories = [...this.availableCategories, removedCategory].sort((a, b) =>
+              a.name.localeCompare(b.name)
+            );
           }
 
-          // Force change detection immediately
           this.cdr.markForCheck();
           this.cdr.detectChanges();
 
-          // Update notification to success
           this.showCustomNotification('Category deleted successfully!');
         },
         error: (err) => {
@@ -125,5 +133,16 @@ export class ClubCategories implements OnInit {
         }
       });
     }
+  }
+
+  showCustomNotification(message: string): void {
+    this.notificationMessage = message;
+    this.showNotification = true;
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      this.showNotification = false;
+      this.cdr.detectChanges();
+    }, 3000);
   }
 }

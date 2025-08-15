@@ -25,7 +25,6 @@ public abstract class Audit extends ValidationInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     protected Integer id;
-
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
     protected String createdBy;
@@ -40,4 +39,9 @@ public abstract class Audit extends ValidationInfo {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+
+    
+
+
 }

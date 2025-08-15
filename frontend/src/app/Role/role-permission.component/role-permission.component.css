@@ -1,0 +1,228 @@
+/* Container */
+.role-container {
+  padding: 1.5rem;
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: #f5f6fa;
+  border-radius: 8px;
+}
+
+/* Header */
+.role-container > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.role-container h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937; /* dark gray */
+}
+
+.role-container button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  background-color: #2563eb; /* primary blue */
+  color: white;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.role-container button:hover {
+  background-color: #1e40af; /* darker blue */
+  transform: scale(1.03);
+}
+
+/* Roles list */
+.roles-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.roles-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s ease;
+}
+
+.roles-list li:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.roles-list li strong {
+  margin-right: 0.5rem;
+  color: #111827;
+}
+
+/* Role buttons with icons */
+.roles-list .role-buttons button {
+  margin-left: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: center;
+}
+
+.roles-list .role-buttons .edit-btn {
+  background-color: #fbbf24; /* amber */
+  color: white;
+}
+
+.roles-list .role-buttons .edit-btn:hover {
+  background-color: #f59e0b;
+}
+
+.roles-list .role-buttons .delete-btn {
+  background-color: #ef4444; /* red */
+  color: white;
+}
+
+.roles-list .role-buttons .delete-btn:hover {
+  background-color: #b91c1c;
+}
+
+/* Add icons using Font Awesome */
+.roles-list .role-buttons .edit-btn i {
+  font-size: 0.9rem;
+}
+
+.roles-list .role-buttons .delete-btn i {
+  font-size: 0.9rem;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: slideIn 0.25s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Modal form inputs */
+.modal-content input[type="text"] {
+  width: 100%;
+  padding: 0.55rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.modal-content input[type="text"]:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Permissions list inside modal */
+.modal-content .permissions-list {
+  max-height: 180px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  padding: 0.6rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  background-color: #f9fafb;
+}
+
+.modal-content label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.modal-content label input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+}
+
+/* Modal buttons */
+.modal-content .modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.modal-content .modal-buttons button {
+  padding: 0.55rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.modal-content .modal-buttons button:first-child {
+  background-color: #f3f4f6; /* light gray */
+  color: #374151;
+}
+
+.modal-content .modal-buttons button:first-child:hover {
+  background-color: #e5e7eb;
+}
+
+.modal-content .modal-buttons button:last-child {
+  background-color: #2563eb; /* blue */
+  color: white;
+}
+
+.modal-content .modal-buttons button:last-child:hover {
+  background-color: #1e40af;
+  transform: scale(1.03);
+}
+
+/* Optional: Material Icons inside modal */
+.modal-content .material-icons {
+  vertical-align: middle;
+  font-size: 1.1rem;
+  margin-right: 0.3rem;
+  color: #2563eb;
+}

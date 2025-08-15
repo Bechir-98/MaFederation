@@ -33,21 +33,29 @@
 </div>
 
 <!-- Add Category Dialog -->
+<!-- Add Category Dialog -->
 <div *ngIf="addCategoryDialogOpen" class="add-category-dialog">
   <div class="dialog-content">
     <button class="close-button" (click)="addCategoryDialogOpen = false">✕</button>
     <h2>Add New Category</h2>
 
-    <div *ngIf="availableCategories.length > 0; else allAdded">
-      <div *ngFor="let category of availableCategories" class="available-category-card">
-        <h3>{{ category.name }}</h3>
-        <p>{{ category.description }}</p>
-        <button (click)="addCategoryToClub(category.id)">Add</button>
-      </div>
+    <div *ngIf="loadingCategories">
+      <p>Loading categories...</p>
     </div>
 
-    <ng-template #allAdded>
-      <p>All available categories have already been added to this club.</p>
-    </ng-template>
+    <div *ngIf="!loadingCategories">
+      <div *ngIf="availableCategories.length > 0; else allAdded">
+        <div *ngFor="let category of availableCategories" class="available-category-card">
+          <h3>{{ category.name }}</h3>
+          <p>{{ category.description }}</p>
+          <button (click)="addCategoryToClub(category.id)">Add</button>
+        </div>
+      </div>
+
+      <ng-template #allAdded>
+        <p>All available categories have already been added to this club.</p>
+      </ng-template>
+    </div>
   </div>
 </div>
+

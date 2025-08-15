@@ -25,6 +25,5 @@ public class Permission {
 
     @Column(nullable = false, unique = true)
     private String name;  // e.g. "CLUB_VIEW", "CLUB_MANAGE", etc.
-
     private String description;
 }

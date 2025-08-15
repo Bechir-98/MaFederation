@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class ValidationInfo {
-
     private boolean validated;
     private String validatedBy;
     private LocalDateTime validationDate;

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -6,6 +6,8 @@ import { COUNTRIES } from '../../representations/Countries';
 import { Category } from '../../representations/Category/category';
 import { PlayerService } from '../../services/api/player/player-service';
 import { RegisterClubMember } from '../../representations/ClubMember/RegisterClubMember';
+import { ClubServices } from '../../services/api/club/club-services';
+import { ResponseClub } from '../../representations/Club/ResponseClub';
 
 @Component({
   selector: 'app-add-player-component',
@@ -14,7 +16,7 @@ import { RegisterClubMember } from '../../representations/ClubMember/RegisterClu
   templateUrl: './add-player-component.html',
   styleUrls: ['./add-player-component.css']
 })
-export class AddPlayerComponent {
+export class AddPlayerComponent implements OnInit {
 
   countries = COUNTRIES;
   categories: Category[] = [];
@@ -41,23 +43,36 @@ export class AddPlayerComponent {
     createdBy: "",
     updatedAt: "",
     updatedBy: "",
-    clubId: 1,
+    clubId: 0, // Will be set from session
     validated: false,
     validatedBy: "",
     validationDate: "" 
   };
 
   constructor(
+    private clubService: ClubServices,
     private playerService: PlayerService,
     private router: Router,
-    private cdr: ChangeDetectorRef  // Inject ChangeDetectorRef here
+    private cdr: ChangeDetectorRef
   ) {}
+
+  ngOnInit(): void {
+    // Fetch selected club from session
+    this.clubService.getSelectedClub().subscribe({
+      next: (club: ResponseClub) => {
+        this.player.clubId = club.id;
+      },
+      error: (err) => {
+        console.error('No club selected in session', err);
+      }
+    });
+  }
 
   onProfilePicSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) {
       this.resetProfilePic();
-      this.cdr.detectChanges();  // update UI immediately
+      this.cdr.detectChanges();
       return;
     }
 
@@ -74,7 +89,7 @@ export class AddPlayerComponent {
     const reader = new FileReader();
     reader.onload = () => {
       this.profilePreview = reader.result;
-      this.cdr.detectChanges(); // trigger view update after file loads
+      this.cdr.detectChanges();
     };
     reader.readAsDataURL(file);
   }
@@ -86,6 +101,11 @@ export class AddPlayerComponent {
   }
 
   submitForm(): void {
+    if (!this.player.clubId) {
+      alert('No club selected. Cannot add player.');
+      return;
+    }
+
     if (this.isSubmitting || this.profileInvalid) {
       alert('Please fix form errors before submitting.');
       return;

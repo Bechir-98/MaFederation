@@ -1,0 +1,59 @@
+<div class="role-container">
+
+  <!-- Header -->
+  <div>
+    <h2>Roles Management</h2>
+    <button (click)="openModal()">
+      <i class="fa fa-plus"></i> Add Role
+    </button>
+  </div>
+
+  <!-- Roles list -->
+  <ul class="roles-list">
+    <li *ngFor="let role of roles">
+      <div>
+        <strong>{{ role.name }}</strong> - {{ role.description }}
+        <div class="text-sm text-gray-600">
+          Permissions: {{ getPermissionNames(role) }}
+        </div>
+      </div>
+      <div class="role-buttons">
+        <button (click)="openModal(role)" class="edit-btn">
+          <i class="fa fa-pen"></i> Edit
+        </button>
+        <button (click)="deleteRole(role.id)" class="delete-btn">
+          <i class="fa fa-trash"></i> Delete
+        </button>
+      </div>
+    </li>
+  </ul>
+
+  <!-- Modal -->
+  <div *ngIf="showModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>{{ editingRoleId ? 'Edit Role' : 'Add Role' }}</h3>
+
+      <form [formGroup]="roleForm" (ngSubmit)="submitRole()">
+        <input formControlName="name" placeholder="Role Name" required />
+        <input formControlName="description" placeholder="Description" />
+
+        <div class="permissions-list">
+          <label *ngFor="let perm of permissions">
+            <input type="checkbox"
+                   [checked]="roleForm.get('permissionIds')?.value.includes(perm.id)"
+                   (change)="onPermissionChange($event, perm.id)">
+            {{ perm.name }}
+          </label>
+        </div>
+
+        <div class="modal-buttons">
+          <button type="button" (click)="closeModal()">Cancel</button>
+          <button type="submit">
+            {{ editingRoleId ? 'Update' : 'Create' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

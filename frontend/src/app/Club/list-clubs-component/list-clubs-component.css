@@ -1,75 +1,100 @@
+/* Container */
 .main {
-  margin-top: 3%;
+  margin-top: 2%;
   box-sizing: border-box;
   width: 100%;
+  font-family: 'Roboto', 'Arial', sans-serif;
 }
 
-.section {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 1em;
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
+/* Section Header */
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1.5rem;
 }
 
 .section-header h2 {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 1.8em;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
 }
 
 .add-club-btn {
-  background-color: #28a745;
+  background-color: #1976d2; /* Material UI primary blue */
   color: white;
-  font-size: 0.9em;
-  padding: 10px 18px;
+  font-size: 0.95em;
+  padding: 10px 20px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease-in-out;
+  gap: 8px;
+  box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+  transition: all 0.25s ease;
 }
 
 .add-club-btn i {
-  font-size: 0.9em;
+  font-size: 1em;
 }
 
 .add-club-btn:hover {
-  background-color: #218838;
+  background-color: #1565c0;
   transform: scale(1.05);
+  box-shadow: 0px 5px 12px rgba(0,0,0,0.3);
 }
 
+/* Cards container */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: flex-start;
+}
+
+/* Each club item */
+.club-item {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 220px;
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.club-item:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0px 6px 20px rgba(0,0,0,0.25);
+}
+
+/* Club links */
+.clublink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Optional bars or labels */
 .bar {
-  padding: 20px;
-  width: 20%;
-  height: 5%;
-  font-size: 0.5em;
-  margin-right: 2em;
+  padding: 10px;
   border-radius: 8px;
+  background-color: #e0e0e0;
+  transition: transform 0.2s ease;
 }
 
 .bar:hover {
-  transform: scale(1.1);
-}
-
-.clublink {
-  text-decoration: none;
-  color: black;
-}
-
-.cards {
-  border: 1px solid black;
-  padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 50px;
+  transform: scale(1.05);
+  background-color: #d5d5d5;
 }

@@ -37,7 +37,7 @@ public ResponsePlayerDTO createPlayer(
     return playerMapper.toDto(player);
 }   
 
- @PostMapping
+ @PostMapping("/select")
 public ResponseEntity<Void> selectPlayer(@RequestBody Map<String, Integer> body, HttpSession session) {
     Integer playerId = body.get("playerId");
     if (playerId == null) {

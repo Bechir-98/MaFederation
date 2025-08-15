@@ -7,6 +7,7 @@ import { Category } from '../../representations/Category/category';
 import { StaffPost } from '../../representations/Staff/staffPost';
 import { CategoryService } from '../../services/api/catergory/categories';
 import { StaffServices } from '../../services/api/staff/staff-services';
+import { ClubServices } from '../../services/api/club/club-services';
 
 @Component({
   selector: 'app-add-staff-component',
@@ -21,7 +22,6 @@ export class AddStaffComponent implements OnInit {
   categories: Category[] = [];
   selectedCategories: number[] = [];
 
-  step = false;
   profilePreview: string | ArrayBuffer | null = null;
   profileInvalid = false;
   isSubmitting = false;
@@ -40,7 +40,7 @@ export class AddStaffComponent implements OnInit {
     nationalID: '',
     nationality: '',
     type: 'STAFF',
-    clubId: 0,
+    clubId: 0, // Will be set from session
     categoryIds: [],
     specialty: '',
     createdAt: '',
@@ -56,19 +56,32 @@ export class AddStaffComponent implements OnInit {
     private router: Router,
     private categoryService: CategoryService,
     private staffService: StaffServices,
+    private clubService: ClubServices,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    const clubId = 1; // Get dynamically if possible
-    this.staff.clubId = clubId;
+    // Get selected club from session
+    this.clubService.getSelectedClub().subscribe({
+      next: (club) => {
+        if (club?.id) {
+          this.staff.clubId = club.id;
+          this.loadCategoriesForSelectedClub();
+        } else {
+          console.warn('No club selected in session');
+        }
+      },
+      error: (err) => console.error('Failed to get selected club:', err)
+    });
+  }
 
-    this.categoryService.getCategoriesByClubId(clubId).subscribe({
-      next: (cats) => {
-        this.categories = cats;
+  private loadCategoriesForSelectedClub(): void {
+    this.clubService.loadCategories().subscribe({
+      next: (categories) => {
+        this.categories = categories;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Error loading categories', err)
+      error: (err) => console.error('Error loading categories for selected club:', err)
     });
   }
 
@@ -114,6 +127,11 @@ export class AddStaffComponent implements OnInit {
   }
 
   submitForm(): void {
+    if (!this.staff.clubId) {
+      alert('No club selected. Cannot add staff.');
+      return;
+    }
+
     if (this.isSubmitting || this.profileInvalid) {
       alert('Please fix form errors before submitting.');
       return;
@@ -142,7 +160,6 @@ export class AddStaffComponent implements OnInit {
       next: (response) => {
         const newStaffId = response.id;
         if (newStaffId) {
-          // Just like player flow — select the created staff
           this.staffService.selectStaff(newStaffId).subscribe({
             next: () => {
               this.isSubmitting = false;

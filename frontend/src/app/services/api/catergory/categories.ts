@@ -44,18 +44,5 @@ updateCategory(category: Category): Observable<Category> {
 
 
 
-  
-  getCategoriesByClubId(id :number): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.baseUrl}/clubs/${id}/categories`);
-  }
-
- addCategoryToClub(clubId: number, id: number): Observable<any> {
-  return this.http.post(`${this.baseUrl}/clubs/${clubId}/categories`, { id });
-}
-
-removeCategoryFromClub(clubId: number, categoryId: number): Observable<any> {
-  return this.http.delete(`${this.baseUrl}/clubs/${clubId}/categories/${categoryId}`);
-}
-
 
 }

@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ClubServices } from '../../services/api/club/club-services';
 import { StaffRepresentation } from '../../representations/Staff/staffResponce';
+import { ResponseClub } from '../../representations/Club/ResponseClub';
 
 @Component({
   selector: 'app-list-staff-component',
@@ -15,7 +16,7 @@ import { StaffRepresentation } from '../../representations/Staff/staffResponce';
 export class ListStaffComponent implements OnInit {
 
   Staffs: StaffRepresentation[] = [];
-  clubId: number = 1;
+  club: ResponseClub | null = null;
   private baseUrl: string = 'http://localhost:8080';
 
   constructor(
@@ -26,14 +27,28 @@ export class ListStaffComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.clubservices.loadStaff().subscribe({
-      next: (data: StaffRepresentation[]) => {
-        this.Staffs = data;
-        console.log(data);
-        this.cdr.detectChanges();
+    // Step 1: Get selected club from session
+    this.clubservices.getSelectedClub().subscribe({
+      next: (club: ResponseClub) => {
+        if (!club) {
+          console.warn('No club selected in session.');
+          return;
+        }
+        this.club = club;
+
+        // Step 2: Load staff for the selected club
+        this.clubservices.loadStaff().subscribe({
+          next: (data: StaffRepresentation[]) => {
+            this.Staffs = data;
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error('Failed to load staff:', err);
+          }
+        });
       },
       error: (err) => {
-        console.error('Failed to load staff:', err);
+        console.error('Failed to get selected club:', err);
       }
     });
   }

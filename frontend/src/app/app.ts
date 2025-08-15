@@ -5,10 +5,10 @@ import { AdminNav } from './nav/admin/admin-nav/admin-nav';
 import {UserNavComponent} from './User/user-nav-component/user-nav-component';
 import { FormsModule } from '@angular/forms'; 
 
-// ClubNav
+// 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,UserNavComponent,FormsModule,AdminNav],
+  imports: [RouterOutlet,UserNavComponent,FormsModule,AdminNav,ClubNav],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

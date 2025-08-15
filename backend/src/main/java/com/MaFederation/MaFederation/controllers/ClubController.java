@@ -20,10 +20,14 @@ import com.MaFederation.MaFederation.dto.Club.PostClubDTO;
 import com.MaFederation.MaFederation.dto.Club.ResponseClubDTO;
 import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
 import com.MaFederation.MaFederation.dto.Staff.ResponceStaffDTO;
+import com.MaFederation.MaFederation.dto.VerificationRequestResponseDTO.VerificationRequestResponseDTO;
+import com.MaFederation.MaFederation.model.VerificationRequest;
 import com.MaFederation.MaFederation.services.ClubFilesServices;
 import com.MaFederation.MaFederation.services.ClubServices;
+import com.MaFederation.MaFederation.services.VerificationRequestService;
 
 import jakarta.transaction.Transactional;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -34,6 +38,7 @@ public class ClubController {
 
     private final ClubServices clubServices;
     private final ClubFilesServices clubFileService;
+    private final VerificationRequestService verificationservice;
 
     /////////////////////////////////// Create a new club ///////////////////////////////////////
     @PostMapping("/register")
@@ -213,4 +218,23 @@ public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId,
         List<ResponsePlayerDTO> players = clubServices.getPlayersByClubId(clubId);
         return ResponseEntity.ok(players);
     }
+
+
+
+@PostMapping("/request-validation")
+public ResponseEntity<VerificationRequestResponseDTO> requestValidation(
+        @RequestBody VerificationRequestResponseDTO dto) {
+
+    VerificationRequestResponseDTO response = verificationservice.createRequestForUser(dto.getUserId(), dto.getClubId());
+
+    return ResponseEntity.ok(response);
+}
+
+
+
+// @Data
+// public class VerificationRequestDTO {
+//     private Integer userId;
+//     private Integer clubId;
+// }
 }

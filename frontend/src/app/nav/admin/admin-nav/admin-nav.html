@@ -24,9 +24,9 @@
           </a>
         </li>
         <li>
-          <a routerLink="admin/listusers" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="/admin/listmods" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fas fa-users"></i>
-            <span>Users</span>
+            <span>Admins</span>
           </a>
         </li>
         <li>
@@ -39,6 +39,13 @@
           <a routerLink="/admin/events" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fas fa-calendar-alt"></i>
             <span>Events</span>
+          </a>
+        </li>
+        <!-- New Roles & Permissions Link -->
+        <li>
+          <a routerLink="/admin/roles" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-user-shield"></i>
+            <span>Roles & Permissions</span>
           </a>
         </li>
       </ul>

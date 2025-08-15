@@ -1,25 +1,28 @@
 .card {
-
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid rgb(180, 169, 169);
-    border-radius: 6px;
-    width: 250px;
-    height: 250px;
-    text-align: center;
-    background-color: rgb(238, 238, 238);
-    box-shadow: 2px 2px 2px 2px rgb(173, 172, 172);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 250px;
+  height: 250px;
+  padding: 15px;
+  border-radius: 12px;
+  background-color: #ffffff; /* cleaner white background */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* subtle Material UI shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-align: center;
 }
 
-.logo{
-    width: 160px;
-    height: 160px;
+.card:hover {
+  transform: translateY(-5px) scale(1.05); /* smoother hover lift */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
-.card:hover 
-{
-    transform: scale(1.1);
+.logo {
+  width: 160px;
+  height: 160px;
+  object-fit: cover; /* ensures image fits nicely */
+  border-radius: 2%; /* optional: circular logos */
+  margin-bottom: 10px;
 }

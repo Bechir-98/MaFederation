@@ -23,29 +23,11 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Filter row -->
-        <tr class="filter-row">
-          <td><input type="text" placeholder="Enter First Name" /></td>
-          <td><input type="text" placeholder="Enter Last Name" /></td>
-          <td>
-            <select>
-              <option value="" disabled selected>Select Position</option>
-              <option>Goalkeeper</option>
-              <option>Defender</option>
-              <option>Midfielder</option>
-              <option>Forward</option>
-            </select>
-          </td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <!-- Player rows -->
         <tr *ngFor="let player of filteredPlayers">
           <td>{{ player.firstName }}</td>
           <td>{{ player.lastName }}</td>
           <td>{{ player.position }}</td>
-          <td class="validated-cell">
+          <td>
             <span *ngIf="player.validated; else notValidated" class="validated">&#10003;</span>
             <ng-template #notValidated>
               <span class="not-validated">&#10007;</span>
@@ -53,8 +35,10 @@
           </td>
           <td>
             <button class="action-btn view-btn" (click)="viewProfile(player!.id)">View 👁</button>
-            <button *ngIf="!player.validated" class="action-btn request-validation-btn">
-              Request Validation
+            <button *ngIf="!player.validated"
+                    class="action-btn request-validation-btn"
+                    (click)="requestValidation(player)">
+              Request Verification
             </button>
           </td>
         </tr>
