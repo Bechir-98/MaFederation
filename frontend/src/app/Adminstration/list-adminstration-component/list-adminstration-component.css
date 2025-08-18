@@ -30,37 +30,22 @@ th, td {
   font-size: 14px;
 }
 
-.filter-row input,
-.filter-row select {
-  width: 100%;
-  padding: 6px 10px;
-  font-size: 14px;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 6px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
-}
-
-.filter-row input:focus,
-.filter-row select:focus {
-  border-color: #2563eb;
-  outline: none;
-  box-shadow: 0 0 5px rgba(37, 99, 235, 0.5);
-}
-
 tr:hover {
   background-color: #e0ebff;
 }
 
-a {
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 600;
-  cursor: pointer;
+.filter-valid-status select {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-a:hover {
-  text-decoration: underline;
+.filter-valid-status select:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 5px rgba(37, 99, 235, 0.5);
 }
 
 .table-header {
@@ -78,9 +63,47 @@ a:hover {
   font-size: 14px;
   border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   transition: background-color 0.3s ease;
 }
 
 .add-admin-button:hover {
   background-color: #0056b3;
 }
+
+.action-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-right: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.view-btn {
+  background-color: #10b981; /* Material UI green */
+  color: white;
+}
+
+.view-btn:hover {
+  background-color: #059669;
+}
+
+.request-validation-btn {
+  background-color: #f59e0b; /* Material UI amber */
+  color: white;
+}
+
+.request-validation-btn:hover {
+  background-color: #d97706;
+}
+
+/* Validation Status Styles */
+.validated i { color: #10b981; }
+.pending i { color: #fbbf24; }
+.rejected i, .not-validated i { color: #ef4444; }

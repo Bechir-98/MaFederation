@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClubServices } from '../../services/api/club/club-services';
-import { Category } from '../../representations/Category/category';
 import { ResponseClub } from '../../representations/Club/ResponseClub';
 import { ClubFiles } from '../../files/club-files-component/club-files-component';
+import { ClubVerificationRequestDTO, ClubVerificationRequestService } from '../../services/api/verification/club/club-verification';
 
 @Component({
   selector: 'app-club-component',
@@ -13,21 +13,22 @@ import { ClubFiles } from '../../files/club-files-component/club-files-component
   styleUrls: ['./club-component.css']
 })
 export class ClubComponent implements OnInit {
-
-  credentialsViewer = false;
   club: ResponseClub | null = null;
-  loadedCategories: Category[] = [];
   isLoading = false;
   error: string | null = null;
   activeSection: string = 'basic';
+  verificationRequested = false;
+  credentialsViewer = false;
 
   constructor(
     private clubService: ClubServices,
+    private verificationService: ClubVerificationRequestService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.loadSelectedClub();
+    
   }
 
   private loadSelectedClub(): void {
@@ -37,12 +38,11 @@ export class ClubComponent implements OnInit {
     this.clubService.getSelectedClub().subscribe({
       next: (club) => {
         if (!club) {
-          console.log(club);
           this.error = 'No club selected.';
-          this.isLoading = false;
-          return;
+        } else {
+          this.club = club;
+          console.log(this.club)
         }
-        this.club = club;
         this.isLoading = false;
         this.cdr.detectChanges();
       },
@@ -51,6 +51,21 @@ export class ClubComponent implements OnInit {
         this.error = 'Failed to load club information. Please try again.';
         this.isLoading = false;
         this.cdr.detectChanges();
+      }
+    });
+  }
+
+  requestVerification(): void {
+    if (!this.club) return;
+
+    this.verificationService.requestVerification(this.club.id!).subscribe({
+      next: (res: ClubVerificationRequestDTO) => {
+        alert(`Verification request submitted for ${this.club?.name}`);
+        this.verificationRequested = true;
+      },
+      error: (err) => {
+        console.error('Failed to request verification:', err);
+        alert('Failed to submit verification request.');
       }
     });
   }
@@ -73,17 +88,12 @@ export class ClubComponent implements OnInit {
   }
 
   onEditClub(): void {
-    if (!this.club) return;
-    console.log('Edit club:', this.club.id);
-    // TODO: Implement edit functionality
+    if (this.club) console.log('Edit club:', this.club.id);
   }
 
   onDeleteClub(): void {
-    if (!this.club) return;
-    const confirmed = confirm(`Are you sure you want to delete ${this.club.name}?`);
-    if (confirmed) {
+    if (this.club && confirm(`Are you sure you want to delete ${this.club.name}?`)) {
       console.log('Delete club:', this.club.id);
-      // TODO: Implement delete functionality
     }
   }
 

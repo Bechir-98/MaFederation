@@ -4,10 +4,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ClubFile, ResponseClub } from '../../../representations/Club/ResponseClub';
-import { StaffRepresentation } from '../../../representations/Staff/staffResponce';
+
 import { PlayerResponce } from '../../../representations/Player/playerResponce';
 import { ResponceAdministration } from '../../../representations/Admin/ResponceAdministration';
 import { Category } from '../../../representations/Category/category';
+import { StaffResponse } from '../../../representations/Staff/staffResponce';
 
 @Injectable({
   providedIn: 'root'
@@ -38,8 +39,8 @@ export class ClubServices {
   }
 
   // Load staff of selected club (clubId is from session on backend)
-  loadStaff(): Observable<StaffRepresentation[]> {
-    return this.http.get<StaffRepresentation[]>(`${this.baseUrl}/staff`,{ withCredentials: true });
+  loadStaff(): Observable<StaffResponse[]> {
+    return this.http.get<StaffResponse[]>(`${this.baseUrl}/staff`,{ withCredentials: true });
   }
 
   // Load players of selected club

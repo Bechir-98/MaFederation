@@ -24,4 +24,11 @@ export class AdminstrationService {
   selectAdministration(adminId: number): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}`, { adminId:adminId }, { withCredentials: true });
   }
+
+ updateAdmin(id: number, payload: Partial<ResponceAdministration>): Observable<ResponceAdministration> {
+  return this.http.put<ResponceAdministration>(`${this.baseUrl}/${id}`, payload);
+}
+
+
+
 }

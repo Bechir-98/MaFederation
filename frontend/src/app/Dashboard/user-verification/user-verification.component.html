@@ -1,24 +1,65 @@
+<div class="filters mb-3 flex gap-4 items-center">
+  <label>
+    Filter by Type:
+    <select [(ngModel)]="selectedType">
+      <option value="ALL">All</option>
+      <option value="PLAYER">Player</option>
+      <option value="STAFF">Staff</option>
+      <option value="ADMIN">Club Admin</option>
+    </select>
+  </label>
+
+  <label>
+    Sort:
+    <select [(ngModel)]="sortOrder">
+      <option value="NEW">Newest First</option>
+      <option value="OLD">Oldest First</option>
+    </select>
+  </label>
+</div>
+
 <table class="table">
   <thead>
     <tr>
       <th>User</th>
+      <th>Type</th>
       <th>Club</th>
       <th>Requested At</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let r of requests">
+    <tr *ngFor="let r of filteredRequests">
       <td data-label="User">
-        {{ r.userName}}
-        <button class="profile-btn" (click)="viewProfile(r.id)">View Profile</button>
+        {{ r.userName }}
+        <button (click)="viewProfile(r.userId, r.targetType)">View Profile</button>
       </td>
+      <td data-label="Type">{{ r.targetType }}</td>
       <td data-label="Club">{{ r.clubName }}</td>
       <td data-label="Requested At">{{ r.createdAt | date:'short' }}</td>
       <td data-label="Actions">
         <button (click)="approve(r)">Approve</button>
-        <button (click)="reject(r)">Reject</button>
+        <button (click)="openRejectModal(r)">Reject</button>
       </td>
     </tr>
   </tbody>
 </table>
+
+<!-- Reject Modal -->
+<div class="modal-backdrop" *ngIf="showRejectModal">
+  <div class="modal">
+    <h3>Reject User Verification</h3>
+    <label>Reason</label>
+    <select [(ngModel)]="selectedRejectReason">
+      <option *ngFor="let reason of rejectReasons" [value]="reason">{{ reason }}</option>
+    </select>
+
+    <label>Additional Description (optional)</label>
+    <textarea [(ngModel)]="rejectDescription" placeholder="Type description..."></textarea>
+
+    <div class="modal-actions">
+      <button class="reject-btn" (click)="confirmReject()">Reject</button>
+      <button class="cancel-btn" (click)="closeRejectModal()">Cancel</button>
+    </div>
+  </div>
+</div>

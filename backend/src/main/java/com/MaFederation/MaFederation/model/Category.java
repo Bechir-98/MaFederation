@@ -21,12 +21,8 @@ public class Category extends Audit {
     private String description;
     private Integer ageMin;
     private Integer ageMax;
-
     @ManyToMany(mappedBy = "categories")
     private List<ClubMember> clubMembers;
-
-    
-
     @ManyToMany(mappedBy = "categories")
     private List<Club> clubs;
 }

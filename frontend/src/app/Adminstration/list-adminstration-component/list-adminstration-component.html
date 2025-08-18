@@ -1,47 +1,57 @@
 <div class="all">
   <div class="table-header">
-    <div>
-      <!-- Optional header or search/filter -->
+    <div class="filter-valid-status">
+      <label for="validationFilter">Show Admins:</label>
+      <select id="validationFilter" [(ngModel)]="validationFilter" (change)="filterAdmins()">
+        <option value="all">All</option>
+        <option value="validated">Validated</option>
+        <option value="notValidated">Not Validated</option>
+      </select>
     </div>
-    <button class="add-admin-button" routerLink="/addadmin">+ Add Administrator</button>
+    <button class="add-admin-button" routerLink="/addadmin">
+      <i class="fa fa-user-plus"></i> Add Administrator
+    </button>
   </div>
 
   <div class="table-wrapper">
-    <table>
+    <table mat-table>
       <thead>
         <tr>
           <th>First Name</th>
           <th>Last Name</th>
           <th>Role</th>
+          <th>Validated</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Filter row -->
-        <tr class="filter-row">
-          <td><input type="text" placeholder="Enter First Name" /></td>
-          <td><input type="text" placeholder="Enter Last Name"  /></td>
-
-          <td>
-            <select >
-              <option value="">Select Role</option>
-              <option>Technical Staff</option>
-              <option>Administrative Staff</option>
-              <option>Manager</option>
-              <option>Coach</option>
-              <!-- Add more roles as needed -->
-            </select>
-          </td>
-          <td></td>
-        </tr>
-
-        <!-- Admin rows -->
-        <tr *ngFor="let admin of Admins">
+        <tr *ngFor="let admin of filteredAdmins">
           <td>{{ admin.firstName }}</td>
           <td>{{ admin.lastName }}</td>
           <td>{{ admin.role }}</td>
           <td>
-            <button (click)="viewAdmin(admin!.id)">View 👁</button>
+            <span *ngIf="admin.validated === 'validated'" class="validated">
+              <i class="fa fa-check-circle"></i> Validated
+            </span>
+            <span *ngIf="admin.validated === 'pending'" class="pending">
+              <i class="fa fa-hourglass-half"></i> Pending
+            </span>
+            <span *ngIf="admin.validated === 'rejected'" class="rejected">
+              <i class="fa fa-times-circle"></i> Rejected
+            </span>
+            <span *ngIf="admin.validated === 'nonValidated'" class="not-validated">
+              <i class="fa fa-times-circle"></i> Not Validated
+            </span>
+          </td>
+          <td>
+            <button class="action-btn view-btn" (click)="viewAdmin(admin.id)">
+              <i class="fa fa-eye"></i> View
+            </button>
+            <button *ngIf="admin.validated !== 'validated' && admin.validated !== 'pending'"
+                    class="action-btn request-validation-btn"
+                    (click)="requestValidation(admin)">
+              <i class="fa fa-badge-check"></i> Request Verification
+            </button>
           </td>
         </tr>
       </tbody>

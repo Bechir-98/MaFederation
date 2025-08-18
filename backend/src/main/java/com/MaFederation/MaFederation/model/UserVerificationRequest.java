@@ -1,5 +1,7 @@
 
 package com.MaFederation.MaFederation.model;
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -15,14 +17,16 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class VerificationRequest extends Audit {
+public class UserVerificationRequest extends Audit {
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user; 
+    
+    private String targetType;
 
     @ManyToOne
-    @JoinColumn(name = "club_id", nullable = false)
+    @JoinColumn(name = "club_id", nullable = true)
     private Club club; 
 
  

@@ -1,9 +1,18 @@
 <div class="all">
   <div class="table-header">
-    <div>
-      <!-- Optional search, filter buttons here -->
+    <div class="filter-valid-status">
+      <label for="validationFilter">Show Staff:</label>
+      <select id="validationFilter" [(ngModel)]="validationFilter" (change)="filterStaff()">
+        <option value="all">All</option>
+        <option value="validated">Validated</option>
+        <option value="pending">Pending</option>
+        <option value="rejected">Rejected</option>
+        <option value="nonValidated">Non Validated</option>
+      </select>
     </div>
-    <button class="add-staff-button" routerLink="/addstaff">+ Add Staff</button>
+    <button class="add-staff-button" routerLink="/addstaff">
+      <i class="fa fa-user-plus"></i> Add Staff
+    </button>
   </div>
 
   <div class="table-wrapper">
@@ -14,35 +23,40 @@
           <th>Last Name</th>
           <th>Category</th>
           <th>Speciality</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Filter row -->
-        <tr class="filter-row">
-          <td><input type="text" placeholder="Enter First Name" /></td>
-          <td><input type="text" placeholder="Enter Last Name" /></td>
-          <td>
-            <select>
-              <option value="" disabled selected>Select Category</option>
-              <option>U12</option>
-              <option>U15</option>
-              <option>U18</option>
-              <option>Senior</option>
-            </select>
-          </td>
-          <td><input type="text" placeholder="Enter Speciality" /></td>
-          <td></td>
-        </tr>
-
-        <!-- Staff rows -->
-        <tr *ngFor="let staff of Staffs">
+        <tr *ngFor="let staff of filteredStaffs">
           <td>{{ staff.firstName }}</td>
           <td>{{ staff.lastName }}</td>
           <td>{{ staff.categories }}</td>
           <td>{{ staff.specialty }}</td>
+          <td class="validated-cell">
+            <span *ngIf="staff.validated === 'validated'" class="validated">
+              <i class="fa fa-check-circle"></i> Validated
+            </span>
+            <span *ngIf="staff.validated === 'pending'" class="pending">
+              <i class="fa fa-hourglass-half"></i> Pending
+            </span>
+            <span *ngIf="staff.validated === 'rejected'" class="rejected">
+              <i class="fa fa-times-circle"></i> Rejected
+            </span>
+            <span *ngIf="staff.validated === 'nonValidated'" class="not-validated">
+              <i class="fa fa-times-circle"></i> Not Validated
+            </span>
+          </td>
           <td>
-            <button (click)="viewProfile(staff!.id)">View 👁</button>
+            <button class="action-btn view-btn" (click)="viewProfile(staff.id)">
+              <i class="fa fa-eye"></i> View
+            </button>
+
+            <button *ngIf="staff.validated === 'rejected' || staff.validated === 'nonValidated'"
+                    class="action-btn request-validation-btn"
+                    (click)="requestValidation(staff)">
+              <i class="fa fa-badge-check"></i> Request Verification
+            </button>
           </td>
         </tr>
       </tbody>

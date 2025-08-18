@@ -1,6 +1,7 @@
 package com.MaFederation.MaFederation.services;
 
 import com.MaFederation.MaFederation.dto.Player.PostPlayerDTO;
+import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
 import com.MaFederation.MaFederation.mappers.PlayerMapper;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Club;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Service
@@ -25,32 +28,38 @@ public class PlayerService {
     private final PlayerMapper playerMapper;
 
 
-
-
 public Player createPlayer(PostPlayerDTO dto) {
     Player player = playerMapper.toEntity(dto);
+
     Club club = clubRepository.findById(dto.getClubId())
         .orElseThrow(() -> new RuntimeException("Club not found with id: " + dto.getClubId()));
     player.setClub(club);
-    if (dto.getCategoryIds() != null && !dto.getCategoryIds().isEmpty()) {
+
+    // Auto-select categories based on player age if categoryIds not explicitly provided
+    if ((dto.getCategoryIds() == null || dto.getCategoryIds().isEmpty()) && player.getDateOfBirth() != null) {
+        int playerAge = Period.between(player.getDateOfBirth(), LocalDate.now()).getYears();
+
+        List<Category> matchedCategories = categoryRepository.findByAgeMinLessThanEqualAndAgeMaxGreaterThanEqual(playerAge, playerAge);
+
+        player.setCategories(matchedCategories);
+    } else if (dto.getCategoryIds() != null && !dto.getCategoryIds().isEmpty()) {
         List<Category> categories = categoryRepository.findAllById(dto.getCategoryIds());
-        player.setCategories(categories);
+        player.setCategories(categories);   
     }
+
     return playerRepository.save(player);
 }
 
 
-    // public List<Player> getAllPlayers() {
-    //     return playerRepository.findAll();
-    // }
+    public ResponsePlayerDTO getPlayerById(Integer id) {
+    Player player = playerRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Player not found"));
+    return playerMapper.toDto(player);
+}
 
-    public Player getPlayerById(Integer id) {
-        return playerRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Player not found"));
-    }
 
-    public Player updatePlayer(Integer id, PostPlayerDTO dto) {
-        Player player = getPlayerById(id);
+    public ResponsePlayerDTO updatePlayer(Integer id, PostPlayerDTO dto) {
+        Player player = playerRepository.findById(id).orElseThrow(() -> new RuntimeException("Player not found"));;
         // Update fields using dto (you can reuse `toEntity(dto)` and copy non-null values)
         player.setFirstName(dto.getFirstName());
         player.setLastName(dto.getLastName());
@@ -62,10 +71,12 @@ public Player createPlayer(PostPlayerDTO dto) {
         player.setWeight(dto.getWeight());
         player.setUpdatedAt(dto.getUpdatedAt());
 
-        return playerRepository.save(player);
+        Player update= playerRepository.save(player);
+        return playerMapper.toDto(update);
+
+
+
     }
 
-    public void deletePlayer(Integer id) {
-        playerRepository.deleteById(id);
-    }
+   
 }

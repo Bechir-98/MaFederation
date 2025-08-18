@@ -10,49 +10,29 @@ import { UserPost } from '../../../representations/User/userPost';
 export class UserService {
   private baseUrl: string = "http://localhost:8080";
 
-  constructor(private http: HttpClient) {
-    // Constructor implementation
+    constructor(private http: HttpClient) {}
+
+
+  selectUser(userId: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/user/select`, { userId },{ withCredentials: true });
   }
 
-   createUser(user: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/users`, user);
+  getSelectedUser(): Observable<UserResponse> {
+    return this.http.get<UserResponse>(`${this.baseUrl}/user/profile`,{ withCredentials: true });
   }
-
-  getUserById(id: number): Observable<any> {
-    return this.http.get<any>(
-      `${this.baseUrl}/users/${id}`
-    );
-  }
-
-  // Additional methods you might need
-  getAllUsers(): Observable<UserResponse[]> {
-    return this.http.get<UserResponse[]>(`${this.baseUrl}/users`);
-  }
-
-   
-
-    updateUser(id: number, user: UserPost): Observable<UserPost> {
-      return this.http.put<UserPost>(`${this.baseUrl}/users/${id}`, user);
-    } 
-
-    deleteUser(id: number): Observable<void> {
-      return this.http.delete<void>(`${this.baseUrl}/users/${id}`);
-    }
-
-
-
 
   
 uploadUserFiles(userId: number, files: File[], type: string): Observable<string> {
   const formData = new FormData();
-  // Backend expects "file" and "type" as separate fields (1 file per request)
   if (files.length > 0) {
     formData.append('file', files[0], files[0].name);
     formData.append('userId', userId.toString());
     formData.append('type', type);
   }
 
-  return this.http.post<string>(`${this.baseUrl}/userfiles/upload`, formData);
+  return this.http.post(`${this.baseUrl}/userfiles/upload`, formData, {
+    responseType: 'text'  // <-- fix here
+  });
 }
 
 loadUserFiles(userId: number): Observable<UserFile[]> {
@@ -80,5 +60,10 @@ updateUserFile(file: File, fileId: number): Observable<any> {
 
   return this.http.put<any>(`${this.baseUrl}/userfiles/file/update`, formData);
 }
+
+ deleteUser(userId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/clubs/delete/${userId}`);
+  }    
+
 
 }

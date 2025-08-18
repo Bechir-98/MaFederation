@@ -1,7 +1,7 @@
 package com.MaFederation.MaFederation.controllers;
 
 import com.MaFederation.MaFederation.dto.VerificationRequestResponseDTO.VerificationRequestResponseDTO;
-import com.MaFederation.MaFederation.services.VerificationRequestService;
+import com.MaFederation.MaFederation.services.UserVerificationRequestService;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +14,9 @@ import java.util.List;
 @RequestMapping("/admin/verification-requests")
 @CrossOrigin("http://localhost:4200")
 @RequiredArgsConstructor
-public class VerificationRequestController {
+public class UserVerificationRequestController {
 
-    private final VerificationRequestService service;
+    private final UserVerificationRequestService service;
 
     // ✅ Get pending requests as DTOs
     @GetMapping("/pending")

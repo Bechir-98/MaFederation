@@ -28,13 +28,7 @@ export class AddClubComponent implements OnInit {
     bankName: '',
     categoryIds: [],
     logo: null,
-    createdAt: '',
-    createdBy: '',
-    updatedAt: '',
-    updatedBy: '',
-    validated: false,
-    validatedBy: "",
-    validationDate: ""
+    website:""
   };
 
   logoPreview: string | ArrayBuffer | null = null;

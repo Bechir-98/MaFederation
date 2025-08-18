@@ -1,61 +1,110 @@
-<div *ngIf="loading" class="loading">Loading administrator data...</div>
-<div *ngIf="error" class="error">{{ error }}</div>
+  <div *ngIf="loading" class="loading">Loading administrator data...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
 
-<div *ngIf="!loading && !error" class="admin-container">
-  <div class="admin-header">
-    <img 
-      *ngIf="admin.profilePicture; else noImage"
-      [src]="'data:image/png;base64,' + admin.profilePicture" 
-      alt="Profile Picture" 
-      class="admin-image" 
-    />
-    <ng-template #noImage>
-      <div class="no-image">No Image Available</div>
-    </ng-template>
-    <div class="admin-info">
-      <div class="admin-name">
-        <h2>{{ admin.firstName || 'First Name' }} {{ admin.lastName || 'Last Name' }}</h2>
+  <div *ngIf="!loading && !error" class="admin-container">
+
+    <!-- Profile Completion Banner -->
+    <div *ngIf="profileCompletion < 100" class="completion-banner">
+      <div>
+        <strong>Profile Completion:</strong> {{ profileCompletion }}%
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="profileCompletion"></div>
+        </div>
+      </div>
+      <button class="completion-btn" (click)="openEditModal()">Complete Profile</button>
+    </div>
+
+    <!-- Admin Header -->
+    <div class="admin-header">
+      <div class="admin-image-wrapper">
+        <img *ngIf="admin.profilePicture; else noImage" [src]="'data:image/png;base64,' + admin.profilePicture" alt="Profile Picture" class="admin-image" />
+        <ng-template #noImage>
+          <div class="no-image">No Image Available</div>
+        </ng-template>
+      </div>
+
+      <div class="admin-info">
+        <div class="admin-name-status">
+          <h2>{{ admin.firstName || 'First Name' }} {{ admin.lastName || 'Last Name' }}</h2>
+          <span class="status-badge" >
+            {{ admin.validated || 'Not Validated' }}
+          </span>
+        </div>
         <p>Role: {{ admin.role || 'N/A' }}</p>
+        <div class="action-buttons">
+          <button class="edit-btn" (click)="openEditModal()">Edit</button>
+          <button class="delete-btn" (click)="deleteAdmin()">Delete</button>
+        </div>
       </div>
-      <div class="action-buttons">
-        <button class="edit-btn" title="Edit Administrator">
-          <!-- SVG icon here -->
-          Edit
-        </button>
-        <button class="delete-btn" title="Delete Administrator">
-          <!-- SVG icon here -->
-          Delete
-        </button>
-      </div>
+    </div>
+
+    <!-- Section Buttons -->
+    <div class="button-group">
+      <button (click)="showSection('basic')" [class.active]="activeSection==='basic'">Basic Info</button>
+      <button (click)="showSection('credentials')" [class.active]="activeSection==='credentials'">View Credentials</button>
+      <button (click)="showSection('details')" [class.active]="activeSection==='details'">Audit Details</button>
+    </div>
+
+    <!-- Sections -->
+    <div class="section" *ngIf="activeSection==='basic'">
+      <p><strong>Date of Birth:</strong> {{ admin.dateOfBirth ? (admin.dateOfBirth | date:'longDate') : 'N/A' }}</p>
+      <p><strong>Nationality:</strong> {{ admin.nationality || 'N/A' }}</p>
+      <p><strong>Gender:</strong> {{ admin.gender || 'N/A' }}</p>
+      <p><strong>Phone:</strong> {{ admin.phoneNumber || 'N/A' }}</p>
+      <p><strong>Email:</strong> {{ admin.email || 'N/A' }}</p>
+      <p><strong>Address:</strong> {{ admin.address || 'N/A' }}</p>
+    </div>
+
+    <div class="section" *ngIf="activeSection==='credentials'">
+      <app-user-files-component [UserId]="admin.id!"></app-user-files-component>
+    </div>
+
+    <div class="section" *ngIf="activeSection==='details'">
+      <p><strong>Created By:</strong> {{ admin.createdBy || 'N/A' }}</p>
+      <p><strong>Created At:</strong> {{ admin.createdAt ? (admin.createdAt | date:'medium') : 'N/A' }}</p>
+      <p><strong>Updated By:</strong> {{ admin.updatedBy || 'N/A' }}</p>
+      <p><strong>Updated At:</strong> {{ admin.updatedAt ? (admin.updatedAt | date:'medium') : 'N/A' }}</p>
+      <p><strong>Validated By:</strong> {{ admin.validatedBy || 'N/A' }}</p>
+      <p><strong>Validation Status:</strong> {{ admin.validated || 'Not Validated' }}</p>
     </div>
   </div>
 
-  <div class="button-group">
-    <button (click)="showSection('basic')" [class.active]="activeSection === 'basic'">Basic Info</button>
-    <button (click)="showSection('credentials')" [class.active]="activeSection === 'credentials'">View Credentials</button>
-    <button (click)="showSection('details')" [class.active]="activeSection === 'details'">Audit Details</button>
-  </div>
+  <!-- Edit / Complete Profile Modal -->
+  <div *ngIf="isEditModalOpen" class="modal-backdrop">
+    <div class="modal">
+      <h3>Edit / Complete Administrator Profile</h3>
+      <form #editForm="ngForm" (ngSubmit)="saveEditedAdmin(editForm)">
+        <div class="form-grid">
+          <label>First Name</label>
+          <input name="firstName" [(ngModel)]="editedAdmin.firstName" required />
 
-  <div class="section" *ngIf="activeSection === 'basic'">
-    <h3>Basic Information</h3>
-    <p><strong>Date of Birth:</strong> {{ admin.dateOfBirth ? (admin.dateOfBirth | date:'longDate') : 'N/A' }}</p>
-    <p><strong>Nationality:</strong> {{ admin.nationality || 'N/A' }}</p>
-    <p><strong>Gender:</strong> {{ admin.gender || 'N/A' }}</p>
-    <p><strong>Phone:</strong> {{ admin.phoneNumber || 'N/A' }}</p>
-    <p><strong>Email:</strong> {{ admin.email || 'N/A' }}</p>
-    <p><strong>Address:</strong> {{ admin.address || 'N/A' }}</p>
-  </div>
+          <label>Last Name</label>
+          <input name="lastName" [(ngModel)]="editedAdmin.lastName" required />
 
-  <div class="section" *ngIf="activeSection === 'credentials'">
-    <h3>Credentials</h3>
-    <app-user-files-component [UserId]="admin!.id"></app-user-files-component>
-  </div>
+          <label>Gender</label>
+          <select name="gender" [(ngModel)]="editedAdmin.gender">
+            <option value="">Select</option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
+          </select>
 
-  <div class="section" *ngIf="activeSection === 'details'">
-    <h3>Audit Details</h3>
-    <p><strong>Created By:</strong> {{ admin.createdBy || 'N/A' }}</p>
-    <p><strong>Created At:</strong> {{ admin.createdAt ? (admin.createdAt | date:'medium') : 'N/A' }}</p>
-    <p><strong>Updated By:</strong> {{ admin.updatedBy || 'N/A' }}</p>
-    <p><strong>Updated At:</strong> {{ admin.updatedAt ? (admin.updatedAt | date:'medium') : 'N/A' }}</p>
+          <label>Phone</label>
+          <input name="phoneNumber" [(ngModel)]="editedAdmin.phoneNumber" />
+
+          <label>Email</label>
+          <input type="email" name="email" [(ngModel)]="editedAdmin.email" />
+
+          <label>Address</label>
+          <input name="address" [(ngModel)]="editedAdmin.address" />
+
+          <label>Role</label>
+          <input name="role" [(ngModel)]="editedAdmin.role" />
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit">Save</button>
+          <button type="button" (click)="closeEditModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>

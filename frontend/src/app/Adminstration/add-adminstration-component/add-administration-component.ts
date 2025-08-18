@@ -7,6 +7,7 @@ import { AdminstrationService } from '../../services/api/adminstration/adminstra
 import { PostAdministration } from '../../representations/Admin/postAdminustration';
 import { ResponseClub } from '../../representations/Club/ResponseClub';
 import { ClubServices } from '../../services/api/club/club-services';
+import { UserService } from '../../services/api/user/user-service';
 
 @Component({
   selector: 'app-add-administration-component',
@@ -38,21 +39,18 @@ export class AddAdministrationComponent implements OnInit {
     passwordHash: '',
     profilePicture: null,
     role: '',
-    type: "ADMINSTRATOR",
     clubId: 0, // will be set after fetching selected club
     createdAt: '',
     createdBy: '',
     updatedAt: '',
     updatedBy: '',
-    validated: false,
-    validatedBy: "",
-    validationDate: "" 
   };
 
   constructor(
     private clubService: ClubServices,
     private administrationService: AdminstrationService,
     private router: Router,
+    private userService:UserService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -129,7 +127,7 @@ export class AddAdministrationComponent implements OnInit {
       next: (response) => {
         const newAdminId = response.id;
         if (newAdminId) {
-          this.administrationService.selectAdministration(newAdminId).subscribe({
+          this.userService.selectUser(newAdminId).subscribe({
             next: () => {
               this.isSubmitting = false;
               this.submitSuccess = true;

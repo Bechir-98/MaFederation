@@ -2,6 +2,8 @@ package com.MaFederation.MaFederation.mappers;
 
 import com.MaFederation.MaFederation.dto.Admin.PostAdminstrationDTO;
 import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
+import com.MaFederation.MaFederation.enums.ClubMemberType;
+import com.MaFederation.MaFederation.enums.ValidationStatus;
 import com.MaFederation.MaFederation.model.Administration;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +38,7 @@ public class AdministrationMapper {
         dto.setUpdatedAt(admin.getUpdatedAt());
         dto.setCreatedBy(admin.getCreatedBy());
         dto.setUpdatedBy(admin.getUpdatedBy());
-         dto.setValidated(admin.isValidated());
+         dto.setValidated(admin.getValidated());
         dto.setValidatedBy(admin.getValidatedBy());
         dto.setValidationDate(admin.getValidationDate());
 
@@ -60,10 +62,9 @@ public class AdministrationMapper {
         admin.setNationalID(dto.getNationalID());
         admin.setNationality(dto.getNationality());
         admin.setRole(dto.getRole());
-        admin.setType("Administrator");
-        admin.setValidated(false);
-
-        // Audit fields (usually service or DB sets these, but you can copy from DTO if needed)
+        admin.setType(ClubMemberType.CLUBADMIN);
+        admin.setValidated(ValidationStatus.nonValidated);
+        admin.setValidatedBy(dto.getValidatedBy());
         admin.setCreatedAt(dto.getCreatedAt());
         admin.setUpdatedAt(dto.getUpdatedAt());
         admin.setCreatedBy(dto.getCreatedBy());

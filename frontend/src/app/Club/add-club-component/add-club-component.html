@@ -1,212 +1,229 @@
-<form #clubForm="ngForm" (ngSubmit)="onSubmit()" class="modern-player-form" novalidate aria-label="Club Registration Form">
+  <form #clubForm="ngForm" (ngSubmit)="onSubmit()" class="modern-player-form" novalidate aria-label="Club Registration Form">
 
-  <h2 class="form-title">Club Registration</h2>
+    <h2 class="form-title">Club Registration</h2>
 
-  <div class="form-wrapper">
+    <div class="form-wrapper">
 
-    <!-- Left: Club Details -->
-    <section class="details" aria-labelledby="general-info-title">
+      <!-- Left: Club Details -->
+      <section class="details" aria-labelledby="general-info-title">
 
-      <h3 id="general-info-title">General Information</h3>
+        <h3 id="general-info-title">General Information</h3>
 
-      <!-- Club Name -->
-      <div class="form-group">
-        <input
-          type="text"
-          id="name"
-          name="name"
-          [(ngModel)]="club.name"
-          required
-          #name="ngModel"
-          minlength="2"
-          placeholder=" "
-          aria-required="true"
-          aria-describedby="name-error"
-          [attr.aria-invalid]="name.invalid && name.touched ? 'true' : 'false'"
-        />
-        <label for="name">Club Name<span aria-hidden="true" class="required">*</span></label>
-        <div *ngIf="name.invalid && name.touched" id="name-error" class="error" role="alert">
-          This field is required and must have at least 2 characters.
-        </div>
-      </div>
-
-      <!-- Location -->
-      <div class="form-group">
-        <input
-          type="text"
-          id="location"
-          name="location"
-          [(ngModel)]="club.location"
-          required
-          #location="ngModel"
-          minlength="2"
-          placeholder=" "
-          aria-required="true"
-          aria-describedby="location-error"
-          [attr.aria-invalid]="location.invalid && location.touched ? 'true' : 'false'"
-        />
-        <label for="location">Location<span aria-hidden="true" class="required">*</span></label>
-        <div *ngIf="location.invalid && location.touched" id="location-error" class="error" role="alert">
-          This field is required and must have at least 2 characters.
-        </div>
-      </div>
-
-      <!-- Founded Year -->
-      <div class="form-group">
-        <input
-          type="number"
-          id="foundedYear"
-          name="foundedYear"
-          [(ngModel)]="club.foundedYear"
-          min="1800"
-          max="2099"
-          required
-          #foundedYear="ngModel"
-          placeholder=" "
-          aria-required="true"
-          aria-describedby="foundedYear-error"
-          [attr.aria-invalid]="foundedYear.invalid && foundedYear.touched ? 'true' : 'false'"
-        />
-        <label for="foundedYear">Year Founded<span aria-hidden="true" class="required">*</span></label>
-        <div *ngIf="foundedYear.invalid && foundedYear.touched" id="foundedYear-error" class="error" role="alert">
-          Year must be between 1800 and 2099.
-        </div>
-      </div>
-
-      <!-- Contact Email -->
-      <div class="form-group">
-        <input
-          type="email"
-          id="contactEmail"
-          name="contactEmail"
-          [(ngModel)]="club.contactEmail"
-          required
-          email
-          #contactEmail="ngModel"
-          placeholder=" "
-          aria-required="true"
-          aria-describedby="contactEmail-error"
-          [attr.aria-invalid]="contactEmail.invalid && contactEmail.touched ? 'true' : 'false'"
-        />
-        <label for="contactEmail">Email<span aria-hidden="true" class="required">*</span></label>
-        <div *ngIf="contactEmail.invalid && contactEmail.touched" id="contactEmail-error" class="error" role="alert">
-          Invalid email address.
-        </div>
-      </div>
-
-      <!-- Contact Phone -->
-      <div class="form-group">
-        <input
-          type="tel"
-          id="contactPhone"
-          name="contactPhone"
-          [(ngModel)]="club.contactPhone"
-          required
-          pattern="^\d{8}$"
-          #contactPhone="ngModel"
-          placeholder=" "
-          aria-required="true"
-          aria-describedby="contactPhone-error"
-          [attr.aria-invalid]="contactPhone.invalid && contactPhone.touched ? 'true' : 'false'"
-          maxlength="8"
-          minlength="8"
-          inputmode="numeric"
-          autocomplete="tel"
-          placeholder="Ex: 12345678"
-        />
-        <label for="contactPhone">Phone<span aria-hidden="true" class="required">*</span></label>
-        <div *ngIf="contactPhone.invalid && contactPhone.touched" id="contactPhone-error" class="error" role="alert">
-          Phone number must be exactly 8 digits.
-        </div>
-      </div>
-
-      <!-- Bank Account -->
-      <div class="form-group">
-        <input
-          type="text"
-          id="bankAccount"
-          name="bankAccount"
-          [(ngModel)]="club.bankAccount"
-          required
-          #bankAccount="ngModel"
-          minlength="5"
-          placeholder=" "
-          aria-required="true"
-          aria-describedby="bankAccount-error"
-          [attr.aria-invalid]="bankAccount.invalid && bankAccount.touched ? 'true' : 'false'"
-        />
-        <label for="bankAccount">Bank Account<span aria-hidden="true" class="required">*</span></label>
-        <div *ngIf="bankAccount.invalid && bankAccount.touched" id="bankAccount-error" class="error" role="alert">
-          This field is required and must contain at least 5 characters.
-        </div>
-      </div>
-
-      <!-- Bank Name -->
-      <div class="form-group">
-        <input
-          type="text"
-          id="bankName"
-          name="bankName"
-          [(ngModel)]="club.bankName"
-          required
-          #bankName="ngModel"
-          minlength="2"
-          placeholder=" "
-          aria-required="true"
-          aria-describedby="bankName-error"
-          [attr.aria-invalid]="bankName.invalid && bankName.touched ? 'true' : 'false'"
-        />
-        <label for="bankName">Bank Name<span aria-hidden="true" class="required">*</span></label>
-        <div *ngIf="bankName.invalid && bankName.touched" id="bankName-error" class="error" role="alert">
-          This field is required and must contain at least 2 characters.
-        </div>
-      </div>
-
-      <!-- Categories -->
-      <fieldset class="checkbox-group" aria-label="Available Categories" role="group">
-        <legend>Available Categories</legend>
-        <div *ngFor="let c of categories" class="checkbox-item">
+        <!-- Club Name -->
+        <div class="form-group">
           <input
-            type="checkbox"
-            [id]="'category-'+c.id"
-            [checked]="club.categoryIds.includes(c.id!)"
-            (change)="onCategoryChange(c, $event)"
+            type="text"
+            id="name"
+            name="name"
+            [(ngModel)]="club.name"
+            required
+            #name="ngModel"
+            minlength="2"
+            placeholder=" "
+            aria-required="true"
+            aria-describedby="name-error"
+            [attr.aria-invalid]="name.invalid && name.touched ? 'true' : 'false'"
           />
-          <label [for]="'category-'+c.id">{{ c.name }} ({{ c.ageMin }} - {{ c.ageMax }} years)</label>
+          <label for="name">Club Name<span aria-hidden="true" class="required">*</span></label>
+          <div *ngIf="name.invalid && name.touched" id="name-error" class="error" role="alert">
+            This field is required and must have at least 2 characters.
+          </div>
         </div>
-      </fieldset>
 
-    </section>
+        <!-- Location -->
+        <div class="form-group">
+          <input
+            type="text"
+            id="location"
+            name="location"
+            [(ngModel)]="club.location"
+            required
+            #location="ngModel"
+            minlength="2"
+            placeholder=" "
+            aria-required="true"
+            aria-describedby="location-error"
+            [attr.aria-invalid]="location.invalid && location.touched ? 'true' : 'false'"
+          />
+          <label for="location">Location<span aria-hidden="true" class="required">*</span></label>
+          <div *ngIf="location.invalid && location.touched" id="location-error" class="error" role="alert">
+            This field is required and must have at least 2 characters.
+          </div>
+        </div>
 
-    <!-- Right: Logo Upload -->
-    <section class="logo-upload-container" aria-labelledby="logo-upload-title">
-      <h3 id="logo-upload-title">Club Logo<span aria-hidden="true" class="required">*</span></h3>
-      <input
-        type="file"
-        accept="image/*"
-        (change)="onLogoSelected($event)"
-        aria-required="true"
-        aria-describedby="logo-error"
-      />
-      <div *ngIf="logoInvalid" id="logo-error" class="error" role="alert">
-        Please select a valid logo.
-      </div>
+        <!-- Founded Year -->
+        <div class="form-group">
+          <input
+            type="number"
+            id="foundedYear"
+            name="foundedYear"
+            [(ngModel)]="club.foundedYear"
+            min="1800"
+            max="2099"
+            required
+            #foundedYear="ngModel"
+            placeholder=" "
+            aria-required="true"
+            aria-describedby="foundedYear-error"
+            [attr.aria-invalid]="foundedYear.invalid && foundedYear.touched ? 'true' : 'false'"
+          />
+          <label for="foundedYear">Year Founded<span aria-hidden="true" class="required">*</span></label>
+          <div *ngIf="foundedYear.invalid && foundedYear.touched" id="foundedYear-error" class="error" role="alert">
+            Year must be between 1800 and 2099.
+          </div>
+        </div>
 
-      <div class="logo-preview" *ngIf="logoPreview">
-        <p>Logo Preview:</p>
-        <img [src]="logoPreview" alt="Club logo preview" />
-      </div>
-    </section>
+        <!-- Contact Email -->
+        <div class="form-group">
+          <input
+            type="email"
+            id="contactEmail"
+            name="contactEmail"
+            [(ngModel)]="club.contactEmail"
+            required
+            email
+            #contactEmail="ngModel"
+            placeholder=" "
+            aria-required="true"
+            aria-describedby="contactEmail-error"
+            [attr.aria-invalid]="contactEmail.invalid && contactEmail.touched ? 'true' : 'false'"
+          />
+          <label for="contactEmail">Email<span aria-hidden="true" class="required">*</span></label>
+          <div *ngIf="contactEmail.invalid && contactEmail.touched" id="contactEmail-error" class="error" role="alert">
+            Invalid email address.
+          </div>
+        </div>
 
-  </div>
+        <!-- Contact Phone -->
+        <div class="form-group">
+          <input
+            type="tel"
+            id="contactPhone"
+            name="contactPhone"
+            [(ngModel)]="club.contactPhone"
+            required
+            pattern="^\d{8}$"
+            #contactPhone="ngModel"
+            placeholder="Ex: 12345678"
+            aria-required="true"
+            aria-describedby="contactPhone-error"
+            [attr.aria-invalid]="contactPhone.invalid && contactPhone.touched ? 'true' : 'false'"
+            maxlength="8"
+            minlength="8"
+            inputmode="numeric"
+            autocomplete="tel"
+          />
+          <label for="contactPhone">Phone<span aria-hidden="true" class="required">*</span></label>
+          <div *ngIf="contactPhone.invalid && contactPhone.touched" id="contactPhone-error" class="error" role="alert">
+            Phone number must be exactly 8 digits.
+          </div>
+        </div>
 
-  <div class="actions">
-    <button
-      type="submit"
-      [disabled]="clubForm.invalid || logoInvalid"
-      [attr.aria-disabled]="(clubForm.invalid || logoInvalid) ? 'true' : 'false'"
-    >
-      Submit
-    </button>
-  </div>
-</form>
+        <!-- Website -->
+        <div class="form-group">
+          <input
+            type="url"
+            id="website"
+            name="website"
+            [(ngModel)]="club.website"
+            placeholder="https://example.com"
+            #website="ngModel"
+            aria-describedby="website-error"
+            [attr.aria-invalid]="website.invalid && website.touched ? 'true' : 'false'"
+          />
+          <label for="website">Website</label>
+          <div *ngIf="website.invalid && website.touched" id="website-error" class="error" role="alert">
+            Invalid URL format.
+          </div>
+        </div>
+
+        <!-- Bank Account -->
+        <div class="form-group">
+          <input
+            type="text"
+            id="bankAccount"
+            name="bankAccount"
+            [(ngModel)]="club.bankAccount"
+            required
+            #bankAccount="ngModel"
+            minlength="5"
+            placeholder=" "
+            aria-required="true"
+            aria-describedby="bankAccount-error"
+            [attr.aria-invalid]="bankAccount.invalid && bankAccount.touched ? 'true' : 'false'"
+          />
+          <label for="bankAccount">Bank Account<span aria-hidden="true" class="required">*</span></label>
+          <div *ngIf="bankAccount.invalid && bankAccount.touched" id="bankAccount-error" class="error" role="alert">
+            This field is required and must contain at least 5 characters.
+          </div>
+        </div>
+
+        <!-- Bank Name -->
+        <div class="form-group">
+          <input
+            type="text"
+            id="bankName"
+            name="bankName"
+            [(ngModel)]="club.bankName"
+            required
+            #bankName="ngModel"
+            minlength="2"
+            placeholder=" "
+            aria-required="true"
+            aria-describedby="bankName-error"
+            [attr.aria-invalid]="bankName.invalid && bankName.touched ? 'true' : 'false'"
+          />
+          <label for="bankName">Bank Name<span aria-hidden="true" class="required">*</span></label>
+          <div *ngIf="bankName.invalid && bankName.touched" id="bankName-error" class="error" role="alert">
+            This field is required and must contain at least 2 characters.
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <fieldset class="checkbox-group" aria-label="Available Categories" role="group">
+          <legend>Available Categories</legend>
+          <div *ngFor="let c of categories" class="checkbox-item">
+            <input
+              type="checkbox"
+              [id]="'category-'+c.id"
+              [checked]="club.categoryIds.includes(c.id!)"
+              (change)="onCategoryChange(c, $event)"
+            />
+            <label [for]="'category-'+c.id">{{ c.name }} ({{ c.ageMin }} - {{ c.ageMax }} years)</label>
+          </div>
+        </fieldset>
+
+      </section>
+
+      <!-- Right: Logo Upload -->
+      <section class="logo-upload-container" aria-labelledby="logo-upload-title">
+        <h3 id="logo-upload-title">Club Logo<span aria-hidden="true" class="required">*</span></h3>
+        <input
+          type="file"
+          accept="image/*"
+          (change)="onLogoSelected($event)"
+          aria-required="true"
+          aria-describedby="logo-error"
+        />
+        <div *ngIf="logoInvalid" id="logo-error" class="error" role="alert">
+          Please select a valid logo.
+        </div>
+
+        <div class="logo-preview" *ngIf="logoPreview">
+          <p>Logo Preview:</p>
+          <img [src]="logoPreview" alt="Club logo preview" />
+        </div>
+      </section>
+
+    </div>
+
+    <div class="actions">
+      <button
+        type="submit"
+        [disabled]="clubForm.invalid || logoInvalid"
+        [attr.aria-disabled]="(clubForm.invalid || logoInvalid) ? 'true' : 'false'"
+      >
+        Submit
+      </button>
+    </div>
+  </form>

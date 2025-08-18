@@ -1,7 +1,8 @@
 
 
 export interface ValidationInfo {
-  validated?: boolean;
+  validated?: string;
   validatedBy?: string | null; 
   validationDate?: string | null; 
+  rejectionReason?:string;
 }

@@ -3,6 +3,7 @@ package com.MaFederation.MaFederation.dto.ClubMember;
 import java.util.List;
 
 import com.MaFederation.MaFederation.dto.User.UserPostDTO;
+import com.MaFederation.MaFederation.enums.ClubMemberType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +18,6 @@ public class PostClubMemberDTO extends UserPostDTO {
 
     private Integer clubId;
     private List<Integer> categoryIds;
+     private ClubMemberType type;
 
 }

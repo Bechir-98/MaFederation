@@ -6,14 +6,15 @@ import com.MaFederation.MaFederation.mappers.StaffMapper;
 import com.MaFederation.MaFederation.model.Staff;
 import com.MaFederation.MaFederation.services.StaffService;
 
-import jakarta.servlet.http.HttpSession;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/staff")
@@ -39,25 +40,24 @@ public class StaffController {
         return staffMapper.toDto(staff);
     }
 
-    // Select a staff member in session
-    @PostMapping
-    public ResponseEntity<Void> selectStaff(@RequestBody Map<String, Integer> body, HttpSession session) {
-        Integer staffId = body.get("staffId");
-        if (staffId == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        session.setAttribute("selectedStaffId", staffId);
-        return ResponseEntity.ok().build();
-    }
 
-    // Get selected staff member profile from session
-    @GetMapping("/profile")
-    public ResponseEntity<ResponceStaffDTO> getSelectedStaff(HttpSession session) {
-        Integer staffId = (Integer) session.getAttribute("selectedStaffId");
-        if (staffId == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        Staff staff = staffService.getStaffById(staffId);
-        return ResponseEntity.ok(staffMapper.toDto(staff));
+    @PutMapping("/{id}")
+public ResponseEntity<ResponceStaffDTO> updateStaff(
+        @PathVariable Integer id,
+        @RequestBody PostStaffDTO dto) {
+
+    try {
+        ResponceStaffDTO updatedStaff = staffService.updateStaff(id, dto);
+        return ResponseEntity.ok(updatedStaff); // Angular receives full JSON
+    } catch (EntityNotFoundException ex) {
+        return ResponseEntity.notFound().build();
+    } catch (Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+}
+
+
+
+
+
 }

@@ -40,7 +40,6 @@ export class AddMemberComponent implements OnInit {
     address: '',
     nationalID: '',
     nationality: '',
-    type: 'PLAYER',
     passwordHash: '',
     categoryIds: [],
     profilePicture: null,
@@ -49,7 +48,7 @@ export class AddMemberComponent implements OnInit {
     updatedAt: '',
     updatedBy: '',
     clubId: 1,
-    validated: false,
+    validated: "Rejected",
     validatedBy: "",
     validationDate: ""  // Hardcoded for now since the club is logged in
   };

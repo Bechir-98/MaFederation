@@ -1,9 +1,9 @@
 
 import { ClubMemberResponse } from '../ClubMember/ClubMemberResponce';
 
-export interface StaffRepresentation extends ClubMemberResponse {
+export interface StaffResponse extends ClubMemberResponse {
 
   
-  specialty: string;
+  specialty?: string;
   
 }

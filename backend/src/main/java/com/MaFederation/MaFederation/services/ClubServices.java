@@ -24,6 +24,7 @@ import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.model.Player;
 import com.MaFederation.MaFederation.model.Staff;
 import com.MaFederation.MaFederation.repository.ClubRepository;
+import com.MaFederation.MaFederation.repository.UserRepository;
 import com.MaFederation.MaFederation.repository.CategoryRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -34,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class ClubServices {
 
     private final ClubRepository clubRepository;
+    private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final ClubMapper clubMapper;
      private final CategoryMapper categoryMapper;
@@ -58,7 +60,7 @@ public class ClubServices {
     clubRepository.flush();
     return clubMapper.toResponseDto(savedClub);
 
-}//////////////////////////////////////////////////
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
                             /** Get a club Response DTO by ID */
@@ -183,7 +185,16 @@ public List<ResponsePlayerDTO> getPlayersByClubId(Integer clubId) {
         .map(playerMapper::toDto)
         .collect(Collectors.toList());
 }
+
+    public void deleteUser(Integer userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new IllegalArgumentException("User with ID " + userId + " does not exist.");
+        }
+        userRepository.deleteById(userId);
+    }
+
 }
+
 
 
 

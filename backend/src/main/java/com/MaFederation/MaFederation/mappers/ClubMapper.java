@@ -35,7 +35,12 @@ public class ClubMapper {
         club.setContactPhone(dto.getContactPhone());
         club.setBankAccount(dto.getBankAccount());
         club.setBankName(dto.getBankName());
+        club.setWebsite(dto.getWebsite());  // <-- added website
         club.setLogo(dto.getLogo());
+        club.setValidated(dto.getValidated());
+        club.setValidatedBy(dto.getValidatedBy());
+        club.setValidationDate(dto.getValidationDate());
+        club.setRejectionReason(dto.getRejectionReason());
 
         if (dto.getCategoryIds() != null && !dto.getCategoryIds().isEmpty()) {
             List<Category> categories = categoryRepository.findAllById(dto.getCategoryIds());
@@ -78,20 +83,20 @@ public class ClubMapper {
                 club.getContactPhone(),
                 club.getBankAccount(),
                 club.getBankName(),
-                club.getLogo(),        
-                categoryIds,         
+                club.getWebsite(),   // <-- added website
+                club.getLogo(),
+                categoryIds,
                 memberIds,
                 fileIds,
-                club.getCreatedAt(),   
+                club.getCreatedAt(),
                 club.getUpdatedAt(),
                 club.getCreatedBy(),
                 club.getUpdatedBy(),
-                club.isValidated(),
+                club.getValidated(),
                 club.getValidatedBy(),
                 club.getValidationDate(),
                 club.getRejectionReason()
-
-                );
-
+        );
     }
 }
+        

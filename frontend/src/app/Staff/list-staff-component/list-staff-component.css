@@ -5,6 +5,39 @@
   min-height: 100vh;
 }
 
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.filter-valid-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.filter-valid-status label {
+  font-weight: 600;
+  color: #15803d;
+}
+
+.filter-valid-status select {
+  padding: 4px 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1.5px solid #cbd5e1;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-valid-status select:focus {
+  outline: none;
+  border-color: #16a34a;
+  box-shadow: 0 0 5px rgba(22, 163, 74, 0.5);
+}
+
 .table-wrapper {
   overflow-x: auto;
   border-radius: 10px;
@@ -19,55 +52,19 @@ table {
 }
 
 thead tr {
-  background-color: #16a34a; /* Dark green for staff */
+  background-color: #16a34a;
   color: white;
 }
 
 th, td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #d1fae5; /* light green border */
+  border-bottom: 1px solid #d1fae5;
   font-size: 14px;
-}
-
-.filter-row input,
-.filter-row select {
-  width: 100%;
-  padding: 6px 10px;
-  font-size: 14px;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 6px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
-}
-
-.filter-row input:focus,
-.filter-row select:focus {
-  border-color: #16a34a;
-  outline: none;
-  box-shadow: 0 0 5px rgba(22, 163, 74, 0.5);
 }
 
 tr:hover {
-  background-color: #f0fdf4; /* subtle green hover */
-}
-
-a {
-  color: #15803d; /* green link */
-  text-decoration: none;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+  background-color: #f0fdf4;
 }
 
 .add-staff-button {
@@ -78,9 +75,56 @@ a:hover {
   font-size: 14px;
   border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   transition: background-color 0.3s ease;
 }
 
 .add-staff-button:hover {
   background-color: #0e7c32;
 }
+
+/* Action Buttons */
+.action-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  margin-right: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.view-btn {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.view-btn:hover {
+  background-color: #0b5ed7;
+}
+
+.request-validation-btn {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.request-validation-btn:hover {
+  background-color: #e0a800;
+}
+
+/* Validation Status */
+.validated-cell {
+  text-align: center;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.validated i { color: #16a34a; }
+.pending i { color: #f59e0b; }
+.rejected i, .not-validated i { color: #dc3545; }

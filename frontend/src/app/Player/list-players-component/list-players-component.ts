@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ClubServices } from '../../services/api/club/club-services';
@@ -6,6 +6,9 @@ import { PlayerResponce } from '../../representations/Player/playerResponce';
 import { ResponseClub } from '../../representations/Club/ResponseClub';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { UserService } from '../../services/api/user/user-service';
+
+type ValidationFilter = 'all' | 'pending' | 'validated' | 'rejected' | 'nonValidated';
 
 @Component({
   selector: 'app-list-players-component',
@@ -19,11 +22,12 @@ export class ListPlayersComponent implements OnInit {
   Players: PlayerResponce[] = [];
   filteredPlayers: PlayerResponce[] = [];
   club: ResponseClub | null = null;
-  validationFilter: 'all' | 'validated' | 'notValidated' = 'all';
+  validationFilter: ValidationFilter = 'all';
 
   constructor(
     private clubservices: ClubServices,
     private cdr: ChangeDetectorRef,
+    private UserService: UserService,
     private router: Router,
     private http: HttpClient
   ) {}
@@ -50,16 +54,13 @@ export class ListPlayersComponent implements OnInit {
   filterPlayers() {
     if (this.validationFilter === 'all') {
       this.filteredPlayers = [...this.Players];
-    } else if (this.validationFilter === 'validated') {
-      this.filteredPlayers = this.Players.filter(p => p.validated === true);
-    } else if (this.validationFilter === 'notValidated') {
-      this.filteredPlayers = this.Players.filter(p => p.validated === false);
+    } else {
+      this.filteredPlayers = this.Players.filter(p => p.validated === this.validationFilter);
     }
   }
 
   viewProfile(playerId: number) {
-    const baseUrl: string = 'http://localhost:8080';
-    this.http.post(`${baseUrl}/players/select`, { playerId }, { withCredentials: true }).subscribe({
+    this.UserService.selectUser(playerId).subscribe({
       next: () => this.router.navigate(['club/players/profile']),
       error: err => console.error('Failed to select player', err)
     });
@@ -71,7 +72,6 @@ export class ListPlayersComponent implements OnInit {
     this.clubservices.requestMemberValidation(player.id!, this.club.id!).subscribe({
       next: () => {
         alert(`${player.firstName} ${player.lastName} requested for verification.`);
-        player.validated = false; // mark as pending
       },
       error: (err) => {
         console.error('Failed to request validation:', err);

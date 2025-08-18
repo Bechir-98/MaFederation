@@ -2,6 +2,8 @@ package com.MaFederation.MaFederation.mappers;
 
 import com.MaFederation.MaFederation.dto.Staff.PostStaffDTO;
 import com.MaFederation.MaFederation.dto.Staff.ResponceStaffDTO;
+import com.MaFederation.MaFederation.enums.ClubMemberType;
+import com.MaFederation.MaFederation.enums.ValidationStatus;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Staff;
 import org.springframework.stereotype.Component;
@@ -47,9 +49,9 @@ public class StaffMapper {
     dto.setCreatedBy(staff.getCreatedBy());
     dto.setUpdatedBy(staff.getUpdatedBy());
 
-     dto.setValidated(staff.isValidated());
-        dto.setValidatedBy(staff.getValidatedBy());
-        dto.setValidationDate(staff.getValidationDate());
+    dto.setValidated(staff.getValidated());
+    dto.setValidatedBy(staff.getValidatedBy());
+    dto.setValidationDate(staff.getValidationDate());
     return dto;
 }
 
@@ -69,8 +71,9 @@ public Staff toEntity(PostStaffDTO dto) {
     staff.setNationalID(dto.getNationalID());
     staff.setNationality(dto.getNationality());
     staff.setSpecialty(dto.getSpecialty());
-    staff.setType("STAFF");
-    staff.setValidated(false);
+    staff.setType(ClubMemberType.STAFF);
+    staff.setValidated(ValidationStatus.nonValidated);
+    staff.setValidatedBy(dto.getValidatedBy());
 
     // Audit fields (usually service sets timestamps, but you can copy from dto if needed)
     staff.setCreatedAt(dto.getCreatedAt());

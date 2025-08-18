@@ -6,8 +6,11 @@ import com.MaFederation.MaFederation.model.Administration;
 import com.MaFederation.MaFederation.services.AdministrationService;
 import com.MaFederation.MaFederation.mappers.AdministrationMapper;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,26 +41,22 @@ public class AdministrationController {
         return administrationMapper.toDto(admin);
     }
 
-    // ✅ Select administration into session
-    @PostMapping
-    public ResponseEntity<Void> selectAdministration(@RequestBody Map<String, Integer> body, HttpSession session) {
-        Integer adminId = body.get("adminId");
-        if (adminId == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        session.setAttribute("selectedAdminId", adminId);
-        return ResponseEntity.ok().build();
-    }
 
-    // ✅ Get selected administration profile from session
-    @GetMapping("/profile")
-    public ResponseEntity<ResponceAdministrationDTO> getSelectedAdministration(HttpSession session) {
-        Integer adminId = (Integer) session.getAttribute("selectedAdminId");
-        if (adminId == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        Administration admin = administrationService.getById(adminId);
-        return ResponseEntity.ok(administrationMapper.toDto(admin));
+    @PutMapping("/{id}")
+public ResponseEntity<ResponceAdministrationDTO> updateAdministration(
+        @PathVariable Integer id,
+        @RequestBody PostAdminstrationDTO dto) {
+
+    try {
+        ResponceAdministrationDTO updatedAdmin = administrationService.update(id, dto);
+        return ResponseEntity.ok(updatedAdmin); // Angular receives full JSON
+    } catch (EntityNotFoundException ex) {
+        return ResponseEntity.notFound().build();
+    } catch (Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+}
+
+
 
 }

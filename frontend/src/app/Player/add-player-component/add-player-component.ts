@@ -8,6 +8,7 @@ import { PlayerService } from '../../services/api/player/player-service';
 import { RegisterClubMember } from '../../representations/ClubMember/RegisterClubMember';
 import { ClubServices } from '../../services/api/club/club-services';
 import { ResponseClub } from '../../representations/Club/ResponseClub';
+import { UserService } from '../../services/api/user/user-service';
 
 @Component({
   selector: 'app-add-player-component',
@@ -43,15 +44,13 @@ export class AddPlayerComponent implements OnInit {
     createdBy: "",
     updatedAt: "",
     updatedBy: "",
-    clubId: 0, // Will be set from session
-    validated: false,
-    validatedBy: "",
-    validationDate: "" 
+    clubId: 0,        
   };
 
   constructor(
     private clubService: ClubServices,
     private playerService: PlayerService,
+    private userService :UserService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
@@ -129,7 +128,7 @@ export class AddPlayerComponent implements OnInit {
       next: (response) => {
         const newPlayerId = response.id;
         if (newPlayerId) {
-          this.playerService.selectPlayer(newPlayerId).subscribe({
+          this.userService.selectUser(newPlayerId).subscribe({
             next: () => {
               this.isSubmitting = false;
               this.submitSuccess = true;

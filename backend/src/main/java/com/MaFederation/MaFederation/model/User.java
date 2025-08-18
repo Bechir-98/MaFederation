@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,13 +44,10 @@ public class User extends Audit {
     // @Column(unique = true)
     private String nationalID;
 
-    // @Column(name = "type", updatable = false)
-    private String type;
-
     private String nationality;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserFile> files;
+    private List<UserFile> files = new ArrayList<>();;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

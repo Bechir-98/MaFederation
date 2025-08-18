@@ -2,6 +2,8 @@ package com.MaFederation.MaFederation.mappers;
 
 import com.MaFederation.MaFederation.dto.Player.PostPlayerDTO;
 import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
+import com.MaFederation.MaFederation.enums.ClubMemberType;
+import com.MaFederation.MaFederation.enums.ValidationStatus;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Player;
 import org.springframework.stereotype.Component;
@@ -50,7 +52,7 @@ public class PlayerMapper {
         dto.setUpdatedAt(player.getUpdatedAt());
         dto.setCreatedBy(player.getCreatedBy());
         dto.setUpdatedBy(player.getUpdatedBy());
-        dto.setValidated(player.isValidated());
+        dto.setValidated(player.getValidated());
         dto.setValidatedBy(player.getValidatedBy());
         dto.setValidationDate(player.getValidationDate());
         
@@ -75,15 +77,14 @@ public class PlayerMapper {
         player.setAddress(dto.getAddress());
         player.setNationalID(dto.getNationalID());
         player.setNationality(dto.getNationality());
-        player.setType("PLAYER");
-        player.setValidated(false);
-
-        // No club or categories set here!
-
+        player.setType(ClubMemberType.PLAYER);
+        player.setValidated(ValidationStatus.nonValidated);
+        player.setValidatedBy(dto.getValidatedBy());
         player.setPosition(dto.getPosition());
         player.setJerseyNumber(dto.getJerseyNumber());
         player.setHeight(dto.getHeight());
         player.setWeight(dto.getWeight());
+
 
         return player;
     }

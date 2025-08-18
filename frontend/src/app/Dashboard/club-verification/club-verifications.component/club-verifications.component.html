@@ -1,0 +1,52 @@
+<div class="filters">
+  <label>
+    Sort:
+    <select [(ngModel)]="sortOrder">
+      <option value="NEW">Newest First</option>
+      <option value="OLD">Oldest First</option>
+    </select>
+  </label>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Club Name</th>
+      <th>Requested At</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let r of filteredRequests">
+      <td data-label="Club">{{ r.clubName }}</td>
+      <td data-label="Requested At">{{ r.createdAt | date:'short' }}</td>
+      <td data-label="Actions" class="actions-cell">
+        <button class="view-btn" (click)="selectClub(r.clubId)">View Club</button>
+        <button class="approve-btn" (click)="approve(r)">Approve</button>
+        <button class="reject-btn" (click)="openRejectModal(r)">Reject</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Reject Reasons Modal -->
+<div class="modal-backdrop" *ngIf="showRejectModal">
+  <div class="modal">
+    <h3>Reject Club Request</h3>
+    
+    <label>Reason</label>
+    <select [(ngModel)]="selectedRejectReason">
+      <option *ngFor="let reason of rejectReasons" [value]="reason">{{ reason }}</option>
+    </select>
+
+    <label>Additional Description (optional)</label>
+    <textarea [(ngModel)]="rejectDescription" placeholder="Type description..."></textarea>
+
+    <div class="modal-actions">
+    <button (click)="confirmReject()" class="reject-btn">Reject</button>
+
+      <button (click)="closeRejectModal()" class="cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+

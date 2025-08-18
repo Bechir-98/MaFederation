@@ -1,7 +1,7 @@
 package com.MaFederation.MaFederation.mappers;
 
 
-import com.MaFederation.MaFederation.model.VerificationRequest;
+import com.MaFederation.MaFederation.model.UserVerificationRequest;
 import com.MaFederation.MaFederation.model.User;
 import com.MaFederation.MaFederation.dto.VerificationRequestResponseDTO.VerificationRequestResponseDTO;
 import com.MaFederation.MaFederation.model.Club;
@@ -9,7 +9,7 @@ import com.MaFederation.MaFederation.model.Club;
 public class VerificationRequestMapper {
 
     // ✅ Entity → DTO
-    public static VerificationRequestResponseDTO toDto(VerificationRequest request) {
+    public static VerificationRequestResponseDTO toDto(UserVerificationRequest request) {
         if (request == null) {
             return null;
         }
@@ -26,19 +26,19 @@ public class VerificationRequestMapper {
             dto.setClubId(request.getClub().getId());
             dto.setClubName(request.getClub().getName());
         }
-        
         dto.setCreatedAt(request.getCreatedAt());
+        dto.setTargetType(request.getTargetType());
 
         return dto;
     }
 
     // ✅ DTO → Entity (only IDs are set, so you must ensure persistence later)
-    public static VerificationRequest toEntity(VerificationRequestResponseDTO dto) {
+    public static UserVerificationRequest toEntity(VerificationRequestResponseDTO dto) {
         if (dto == null) {
             return null;
         }
 
-        VerificationRequest request = new VerificationRequest();
+        UserVerificationRequest request = new UserVerificationRequest();
 
         if (dto.getUserId() != null) {
             User user = new User();
@@ -51,6 +51,8 @@ public class VerificationRequestMapper {
             club.setId(dto.getClubId());
             request.setClub(club);
         }
+
+        request.setTargetType(dto.getTargetType());
 
         return request;
     }

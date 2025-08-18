@@ -1,9 +1,11 @@
 package com.MaFederation.MaFederation.services;
 
 import com.MaFederation.MaFederation.dto.Staff.PostStaffDTO;
+import com.MaFederation.MaFederation.dto.Staff.ResponceStaffDTO;
 import com.MaFederation.MaFederation.mappers.StaffMapper;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Club;
+import com.MaFederation.MaFederation.model.Player;
 import com.MaFederation.MaFederation.model.Staff;
 import com.MaFederation.MaFederation.repository.CategoryRepository;
 import com.MaFederation.MaFederation.repository.ClubRepository;
@@ -47,11 +49,16 @@ public class StaffService {
     return staffRepository.save(staff);
 }
 
+    public void delete(Integer id) {
+    staffRepository.deleteById(id);
+}
 
 
-    public Staff getStaffById(Integer id) {
-        return staffRepository.findById(id)
+
+    public ResponceStaffDTO getStaffById(Integer id) {
+        Staff staff= staffRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Staff not found"));
+        return staffMapper.toDto(staff);
     }
 
 
@@ -61,25 +68,25 @@ public class StaffService {
     }
 
 
-
-    public Staff updateStaff(Integer id, PostStaffDTO dto) {
-        Staff staff = getStaffById(id);
+    public ResponceStaffDTO updateStaff(Integer id, PostStaffDTO dto) {
+        Staff staff =  staffRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Staff not found"));
 
         staff.setFirstName(dto.getFirstName());
         staff.setLastName(dto.getLastName());
         staff.setEmail(dto.getEmail());
         staff.setPhoneNumber(dto.getPhoneNumber());
-        // staff.setFunction(dto.getFunction());
 
         if (dto.getCategoryIds() != null) {
             List<Category> categories = categoryRepository.findAllById(dto.getCategoryIds());
             staff.setCategories(categories);
         }
 
-        return staffRepository.save(staff);
+        Staff update =staffRepository.save(staff);
+          
+        return staffMapper.toDto(update);
     }
 
-    public void deleteStaff(Integer id) {
-        staffRepository.deleteById(id);
-    }
+
+ 
 }

@@ -7,11 +7,14 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.MaFederation.MaFederation.enums.ValidationStatus;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseClubDTO {
-    Integer id;
+
+    private Integer id;
     private String name;
     private String location;
     private Integer foundedYear;
@@ -19,17 +22,20 @@ public class ResponseClubDTO {
     private String contactPhone;
     private String bankAccount;
     private String bankName;
+    private String website;       
     private byte[] logo;
     private List<Integer> categoryIds;
     private List<Integer> memberIds;
     private List<Integer> fileIds;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String createdBy;
     private String updatedBy;
-    private boolean validated;
-    private String validatedBy;
-    private LocalDateTime validationDate;
-    private String rejectionReason;
 
+    private ValidationStatus validated;
+    private String validatedBy;    
+    private LocalDateTime validationDate; 
+    private String rejectionReason;  
+    
 }

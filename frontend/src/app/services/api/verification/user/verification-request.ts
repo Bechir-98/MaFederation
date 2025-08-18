@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+export type UserType = 'PLAYER' | 'STAFF' | 'ADMIN';
 export interface VerificationRequestDTO {
   id: number;
   userId: number;
+  targetType:UserType;
   userName: string;
   clubId: number;
   clubName: string;
@@ -19,7 +20,7 @@ export class VerificationRequestService {
 
   // ✅ Fetch all pending verification requests
   getPending(): Observable<VerificationRequestDTO[]> {
-    return this.http.get<VerificationRequestDTO[]>(`${this.baseUrl}/pending`);
+    return this.http.get<VerificationRequestDTO[]>(`${this.baseUrl}/pending`,{ withCredentials: true });
   }
 
 approve(id: number, adminName: string): Observable<VerificationRequestDTO> {
@@ -38,10 +39,4 @@ reject(id: number, adminName: string, reason: string): Observable<VerificationRe
     body
   );
 }
-
-
-
- 
-
-
 }

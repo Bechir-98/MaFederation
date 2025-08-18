@@ -1,96 +1,171 @@
-<div *ngIf="loading" class="loading">Loading staff data...</div>
-<div *ngIf="error" class="error">{{ error }}</div>
+<div *ngIf="loading" class="loading">
+  <i class="fas fa-spinner fa-spin"></i> Loading staff data...
+</div>
+<div *ngIf="error" class="error">
+  <i class="fas fa-exclamation-triangle"></i> {{ error }}
+</div>
 
 <div *ngIf="!loading && !error" class="staff-container">
+
+  <!-- Profile Completion Banner -->
+  <div *ngIf="profileCompletion < 100" class="completion-banner">
+    <div class="completion-info">
+      <strong><i class="fas fa-tasks"></i> Profile Completion:</strong>
+      <span class="progress-number">{{ profileCompletion }}%</span>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="profileCompletion"></div>
+      </div>
+    </div>
+    <button class="completion-btn" (click)="openEditModal()">
+      <i class="fas fa-user-edit"></i> Complete Profile
+    </button>
+  </div>
+
+  <!-- Staff Header -->
   <div class="staff-header">
-    <img
-      *ngIf="staff.profilePicture; else noImage"
-      [src]="'data:image/png;base64,' + staff.profilePicture"
-      alt="Profile Picture"
-      class="staff-image"
-    />
-    <ng-template #noImage>
-      <div class="no-image">No Image Available</div>
-    </ng-template>
+    <div class="staff-image-wrapper">
+      <img *ngIf="staff.profilePicture; else noImage" 
+           [src]="'data:image/png;base64,' + staff.profilePicture"
+           alt="Profile Picture" class="staff-image"/>
+      <ng-template #noImage>
+        <div class="no-image">
+          <i class="fas fa-user-tie"></i>
+        </div>
+      </ng-template>
+    </div>
 
     <div class="staff-info">
       <div class="staff-name">
-        <h2>{{ staff.firstName || 'First Name' }} {{ staff.lastName || 'Last Name' }}</h2>
-        <p>{{ staff.specialty || 'Speciality not set' }}</p>
+        <h2><i class="fas fa-user"></i> {{ staff.firstName || 'First Name' }} {{ staff.lastName || 'Last Name' }}</h2>
+        <span class="status-badge" [ngClass]="staff.validated">
+          <i class="fas" [class.fa-check-circle]="staff.validated === 'validated'"
+                               [class.fa-times-circle]="staff.validated === 'rejected'"
+                               [class.fa-clock]="staff.validated === 'pending'"
+                               [class.fa-question-circle]="!staff.validated || staff.validated === 'nonValidated'"></i>
+          {{ staff.validated || 'Not Validated' | titlecase }}
+        </span>
       </div>
-
+      <p class="specialty">
+        <i class="fas fa-briefcase"></i> {{ staff.specialty || 'Specialty not set' }}
+      </p>
       <div class="action-buttons">
-        <button class="edit-btn" title="Edit Staff">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-            <path d="m18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-          </svg>
-          Edit
+        <button class="edit-btn" (click)="openEditModal()">
+          <i class="fas fa-edit"></i> Edit
         </button>
-        <button class="delete-btn" title="Delete Staff">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="3,6 5,6 21,6"/>
-            <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
-            <line x1="10" y1="11" x2="10" y2="17"/>
-            <line x1="14" y1="11" x2="14" y2="17"/>
-          </svg>
-          Delete
+        <button class="delete-btn" (click)="deleteStaff()">
+          <i class="fas fa-trash-alt"></i> Delete
         </button>
       </div>
     </div>
   </div>
 
+  <!-- Section Buttons -->
   <div class="button-group">
-    <button (click)="showSection('basic')" [class.active]="activeSection === 'basic'">Basic Info</button>
-    <button (click)="showSection('profile')" [class.active]="activeSection === 'profile'">Staff Profile</button>
-    <button (click)="showSection('assignments')" [class.active]="activeSection === 'assignments'">Assignments</button>
-    <button (click)="showSection('credentials')" [class.active]="activeSection === 'credentials'">View Credentials</button>
-    <button (click)="showSection('details')" [class.active]="activeSection === 'details'">More Details</button>
+    <button (click)="showSection('basic')" [class.active]="activeSection==='basic'">
+      <i class="fas fa-info-circle"></i> Basic Info
+    </button>
+    <button (click)="showSection('profile')" [class.active]="activeSection==='profile'">
+      <i class="fas fa-user-tag"></i> Staff Profile
+    </button>
+    <button (click)="showSection('assignments')" [class.active]="activeSection==='assignments'">
+      <i class="fas fa-tasks"></i> Assignments
+    </button>
+    <button (click)="showSection('credentials')" [class.active]="activeSection==='credentials'">
+      <i class="fas fa-file-alt"></i> Credentials
+    </button>
+    <button (click)="showSection('details')" [class.active]="activeSection==='details'">
+      <i class="fas fa-history"></i> Audit Details
+    </button>
   </div>
 
-  <div class="section" *ngIf="activeSection === 'basic'">
-    <h3>Basic Information</h3>
-    <p><strong>Date of Birth:</strong> {{ staff.dateOfBirth ? (staff.dateOfBirth | date:'longDate') : 'N/A' }}</p>
-    <p><strong>Nationality:</strong> {{ staff.nationality || 'N/A' }}</p>
-    <p><strong>Gender:</strong> {{ staff.gender || 'N/A' }}</p>
-    <p><strong>Phone:</strong> {{ staff.phoneNumber || 'N/A' }}</p>
-    <p><strong>Email:</strong> {{ staff.email || 'N/A' }}</p>
-    <p><strong>Address:</strong> {{ staff.address || 'N/A' }}</p>
+  <!-- Sections -->
+  <div class="section" *ngIf="activeSection==='basic'">
+    <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
+    <p><i class="fas fa-birthday-cake"></i> <strong>Date of Birth:</strong> {{ staff.dateOfBirth ? (staff.dateOfBirth | date:'longDate') : 'N/A' }}</p>
+    <p><i class="fas fa-flag"></i> <strong>Nationality:</strong> {{ staff.nationality || 'N/A' }}</p>
+    <p><i class="fas fa-venus-mars"></i> <strong>Gender:</strong> {{ staff.gender || 'N/A' }}</p>
+    <p><i class="fas fa-phone"></i> <strong>Phone:</strong> {{ staff.phoneNumber || 'N/A' }}</p>
+    <p><i class="fas fa-envelope"></i> <strong>Email:</strong> {{ staff.email || 'N/A' }}</p>
+    <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> {{ staff.address || 'N/A' }}</p>
   </div>
 
-  <div class="section" *ngIf="activeSection === 'profile'">
-    <h3>Staff Profile</h3>
-    <p><strong>Specialty:</strong> {{ staff.specialty || 'N/A' }}</p>
-    <p><strong>Categories:</strong>
-      <span *ngIf="staff.categories && staff.categories.length; else noCategories">
-        {{ staff.categories.join(', ') }}
-      </span>
-      <ng-template #noCategories>N/A</ng-template>
-    </p>
-    <p><strong>Notes:</strong> {{ staff.lastName || 'N/A' }}</p>
+  <div class="section" *ngIf="activeSection==='profile'">
+    <h3><i class="fas fa-user-tag"></i> Staff Profile</h3>
+    <p><i class="fas fa-briefcase"></i> <strong>Specialty:</strong> {{ staff.specialty || 'N/A' }}</p>
+    <p><i class="fas fa-tags"></i> <strong>Categories:</strong> {{ staff.categories?.join(', ') || 'N/A' }}</p>
+    <p><i class="fas fa-sticky-note"></i> <strong>Notes:</strong> staff.notes || 'N/A' </p>
   </div>
 
-  <div class="section" *ngIf="activeSection === 'assignments'">
-    <h3>Assignments</h3>
-    <p *ngIf="staff.lastName && staff.lastName.length; else noAssignments">
-      <ul>
-        <li *ngFor="let a of staff.lastName">{{ a }}</li>
-      </ul>
-    <ng-template #noAssignments>
-      <p>No assignments found.</p>
-    </ng-template>
+  <div class="section" *ngIf="activeSection==='credentials'">
+    <h3><i class="fas fa-file-alt"></i> Credentials</h3>
+    <app-user-files-component [UserId]="staff.id!"></app-user-files-component>
   </div>
 
-  <div class="section" *ngIf="activeSection === 'credentials'">
-    <h3>Credentials</h3>
-    <app-user-files-component [UserId]="staff!.id"></app-user-files-component>
+  <div class="section" *ngIf="activeSection==='details'">
+    <h3><i class="fas fa-history"></i> Audit Details</h3>
+    <p><i class="fas fa-user-plus"></i> <strong>Created By:</strong> {{ staff.createdBy || 'N/A' }}</p>
+    <p><i class="fas fa-calendar-plus"></i> <strong>Created At:</strong> {{ staff.createdAt ? (staff.createdAt | date:'medium') : 'N/A' }}</p>
+    <p><i class="fas fa-user-edit"></i> <strong>Updated By:</strong> {{ staff.updatedBy || 'N/A' }}</p>
+    <p><i class="fas fa-calendar-alt"></i> <strong>Updated At:</strong> {{ staff.updatedAt ? (staff.updatedAt | date:'medium') : 'N/A' }}</p>
+    <p><i class="fas fa-user-check"></i> <strong>Validated By:</strong> {{ staff.validatedBy || 'N/A' }}</p>
+    <p><i class="fas fa-clipboard-check"></i> <strong>Validation Status:</strong> {{ staff.validated || 'Not Validated' }}</p>
   </div>
+</div>
 
-  <div class="section" *ngIf="activeSection === 'details'">
-    <h3>Audit Details</h3>
-    <p><strong>Created By:</strong> {{ staff.createdBy || 'N/A' }}</p>
-    <p><strong>Created At:</strong> {{ staff.createdAt ? (staff.createdAt | date:'medium') : 'N/A' }}</p>
-    <p><strong>Updated By:</strong> {{ staff.updatedBy || 'N/A' }}</p>
-    <p><strong>Updated At:</strong> {{ staff.updatedAt ? (staff.updatedAt | date:'medium') : 'N/A' }}</p>
+<!-- Edit / Complete Profile Modal -->
+<div *ngIf="isEditModalOpen" class="modal-backdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fas fa-user-edit"></i> Edit / Complete Staff Profile</h3>
+      <button class="close-btn" (click)="closeEditModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <form #editForm="ngForm" (ngSubmit)="saveEditedStaff()">
+      <div class="form-grid">
+        <label><i class="fas fa-user"></i> First Name</label>
+        <input name="firstName" [(ngModel)]="editedStaff.firstName" required />
+
+        <label><i class="fas fa-user"></i> Last Name</label>
+        <input name="lastName" [(ngModel)]="editedStaff.lastName" required />
+
+        <label><i class="fas fa-phone"></i> Phone</label>
+        <input name="phoneNumber" [(ngModel)]="editedStaff.phoneNumber" />
+
+        <label><i class="fas fa-envelope"></i> Email</label>
+        <input type="email" name="email" [(ngModel)]="editedStaff.email" />
+
+        <label><i class="fas fa-map-marker-alt"></i> Address</label>
+        <input name="address" [(ngModel)]="editedStaff.address" />
+
+        <label><i class="fas fa-briefcase"></i> Specialty</label>
+        <input name="specialty" [(ngModel)]="editedStaff.specialty" />
+
+        <label><i class="fas fa-tags"></i> Categories</label>
+        <div class="categories-list">
+          <div *ngFor="let cat of categories" class="category-item">
+            <label class="category-checkbox">
+              <input
+                type="checkbox"
+                [value]="cat.id"
+                [checked]="selectedCategories.includes(cat.id)"
+                (change)="toggleCategory(cat.id, $event)"
+              />
+              <span class="checkmark"></span>
+              {{ cat.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" class="save-btn">
+          <i class="fas fa-save"></i> Save
+        </button>
+        <button type="button" class="cancel-btn" (click)="closeEditModal()">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+      </div>
+    </form>
   </div>
 </div>

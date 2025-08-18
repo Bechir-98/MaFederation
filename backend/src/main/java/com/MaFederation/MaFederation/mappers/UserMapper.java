@@ -30,7 +30,6 @@ public class UserMapper {
         dto.setAddress(user.getAddress());
         dto.setNationalID(user.getNationalID());
         dto.setNationality(user.getNationality());
-        dto.setType(user.getType());
         dto.setCreatedAt(user.getCreatedAt());
         dto.setUpdatedAt(user.getUpdatedAt());
         dto.setCreatedBy(user.getCreatedBy());
@@ -62,7 +61,6 @@ public class UserMapper {
         user.setAddress(dto.getAddress());
         user.setNationalID(dto.getNationalID());
         user.setNationality(dto.getNationality());
-        user.setType(dto.getType());
 
         return user;
     }

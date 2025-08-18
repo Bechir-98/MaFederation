@@ -13,7 +13,6 @@ export interface UserPost extends PostAudit{
   address: string;
   nationalID: string;
   nationality: string;
-  type: string;
 
 }
 

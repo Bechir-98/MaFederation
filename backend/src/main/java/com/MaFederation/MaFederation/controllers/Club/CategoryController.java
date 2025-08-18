@@ -58,7 +58,7 @@ public ResponseEntity<Category> updateCategory(@RequestBody CategoryDTO category
 
 
 // New: Delete category by id
-  
+
 
 @DeleteMapping("/Categories")
 public ResponseEntity<Void> deleteCategory(@RequestBody Integer id) {

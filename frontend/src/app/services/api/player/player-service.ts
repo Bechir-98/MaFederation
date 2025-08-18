@@ -15,17 +15,16 @@ export class PlayerService {
   return this.http.post<void>(`${this.baseUrl}/players`, { playerId: playerId }, { withCredentials: true });
 }
 
-
   getSelectedPlayer(): Observable<PlayerResponce> {
   return this.http.get<PlayerResponce>(`${this.baseUrl}/players/profile`,{ withCredentials: true });
 }
-
 
 
   getPlayers(): Observable<PlayerResponce[]> {
     return this.http.get<PlayerResponce[]>(`${this.baseUrl}/players`);
   }
 
+  
  createPlayer(formData: FormData): Observable<any> {
   return this.http.post(`${this.baseUrl}/players/addplayer`, formData);
 }
@@ -35,13 +34,8 @@ export class PlayerService {
     return this.http.put<PlayerResponce>(`${this.baseUrl}/players/${playerId}`, player);
   }
 
-  deletePlayer(playerId: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/players/${playerId}`);
-  }
 
-  getPlayersByClub(clubId: number): Observable<PlayerResponce[]> {
-    return this.http.get<PlayerResponce[]>(`${this.baseUrl}/players/club/${clubId}`);
-  }
+
 
 
 

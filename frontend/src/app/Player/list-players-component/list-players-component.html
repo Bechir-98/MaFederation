@@ -4,11 +4,15 @@
       <label for="validationFilter">Show Players:</label>
       <select id="validationFilter" [(ngModel)]="validationFilter" (change)="filterPlayers()">
         <option value="all">All</option>
+        <option value="pending">Pending</option>
         <option value="validated">Validated</option>
-        <option value="notValidated">Not Validated</option>
+        <option value="rejected">Rejected</option>
+        <option value="nonValidated">Not Validated</option>
       </select>
     </div>
-    <button class="add-admin-button" routerLink="/addplayer">+ Add Player</button>
+    <button class="add-admin-button" routerLink="/addplayer">
+      <i class="fa fa-user-plus"></i> Add Player
+    </button>
   </div>
 
   <div class="table-wrapper">
@@ -18,7 +22,7 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Position</th>
-          <th>Validated</th>
+          <th>Validation Status</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -27,18 +31,28 @@
           <td>{{ player.firstName }}</td>
           <td>{{ player.lastName }}</td>
           <td>{{ player.position }}</td>
-          <td>
-            <span *ngIf="player.validated; else notValidated" class="validated">&#10003;</span>
-            <ng-template #notValidated>
-              <span class="not-validated">&#10007;</span>
-            </ng-template>
+          <td class="validated-cell">
+            <span *ngIf="player.validated === 'validated'" class="validated">
+              <i class="fa fa-check-circle"></i> Validated
+            </span>
+            <span *ngIf="player.validated === 'pending'" class="pending">
+              <i class="fa fa-hourglass-half"></i> Pending
+            </span>
+            <span *ngIf="player.validated === 'rejected'" class="rejected">
+              <i class="fa fa-times-circle"></i> Rejected
+            </span>
+            <span *ngIf="player.validated === 'nonValidated'" class="not-validated">
+              <i class="fa fa-times-circle"></i> Not Validated
+            </span>
           </td>
           <td>
-            <button class="action-btn view-btn" (click)="viewProfile(player!.id)">View 👁</button>
-            <button *ngIf="!player.validated"
+            <button class="action-btn view-btn" (click)="viewProfile(player!.id)">
+              <i class="fa fa-eye"></i> View
+            </button>
+            <button *ngIf="player.validated === 'nonValidated' || player.validated === 'rejected'"
                     class="action-btn request-validation-btn"
                     (click)="requestValidation(player)">
-              Request Verification
+              <i class="fa fa-badge-check"></i> Request Verification
             </button>
           </td>
         </tr>

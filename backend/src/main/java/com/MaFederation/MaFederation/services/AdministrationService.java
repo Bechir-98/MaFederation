@@ -5,12 +5,12 @@ import com.MaFederation.MaFederation.model.Club;
 import com.MaFederation.MaFederation.repository.AdminRepository;
 import com.MaFederation.MaFederation.repository.ClubRepository;
 import com.MaFederation.MaFederation.dto.Admin.PostAdminstrationDTO;
+import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
 import com.MaFederation.MaFederation.mappers.AdministrationMapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,17 +30,15 @@ public class AdministrationService {
         return administrationRepository.save(admin);
     }
 
-    public Administration getById(Integer id) {
-        return administrationRepository.findById(id)
+    public ResponceAdministrationDTO getById(Integer id) {
+        Administration admin = administrationRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Administration not found"));
+            return administrationMapper.toDto(admin);
     }
 
-    public List<Administration> getAll() {
-        return administrationRepository.findAll();
-    }
-
-    public Administration update(Integer id, PostAdminstrationDTO dto) {
-        Administration admin = getById(id);
+    public ResponceAdministrationDTO update(Integer id, PostAdminstrationDTO dto) {
+        Administration admin = administrationRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Administration not found"));
 
         admin.setFirstName(dto.getFirstName());
         admin.setLastName(dto.getLastName());
@@ -48,7 +46,8 @@ public class AdministrationService {
         admin.setPhoneNumber(dto.getPhoneNumber());
         // admin.setFunction(dto.getFunction());
 
-        return administrationRepository.save(admin);
+        Administration updated = administrationRepository.save(admin);
+         return administrationMapper.toDto(updated);
     }
 
     public void delete(Integer id) {

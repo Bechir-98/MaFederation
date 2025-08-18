@@ -20,7 +20,7 @@ public class ClubFile extends Audit{
     @Basic(fetch = FetchType.EAGER)
     private byte[] content;
 
-
+    
     @ManyToOne
     @JoinColumn(name = "club_id", nullable = false)
     private Club club;

@@ -11,7 +11,6 @@ export interface UserResponse extends ResponceAudit{
   address?: string;
   nationalID?: string;
   nationality?: string;
-  type?: string;
   
 }
 

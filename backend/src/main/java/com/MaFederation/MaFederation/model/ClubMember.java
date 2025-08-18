@@ -2,6 +2,7 @@ package com.MaFederation.MaFederation.model;
 
 import java.util.List;
 
+import com.MaFederation.MaFederation.enums.ClubMemberType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +20,9 @@ public abstract class ClubMember extends User {
     @JoinColumn(name = "club_id")
     @JsonIgnore
     private Club club;
+
+    // @Column(name = "type", updatable = false)
+    private ClubMemberType type;
 
     @ManyToMany
     @JoinTable(

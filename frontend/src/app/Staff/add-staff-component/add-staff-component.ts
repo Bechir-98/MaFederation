@@ -8,6 +8,7 @@ import { StaffPost } from '../../representations/Staff/staffPost';
 import { CategoryService } from '../../services/api/catergory/categories';
 import { StaffServices } from '../../services/api/staff/staff-services';
 import { ClubServices } from '../../services/api/club/club-services';
+import { UserService } from '../../services/api/user/user-service';
 
 @Component({
   selector: 'app-add-staff-component',
@@ -39,7 +40,6 @@ export class AddStaffComponent implements OnInit {
     address: '',
     nationalID: '',
     nationality: '',
-    type: 'STAFF',
     clubId: 0, // Will be set from session
     categoryIds: [],
     specialty: '',
@@ -47,14 +47,12 @@ export class AddStaffComponent implements OnInit {
     createdBy: '',
     updatedAt: '',
     updatedBy: '',
-    validated: false,
-    validatedBy: "",
-    validationDate: "" 
   };
 
   constructor(
     private router: Router,
     private categoryService: CategoryService,
+    private UserService :UserService,
     private staffService: StaffServices,
     private clubService: ClubServices,
     private cdr: ChangeDetectorRef
@@ -160,7 +158,7 @@ export class AddStaffComponent implements OnInit {
       next: (response) => {
         const newStaffId = response.id;
         if (newStaffId) {
-          this.staffService.selectStaff(newStaffId).subscribe({
+          this.UserService.selectUser(newStaffId).subscribe({
             next: () => {
               this.isSubmitting = false;
               this.submitSuccess = true;

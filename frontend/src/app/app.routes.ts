@@ -1,7 +1,7 @@
     import { Routes } from '@angular/router';
     import { PlayerComponent} from './Player/player-component/player-component';
     import { ClubComponent } from './Club/club-component/club-component';
-    import {ListAdminstrationComponent} from './Adminstration/list-adminstration-component/list-adminstration-component'
+    import {ListAdministrationComponent} from './Adminstration/list-adminstration-component/list-adminstration-component'
     import {ListStaffComponent} from './Staff/list-staff-component/list-staff-component'
     import { ListClubsComponent } from './Club/list-clubs-component/list-clubs-component';
     import {AddClubComponent} from './Club/add-club-component/add-club-component'
@@ -19,6 +19,7 @@
     import { ModsComponent } from './Dashboard/mods-component/mods.component';
     import { ModComponent } from './Dashboard/mod-component/mod.component';
 import { UserVerificationsComponent } from './Dashboard/user-verification/user-verification.component';
+import { ClubVerificationsComponent } from './Dashboard/club-verification/club-verifications.component/club-verifications.component';
 
 
     export const routes: Routes = [
@@ -32,7 +33,7 @@ import { UserVerificationsComponent } from './Dashboard/user-verification/user-v
 
 
         //list
-        {path:'club/admins' , component:ListAdminstrationComponent},
+        {path:'club/admins' , component:ListAdministrationComponent},
         {path:'club/staff' , component:ListStaffComponent},
         {path:'club/players' , component:ListPlayersComponent},
 
@@ -54,7 +55,8 @@ import { UserVerificationsComponent } from './Dashboard/user-verification/user-v
         {path:'admin/categories/addcategory' , component:AddCategoryComponent},
         {path:'admin/roles' , component:RolePermissionComponent},
         {path:'admin/user-verifications' , component:UserVerificationsComponent},
-
+        {path:'admin/user-verifications' , component:UserVerificationsComponent},
+        {path:'admin/club-requests', component:ClubVerificationsComponent},
         
 
         {path:'admin/categories' , component:CategroyListComponent},

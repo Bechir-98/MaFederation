@@ -29,7 +29,7 @@
   font-size: 14px;
   border-radius: 6px;
   border: 1.5px solid #cbd5e1;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .filter-valid-status select:focus {
@@ -63,37 +63,8 @@ th, td {
   font-size: 14px;
 }
 
-.filter-row input,
-.filter-row select {
-  width: 100%;
-  padding: 6px 10px;
-  font-size: 14px;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 6px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
-}
-
-.filter-row input:focus,
-.filter-row select:focus {
-  border-color: #eb341c;
-  outline: none;
-  box-shadow: 0 0 5px rgba(235, 52, 28, 0.5);
-}
-
 tr:hover {
   background-color: #ffaeae;
-}
-
-a {
-  color: #eb341c;
-  text-decoration: none;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 .add-admin-button {
@@ -104,6 +75,9 @@ a:hover {
   font-size: 14px;
   border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   transition: background-color 0.3s ease;
 }
 
@@ -111,38 +85,7 @@ a:hover {
   background-color: #d52b16;
 }
 
-.validated-cell {
-  text-align: center;
-  font-size: 18px;
-  white-space: nowrap;
-}
-
-.validated {
-  color: #28a745; /* green check */
-  font-weight: bold;
-}
-
-.not-validated {
-  color: #dc3545; /* red cross */
-  font-weight: bold;
-}
-
-.request-validation-btn {
-  margin-left: 8px;
-  background-color: #ffc107; /* amber */
-  border: none;
-  color: #212529;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: background-color 0.3s ease;
-}
-
-.request-validation-btn:hover {
-  background-color: #e0a800;
-}
-
+/* Action Buttons */
 .action-btn {
   padding: 6px 12px;
   border-radius: 6px;
@@ -151,6 +94,9 @@ a:hover {
   font-weight: 600;
   font-size: 13px;
   margin-right: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   transition: background-color 0.3s ease;
 }
 
@@ -164,11 +110,21 @@ a:hover {
 }
 
 .request-validation-btn {
-  background-color: #0d6efd; /* amber */
+  background-color: #ffc107;
   color: #212529;
-  color: white;
 }
 
 .request-validation-btn:hover {
-  background-color: #0b5ed7;
+  background-color: #e0a800;
 }
+
+/* Validation Status */
+.validated-cell {
+  text-align: center;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.validated i { color: #28a745; }
+.pending i { color: #ffc107; }
+.rejected i, .not-validated i { color: #dc3545; }

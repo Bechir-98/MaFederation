@@ -10,6 +10,7 @@ export interface ResponseClub extends ResponceAudit{
   contactPhone: string;
   bankAccount: string;
   bankName: string;
+  website: string;
   categoryIds: number[];    
   memberIds: number[];
   logo: string;

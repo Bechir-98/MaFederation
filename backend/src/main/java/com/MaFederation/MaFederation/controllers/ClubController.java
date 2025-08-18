@@ -21,10 +21,9 @@ import com.MaFederation.MaFederation.dto.Club.ResponseClubDTO;
 import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
 import com.MaFederation.MaFederation.dto.Staff.ResponceStaffDTO;
 import com.MaFederation.MaFederation.dto.VerificationRequestResponseDTO.VerificationRequestResponseDTO;
-import com.MaFederation.MaFederation.model.VerificationRequest;
 import com.MaFederation.MaFederation.services.ClubFilesServices;
 import com.MaFederation.MaFederation.services.ClubServices;
-import com.MaFederation.MaFederation.services.VerificationRequestService;
+import com.MaFederation.MaFederation.services.UserVerificationRequestService;
 
 import jakarta.transaction.Transactional;
 import lombok.Data;
@@ -36,9 +35,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClubController {
 
-    private final ClubServices clubServices;
+        private final ClubServices clubServices;
     private final ClubFilesServices clubFileService;
-    private final VerificationRequestService verificationservice;
+    private final UserVerificationRequestService verificationservice;
 
     /////////////////////////////////// Create a new club ///////////////////////////////////////
     @PostMapping("/register")
@@ -53,9 +52,6 @@ public class ClubController {
         ResponseClubDTO response = clubServices.addClub(clubDto);
         return ResponseEntity.ok(response);
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////
-
     //////////////////////////// GET ALL CLUBS ////////////////////////
     @Transactional
     @GetMapping
@@ -229,12 +225,17 @@ public ResponseEntity<VerificationRequestResponseDTO> requestValidation(
 
     return ResponseEntity.ok(response);
 }
+        /////////////////// Delete Member
+    
+ @DeleteMapping("/delete/{userId}")
+public ResponseEntity<Void> deleteUser(@PathVariable Integer userId) {
+    try {
+        clubServices.deleteUser(userId);   // delegate to service
+        return ResponseEntity.noContent().build();
+    } catch (IllegalArgumentException e) {
+        return ResponseEntity.notFound().build();
+    }
+}
 
 
-
-// @Data
-// public class VerificationRequestDTO {
-//     private Integer userId;
-//     private Integer clubId;
-// }
 }

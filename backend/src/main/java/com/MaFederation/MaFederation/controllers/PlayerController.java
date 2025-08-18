@@ -4,14 +4,15 @@ import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
 import com.MaFederation.MaFederation.model.Player;
 import com.MaFederation.MaFederation.services.PlayerService;
 
-import jakarta.servlet.http.HttpSession;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import com.MaFederation.MaFederation.mappers.PlayerMapper;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/players")
@@ -37,27 +38,21 @@ public ResponsePlayerDTO createPlayer(
     return playerMapper.toDto(player);
 }   
 
- @PostMapping("/select")
-public ResponseEntity<Void> selectPlayer(@RequestBody Map<String, Integer> body, HttpSession session) {
-    Integer playerId = body.get("playerId");
-    if (playerId == null) {
-        return ResponseEntity.badRequest().build();
-    }
-    session.setAttribute("selectedPlayerId", playerId);
-    return ResponseEntity.ok().build();
-}
+ @PutMapping("/{id}")
+    public ResponseEntity<ResponsePlayerDTO> updatePlayer(
+            @PathVariable Integer id,
+            @RequestBody PostPlayerDTO dto) {
 
-
-    // GET endpoint to get the selected player (no ID in URL)
-    @GetMapping("/profile")
-    public ResponseEntity<ResponsePlayerDTO> getSelectedPlayer(HttpSession session) {
-        Integer playerId = (Integer) session.getAttribute("selectedPlayerId");
-        if (playerId == null) {
-            return ResponseEntity.badRequest().build();
+        try {
+            ResponsePlayerDTO updatedPlayer = playerService.updatePlayer(id, dto);
+            return ResponseEntity.ok(updatedPlayer);
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        Player player = playerService.getPlayerById(playerId);
-        return ResponseEntity.ok(playerMapper.toDto(player));
     }
+
 }
 
 
