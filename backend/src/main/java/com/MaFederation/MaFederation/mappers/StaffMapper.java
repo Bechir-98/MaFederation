@@ -60,7 +60,7 @@ public Staff toEntity(PostStaffDTO dto) {
     Staff staff = new Staff();
 
     staff.setEmail(dto.getEmail());
-    staff.setPasswordHash(dto.getPasswordHash());
+    staff.setPassword(dto.getPasswordHash());
     staff.setProfilePicture(dto.getProfilePicture());
     staff.setFirstName(dto.getFirstName());
     staff.setLastName(dto.getLastName());

@@ -1,5 +1,6 @@
 package com.MaFederation.MaFederation.model;
 import jakarta.persistence.*;
+import com.MaFederation.MaFederation.enums.RoleName;
 import lombok.*;
 import java.util.Set;
 import java.util.HashSet;
@@ -17,7 +18,8 @@ public class Role {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private RoleName name;
 
     private String description;
 

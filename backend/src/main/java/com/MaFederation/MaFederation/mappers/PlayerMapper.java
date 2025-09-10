@@ -67,7 +67,7 @@ public class PlayerMapper {
         Player player = new Player();
 
         player.setEmail(dto.getEmail());
-        player.setPasswordHash(dto.getPasswordHash());
+        player.setPassword(dto.getPasswordHash());
         player.setProfilePicture(dto.getProfilePicture());
         player.setFirstName(dto.getFirstName());
         player.setLastName(dto.getLastName());

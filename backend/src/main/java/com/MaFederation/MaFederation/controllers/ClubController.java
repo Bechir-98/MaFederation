@@ -35,7 +35,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClubController {
 
-        private final ClubServices clubServices;
+    private final ClubServices clubServices;
     private final ClubFilesServices clubFileService;
     private final UserVerificationRequestService verificationservice;
 

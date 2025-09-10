@@ -51,7 +51,7 @@ public class AdministrationMapper {
         Administration admin = new Administration();
 
         admin.setEmail(dto.getEmail());
-        admin.setPasswordHash(dto.getPasswordHash());
+        admin.setPassword(dto.getPasswordHash());
         admin.setProfilePicture(dto.getProfilePicture());
         admin.setFirstName(dto.getFirstName());
         admin.setLastName(dto.getLastName());

@@ -51,7 +51,7 @@ public class UserMapper {
 
         User user = new User();
         user.setProfilePicture(dto.getProfilePicture());
-        user.setPasswordHash(dto.getPasswordHash());
+        user.setPassword(dto.getPasswordHash());
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());

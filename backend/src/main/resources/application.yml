@@ -24,3 +24,11 @@ spring:
       enabled: true
       max-file-size: 5MB
       max-request-size: 5MB
+
+application:
+  security:
+    jwt:
+      secret-key: "a75bda142c9235f5998a16b75b5288d6ec9d0472e847bbe79108e2d3a9e54c56"   #
+      expiration: 3600000        # 1h in ms
+      refresh-token:
+        expiration: 604800000    # 7 days in ms

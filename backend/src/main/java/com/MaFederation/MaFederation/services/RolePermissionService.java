@@ -37,10 +37,11 @@ public class RolePermissionService {
         }
 
         Role role = Role.builder()
-                .name(dto.getName())
+                .name(dto.getName()) // already a RoleName
                 .description(dto.getDescription())
                 .permissions(permissions)
                 .build();
+
 
         return roleRepository.save(role);
     }
