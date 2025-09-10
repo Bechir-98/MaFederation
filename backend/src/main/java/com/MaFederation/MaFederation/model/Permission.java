@@ -22,8 +22,7 @@ public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false, unique = true)
-    private String name;  // e.g. "CLUB_VIEW", "CLUB_MANAGE", etc.
+    private String name;
     private String description;
 }
