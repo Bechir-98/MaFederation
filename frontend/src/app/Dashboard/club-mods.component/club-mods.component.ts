@@ -1,19 +1,20 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
-import { ModDTO, ModService } from '../../services/api/mod/mod.service';
-import { FormsModule } from '@angular/forms';
-
+import {ChangeDetectorRef, Component} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {NgForOf} from '@angular/common';
+import {Router, RouterLink} from '@angular/router';
+import {ModDTO, ModService} from '../../services/api/mod/mod.service';
 
 @Component({
-  selector: 'app-mods-component',
-  standalone: true,
-  imports: [CommonModule, RouterModule,FormsModule],
-  templateUrl: './mods.component.html',
-  styleUrls: ['./mods.component.css']
+  selector: 'app-club-mods',
+  imports: [
+    FormsModule,
+    NgForOf,
+    RouterLink
+  ],
+  templateUrl: './club-mods.component.html',
+  styleUrl: './club-mods.component.css'
 })
-export class ModsComponent implements OnInit {
-
+export class ClubModsComponent {
   moderators: ModDTO[] = [];
   filterFirstName = '';
   filterLastName = '';
@@ -40,11 +41,11 @@ export class ModsComponent implements OnInit {
   }
 
   viewModerator(mod: ModDTO): void {
-  this.modService.selectModerator(mod.id).subscribe({
-    next: () => this.router.navigate(['/admin/profile']),
-    error: (err) => console.error('Failed to select moderator', err)
-  });
-}
+    this.modService.selectModerator(mod.id).subscribe({
+      next: () => this.router.navigate(['/admin/profile']),
+      error: (err) => console.error('Failed to select moderator', err)
+    });
+  }
 
 
   filteredModerators(): ModDTO[] {
@@ -56,9 +57,8 @@ export class ModsComponent implements OnInit {
   }
 
   getRolesString(mod: ModDTO): string {
-  return mod.roles.map(r => r.name).join(', ');
-}
-
+    return mod.roles.map(r => r.name).join(', ');
+  }
 
 
 }

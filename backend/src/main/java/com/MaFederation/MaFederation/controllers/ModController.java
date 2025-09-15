@@ -1,7 +1,6 @@
 package com.MaFederation.MaFederation.controllers;
 
 import com.MaFederation.MaFederation.dto.mod.ModDTO;
-import com.MaFederation.MaFederation.model.Role;
 import com.MaFederation.MaFederation.services.ModService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
-@RequestMapping("/mods")
+@RequestMapping("/api/v1/management/")
 @RequiredArgsConstructor
 public class ModController {
 
@@ -32,7 +31,7 @@ public class ModController {
     }
 
     // Select moderator in session
-    @PostMapping("/select")
+    @PostMapping("select")
     public ResponseEntity<Void> selectModerator(@RequestBody Map<String, Integer> body, HttpSession session) {
         Integer moderatorId = body.get("moderatorId");
         if (moderatorId == null) {
@@ -43,7 +42,7 @@ public class ModController {
     }
 
     // Get selected moderator
-    @GetMapping("/selected")
+    @GetMapping("selected")
     public ResponseEntity<ModDTO> getSelectedModerator(HttpSession session) {
         return modService.getSelectedModerator(session)
                 .map(ResponseEntity::ok)
@@ -56,19 +55,10 @@ public class ModController {
         return ResponseEntity.ok(modService.getAllModerators());
     }
 
-    // Update roles for a moderator
-    @PutMapping("/{id}/roles")
-    public ResponseEntity<ModDTO> updateModeratorRoles(@PathVariable Integer id, @RequestBody Set<Role> roles) {
-        try {
-            ModDTO updated = modService.updateModeratorRoles(id, roles);
-            return ResponseEntity.ok(updated);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
+
 
     // Delete moderator
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteModerator(@PathVariable Integer id) {
         try {
             modService.deleteModerator(id);

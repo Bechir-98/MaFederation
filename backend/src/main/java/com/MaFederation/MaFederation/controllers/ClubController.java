@@ -54,6 +54,7 @@ public class ClubController {
     }
     //////////////////////////// GET ALL CLUBS ////////////////////////
     @Transactional
+
     @GetMapping
     public List<ResponseClubDTO> getAllClubs() {
         return clubServices.getAllClubs();

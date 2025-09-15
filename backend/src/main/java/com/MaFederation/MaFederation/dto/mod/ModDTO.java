@@ -1,10 +1,10 @@
 package com.MaFederation.MaFederation.dto.mod;
 
+import com.MaFederation.MaFederation.enums.RoleName;
 import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
-import com.MaFederation.MaFederation.model.Role;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +22,7 @@ public class ModDTO {
     private String address;
     private String nationality;
     private String nationalID;
-    private Set<Role> roles;
+    private RoleName role;
     private boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

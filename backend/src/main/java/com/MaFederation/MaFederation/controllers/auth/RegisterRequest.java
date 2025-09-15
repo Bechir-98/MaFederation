@@ -1,7 +1,7 @@
 package com.MaFederation.MaFederation.controllers.auth;
 
 
-import com.MaFederation.MaFederation.model.Role;
+import com.MaFederation.MaFederation.enums.RoleName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +17,5 @@ public class RegisterRequest {
     private String lastname;
     private String email;
     private String password;
-    private Role role;
+    private RoleName role;  
 }

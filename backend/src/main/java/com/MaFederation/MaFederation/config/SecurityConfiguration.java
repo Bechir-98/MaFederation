@@ -23,18 +23,11 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {
-            "/api/v1/auth/**",
-            "/v2/api-docs",
-            "/v3/api-docs",
-            "/v3/api-docs/**",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui/**",
-            "/webjars/**",
-            "/swagger-ui.html"
+            "/api/v1/auth/**"
     };
+
+
+
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -46,17 +39,9 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(WHITE_LIST_URL).permitAll()
-
-                        // Routes MANAGEMENT accessibles uniquement aux ADMIN
-                        .requestMatchers("/api/v1/management/**").hasRole("ADMIN")
-
-                        // Exemple de règles plus fines si tu veux :
-                        .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority("READ_PRIVILEGE", "ROLE_ADMIN")
-                        .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority("WRITE_PRIVILEGE", "ROLE_ADMIN")
-                        .requestMatchers(PUT, "/api/v1/management/**").hasAnyAuthority("UPDATE_PRIVILEGE", "ROLE_ADMIN")
-                        .requestMatchers(DELETE, "/api/v1/management/**").hasAnyAuthority("DELETE_PRIVILEGE", "ROLE_ADMIN")
-
-                        // Toute autre requête nécessite d'être authentifié
+                        .requestMatchers("/clubs").hasAuthority("ADMIN")
+                        .requestMatchers("/api/v1/management/**").hasAuthority("ADMIN")
+                        .requestMatchers("/clubs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

@@ -25,7 +25,7 @@ public class AdministrationMapper {
         dto.setAddress(admin.getAddress());
         dto.setNationalID(admin.getNationalID());
         dto.setNationality(admin.getNationality());
-        dto.setRole(admin.getRole());
+        dto.setPost(admin.getPost());
 
         if (admin.getClub() != null) {
             dto.setClubId(admin.getClub().getId());
@@ -61,7 +61,7 @@ public class AdministrationMapper {
         admin.setAddress(dto.getAddress());
         admin.setNationalID(dto.getNationalID());
         admin.setNationality(dto.getNationality());
-        admin.setRole(dto.getRole());
+        admin.setPost(dto.getPost());
         admin.setType(ClubMemberType.CLUBADMIN);
         admin.setValidated(ValidationStatus.nonValidated);
         admin.setValidatedBy(dto.getValidatedBy());

@@ -79,7 +79,7 @@ public ModDTO toModDto(Moderator moderator) {
     dto.setAddress(moderator.getAddress());
     dto.setNationalID(moderator.getNationalID());
     dto.setNationality(moderator.getNationality());
-    dto.setRoles(moderator.getRoles());
+    dto.setRole(moderator.getRole());
     dto.setActive(moderator.isActive());
 
     // Audit info

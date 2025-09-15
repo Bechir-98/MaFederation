@@ -245,15 +245,15 @@ body {
   .main-wrapper {
     margin-left: 260px; /* Adjust for smaller navbar */
   }
-  
+
   .search-input {
     width: 200px;
   }
-  
+
   .content-area {
     padding: 24px;
   }
-  
+
   .header-content {
     padding: 0 16px;
   }
@@ -263,27 +263,27 @@ body {
   .main-wrapper {
     margin-left: 0;
   }
-  
+
   .sidebar {
     transform: translateX(-100%);
   }
-  
+
   .header-actions {
     gap: 12px;
   }
-  
+
   .search-container {
     display: none; /* Hide search on mobile */
   }
-  
+
   .page-title {
     font-size: 24px;
   }
-  
+
   .content-area {
     padding: 20px;
   }
-  
+
   .header-content {
     height: 70px;
   }
@@ -293,15 +293,15 @@ body {
   .page-info {
     margin-right: 16px;
   }
-  
+
   .page-title {
     font-size: 20px;
   }
-  
+
   .page-subtitle {
     font-size: 12px;
   }
-  
+
   .content-area {
     padding: 16px;
   }

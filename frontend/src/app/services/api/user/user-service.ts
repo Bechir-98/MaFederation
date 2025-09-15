@@ -8,7 +8,7 @@ import { UserPost } from '../../../representations/User/userPost';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl: string = "http://localhost:8080";
+     private baseUrl: string = "http://localhost:8080";
 
     constructor(private http: HttpClient) {}
 
@@ -21,7 +21,7 @@ export class UserService {
     return this.http.get<UserResponse>(`${this.baseUrl}/user/profile`,{ withCredentials: true });
   }
 
-  
+
 uploadUserFiles(userId: number, files: File[], type: string): Observable<string> {
   const formData = new FormData();
   if (files.length > 0) {
@@ -29,7 +29,6 @@ uploadUserFiles(userId: number, files: File[], type: string): Observable<string>
     formData.append('userId', userId.toString());
     formData.append('type', type);
   }
-
   return this.http.post(`${this.baseUrl}/userfiles/upload`, formData, {
     responseType: 'text'  // <-- fix here
   });
@@ -63,7 +62,7 @@ updateUserFile(file: File, fileId: number): Observable<any> {
 
  deleteUser(userId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/clubs/delete/${userId}`);
-  }    
+  }
 
 
 }

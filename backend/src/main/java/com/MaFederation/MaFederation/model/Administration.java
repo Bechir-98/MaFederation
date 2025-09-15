@@ -9,5 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 public class Administration extends ClubMember {
 
-    private String role;
+    private String post;
 }

@@ -13,13 +13,9 @@ public class Player extends ClubMember {
 
     @Enumerated(EnumType.STRING)
     private Position position;
-
     private Integer jerseyNumber;
-
     private BigDecimal height;
-
     private BigDecimal weight;
-
     private Integer licenseNumber;
 
     

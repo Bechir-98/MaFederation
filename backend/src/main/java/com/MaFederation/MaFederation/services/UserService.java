@@ -15,21 +15,16 @@ public class UserService {
     private final StaffService staffService;
     private final AdministrationService administrationService;
 
-   
 
-    // ✅ Get user by ID and return the correct DTO
     public Object getUserDtoById(Integer userId) {
-        // Try Player
         try {
             return playerService.getPlayerById(userId);
         } catch (RuntimeException ignored) {}
 
-        // Try Staff
         try {
             return staffService.getStaffById(userId);
         } catch (RuntimeException ignored) {}
 
-        // Try Administration
         try {
             return administrationService.getById(userId);
         } catch (RuntimeException ignored) {}

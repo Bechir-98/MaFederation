@@ -31,7 +31,7 @@
     providedIn: 'root'
   })
   export class ModService {
-    private baseUrl = 'http://localhost:8080/mods';
+    private baseUrl = 'http://localhost:8080/api/v1/management/**';
 
     constructor(private http: HttpClient) { }
 

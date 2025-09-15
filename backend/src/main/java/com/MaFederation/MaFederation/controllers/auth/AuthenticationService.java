@@ -1,9 +1,10 @@
 package com.MaFederation.MaFederation.controllers.auth;
 
-import com.MaFederation.MaFederation.model.Role;
+import com.MaFederation.MaFederation.model.ClubMember;
 import com.MaFederation.MaFederation.model.Token;
 import com.MaFederation.MaFederation.model.TokenType;
 import com.MaFederation.MaFederation.model.User;
+import com.MaFederation.MaFederation.repository.ClubRepository;
 import com.MaFederation.MaFederation.repository.UserRepository;
 import com.MaFederation.MaFederation.repository.auth.TokenRepository;
 import com.MaFederation.MaFederation.services.JwtService;
@@ -14,9 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,23 +29,18 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ClubRepository clubRepository;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public void register(RegisterRequest request) {
         var user = User.builder()
                 .firstName(request.getFirstname())
                 .lastName(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles((Set<Role>) request.getRole())
+                .role(request.getRole())
                 .build();
+
         var savedUser = repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(savedUser, jwtToken);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -56,17 +50,34 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
+
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
+
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
+
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
+
+        // 🔥 If user is a ClubMember and has a club → return ClubAuthenticationResponse
+        if (user instanceof ClubMember clubMember && clubMember.getClub() != null) {
+            return ClubAuthenticationResponse.clubAuthBuilder()
+                    .accessToken(jwtToken)
+                    .refreshToken(refreshToken)
+                    .role(user.getRole())
+                    .clubId(clubMember.getClub().getId())
+                    .build();
+        }
+
+        // 🔥 Otherwise → return standard AuthenticationResponse
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .role(user.getRole())
                 .build();
     }
+
 
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()

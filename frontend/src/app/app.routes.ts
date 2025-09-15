@@ -20,13 +20,15 @@
     import { ModComponent } from './Dashboard/mod-component/mod.component';
 import { UserVerificationsComponent } from './Dashboard/user-verification/user-verification.component';
 import { ClubVerificationsComponent } from './Dashboard/club-verification/club-verifications.component/club-verifications.component';
+    import {LoginComponent} from './User/login.component/login.component';
+    import {AdminTypeComponent} from './Dashboard/admin-type.component/admin-type.component';
 
 
     export const routes: Routes = [
-    
-        
-        
-        
+
+      {path: "login", component :LoginComponent },
+
+
         {path: "addplayer", component :AddPlayerComponent },
         {path: "addstaff", component :AddStaffComponent },
         {path: "addadmin", component :AddAdministrationComponent },
@@ -41,7 +43,7 @@ import { ClubVerificationsComponent } from './Dashboard/club-verification/club-v
         {path:'club/players/profile' , component:PlayerComponent},
         {path:'club/staff/profile' , component:StaffComponent},
         {path:'club/admins/profile' , component:AdministrationComponent},
-       
+
 
 
         {path:'club' , component:ClubComponent},
@@ -57,16 +59,14 @@ import { ClubVerificationsComponent } from './Dashboard/club-verification/club-v
         {path:'admin/user-verifications' , component:UserVerificationsComponent},
         {path:'admin/user-verifications' , component:UserVerificationsComponent},
         {path:'admin/club-requests', component:ClubVerificationsComponent},
-        
+
 
         {path:'admin/categories' , component:CategroyListComponent},
-        {path: "admin/addmod", component :AddModComponent },
-        {path: "admin/listmods", component :ModsComponent },
+        {path: "admin/addmod", component :AddModComponent},
+        {path: "admin/list", component :AdminTypeComponent},
         {path: "admin/profile", component :ModComponent},
 
+        {path:'**',component:LoginComponent },
 
-        {path:'**',component:ListClubsComponent },
 
-        
-    ];  
-    
+    ];

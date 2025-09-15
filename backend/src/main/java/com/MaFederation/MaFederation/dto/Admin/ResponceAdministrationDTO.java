@@ -9,5 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)  // include fields from ClubMemberDTO
 public class ResponceAdministrationDTO extends  ResponseClubMemberDTO {
-    private String role;
+    private String post;
 }

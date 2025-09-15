@@ -1,6 +1,8 @@
 package com.MaFederation.MaFederation.controllers.auth;
 
 
+import com.MaFederation.MaFederation.services.ClubServices;
+import com.MaFederation.MaFederation.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +19,15 @@ import java.io.IOException;
 public class AuthenticationController {
 
     private final AuthenticationService service;
+    private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    public void register(
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(service.register(request));
+        service.register(request);
     }
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request

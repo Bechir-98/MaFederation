@@ -1,6 +1,7 @@
 package com.MaFederation.MaFederation.model;
 
 import jakarta.persistence.*;
+import com.MaFederation.MaFederation.enums.RoleName;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -36,13 +37,8 @@ public class Moderator extends Audit {
 
    
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "moderator_roles",
-        joinColumns = @JoinColumn(name = "moderator_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private RoleName role;
 
     private boolean active = true;
 }

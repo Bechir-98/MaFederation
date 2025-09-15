@@ -6,6 +6,6 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)  // include fields from ClubMemberDTO
 public class PostAdminstrationDTO extends PostClubMemberDTO {
-        private String role;
+        private String post;
 
 }

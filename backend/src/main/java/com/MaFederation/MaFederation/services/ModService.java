@@ -3,7 +3,6 @@ package com.MaFederation.MaFederation.services;
 import com.MaFederation.MaFederation.dto.mod.ModDTO;
 import com.MaFederation.MaFederation.mappers.UserMapper;
 import com.MaFederation.MaFederation.model.Moderator;
-import com.MaFederation.MaFederation.model.Role;
 import com.MaFederation.MaFederation.repository.ModeratorRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -54,7 +53,7 @@ public class ModService {
                 .address(modDTO.getAddress())
                 .nationality(modDTO.getNationality())
                 .nationalID(modDTO.getNationalID())
-                .roles(modDTO.getRoles())
+                .role(modDTO.getRole())
                 .build();
 
         Moderator saved = moderatorRepository.save(moderator);
@@ -66,11 +65,11 @@ public class ModService {
         Moderator mod = moderatorRepository.findById(moderatorId).orElse(null);
         if (mod == null) return false;
 
-        if (allowedRoles != null && !allowedRoles.isEmpty()) {
-            boolean hasRole = mod.getRoles().stream()
-                    .anyMatch(r -> allowedRoles.contains(r.getName()));
-            if (!hasRole) return false;
-        }
+//        if (allowedRoles != null && !allowedRoles.isEmpty()) {
+//            boolean hasRole = mod.getRole().stream()
+//                    .anyMatch(r -> allowedRoles.contains(r.getName()));
+//            if (!hasRole) return false;}
+
 
         session.setAttribute("selectedModeratorId", moderatorId);
         return true;
@@ -89,15 +88,6 @@ public class ModService {
         }
 
         return getModeratorById(moderatorId);
-    }
-
-    // Update moderator roles
-    @Transactional
-    public ModDTO updateModeratorRoles(Integer moderatorId, Set<Role> roles) {
-        Moderator mod = moderatorRepository.findById(moderatorId)
-                .orElseThrow(() -> new IllegalArgumentException("Moderator not found"));
-        mod.setRoles(roles);
-        return userMapper.toModDto(mod);
     }
 
     // Delete moderator
