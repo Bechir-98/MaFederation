@@ -48,7 +48,7 @@ public ResponseEntity<ResponceStaffDTO> updateStaff(
 
     try {
         ResponceStaffDTO updatedStaff = staffService.updateStaff(id, dto);
-        return ResponseEntity.ok(updatedStaff); // Angular receives full JSON
+        return ResponseEntity.ok(updatedStaff);
     } catch (EntityNotFoundException ex) {
         return ResponseEntity.notFound().build();
     } catch (Exception ex) {

@@ -2,7 +2,6 @@ package com.MaFederation.MaFederation.enums;
 
 public enum RoleName {
     ADMIN,
-    MANAGER,
     USER,
-    CLUB
+    CLUB_ADMIN,
 }

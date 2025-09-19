@@ -2,7 +2,9 @@ import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/cor
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserFilesComponent } from '../../files/user-files-component/user-files-component';
-import { ModDTO, ModService } from '../../services/api/mod/mod.service';
+import { ModService } from '../../services/api/mod/mod.service';
+import {UserService} from '../../services/api/user/user-service';
+import {UserResponse} from '../../representations/User/userResponse';
 
 @Component({
   selector: 'app-mod-component',
@@ -12,20 +14,21 @@ import { ModDTO, ModService } from '../../services/api/mod/mod.service';
   imports: [CommonModule, UserFilesComponent]
 })
 export class ModComponent implements OnInit {
-  mod!: ModDTO;
+  mod!: UserResponse;
   activeSection: 'basic' | 'audit' | 'credentials' = 'basic';
   credentialsViewer = false;
 
   constructor(
     private route: ActivatedRoute,
     private modService: ModService,
+    private userService :UserService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-  this.modService.getSelectedModerator().subscribe({
-    next: (data: ModDTO) => {
+  this.userService.getSelectedUser().subscribe({
+    next: (data: UserResponse) => {
       this.mod = data;
       this.cdr.detectChanges();
     },
@@ -42,7 +45,7 @@ export class ModComponent implements OnInit {
 
   deleteMod(): void {
     if (confirm('Are you sure you want to delete this moderator?')) {
-      this.modService.deleteModerator(this.mod.id).subscribe(() => {
+      this.userService.deleteUser(this.mod.id).subscribe(() => {
         alert('Moderator deleted.');
         this.router.navigate(['/mod-list']);
       });
@@ -64,11 +67,6 @@ export class ModComponent implements OnInit {
   onBackdropClick(event: MouseEvent): void {
     this.credentialsViewer = false;
     this.cdr.detectChanges();
-  }
-
-  // Utility to display roles as comma-separated string
-  getRolesString(mod: ModDTO): string {
-    return mod.roles?.map(r => r.name).join(', ') || 'No Roles';
   }
 
   @HostListener('window:keydown', ['$event'])

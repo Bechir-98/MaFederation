@@ -28,7 +28,7 @@ export class ClubComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSelectedClub();
-    
+
   }
 
   private loadSelectedClub(): void {

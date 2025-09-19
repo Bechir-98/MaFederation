@@ -3,6 +3,7 @@ package com.MaFederation.MaFederation.mappers;
 import com.MaFederation.MaFederation.dto.Staff.PostStaffDTO;
 import com.MaFederation.MaFederation.dto.Staff.ResponceStaffDTO;
 import com.MaFederation.MaFederation.enums.ClubMemberType;
+import com.MaFederation.MaFederation.enums.RoleName;
 import com.MaFederation.MaFederation.enums.ValidationStatus;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Staff;
@@ -72,6 +73,7 @@ public Staff toEntity(PostStaffDTO dto) {
     staff.setNationality(dto.getNationality());
     staff.setSpecialty(dto.getSpecialty());
     staff.setType(ClubMemberType.STAFF);
+    staff.setRole(RoleName.USER);
     staff.setValidated(ValidationStatus.nonValidated);
     staff.setValidatedBy(dto.getValidatedBy());
 

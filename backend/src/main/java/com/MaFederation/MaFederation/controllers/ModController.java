@@ -1,15 +1,15 @@
 package com.MaFederation.MaFederation.controllers;
 
-import com.MaFederation.MaFederation.dto.mod.ModDTO;
+import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
+import com.MaFederation.MaFederation.dto.User.ResponseUserDTO;
+import com.MaFederation.MaFederation.services.AdministrationService;
 import com.MaFederation.MaFederation.services.ModService;
-import jakarta.servlet.http.HttpSession;
+import com.MaFederation.MaFederation.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
@@ -18,53 +18,33 @@ import java.util.Set;
 public class ModController {
 
     private final ModService modService;
-
-    // Create new moderator
-    @PostMapping
-    public ResponseEntity<ModDTO> createModerator(@RequestBody ModDTO modDTO) {
-        try {
-            ModDTO created = modService.createModerator(modDTO);
-            return ResponseEntity.ok(created);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    // Select moderator in session
-    @PostMapping("select")
-    public ResponseEntity<Void> selectModerator(@RequestBody Map<String, Integer> body, HttpSession session) {
-        Integer moderatorId = body.get("moderatorId");
-        if (moderatorId == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        modService.selectModeratorInSession(session, moderatorId, null);
-        return ResponseEntity.ok().build();
-    }
-
-    // Get selected moderator
-    @GetMapping("selected")
-    public ResponseEntity<ModDTO> getSelectedModerator(HttpSession session) {
-        return modService.getSelectedModerator(session)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.badRequest().build());
-    }
-
-    // Get all moderators
-    @GetMapping
-    public ResponseEntity<List<ModDTO>> getAllModerators() {
-        return ResponseEntity.ok(modService.getAllModerators());
-    }
-
+    private final UserService userService;
+    private final AdministrationService clubAdminService;
 
 
     // Delete moderator
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteModerator(@PathVariable Integer id) {
         try {
-            modService.deleteModerator(id);
+            userService.deleteUser(id);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/getAllAdmins")
+    public ResponseEntity<List<ResponseUserDTO>> getAllAdmins() {
+        List<ResponseUserDTO> admins = modService.getAllMods(); // call instance method
+        return ResponseEntity.ok(admins);
+    }
+
+    //club
+
+    @GetMapping("/getAllClubsAdmins")
+    public ResponseEntity<List<ResponceAdministrationDTO>> getAllClubsAdmins() {
+        return ResponseEntity.ok(clubAdminService.getAllClubsAdmins());
+    }
+
+
 }

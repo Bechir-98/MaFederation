@@ -39,7 +39,6 @@ export class AppComponent implements OnInit {
 
   private updateSidebar(): void {
     const token = localStorage.getItem('token');
-    console.log("this:",token);
     const role = localStorage.getItem('role');
     this.showSidebar = !!token;
     this.isAdmin = role === 'ADMIN';

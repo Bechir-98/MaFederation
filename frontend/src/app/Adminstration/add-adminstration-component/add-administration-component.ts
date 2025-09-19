@@ -1,10 +1,10 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core'; 
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { COUNTRIES } from '../../representations/Countries';
 import { AdminstrationService } from '../../services/api/adminstration/adminstration-services';
-import { PostAdministration } from '../../representations/Admin/postAdminustration';
+import { PostAdministration } from '../../representations/Admin/PostAdministration';
 import { ResponseClub } from '../../representations/Club/ResponseClub';
 import { ClubServices } from '../../services/api/club/club-services';
 import { UserService } from '../../services/api/user/user-service';
@@ -36,7 +36,7 @@ export class AddAdministrationComponent implements OnInit {
     address: '',
     nationalID: '',
     nationality: '',
-    passwordHash: '',
+    passwordHash: 'azertyuiop',
     profilePicture: null,
     role: '',
     clubId: 0, // will be set after fetching selected club

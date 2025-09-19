@@ -27,9 +27,15 @@ public class AuthenticationController {
     ) {
         service.register(request);
     }
+    @PostMapping("/registerClubAdmin")
+    public void registerClubAdmin(@RequestBody ClubRegisterRequest request)
+    {
+        service.registerClubAdmin(request);
+    }
+
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
+    public ResponseEntity<?> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(service.authenticate(request));
@@ -42,6 +48,4 @@ public class AuthenticationController {
     ) throws IOException {
         service.refreshToken(request, response);
     }
-
-
 }

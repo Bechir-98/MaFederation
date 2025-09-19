@@ -3,6 +3,7 @@ package com.MaFederation.MaFederation.mappers;
 import com.MaFederation.MaFederation.dto.Player.PostPlayerDTO;
 import com.MaFederation.MaFederation.dto.Player.ResponsePlayerDTO;
 import com.MaFederation.MaFederation.enums.ClubMemberType;
+import com.MaFederation.MaFederation.enums.RoleName;
 import com.MaFederation.MaFederation.enums.ValidationStatus;
 import com.MaFederation.MaFederation.model.Category;
 import com.MaFederation.MaFederation.model.Player;
@@ -78,6 +79,7 @@ public class PlayerMapper {
         player.setNationalID(dto.getNationalID());
         player.setNationality(dto.getNationality());
         player.setType(ClubMemberType.PLAYER);
+        player.setRole(RoleName.USER);
         player.setValidated(ValidationStatus.nonValidated);
         player.setValidatedBy(dto.getValidatedBy());
         player.setPosition(dto.getPosition());

@@ -9,7 +9,11 @@ import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
 import com.MaFederation.MaFederation.mappers.AdministrationMapper;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -53,4 +57,39 @@ public class AdministrationService {
     public void delete(Integer id) {
         administrationRepository.deleteById(id);
     }
+
+
+
+    //mod
+    public List<ResponceAdministrationDTO> getAllClubsAdmins() {
+        return administrationRepository.findAll().stream().map(a -> {
+            ResponceAdministrationDTO dto = new ResponceAdministrationDTO();
+            dto.setId(a.getId());
+            dto.setFirstName(a.getFirstName());
+            dto.setLastName(a.getLastName());
+            dto.setEmail(a.getEmail());
+            dto.setPost(a.getPost());
+            dto.setClub(a.getClub().getName());
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    public void deleteAdmin(Integer id) {
+        if (!administrationRepository.existsById(id)) {
+            throw new IllegalArgumentException("Admin not found");
+        }
+        administrationRepository.deleteById(id);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

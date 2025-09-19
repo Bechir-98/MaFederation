@@ -73,10 +73,5 @@ public Player createPlayer(PostPlayerDTO dto) {
 
         Player update= playerRepository.save(player);
         return playerMapper.toDto(update);
-
-
-
     }
-
-   
 }

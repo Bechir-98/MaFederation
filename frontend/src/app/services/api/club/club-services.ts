@@ -18,17 +18,14 @@ export class ClubServices {
 
   constructor(private http: HttpClient) {}
 
-  // Load all clubs (no session needed)
   loadClubs(): Observable<ResponseClub[]> {
     return this.http.get<ResponseClub[]>(this.baseUrl);
   }
 
-  // Select a club by ID, store in session
   selectClub(clubId: number): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/select`, { clubId }, { withCredentials: true });
   }
 
-  // Get the selected club profile (from session)
   getSelectedClub(): Observable<ResponseClub> {
     return this.http.get<ResponseClub>(`${this.baseUrl}/profile`, { withCredentials: true });
   }
@@ -54,7 +51,7 @@ export class ClubServices {
   }
 
 
-  
+
 // Load categories of selected club
   loadCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.baseUrl}/categories`,{ withCredentials: true });

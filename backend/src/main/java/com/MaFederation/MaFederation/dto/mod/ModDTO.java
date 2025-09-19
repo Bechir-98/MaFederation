@@ -12,7 +12,7 @@ import java.util.Set;
 @Builder
 public class ModDTO {
 
-    private Integer id; // Moderator-specific ID
+    private Integer id;
     private String email;
     private String firstName;
     private String lastName;

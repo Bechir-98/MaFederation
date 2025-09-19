@@ -10,4 +10,5 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)  // include fields from ClubMemberDTO
 public class ResponceAdministrationDTO extends  ResponseClubMemberDTO {
     private String post;
+    private String club;
 }

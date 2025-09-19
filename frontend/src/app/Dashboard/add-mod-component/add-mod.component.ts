@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { COUNTRIES } from '../../representations/Countries';
-import { ModDTO, ModService, Role } from '../../services/api/mod/mod.service';
+import {ModService,  } from '../../services/api/mod/mod.service';
+import {UserPost} from '../../representations/User/userPost';
 
 
 @Component({
@@ -14,8 +15,7 @@ import { ModDTO, ModService, Role } from '../../services/api/mod/mod.service';
   imports: [CommonModule, FormsModule],
 })
 export class AddModComponent {
-  mod: Partial<ModDTO> = {};
-  roles: Role[] = [];
+  mod: Partial<UserPost> = {};
   countries = COUNTRIES;
 
   constructor(private modService: ModService, private router: Router) {}
@@ -27,7 +27,7 @@ export class AddModComponent {
     }
 
     // You should have a backend endpoint to create a moderator
-    this.modService.createModerator(this.mod as ModDTO).subscribe({
+    this.modService.createModerator(this.mod).subscribe({
       next: (createdMod) => {
         alert(`Moderator ${createdMod.firstName} ${createdMod.lastName} added!`);
         this.router.navigate(['/mods']);

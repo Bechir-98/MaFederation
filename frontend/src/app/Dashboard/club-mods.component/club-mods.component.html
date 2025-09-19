@@ -1,40 +1,35 @@
 <div class="all">
-  <div class="table-header">
-    <div>
-      <!-- Optional filters or search -->
+  <div class="table-card">
+    <div class="table-header">
+      <button class="add-user-button" routerLink="/admin/addClubAdmin">
+        <i class="fas fa-user-plus"></i> Add Moderator
+      </button>
     </div>
-    <button class="add-user-button" routerLink="/admin/addmod">+ Add Moderator</button>
-  </div>
 
-  <div class="table-wrapper">
-    <table>
-      <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Access Level</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <!-- Filter Row -->
-      <tr class="filter-row">
-        <td><input type="text" placeholder="Enter First Name" [(ngModel)]="filterFirstName" /></td>
-        <td><input type="text" placeholder="Enter Last Name" [(ngModel)]="filterLastName" /></td>
-        <td><input type="text" placeholder="Enter Role" [(ngModel)]="filterRole" /></td>
-        <td></td>
-      </tr>
-
-      <!-- Moderator rows -->
-      <tr *ngFor="let mod of filteredModerators()">
-        <td>{{ mod.firstName }}</td>
-        <td>{{ mod.lastName }}</td>
-        <td>{{ getRolesString(mod) }}</td>
-        <td>
-          <button (click)="viewModerator(mod)">View 👁</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Club</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Moderator rows -->
+        <tr *ngFor="let mod of moderators">
+          <td>{{ mod.firstName }}</td>
+          <td>{{ mod.lastName }}</td>
+          <td>{{ mod.club }}</td>
+          <td>
+            <button class="view-button" (click)="viewModerator(mod)">
+              <i class="fas fa-eye"></i> View
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

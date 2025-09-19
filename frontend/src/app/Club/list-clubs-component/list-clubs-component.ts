@@ -38,7 +38,7 @@ export class ListClubsComponent implements OnInit {
   selectClub(clubId: number) {
     this.clubservice.selectClub(clubId).subscribe({
       next: () => {
-        
+
         // After storing clubId in session, navigate to club profile route
        this.router.navigate(['/admin/club/profile']);
 

@@ -49,6 +49,7 @@ private List<Category> categories = new ArrayList<>();
 
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     private byte[] logo;
 
    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)

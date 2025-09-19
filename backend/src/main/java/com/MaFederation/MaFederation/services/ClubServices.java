@@ -45,6 +45,7 @@ public class ClubServices {
 
 
     /** Get all clubs as Response DTOs */
+    @Transactional(readOnly = true)
     public List<ResponseClubDTO> getAllClubs() {
         return clubRepository.findAll()
                 .stream()

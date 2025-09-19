@@ -22,6 +22,7 @@ import { UserVerificationsComponent } from './Dashboard/user-verification/user-v
 import { ClubVerificationsComponent } from './Dashboard/club-verification/club-verifications.component/club-verifications.component';
     import {LoginComponent} from './User/login.component/login.component';
     import {AdminTypeComponent} from './Dashboard/admin-type.component/admin-type.component';
+    import {AddClubAdminComponent} from './Dashboard/add-club-mod/add-club-mod';
 
 
     export const routes: Routes = [
@@ -63,6 +64,7 @@ import { ClubVerificationsComponent } from './Dashboard/club-verification/club-v
 
         {path:'admin/categories' , component:CategroyListComponent},
         {path: "admin/addmod", component :AddModComponent},
+      {path:"admin/addClubAdmin" , component:AddClubAdminComponent},
         {path: "admin/list", component :AdminTypeComponent},
         {path: "admin/profile", component :ModComponent},
 

@@ -1,6 +1,6 @@
 package com.MaFederation.MaFederation.services;
 
-
+import com.MaFederation.MaFederation.enums.RoleName;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,28 +26,42 @@ public class JwtService {
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
 
+    // -----------------------------
+    // 🔹 Extractors
+    // -----------------------------
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public Integer extractClubId(String token) {
+        return extractClaim(token, claims -> claims.get("clubId", Integer.class));
+    }
+    public RoleName extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", RoleName.class));
     }
 
-    public String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ) {
-        return buildToken(extraClaims, userDetails, jwtExpiration);
+    // -----------------------------
+    // 🔹 Token Generators
+    // -----------------------------
+    public String generateUserToken(UserDetails userDetails,RoleName role) {
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("role",role.toString());
+        return generateToken(extraClaims, userDetails, jwtExpiration);
+
     }
 
-    public String generateRefreshToken(
-            UserDetails userDetails
-    ) {
-        return buildToken(new HashMap<>(), userDetails, refreshExpiration);
+    public String generateClubMemberToken(UserDetails userDetails, Integer clubId  , RoleName role) {
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("clubId", clubId);
+        extraClaims.put("role",role.toString());
+        return generateToken(extraClaims, userDetails, jwtExpiration);
     }
 
-    private String buildToken(
+    public String generateRefreshToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails, refreshExpiration);
+    }
+
+    private String generateToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails,
             long expiration
@@ -62,24 +76,25 @@ public class JwtService {
                 .compact();
     }
 
-    //Validation
+    // -----------------------------
+    // 🔹 Validation
+    // -----------------------------
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
-
-    //Expiration
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
-
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    //Claims
+    // -----------------------------
+    // 🔹 Claims
+    // -----------------------------
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);

@@ -66,8 +66,6 @@ public class User extends Audit implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.toString()));
     }
 
-
-
     @Override
     public String getPassword() {
         return this.password;

@@ -3,6 +3,7 @@ package com.MaFederation.MaFederation.mappers;
 import com.MaFederation.MaFederation.dto.Admin.PostAdminstrationDTO;
 import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
 import com.MaFederation.MaFederation.enums.ClubMemberType;
+import com.MaFederation.MaFederation.enums.RoleName;
 import com.MaFederation.MaFederation.enums.ValidationStatus;
 import com.MaFederation.MaFederation.model.Administration;
 import org.springframework.stereotype.Component;
@@ -38,7 +39,7 @@ public class AdministrationMapper {
         dto.setUpdatedAt(admin.getUpdatedAt());
         dto.setCreatedBy(admin.getCreatedBy());
         dto.setUpdatedBy(admin.getUpdatedBy());
-         dto.setValidated(admin.getValidated());
+        dto.setValidated(admin.getValidated());
         dto.setValidatedBy(admin.getValidatedBy());
         dto.setValidationDate(admin.getValidationDate());
 
@@ -69,6 +70,7 @@ public class AdministrationMapper {
         admin.setUpdatedAt(dto.getUpdatedAt());
         admin.setCreatedBy(dto.getCreatedBy());
         admin.setUpdatedBy(dto.getUpdatedBy());
+        admin.setRole(RoleName.CLUB_ADMIN);
 
         return admin;
     }
