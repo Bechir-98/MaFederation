@@ -15,6 +15,7 @@ import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class JwtService {
@@ -29,6 +30,7 @@ public class JwtService {
     // -----------------------------
     // 🔹 Extractors
     // -----------------------------
+    @Transactional
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -37,26 +39,28 @@ public class JwtService {
         return extractClaim(token, claims -> claims.get("clubId", Integer.class));
     }
     public RoleName extractRole(String token) {
-        return extractClaim(token, claims -> claims.get("role", RoleName.class));
+        return extractClaim(token, claims -> RoleName.valueOf(claims.get("role", String.class)));
     }
+
 
     // -----------------------------
     // 🔹 Token Generators
     // -----------------------------
+    @Transactional
     public String generateUserToken(UserDetails userDetails,RoleName role) {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("role",role.toString());
         return generateToken(extraClaims, userDetails, jwtExpiration);
 
     }
-
+    @Transactional
     public String generateClubMemberToken(UserDetails userDetails, Integer clubId  , RoleName role) {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("clubId", clubId);
         extraClaims.put("role",role.toString());
         return generateToken(extraClaims, userDetails, jwtExpiration);
     }
-
+    @Transactional
     public String generateRefreshToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails, refreshExpiration);
     }

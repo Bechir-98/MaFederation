@@ -12,8 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
-
-import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -24,7 +22,7 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {
             "/api/v1/auth/**",
-            "/clubs/**"
+            "/api/v1/register/admin"
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -34,15 +32,29 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // Disable CSRF because you are stateless
                 .csrf(AbstractHttpConfigurer::disable)
+
+                // Authorize requests
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers("/api/v1/management/**").hasAuthority("ADMIN")
-//                        .anyRequest().authenticated()
+                        .requestMatchers("/user/**").hasAnyAuthority("ADMIN" , "CLUB_ADMIN")
+                        .requestMatchers("/clubs/**").hasAnyAuthority("ADMIN", "CLUB_ADMIN")
+                        .requestMatchers("/players/addplayer").hasAnyAuthority("CLUB_ADMIN")
+                        .anyRequest().authenticated()
                 )
+
+                // Stateless session management (no HttpSession)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+
+                // Authentication provider
                 .authenticationProvider(authenticationProvider)
+
+                // JWT filter before username/password filter
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+
+                // Logout configuration
                 .logout(logout -> logout
                         .logoutUrl("/api/v1/auth/logout")
                         .addLogoutHandler(logoutHandler)

@@ -34,19 +34,13 @@ export class ListClubsComponent implements OnInit {
     });
   }
 
-  // Method to select a club by ID and navigate
+  // Method to select a club by ID for super admin
   selectClub(clubId: number) {
-    this.clubservice.selectClub(clubId).subscribe({
-      next: () => {
+    // Store selected club ID locally
+    localStorage.setItem('selectedClubId', String(clubId));
+    console.log(localStorage.getItem('selectedClubId'))
 
-        // After storing clubId in session, navigate to club profile route
-       this.router.navigate(['/admin/club/profile']);
-
-      },
-      error: (err) => {
-        console.error('Failed to select club:', err);
-        alert('Failed to select club.');
-      }
-    });
+    // Navigate to club profile page
+    this.router.navigate(['/admin/club/profile']);
   }
 }

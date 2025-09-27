@@ -19,13 +19,11 @@ export class ListStaffComponent implements OnInit {
   Staffs: StaffResponse[] = [];
   filteredStaffs: StaffResponse[] = [];
   club: ResponseClub | null = null;
-
-  // allow filtering by validation status
   validationFilter: 'all' | 'validated' | 'pending' | 'rejected' | 'nonValidated' = 'all';
 
   constructor(
     private clubservices: ClubServices,
-    private UserService: UserService,
+    private userService: UserService,
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {}
@@ -33,26 +31,23 @@ export class ListStaffComponent implements OnInit {
   ngOnInit(): void {
     this.clubservices.getSelectedClub().subscribe({
       next: (club: ResponseClub) => {
-        if (!club) {
-          console.warn('No club selected in session.');
-          return;
-        }
+        if (!club) return;
         this.club = club;
-
-        this.clubservices.loadStaff().subscribe({
-          next: (data: StaffResponse[]) => {
-            this.Staffs = data;
-            this.filterStaff();
-            this.cdr.detectChanges();
-          },
-          error: (err) => {
-            console.error('Failed to load staff:', err);
-          }
-        });
+        this.loadStaff();
       },
-      error: (err) => {
-        console.error('Failed to get selected club:', err);
-      }
+      error: (err) => console.error('Failed to get selected club:', err)
+    });
+  }
+
+  loadStaff(): void {
+    if (!this.club) return;
+    this.clubservices.loadStaff().subscribe({
+      next: (data: StaffResponse[]) => {
+        this.Staffs = data;
+        this.filterStaff();
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Failed to load staff:', err)
     });
   }
 
@@ -60,21 +55,16 @@ export class ListStaffComponent implements OnInit {
     if (this.validationFilter === 'all') {
       this.filteredStaffs = [...this.Staffs];
     } else {
-      this.filteredStaffs = this.Staffs.filter(s => 
+      this.filteredStaffs = this.Staffs.filter(s =>
         s.validated?.toLowerCase() === this.validationFilter.toLowerCase()
       );
     }
   }
 
   viewProfile(staffId: number) {
-    this.UserService.selectUser(staffId).subscribe({
-      next: () => {
-        this.router.navigate(['club/staff/profile']);
-      },
-      error: err => {
-        console.error('Failed to select staff', err);
-      }
-    });
+    // Set selected user in UserService and navigate
+    this.userService.setUserId(staffId);
+    this.router.navigate(['club/staff/profile']);
   }
 
   requestValidation(staff: StaffResponse) {
@@ -83,7 +73,7 @@ export class ListStaffComponent implements OnInit {
     this.clubservices.requestMemberValidation(staff.id!, this.club.id!).subscribe({
       next: () => {
         alert(`${staff.firstName} ${staff.lastName} requested for verification.`);
-        staff.validated = "Pending"; // move staff to pending state
+        staff.validated = "Pending";
       },
       error: (err) => {
         console.error('Failed to request validation:', err);

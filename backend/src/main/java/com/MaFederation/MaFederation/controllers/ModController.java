@@ -2,7 +2,9 @@ package com.MaFederation.MaFederation.controllers;
 
 import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
 import com.MaFederation.MaFederation.dto.User.ResponseUserDTO;
+import com.MaFederation.MaFederation.model.Logs;
 import com.MaFederation.MaFederation.services.AdministrationService;
+import com.MaFederation.MaFederation.services.LogsService;
 import com.MaFederation.MaFederation.services.ModService;
 import com.MaFederation.MaFederation.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class ModController {
     private final ModService modService;
     private final UserService userService;
     private final AdministrationService clubAdminService;
+    private final LogsService logsService;
 
 
     // Delete moderator
@@ -45,6 +48,8 @@ public class ModController {
     public ResponseEntity<List<ResponceAdministrationDTO>> getAllClubsAdmins() {
         return ResponseEntity.ok(clubAdminService.getAllClubsAdmins());
     }
-
-
+    @GetMapping ("/getLogs")
+    public ResponseEntity<List<Logs>> getLogs() {
+        return ResponseEntity.ok(this.logsService.getLogs());
+    }
 }

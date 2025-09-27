@@ -27,8 +27,10 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(callSuper = true)
 public class User extends Audit implements UserDetails {
 
-    @Lob
+    // remove @Lob (optional) but keep the columnDefinition
+    @Column(name = "profile_picture", columnDefinition = "bytea")
     private byte[] profilePicture;
+
 
     // @Column(nullable = false, unique = true)
     private String email;

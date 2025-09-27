@@ -2,13 +2,14 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { StaffResponse } from '../../representations/Staff/staffResponce';
+
 import { UserFilesComponent } from '../../files/user-files-component/user-files-component';
-import { UserService } from '../../services/api/user/user-service';
+import { StaffResponse } from '../../representations/Staff/staffResponce';
 import { StaffServices } from '../../services/api/staff/staff-services';
 import { Category } from '../../representations/Category/category';
 import { ClubServices } from '../../services/api/club/club-services';
 import { StaffPost } from '../../representations/Staff/staffPost';
+import { UserService } from '../../services/api/user/user-service';
 
 @Component({
   selector: 'app-staff',
@@ -43,23 +44,33 @@ export class StaffComponent implements OnInit {
 
   loadStaff(): void {
     this.loading = true;
-    this.userService.getSelectedUser().subscribe({
-      next: (data) => {
-        this.staff = data || {};
-        this.loading = false;
-        this.calculateCompletion();
 
-        if (this.staff.clubId) {
-          this.loadCategoriesForClub();
+    this.userService.currentUserId$.subscribe({
+      next: (id) => {
+        if (!id) {
+          this.loading = false;
+          return;
         }
 
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        this.error = 'Failed to load staff data';
-        this.loading = false;
-        console.error('getSelectedStaff error', err);
-        this.cdr.detectChanges();
+        this.userService.getSelectedUser(id).subscribe({
+          next: (data) => {
+            this.staff = data || {};
+            this.loading = false;
+            this.calculateCompletion();
+
+            if (this.staff.clubId) {
+              this.loadCategoriesForClub();
+            }
+
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            this.error = 'Failed to load staff data';
+            console.error('getSelectedStaff error', err);
+            this.loading = false;
+            this.cdr.detectChanges();
+          }
+        });
       }
     });
   }
@@ -68,10 +79,7 @@ export class StaffComponent implements OnInit {
     this.clubService.loadCategories().subscribe({
       next: (categories) => {
         this.categories = categories;
-
-        // Pre-select staff's existing categories
         this.selectedCategories = this.staff.categories?.map(cat => cat.id) || [];
-
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Failed to load categories', err)
@@ -83,15 +91,8 @@ export class StaffComponent implements OnInit {
   }
 
   openEditModal(): void {
-    // Ensure categories are loaded before opening modal
-    if (this.categories.length === 0 && this.staff.clubId) {
-      this.loadCategoriesForClub();
-    }
-
-    // Pre-select staff's existing categories
     this.selectedCategories = this.staff.categories?.map(cat => cat.id) || [];
 
-    // Copy staff data into editedStaff
     this.editedStaff = {
       firstName: this.staff.firstName,
       lastName: this.staff.lastName,
@@ -100,13 +101,11 @@ export class StaffComponent implements OnInit {
       email: this.staff.email,
       specialty: this.staff.specialty,
       clubId: this.staff.clubId,
-      profilePicture: null, // file input
-      categoryIds: [...this.selectedCategories] // pre-selected categories
+      profilePicture: null,
+      categoryIds: [...this.selectedCategories]
     };
 
     this.isEditModalOpen = true;
-    
-    // Force change detection to ensure UI updates
     this.cdr.detectChanges();
   }
 
@@ -116,15 +115,9 @@ export class StaffComponent implements OnInit {
 
   toggleCategory(categoryId: number, event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
-    if (checked) {
-      if (!this.selectedCategories.includes(categoryId)) {
-        this.selectedCategories.push(categoryId);
-      }
-    } else {
-      this.selectedCategories = this.selectedCategories.filter(id => id !== categoryId);
-    }
-    
-    // Update editedStaff.categoryIds to keep it in sync
+    if (checked) this.selectedCategories.push(categoryId);
+    else this.selectedCategories = this.selectedCategories.filter(id => id !== categoryId);
+
     this.editedStaff.categoryIds = [...this.selectedCategories];
   }
 
@@ -147,7 +140,6 @@ export class StaffComponent implements OnInit {
       return;
     }
 
-    // Ensure categoryIds match selection
     this.editedStaff.categoryIds = [...this.selectedCategories];
 
     this.staffService.updateStaff(this.staff.id!, this.editedStaff).subscribe({
@@ -163,17 +155,17 @@ export class StaffComponent implements OnInit {
   }
 
   deleteStaff(): void {
-    if (confirm(`Are you sure you want to delete ${this.staff.firstName} ${this.staff.lastName}?`)) {
-      this.userService.deleteUser(this.staff.id!).subscribe({
-        next: () => {
-          alert('Staff deleted successfully.');
-          this.router.navigate(['/club/staff']);
-        },
-        error: (err) => {
-          console.error('Failed to delete staff:', err);
-          alert('Failed to delete staff. Please try again.');
-        }
-      });
-    }
+    if (!confirm(`Are you sure you want to delete ${this.staff.firstName} ${this.staff.lastName}?`)) return;
+
+    this.userService.deleteUser(this.staff.id!).subscribe({
+      next: () => {
+        alert('Staff deleted successfully.');
+        this.router.navigate(['/club/staff']);
+      },
+      error: (err) => {
+        console.error('Failed to delete staff:', err);
+        alert('Failed to delete staff. Please try again.');
+      }
+    });
   }
 }

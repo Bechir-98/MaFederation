@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/management/validation/")
+@RequestMapping("/api/v1/management/validation")
 @CrossOrigin("http://localhost:4200")
 @RequiredArgsConstructor
 public class UserVerificationRequestController {

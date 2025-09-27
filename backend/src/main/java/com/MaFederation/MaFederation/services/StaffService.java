@@ -25,6 +25,8 @@ public class StaffService {
     private final ClubRepository clubRepository;
     private final CategoryRepository categoryRepository;
     private final StaffMapper staffMapper;
+    private  final LogsService logsService;
+    private final AuthUtils authUtils ;
 
  public Staff createStaff(PostStaffDTO dto) {
     Staff staff = staffMapper.toEntity(dto);
@@ -46,12 +48,13 @@ public class StaffService {
     // If you track createdBy / updatedBy
     // staff.setCreatedBy(SecurityUtils.getCurrentUserId());
 
+     String admin= authUtils.getCurrentUserId();
+     logsService.log("Club " + club.getName()+ " created satff "+ staff.getId(), admin);
+
     return staffRepository.save(staff);
 }
 
-    public void delete(Integer id) {
-    staffRepository.deleteById(id);
-}
+
 
 
 
@@ -83,6 +86,8 @@ public class StaffService {
         }
 
         Staff update =staffRepository.save(staff);
+        String admin= authUtils.getCurrentUserId();
+        logsService.log("satff "+ staff.getId() +"was updated", admin);
           
         return staffMapper.toDto(update);
     }

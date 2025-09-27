@@ -14,34 +14,34 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService service;
     private final UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("/register/admin")
     public void register(
             @RequestBody RegisterRequest request
     ) {
         service.register(request);
     }
-    @PostMapping("/registerClubAdmin")
+    @PostMapping("/register/ClubAdmin")
     public void registerClubAdmin(@RequestBody ClubRegisterRequest request)
     {
         service.registerClubAdmin(request);
     }
 
 
-    @PostMapping("/authenticate")
+    @PostMapping("auth/authenticate")
     public ResponseEntity<?> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
-    @PostMapping("/refresh-token")
+    @PostMapping("auth/refresh-token")
     public void refreshToken(
             HttpServletRequest request,
             HttpServletResponse response

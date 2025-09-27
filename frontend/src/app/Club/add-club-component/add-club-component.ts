@@ -13,8 +13,6 @@ import { Router } from '@angular/router';
   standalone: true,
   styleUrls: ['./add-club-component.css'],
   imports: [FormsModule, CommonModule],
-  // optionally enable OnPush for performance
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddClubComponent implements OnInit {
   categories: Category[] = [];
@@ -28,7 +26,7 @@ export class AddClubComponent implements OnInit {
     bankName: '',
     categoryIds: [],
     logo: null,
-    website:""
+    website: ''
   };
 
   logoPreview: string | ArrayBuffer | null = null;
@@ -45,11 +43,9 @@ export class AddClubComponent implements OnInit {
     this.categoryService.loadAllCategories().subscribe({
       next: (response) => {
         this.categories = response;
-        this.cd.detectChanges(); // detect after async update
+        this.cd.detectChanges();
       },
-      error: (err) => {
-        console.error(err);
-      }
+      error: (err) => console.error(err)
     });
   }
 
@@ -64,9 +60,7 @@ export class AddClubComponent implements OnInit {
         this.cd.detectChanges();
         return;
       }
-
       this.club.logo = file;
-
       const reader = new FileReader();
       reader.onload = () => {
         this.logoPreview = reader.result;
@@ -83,45 +77,30 @@ export class AddClubComponent implements OnInit {
   }
 
   onSubmit(): void {
-  if (this.logoInvalid || !this.club.logo) {
-    alert('Veuillez sélectionner un logo valide avant de soumettre.');
-    return;
-  }
-
-  const { logo, ...clubWithoutLogo } = this.club;
-
-  const formData = new FormData();
-  const clubJsonBlob = new Blob([JSON.stringify(clubWithoutLogo)], {
-    type: 'application/json'
-  });
-  formData.append('club', clubJsonBlob);
-
-  if (logo) {
-    formData.append('logo', logo);
-  }
-
-  this.clubservice.createClub(formData).subscribe({
-    next: (createdClub) => {
-      // After club creation, select the club in session
-      this.clubservice.selectClub(createdClub.id).subscribe({
-        next: () => {
-          alert('✅ Club registered and selected successfully!');
-          this.router.navigate(['/admin/club/profile']);
-        },
-        error: (err) => {
-          console.error('❌ Error selecting club:', err);
-          alert('❌ Club registered but failed to select club session.');
-          // Optionally still navigate or ask user to retry selecting club
-          this.router.navigate(['/clubs',]);
-        }
-      });
-    },
-    error: (err) => {
-      console.error('❌ Error creating club:', err);
-      alert('❌ Failed to register club.');
+    if (this.logoInvalid || !this.club.logo) {
+      alert('Veuillez sélectionner un logo valide avant de soumettre.');
+      return;
     }
-  });
-}
+
+    const { logo, ...clubWithoutLogo } = this.club;
+    const formData = new FormData();
+    const clubJsonBlob = new Blob([JSON.stringify(clubWithoutLogo)], { type: 'application/json' });
+    formData.append('club', clubJsonBlob);
+
+    if (logo) formData.append('logo', logo);
+
+    this.clubservice.createClub(formData).subscribe({
+      next: (createdClub) => {
+        alert('✅ Club registered successfully!');
+        // Navigate to club profile; backend determines clubId from JWT
+        this.router.navigate(['/admin/club/profile']);
+      },
+      error: (err) => {
+        console.error('❌ Error creating club:', err);
+        alert('❌ Failed to register club.');
+      }
+    });
+  }
 
   onCategoryChange(category: Category, event: any) {
     if (event.target.checked) {
@@ -129,10 +108,8 @@ export class AddClubComponent implements OnInit {
         this.club.categoryIds.push(category.id!);
       }
     } else {
-      this.club.categoryIds = this.club.categoryIds.filter(
-        (id: number) => id !== category.id
-      );
+      this.club.categoryIds = this.club.categoryIds.filter(id => id !== category.id);
     }
-    this.cd.detectChanges(); // detect changes after categoryIds update
+    this.cd.detectChanges();
   }
 }

@@ -14,7 +14,7 @@ export interface VerificationRequestDTO {
 
 @Injectable({ providedIn: 'root' })
 export class VerificationRequestService {
-  private baseUrl = 'http://localhost:8080/admin/verification-requests';
+  private baseUrl = 'http://localhost:8080/api/v1/management/validation';
 
   constructor(private http: HttpClient) {}
 

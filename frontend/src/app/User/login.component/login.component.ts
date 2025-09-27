@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService, LoginRequest } from '../../services/api/login/login.service';
-import {ClubServices} from '../../services/api/club/club-services';
 
 @Component({
   selector: 'app-login',
@@ -22,10 +21,8 @@ export class LoginComponent {
   rememberMe = false;
   isLoading = false;
 
-
   constructor(
     private authService: AuthService,
-    private clubService :ClubServices,
     private router: Router
   ) {}
 
@@ -38,16 +35,18 @@ export class LoginComponent {
     this.isLoading = true;
 
     this.authService.authenticate(this.loginData).subscribe({
-      next: () => {
-        // Retrieve role from localStorage (set in AuthService after decoding)
-        const role = localStorage.getItem('role');
+      next: (tokenResponse) => {
+        // Decode role and optional clubId from token
+        const role = localStorage.getItem('role'); // AuthService stores role
+        const clubId = Number(localStorage.getItem('clubId')); // AuthService stores clubId if CLUB_ADMIN
+
         if (role === 'ADMIN') {
           this.router.navigate(['/admin/clubs']);
         } else if (role === 'CLUB_ADMIN') {
-          this.clubService.selectClub(Number(localStorage.getItem('clubId'))).subscribe({
-            next: () => console.log('Club auto-selected:', Number(localStorage.getItem('clubId'))),
-            error: (err) => console.error('Failed to auto-select club:', err)
-          });
+          if (!clubId) {
+            console.warn('No clubId in JWT for CLUB_ADMIN');
+          }
+          // No need to call selectClub() since backend reads clubId from JWT
           this.router.navigate(['/club']);
         } else {
           this.router.navigate(['/']);

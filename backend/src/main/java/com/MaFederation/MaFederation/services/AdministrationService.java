@@ -23,6 +23,8 @@ public class AdministrationService {
     private final AdminRepository administrationRepository;
     private final ClubRepository clubRepository;
     private final AdministrationMapper administrationMapper;
+    private  final LogsService logsService;
+    private final AuthUtils authUtils ;
 
     public Administration createAdministration(PostAdminstrationDTO dto) {
         Administration admin = administrationMapper.toEntity(dto);
@@ -30,6 +32,8 @@ public class AdministrationService {
         Club club = clubRepository.findById(dto.getClubId())
             .orElseThrow(() -> new RuntimeException("Club not found"));
         admin.setClub(club);
+        String user= authUtils.getCurrentUserId();
+        logsService.log(club.getName() + "created asmin"+ admin.getId(), user);
 
         return administrationRepository.save(admin);
     }
@@ -48,17 +52,13 @@ public class AdministrationService {
         admin.setLastName(dto.getLastName());
         admin.setEmail(dto.getEmail());
         admin.setPhoneNumber(dto.getPhoneNumber());
-        // admin.setFunction(dto.getFunction());
+
 
         Administration updated = administrationRepository.save(admin);
+        String user= authUtils.getCurrentUserId();
+        logsService.log("admin "+ id +" was deleted ", user);
          return administrationMapper.toDto(updated);
     }
-
-    public void delete(Integer id) {
-        administrationRepository.deleteById(id);
-    }
-
-
 
     //mod
     public List<ResponceAdministrationDTO> getAllClubsAdmins() {
@@ -74,12 +74,7 @@ public class AdministrationService {
         }).collect(Collectors.toList());
     }
 
-    public void deleteAdmin(Integer id) {
-        if (!administrationRepository.existsById(id)) {
-            throw new IllegalArgumentException("Admin not found");
-        }
-        administrationRepository.deleteById(id);
-    }
+
 
 
 

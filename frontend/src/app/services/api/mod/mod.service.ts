@@ -5,6 +5,7 @@
   import {PostAdministration} from '../../../representations/Admin/PostAdministration';
   import {UserResponse} from '../../../representations/User/userResponse';
   import {UserPost} from '../../../representations/User/userPost';
+  import {Logs} from '../../../representations/Logs/LogsRepresentation';
 
   @Injectable({
     providedIn: 'root'
@@ -27,13 +28,16 @@
 
     // Create a new moderator
     createModerator(mod: Partial<UserPost>): Observable<UserResponse> {
-      return this.http.post<UserResponse>(`${this.baseUrl}/auth/register`, mod);
+      return this.http.post<UserResponse>(`${this.baseUrl}/register/admin`, mod);
     }
-
     createClubAdmin(admin: Partial<PostAdministration>): Observable<ResponceAdministration> {
-      return this.http.post<ResponceAdministration>(`${this.baseUrl}/auth/registerClubAdmin`, admin);
+      return this.http.post<ResponceAdministration>(`${this.baseUrl}/register/ClubAdmin`, admin);
     }
 
+
+    getLogs(): Observable<Logs[]> {
+      return this.http.get<Logs[]>(`${this.baseUrl}/management/getLogs`);
+    }
 
 
 

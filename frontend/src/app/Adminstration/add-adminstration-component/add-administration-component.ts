@@ -39,7 +39,7 @@ export class AddAdministrationComponent implements OnInit {
     passwordHash: 'azertyuiop',
     profilePicture: null,
     role: '',
-    clubId: 0, // will be set after fetching selected club
+    clubId: 0,
     createdAt: '',
     createdBy: '',
     updatedAt: '',
@@ -49,37 +49,27 @@ export class AddAdministrationComponent implements OnInit {
   constructor(
     private clubService: ClubServices,
     private administrationService: AdminstrationService,
+    private userService: UserService,
     private router: Router,
-    private userService:UserService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    // Fetch selected club from session
     this.clubService.getSelectedClub().subscribe({
       next: (club: ResponseClub) => {
-        this.administration.clubId = club.id;
+        if (club?.id) this.administration.clubId = club.id;
+        else console.warn('No club selected in session');
       },
-      error: (err) => {
-        console.error('No club selected in session', err);
-      }
+      error: (err) => console.error('Error fetching selected club:', err)
     });
   }
 
   onProfilePicSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (!input.files?.length) {
-      this.resetProfilePic();
-      this.cdr.detectChanges();
-      return;
-    }
+    if (!input.files?.length) return this.resetProfilePic();
 
     const file = input.files[0];
-    if (!file.type.startsWith('image/')) {
-      this.resetProfilePic(true);
-      this.cdr.detectChanges();
-      return;
-    }
+    if (!file.type.startsWith('image/')) return this.resetProfilePic(true);
 
     this.profileInvalid = false;
     this.administration.profilePicture = file;
@@ -96,6 +86,7 @@ export class AddAdministrationComponent implements OnInit {
     this.profileInvalid = invalid;
     this.profilePreview = null;
     this.administration.profilePicture = null;
+    this.cdr.detectChanges();
   }
 
   submitForm(): void {
@@ -114,32 +105,21 @@ export class AddAdministrationComponent implements OnInit {
 
     const { profilePicture, ...adminWithoutPic } = this.administration;
     const formData = new FormData();
-    formData.append('administration', new Blob(
-      [JSON.stringify(adminWithoutPic)],
-      { type: 'application/json' }
-    ));
+    formData.append('administration', new Blob([JSON.stringify(adminWithoutPic)], { type: 'application/json' }));
 
-    if (profilePicture) {
-      formData.append('profilePicture', profilePicture);
-    }
+    if (profilePicture) formData.append('profilePicture', profilePicture);
 
     this.administrationService.createAdministration(formData).subscribe({
       next: (response) => {
         const newAdminId = response.id;
         if (newAdminId) {
-          this.userService.selectUser(newAdminId).subscribe({
-            next: () => {
-              this.isSubmitting = false;
-              this.submitSuccess = true;
-              this.cdr.detectChanges();
-              this.router.navigate(['/club/admins/profile']);
-            },
-            error: (err) => {
-              this.isSubmitting = false;
-              this.cdr.detectChanges();
-              console.error('Failed to select admin:', err);
-            }
-          });
+          // ✅ Use BehaviorSubject to set current user ID
+          this.userService.setUserId(newAdminId);
+
+          this.isSubmitting = false;
+          this.submitSuccess = true;
+          this.cdr.detectChanges();
+          this.router.navigate(['/club/admins/profile']);
         } else {
           this.isSubmitting = false;
           this.cdr.detectChanges();
@@ -153,5 +133,4 @@ export class AddAdministrationComponent implements OnInit {
       }
     });
   }
-
 }

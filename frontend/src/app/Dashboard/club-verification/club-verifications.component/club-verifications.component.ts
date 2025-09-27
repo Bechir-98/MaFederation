@@ -17,11 +17,17 @@ export class ClubVerificationsComponent implements OnInit {
   requests: ClubVerificationRequestDTO[] = [];
   selectedType: 'ALL' | 'CLUB' = 'ALL';
   sortOrder: 'NEW' | 'OLD' = 'NEW';
-  adminName="";
+  adminName = '';
+
+  showRejectModal = false;
+  currentRejectRequest: ClubVerificationRequestDTO | null = null;
+  rejectReasons = ['Incomplete information', 'Invalid documents', 'Duplicate request', 'Other'];
+  selectedRejectReason: string = '';
+  rejectDescription: string = '';
+
   constructor(
     private service: ClubVerificationRequestService,
     private cdr: ChangeDetectorRef,
-    private clubservice:ClubServices,
     private router: Router
   ) {}
 
@@ -30,28 +36,22 @@ export class ClubVerificationsComponent implements OnInit {
   }
 
   loadRequests(): void {
-    this.service.getPending().subscribe(data => {
-      this.requests = data;
-      this.cdr.markForCheck();
-    });
-  }
-
- selectClub(clubId: number) {
-    this.clubservice.selectClub(clubId).subscribe({
-      next: () => {
-              this.router.navigate(['/admin/club/profile']);
-
+    this.service.getPending().subscribe({
+      next: (data) => {
+        this.requests = data;
+        this.cdr.markForCheck();
       },
-      error: (err) => {
-        console.error('Failed to select club:', err);
-        alert('Failed to select club.');
-      }
+      error: (err) => console.error('Failed to load requests:', err)
     });
   }
 
+  // Just navigate to club profile; backend uses JWT to know clubId
+  selectClub(clubId: number) {
+    this.router.navigate(['/admin/club/profile']);
+  }
 
   approve(req: ClubVerificationRequestDTO) {
-    const adminName = 'Admin1'; 
+    const adminName = 'Admin1';
     this.service.approve(req.id, adminName).subscribe(() => this.loadRequests());
   }
 
@@ -63,7 +63,6 @@ export class ClubVerificationsComponent implements OnInit {
 
   get filteredRequests(): ClubVerificationRequestDTO[] {
     let result = [...this.requests];
-    
     result.sort((a, b) => {
       const dateA = new Date(a.createdAt).getTime();
       const dateB = new Date(b.createdAt).getTime();
@@ -72,50 +71,33 @@ export class ClubVerificationsComponent implements OnInit {
     return result;
   }
 
+  openRejectModal(request: ClubVerificationRequestDTO) {
+    this.currentRejectRequest = request;
+    this.selectedRejectReason = this.rejectReasons[0];
+    this.rejectDescription = '';
+    this.showRejectModal = true;
+  }
 
-showRejectModal = false;
-currentRejectRequest: ClubVerificationRequestDTO | null = null;
-rejectReasons = [
-  'Incomplete information',
-  'Invalid documents',
-  'Duplicate request',
-  'Other'
-];
-selectedRejectReason: string = '';
-rejectDescription: string = '';
+  closeRejectModal() {
+    this.showRejectModal = false;
+    this.currentRejectRequest = null;
+  }
 
-openRejectModal(request: ClubVerificationRequestDTO) {
-  this.currentRejectRequest = request;
-  this.selectedRejectReason = this.rejectReasons[0];
-  this.rejectDescription = '';
-  this.showRejectModal = true;
-}
+  confirmReject() {
+    if (!this.currentRejectRequest) return;
 
-// Close modal
-closeRejectModal() {
-  this.showRejectModal = false;
-  this.currentRejectRequest = null;
-}
-
-// Confirm reject
-confirmReject() {
-  if (!this.currentRejectRequest) return;
-
-  const reason = this.selectedRejectReason + (this.rejectDescription ? `: ${this.rejectDescription}` : '');
-
-  this.service.reject(this.currentRejectRequest.id, this.adminName, reason)
-    .subscribe({
-      next: () => {
-        alert('Request rejected successfully!');
-        this.closeRejectModal();
-        this.loadRequests(); 
-      },
-      error: (err) => {
-        console.error('Failed to reject request:', err);
-        alert('Failed to reject request.');
-      }
-    });
-}
-
-
+    const reason = this.selectedRejectReason + (this.rejectDescription ? `: ${this.rejectDescription}` : '');
+    this.service.reject(this.currentRejectRequest.id, this.adminName, reason)
+      .subscribe({
+        next: () => {
+          alert('Request rejected successfully!');
+          this.closeRejectModal();
+          this.loadRequests();
+        },
+        error: (err) => {
+          console.error('Failed to reject request:', err);
+          alert('Failed to reject request.');
+        }
+      });
+  }
 }

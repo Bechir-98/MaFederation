@@ -44,13 +44,13 @@ export class AddPlayerComponent implements OnInit {
     createdBy: "",
     updatedAt: "",
     updatedBy: "",
-    clubId: 0,        
+    clubId: 0,
   };
 
   constructor(
     private clubService: ClubServices,
     private playerService: PlayerService,
-    private userService :UserService,
+    private userService: UserService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
@@ -59,28 +59,19 @@ export class AddPlayerComponent implements OnInit {
     // Fetch selected club from session
     this.clubService.getSelectedClub().subscribe({
       next: (club: ResponseClub) => {
-        this.player.clubId = club.id;
+        if (club?.id) this.player.clubId = club.id;
+        else console.warn('No club selected in session');
       },
-      error: (err) => {
-        console.error('No club selected in session', err);
-      }
+      error: (err) => console.error('Failed to get selected club:', err)
     });
   }
 
   onProfilePicSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (!input.files?.length) {
-      this.resetProfilePic();
-      this.cdr.detectChanges();
-      return;
-    }
+    if (!input.files?.length) return this.resetProfilePic();
 
     const file = input.files[0];
-    if (!file.type.startsWith('image/')) {
-      this.resetProfilePic(true);
-      this.cdr.detectChanges();
-      return;
-    }
+    if (!file.type.startsWith('image/')) return this.resetProfilePic(true);
 
     this.profileInvalid = false;
     this.player.profilePicture = file;
@@ -100,47 +91,29 @@ export class AddPlayerComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (!this.player.clubId) {
-      alert('No club selected. Cannot add player.');
-      return;
-    }
-
-    if (this.isSubmitting || this.profileInvalid) {
-      alert('Please fix form errors before submitting.');
-      return;
-    }
+    if (!this.player.clubId) return alert('No club selected. Cannot add player.');
+    if (this.isSubmitting || this.profileInvalid) return alert('Please fix form errors before submitting.');
 
     this.isSubmitting = true;
     this.cdr.detectChanges();
 
     const { profilePicture, ...playerWithoutPic } = this.player;
     const formData = new FormData();
-    formData.append('player', new Blob(
-      [JSON.stringify(playerWithoutPic)],
-      { type: 'application/json' }
-    ));
+    formData.append('player', new Blob([JSON.stringify(playerWithoutPic)], { type: 'application/json' }));
 
-    if (profilePicture) {
-      formData.append('profilePicture', profilePicture);
-    }
+    if (profilePicture) formData.append('profilePicture', profilePicture);
 
     this.playerService.createPlayer(formData).subscribe({
       next: (response) => {
         const newPlayerId = response.id;
         if (newPlayerId) {
-          this.userService.selectUser(newPlayerId).subscribe({
-            next: () => {
-              this.isSubmitting = false;
-              this.submitSuccess = true;
-              this.cdr.detectChanges();
-              this.router.navigate(['/club/players/profile']);
-            },
-            error: (err) => {
-              this.isSubmitting = false;
-              this.cdr.detectChanges();
-              console.error('Failed to select player:', err);
-            }
-          });
+          // ✅ Set current user via BehaviorSubject
+          this.userService.setUserId(newPlayerId);
+
+          this.isSubmitting = false;
+          this.submitSuccess = true;
+          this.cdr.detectChanges();
+          this.router.navigate(['/club/players/profile']);
         } else {
           this.isSubmitting = false;
           this.cdr.detectChanges();
@@ -148,9 +121,9 @@ export class AddPlayerComponent implements OnInit {
         }
       },
       error: (err) => {
+        console.error('Error adding player:', err);
         this.isSubmitting = false;
         this.cdr.detectChanges();
-        console.error('Error adding player:', err);
       }
     });
   }

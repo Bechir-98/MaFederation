@@ -5,9 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.servlet.http.HttpSession;
-
+import com.MaFederation.MaFederation.model.Administration;
+import com.MaFederation.MaFederation.model.User;
+import com.MaFederation.MaFederation.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +31,6 @@ import com.MaFederation.MaFederation.services.ClubServices;
 import com.MaFederation.MaFederation.services.UserVerificationRequestService;
 
 import jakarta.transaction.Transactional;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -38,12 +42,13 @@ public class ClubController {
     private final ClubServices clubServices;
     private final ClubFilesServices clubFileService;
     private final UserVerificationRequestService verificationservice;
+    private final UserService userService;
 
     /////////////////////////////////// Create a new club ///////////////////////////////////////
     @PostMapping("/register")
     public ResponseEntity<ResponseClubDTO> registerClub(
-        @RequestPart("club") PostClubDTO clubDto,
-        @RequestPart(value = "logo", required = false) MultipartFile logoFile) throws IOException {
+            @RequestPart("club") PostClubDTO clubDto,
+            @RequestPart(value = "logo", required = false) MultipartFile logoFile) throws IOException {
 
         if (logoFile != null && !logoFile.isEmpty()) {
             clubDto.setLogo(logoFile.getBytes());
@@ -52,110 +57,101 @@ public class ClubController {
         ResponseClubDTO response = clubServices.addClub(clubDto);
         return ResponseEntity.ok(response);
     }
+
     //////////////////////////// GET ALL CLUBS ////////////////////////
     @Transactional
-
     @GetMapping
     public List<ResponseClubDTO> getAllClubs() {
         return clubServices.getAllClubs();
     }
 
-    //////////////////////////// SESSION: SELECT CLUB //////////////////////
-    @PostMapping("/select")
-    public ResponseEntity<Void> selectClub(@RequestBody Map<String, Integer> body, HttpSession session) {
-        Integer clubId = body.get("clubId");
-        if (clubId == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        session.setAttribute("selectedClubId", clubId);
-        return ResponseEntity.ok().build();
+    //////////////////////////// GET SELECTED CLUB //////////////////////
+    ///
+    ///
+    @GetMapping("/{clubId}")
+    public ResponseEntity<ResponseClubDTO> getClubById(@PathVariable Integer clubId) {
+        ResponseClubDTO club = clubServices.getClubById(clubId);
+        return ResponseEntity.ok(club);
     }
 
-    //////////////////////////// SESSION: GET SELECTED CLUB //////////////////////
     @GetMapping("/profile")
-    public ResponseEntity<ResponseClubDTO> getSelectedClub(HttpSession session) {
-        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    public ResponseEntity<ResponseClubDTO> getClub(@AuthenticationPrincipal User user) {
+        Integer clubId = extractClubId(user);
         if (clubId == null) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(403).build();
         }
         ResponseClubDTO club = clubServices.getClubById(clubId);
         return ResponseEntity.ok(club);
     }
 
     ////////////////////// CLUB FILES RELATED /////////////////////
+    @PostMapping("/upload-file")
+    public ResponseEntity<?> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("type") String type,
+            @AuthenticationPrincipal User user) throws IOException {
 
-@PostMapping("/upload-file")
-public ResponseEntity<?> uploadFile(
-    @RequestParam("file") MultipartFile file,
-    @RequestParam("type") String type,
-    HttpSession session) throws IOException {
+        Integer clubId = extractClubId(user);
+        if (clubId == null) {
+            return ResponseEntity.badRequest().body("No clubId in JWT");
+        }
 
-    Integer clubId = (Integer) session.getAttribute("selectedClubId");
-    if (clubId == null) {
-        return ResponseEntity.badRequest().body("No club selected in session");
+        clubFileService.saveFile(clubId, file, type);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "File uploaded successfully");
+        return ResponseEntity.ok(response);
     }
 
-    Map<String, String> response = new HashMap<>();
-    clubFileService.saveFile(clubId, file, type);
-    response.put("message", "File uploaded successfully");
-    return ResponseEntity.ok(response);
-}
-
-@GetMapping("/files")
-public ResponseEntity<List<ClubFileDTO>> getFiles(HttpSession session) {
-    Integer clubId = (Integer) session.getAttribute("selectedClubId");
-    if (clubId == null) {
-        return ResponseEntity.badRequest().build();
+    @GetMapping("/files")
+    public ResponseEntity<List<ClubFileDTO>> getFiles(@AuthenticationPrincipal User user) {
+        Integer clubId = extractClubId(user);
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        List<ClubFileDTO> files = clubFileService.getFilesByClubId(clubId);
+        return ResponseEntity.ok(files);
     }
-    List<ClubFileDTO> files = clubFileService.getFilesByClubId(clubId);
-    return ResponseEntity.ok(files);
-}
 
-@GetMapping("/files/content")
-public ResponseEntity<ClubFileContent> getFileContent(@RequestParam Integer id, HttpSession session) {
-    Integer clubId = (Integer) session.getAttribute("selectedClubId");
-    if (clubId == null) {
-        return ResponseEntity.badRequest().build();
+    @GetMapping("/files/content")
+    public ResponseEntity<ClubFileContent> getFileContent(@RequestParam Integer id,
+                                                          @AuthenticationPrincipal User user) {
+        Integer clubId = extractClubId(user);
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        ClubFileContent content = clubFileService.getFileContent(id);
+        return ResponseEntity.ok(content);
     }
-    // Optionally validate file belongs to clubId here
-    ClubFileContent content = clubFileService.getFileContent(id);
-    return ResponseEntity.ok(content);
-}
 
-@PutMapping("/files")
-public ResponseEntity<ClubFileDTO> updateFile(
-    @RequestParam("file") MultipartFile file,
-    @RequestParam("fileId") Integer fileId,
-    HttpSession session
-) {
-    Integer clubId = (Integer) session.getAttribute("selectedClubId");
-    if (clubId == null) {
-        return ResponseEntity.badRequest().build();
+    @PutMapping("/files")
+    public ResponseEntity<ClubFileDTO> updateFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("fileId") Integer fileId,
+            @AuthenticationPrincipal User user) {
+
+        Integer clubId = extractClubId(user);
+        if (clubId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        ClubFileDTO updated = clubFileService.updateFile(fileId, file);
+        return ResponseEntity.ok(updated);
     }
-    // Optionally verify fileId ownership with clubId
 
-    ClubFileDTO updated = clubFileService.updateFile(fileId, file);
-    return ResponseEntity.ok(updated);
-}
-
-@DeleteMapping("/files")
-public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId, HttpSession session) {
-    Integer clubId = (Integer) session.getAttribute("selectedClubId");
-    if (clubId == null) {
-        return ResponseEntity.badRequest().body("No club selected in session");
+    @DeleteMapping("/files")
+    public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId,
+                                             @AuthenticationPrincipal User user) {
+        Integer clubId = extractClubId(user);
+        if (clubId == null) {
+            return ResponseEntity.badRequest().body("No clubId in JWT");
+        }
+        clubFileService.deleteFile(fileId);
+        return ResponseEntity.ok("File deleted successfully.");
     }
-    // Optionally verify fileId ownership with clubId
-
-    clubFileService.deleteFile(fileId);
-    return ResponseEntity.ok("File deleted successfully.");
-}
-
 
     //////////////////////////// RELATED TO CATEGORIES //////////////////////
-
     @GetMapping("/categories")
-    public ResponseEntity<List<CategoryDTO>> getCategories(HttpSession session) {
-        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    public ResponseEntity<List<CategoryDTO>> getCategories(@AuthenticationPrincipal User user) {
+        Integer clubId = extractClubId(user);
         if (clubId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -164,8 +160,9 @@ public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId,
     }
 
     @PostMapping("/categories")
-    public ResponseEntity<CategoryDTO> addCategoryToClub(@RequestBody ClubPostCategoryDTO requestBody, HttpSession session) {
-        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    public ResponseEntity<CategoryDTO> addCategoryToClub(@RequestBody ClubPostCategoryDTO requestBody,
+                                                         @AuthenticationPrincipal User user) {
+        Integer clubId = extractClubId(user);
         if (clubId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -175,8 +172,9 @@ public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId,
     }
 
     @DeleteMapping("/categories/{categoryId}")
-    public ResponseEntity<Void> removeCategoryFromClub(@PathVariable Integer categoryId, HttpSession session) {
-        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    public ResponseEntity<Void> removeCategoryFromClub(@PathVariable Integer categoryId,
+                                                       @AuthenticationPrincipal User user) {
+        Integer clubId = extractClubId(user);
         if (clubId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -185,10 +183,9 @@ public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId,
     }
 
     //////////////////////////////// STAFF, ADMINISTRATION, PLAYERS //////////////////////////////
-
     @GetMapping("/staff")
-    public ResponseEntity<List<ResponceStaffDTO>> getClubStaff(HttpSession session) {
-        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    public ResponseEntity<List<ResponceStaffDTO>> getClubStaff(@AuthenticationPrincipal User user) {
+        Integer clubId = extractClubId(user);
         if (clubId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -197,8 +194,8 @@ public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId,
     }
 
     @GetMapping("/administration")
-    public ResponseEntity<List<ResponceAdministrationDTO>> getClubAdministration(HttpSession session) {
-        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    public ResponseEntity<List<ResponceAdministrationDTO>> getClubAdministration(@AuthenticationPrincipal User user) {
+        Integer clubId = extractClubId(user);
         if (clubId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -207,8 +204,8 @@ public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId,
     }
 
     @GetMapping("/players")
-    public ResponseEntity<List<ResponsePlayerDTO>> getClubPlayers(HttpSession session) {
-        Integer clubId = (Integer) session.getAttribute("selectedClubId");
+    public ResponseEntity<List<ResponsePlayerDTO>> getClubPlayers(@AuthenticationPrincipal User user) {
+        Integer clubId = extractClubId(user);
         if (clubId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -216,27 +213,40 @@ public ResponseEntity<String> deleteFile(@RequestParam("fileId") Integer fileId,
         return ResponseEntity.ok(players);
     }
 
-
-
-@PostMapping("/request-validation")
-public ResponseEntity<VerificationRequestResponseDTO> requestValidation(
-        @RequestBody VerificationRequestResponseDTO dto) {
-
-    VerificationRequestResponseDTO response = verificationservice.createRequestForUser(dto.getUserId(), dto.getClubId());
-
-    return ResponseEntity.ok(response);
-}
-        /////////////////// Delete Member
-    
- @DeleteMapping("/delete/{userId}")
-public ResponseEntity<Void> deleteUser(@PathVariable Integer userId) {
-    try {
-        clubServices.deleteUser(userId);   // delegate to service
-        return ResponseEntity.noContent().build();
-    } catch (IllegalArgumentException e) {
-        return ResponseEntity.notFound().build();
+    @PostMapping("/request-validation")
+    public ResponseEntity<VerificationRequestResponseDTO> requestValidation(
+            @RequestBody VerificationRequestResponseDTO dto) {
+        VerificationRequestResponseDTO response =
+                verificationservice.createRequestForUser(dto.getUserId(), dto.getClubId());
+        return ResponseEntity.ok(response);
     }
-}
 
+    /////////////////// Delete Member
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Integer userId) {
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
+    /////////////////// Helper: Extract clubId from JWT or principal
+    private Integer extractClubId(User user) {
+        // Case 1: Club Admin → linked directly
+        if (user instanceof Administration adminUser && adminUser.getClub() != null) {
+            return adminUser.getClub().getId();
+        }
+
+        // Case 2: Super Admin → clubId in JWT claim
+        Object auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth instanceof JwtAuthenticationToken jwtAuth) {
+            Object claim = jwtAuth.getToken().getClaims().get("clubId");
+            if (claim != null) {
+                return Integer.valueOf(claim.toString());
+            }
+        }
+        return null;
+    }
 }

@@ -16,13 +16,13 @@
     import { CategroyListComponent } from './categories/categroy-list-component/categroy-list-component';
     import { RolePermissionComponent } from './Role/role-permission.component/role-permission.component';
     import { AddModComponent } from './Dashboard/add-mod-component/add-mod.component';
-    import { ModsComponent } from './Dashboard/mods-component/mods.component';
     import { ModComponent } from './Dashboard/mod-component/mod.component';
-import { UserVerificationsComponent } from './Dashboard/user-verification/user-verification.component';
-import { ClubVerificationsComponent } from './Dashboard/club-verification/club-verifications.component/club-verifications.component';
+    import { UserVerificationsComponent } from './Dashboard/user-verification/user-verification.component';
+    import { ClubVerificationsComponent } from './Dashboard/club-verification/club-verifications.component/club-verifications.component';
     import {LoginComponent} from './User/login.component/login.component';
     import {AdminTypeComponent} from './Dashboard/admin-type.component/admin-type.component';
     import {AddClubAdminComponent} from './Dashboard/add-club-mod/add-club-mod';
+    import {AuditLogs} from './Dashboard/audit-logs/audit-logs';
 
 
     export const routes: Routes = [
@@ -62,13 +62,16 @@ import { ClubVerificationsComponent } from './Dashboard/club-verification/club-v
         {path:'admin/club-requests', component:ClubVerificationsComponent},
 
 
-        {path:'admin/categories' , component:CategroyListComponent},
-        {path: "admin/addmod", component :AddModComponent},
+      {path:'admin/categories' , component:CategroyListComponent},
+      {path: "admin/addmod", component :AddModComponent},
       {path:"admin/addClubAdmin" , component:AddClubAdminComponent},
-        {path: "admin/list", component :AdminTypeComponent},
-        {path: "admin/profile", component :ModComponent},
+      {path: "admin/list", component :AdminTypeComponent},
+      {path: "admin/profile", component :ModComponent},
+      {path: "clubadmin/profile", component :AdministrationComponent},
+      {path: "admin/logs", component :AuditLogs},
 
-        {path:'**',component:LoginComponent },
+
+      {path:'**',component:LoginComponent },
 
 
     ];

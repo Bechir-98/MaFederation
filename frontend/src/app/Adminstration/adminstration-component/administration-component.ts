@@ -37,18 +37,29 @@ export class AdministrationComponent implements OnInit {
 
   loadAdmin(): void {
     this.loading = true;
-    this.userService.getSelectedUser().subscribe({
-      next: (data) => {
-        this.admin = data || {};
-        this.calculateProfileCompletion();
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        this.error = 'Failed to load administrator data';
-        console.error('getSelectedAdmin error', err);
-        this.loading = false;
-        this.cdr.detectChanges();
+
+    // Subscribe to the selected user ID
+    this.userService.currentUserId$.subscribe({
+      next: (id) => {
+        if (!id) {
+          this.loading = false;
+          return;
+        }
+
+        this.userService.getSelectedUser(id).subscribe({
+          next: (data) => {
+            this.admin = data || {};
+            this.calculateProfileCompletion();
+            this.loading = false;
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error('getSelectedAdmin error', err);
+            this.error = 'Failed to load administrator data';
+            this.loading = false;
+            this.cdr.detectChanges();
+          }
+        });
       }
     });
   }

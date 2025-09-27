@@ -7,11 +7,15 @@ import java.util.List;
 import com.MaFederation.MaFederation.enums.ValidationStatus;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public class ResponseUserDTO {
 
     private Integer id;
