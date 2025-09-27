@@ -1,0 +1,120 @@
+.add-admin-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Card wrapper */
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 30px 35px;
+  width: 100%;
+  max-width: 700px;
+}
+
+/* Card title */
+.card-title {
+  font-size: 1.8rem;
+  color: #4a4a4a;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.card-title i {
+  color: #9333ea;
+  margin-right: 8px;
+}
+
+/* Form layout */
+.form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.form-group i {
+  margin-right: 5px;
+  color: #9333ea;
+}
+
+/* Inputs and selects */
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #9333ea;
+  outline: none;
+  box-shadow: 0 0 8px rgba(147, 51, 234, 0.4);
+}
+
+/* Buttons */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn i {
+  margin-right: 6px;
+}
+
+.btn-primary {
+  background-color: #9333ea;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #6b21a8;
+  box-shadow: 0 4px 12px rgba(107, 33, 168, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

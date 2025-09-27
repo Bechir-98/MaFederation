@@ -1,0 +1,28 @@
+<div class="filters mb-3">
+  <label>
+    Sort by Date:
+    <select [(ngModel)]="sortOrder" (change)="onSortChange()">
+      <option value="NEW">Newest First</option>
+      <option value="OLD">Oldest First</option>
+    </select>
+  </label>
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Action</th>
+    <th>User</th>
+    <th>Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let log of logs">
+    <td data-label="ID">{{ log.id }}</td>
+    <td data-label="Action">{{ log.action }}</td>
+    <td data-label="User">{{ log.userId }}</td>
+    <td data-label="Date">{{ log.actionTime | date:'dd/MM/yyyy HH:mm' }}</td>
+  </tr>
+  </tbody>
+</table>

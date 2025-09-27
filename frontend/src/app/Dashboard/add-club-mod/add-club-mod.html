@@ -1,0 +1,74 @@
+<div class="add-admin-container">
+  <div class="card">
+    <h2 class="card-title"><i class="fas fa-user-plus"></i> Add Club Admin</h2>
+
+    <form (ngSubmit)="addAdmin()" #modForm="ngForm" novalidate>
+      <!-- First & Last Name -->
+      <div class="form-row">
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> First Name *</label>
+          <input
+            type="text"
+            name="firstName"
+            [(ngModel)]="admin.firstName"
+            required
+            placeholder="Enter first name"
+          />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> Last Name *</label>
+          <input
+            type="text"
+            name="lastName"
+            [(ngModel)]="admin.lastName"
+            required
+            placeholder="Enter last name"
+          />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label><i class="fas fa-envelope"></i> Email *</label>
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="admin.email"
+          required
+          placeholder="Enter email address"
+        />
+      </div>
+
+      <!-- Club Selection -->
+      <div class="form-group">
+        <label><i class="fas fa-building"></i> Club *</label>
+        <select
+          name="clubId"
+          [(ngModel)]="admin.clubId"
+          required
+        >
+          <option value="" disabled selected>Select Club</option>
+          <option *ngFor="let club of clubs" [value]="club.id">{{ club.name }}</option>
+        </select>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label><i class="fas fa-phone"></i> Phone Number</label>
+        <input
+          type="text"
+          name="phoneNumber"
+          [(ngModel)]="admin.phoneNumber"
+          placeholder="Enter phone number"
+        />
+      </div>
+
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save"></i> Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
