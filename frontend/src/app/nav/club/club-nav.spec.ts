@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClubNav } from './club-nav';
+import { ClubNavComponent } from './club-nav';
 
 describe('Nav', () => {
-  let component: ClubNav;
-  let fixture: ComponentFixture<ClubNav>;
+  let component: ClubNavComponent;
+  let fixture: ComponentFixture<ClubNavComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ClubNav]
+      imports: [ClubNavComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ClubNav);
+    fixture = TestBed.createComponent(ClubNavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

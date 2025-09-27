@@ -77,12 +77,13 @@
     <div class="nav-group">
       <ul class="nav-links">
         <li>
-          <a routerLink="/logout" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="logout-link">
+          <button class="logout-link" (click)="logout()">
             <i class="fas fa-sign-out-alt"></i>
             <span>Logout</span>
-          </a>
+          </button>
         </li>
       </ul>
     </div>
   </div>
+
 </div>

@@ -22,6 +22,8 @@ public class ClubVerificationRequestService {
 
     private final ClubVerificationRequestRepository repo;
     private final ClubRepository clubRepository;
+    private  final LogsService logsService;
+    private final AuthUtils authUtils ;
 
     // ✅ Get all pending club verification requests
     public List<ClubVerificationRequestDTO> getPendingRequests() {
@@ -42,6 +44,9 @@ public class ClubVerificationRequestService {
                 .validated(ValidationStatus.pending)
                 .build();
 
+        String admin= authUtils.getCurrentUserId();
+        logsService.log(  "club verification request for " +club.getName() , admin);
+
         ClubVerificationRequest saved = repo.save(req);
         return ClubVerificationRequestMapper.toDTO(saved);
     }
@@ -59,7 +64,8 @@ public class ClubVerificationRequestService {
         club.setValidationDate(LocalDateTime.now());
         club.setRejectionReason(null);
         clubRepository.save(club);
-
+        String admin= authUtils.getCurrentUserId();
+        logsService.log("Approved club" + club.getName(), admin);
         repo.delete(req); // remove request after approval
         return ClubVerificationRequestMapper.toDTO(req);
     }
@@ -76,6 +82,8 @@ public class ClubVerificationRequestService {
         club.setRejectionReason(reason);
         clubRepository.save(club);
         repo.delete(req);
+        String admin= authUtils.getCurrentUserId();
+        logsService.log("Rejected club" + club.getName(), admin);
         return ClubVerificationRequestMapper.toDTO(req);
     }
 }

@@ -42,9 +42,12 @@ public class ClubServices {
     private final StaffMapper staffMapper;
     private final PlayerMapper playerMapper;
     private final AdministrationMapper administrationMapper;
+    private  final LogsService logsService;
+    private final AuthUtils authUtils ;
 
 
     /** Get all clubs as Response DTOs */
+    @Transactional(readOnly = true)
     public List<ResponseClubDTO> getAllClubs() {
         return clubRepository.findAll()
                 .stream()
@@ -57,6 +60,8 @@ public class ClubServices {
     public ResponseClubDTO addClub(PostClubDTO clubDto) {
     Club club = clubMapper.fromDto(clubDto);
     Club savedClub = clubRepository.save(club);
+    String admin= authUtils.getCurrentUserId();
+    logsService.log("adding club "+ club.getName(), admin);
     clubRepository.flush();
     return clubMapper.toResponseDto(savedClub);
 
@@ -88,7 +93,10 @@ public class ClubServices {
     /** Delete a club by ID */
     @Transactional
     public void deleteById(int id) {
+
         clubRepository.deleteById(id);
+        String admin= authUtils.getCurrentUserId();
+        logsService.log("deleting club with id  "+ id , admin);
     }
 
                 ///////////////////////////CATEGORIES RELATED ///////////////////////////////////////
@@ -126,6 +134,8 @@ public CategoryDTO addCategoryToClub(Integer clubId, Integer categoryId) {
     // Associate and save
     club.getCategories().add(category);
     clubRepository.save(club);
+    String admin= authUtils.getCurrentUserId();
+    logsService.log(  club.getName()+ "added category "+ category.getName(), admin);
 
     // Return DTO
     return categoryMapper.toDto(category);
@@ -144,6 +154,8 @@ public CategoryDTO addCategoryToClub(Integer clubId, Integer categoryId) {
         }
 
         club.getCategories().remove(category);
+        String admin= authUtils.getCurrentUserId();
+        logsService.log(  club.getName()+ "removed category "+ category.getName(), admin);
         clubRepository.save(club);
     }
 
@@ -186,12 +198,7 @@ public List<ResponsePlayerDTO> getPlayersByClubId(Integer clubId) {
         .collect(Collectors.toList());
 }
 
-    public void deleteUser(Integer userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new IllegalArgumentException("User with ID " + userId + " does not exist.");
-        }
-        userRepository.deleteById(userId);
-    }
+
 
 }
 

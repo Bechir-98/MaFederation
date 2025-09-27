@@ -3,9 +3,7 @@ package com.MaFederation.MaFederation.services;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Collections;
-
 import org.springframework.stereotype.Service;
-
 import com.MaFederation.MaFederation.dto.Category.CategoryDTO;
 import com.MaFederation.MaFederation.mappers.CategoryMapper;
 import com.MaFederation.MaFederation.model.Category;
@@ -16,14 +14,21 @@ public class CategoryService {
 
     private final CategoryRepository categoryrepository;
     private final CategoryMapper categorymapper;
+    private  final LogsService logsService;
+    private final AuthUtils authUtils ;
 
-    public CategoryService(CategoryRepository categoryrepository, CategoryMapper categorymapper) {
+    public CategoryService(CategoryRepository categoryrepository, CategoryMapper categorymapper, final LogsService logsService, final AuthUtils authUtils
+    ) {
         this.categoryrepository = categoryrepository;
         this.categorymapper = categorymapper;
+        this.logsService = logsService;
+        this.authUtils = authUtils;
     }
 
     public Category createCategory(CategoryDTO categoryDTO) {
         Category category = categorymapper.toEntity(categoryDTO);
+        String user= authUtils.getCurrentUserId();
+        logsService.log("Category Creation",user);
         return categoryrepository.save(category);
     }
 
@@ -59,18 +64,20 @@ public class CategoryService {
     return categoryrepository.findById(id)
         .map(existingCategory -> {
             categorymapper.updateEntityFromDto(categoryDTO, existingCategory);
+            String user= authUtils.getCurrentUserId();
+            logsService.log("Category Update",user);
             return categoryrepository.save(existingCategory);
         })
         .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
 }
-
-
 
     /** Delete category by ID */
     public void deleteCategory(Integer id) {
         if (!categoryrepository.existsById(id)) {
             throw new RuntimeException("Category not found with id: " + id);
         }
+        String user= authUtils.getCurrentUserId();
+        logsService.log("Category deletion",user);
         categoryrepository.deleteById(id);
     }
 }

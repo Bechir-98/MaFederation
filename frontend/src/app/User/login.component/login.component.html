@@ -1,0 +1,92 @@
+<!-- login.component.html -->
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <i class="fas fa-user-circle"></i>
+      <h2>Welcome Back</h2>
+      <p>Please sign in to your account</p>
+    </div>
+
+    <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="email">
+          <i class="fas fa-envelope"></i>
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="loginData.email"
+          #email="ngModel"
+          required
+          email
+          placeholder="Enter your email"
+          [class.error]="email.invalid && email.touched"
+        >
+        <div class="error-message" *ngIf="email.invalid && email.touched">
+          <span *ngIf="email.errors?.['required']">Email is required</span>
+          <span *ngIf="email.errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">
+          <i class="fas fa-lock"></i>
+          Password
+        </label>
+        <div class="password-input-container">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            name="password"
+            [(ngModel)]="loginData.password"
+            #password="ngModel"
+            required
+            minlength="6"
+            placeholder="Enter your password"
+            [class.error]="password.invalid && password.touched"
+          >
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePassword()"
+          >
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div class="error-message" *ngIf="password.invalid && password.touched">
+          <span *ngIf="password.errors?.['required']">Password is required</span>
+          <span *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</span>
+        </div>
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox-container">
+          <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+          <span class="checkmark"></span>
+          Remember me
+        </label>
+        <a href="#" class="forgot-password" (click)="onForgotPassword()">
+          Forgot Password?
+        </a>
+      </div>
+
+      <button
+        type="submit"
+        class="login-btn"
+        [disabled]="loginForm.invalid || isLoading"
+      >
+        <span *ngIf="!isLoading">
+          <i class="fas fa-sign-in-alt"></i>
+          Sign In
+        </span>
+        <span *ngIf="isLoading">
+          <i class="fas fa-spinner fa-spin"></i>
+          Signing In...
+        </span>
+      </button>
+
+    </form>
+  </div>
+</div>

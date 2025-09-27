@@ -27,6 +27,8 @@ public class UserVerificationRequestService {
     private final ClubMemberRepository clubMemberRepository;
     private final UserRepository userRepository;
     private final ClubRepository clubRepository;
+    private  final LogsService logsService;
+    private final AuthUtils authUtils ;
 
     // ✅ Get pending requests as DTOs
     public List<VerificationRequestResponseDTO> getPendingRequests() {
@@ -41,7 +43,10 @@ public class UserVerificationRequestService {
         // Fetch the user
         ClubMember user = clubMemberRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-                
+
+
+
+
         user.setValidated(ValidationStatus.pending);
         // Fetch the club
         Club club = clubRepository.findById(clubId)
@@ -52,6 +57,8 @@ public class UserVerificationRequestService {
                 .targetType(user.getType().name())
                 .build();
         UserVerificationRequest saved = repo.save(req);
+        String admin= authUtils.getCurrentUserId();
+        logsService.log("club" + club.getName() + "requested validation for user "+  user.getId(), admin);
         return VerificationRequestMapper.toDto(saved);
     }
 
@@ -63,16 +70,17 @@ public VerificationRequestResponseDTO approveRequest(Integer requestId, String a
     UserVerificationRequest req = repo.findById(requestId)
             .orElseThrow(() -> new IllegalArgumentException("Request not found"));
 
-    // ✅ Update user validation info
     User user = req.getUser();
     user.setValidated(ValidationStatus.validated);
-    user.setValidatedBy(adminName);
     user.setValidationDate(java.time.LocalDateTime.now());
     user.setRejectionReason(null);
+        String admin= authUtils.getCurrentUserId();
+        logsService.log("Approved User" + user.getId(), admin);
+        user.setValidatedBy(admin);
     // save user
         userRepository.save(user);
 
-    // ✅ Delete the request from table
+
     repo.delete(req);
 
     // Return DTO for the deleted request (optional)
@@ -87,9 +95,12 @@ public VerificationRequestResponseDTO rejectRequest(Integer requestId, String ad
       User user = req.getUser();          
     // ✅ Update request with rejection info
     user.setValidated(ValidationStatus.rejected);
-    user.setValidatedBy(adminName);
+
     user.setValidationDate(java.time.LocalDateTime.now());
     user.setRejectionReason(reason);
+    String admin= authUtils.getCurrentUserId();
+    logsService.log("Rejected User" + user.getId(), admin);
+    user.setValidatedBy(admin);
     userRepository.save(user);
     repo.delete(req);
     return VerificationRequestMapper.toDto(req);

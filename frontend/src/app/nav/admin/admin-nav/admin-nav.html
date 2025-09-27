@@ -24,7 +24,7 @@
           </a>
         </li>
         <li>
-          <a routerLink="/admin/listmods" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="/admin/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fas fa-users"></i>
             <span>Admins</span>
           </a>
@@ -41,16 +41,9 @@
             <span>Events</span>
           </a>
         </li>
-        <!-- New Roles & Permissions Link -->
-        <li>
-          <a routerLink="/admin/roles" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <i class="fas fa-user-shield"></i>
-            <span>Roles & Permissions</span>
-          </a>
-        </li>
+
       </ul>
     </div>
-
     <!-- Validation & Approvals -->
     <div class="nav-group">
       <span class="nav-group-title">Approvals</span>
@@ -96,10 +89,10 @@
     <div class="nav-group">
       <ul class="nav-links">
         <li>
-          <a routerLink="/logout" class="logout-link">
+          <button class="logout-link" (click)="logout()">
             <i class="fas fa-sign-out-alt"></i>
             <span>Logout</span>
-          </a>
+          </button>
         </li>
       </ul>
     </div>

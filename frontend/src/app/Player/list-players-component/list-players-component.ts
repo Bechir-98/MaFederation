@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; 
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ClubServices } from '../../services/api/club/club-services';
@@ -60,10 +60,13 @@ export class ListPlayersComponent implements OnInit {
   }
 
   viewProfile(playerId: number) {
-    this.UserService.selectUser(playerId).subscribe({
-      next: () => this.router.navigate(['club/players/profile']),
-      error: err => console.error('Failed to select player', err)
-    });
+    if (true)
+    {
+      this.UserService.setUserId(playerId);
+      this.router.navigate(['club/players/profile'])
+    }
+    else
+      alert('Failed to select player')
   }
 
   requestValidation(player: PlayerResponce) {

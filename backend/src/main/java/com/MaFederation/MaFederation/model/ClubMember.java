@@ -6,13 +6,15 @@ import com.MaFederation.MaFederation.enums.ClubMemberType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+
+@SuperBuilder
 public abstract class ClubMember extends User {
 
 

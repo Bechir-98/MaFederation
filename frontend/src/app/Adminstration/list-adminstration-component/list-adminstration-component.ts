@@ -22,7 +22,7 @@ export class ListAdministrationComponent implements OnInit {
   validationFilter: 'all' | 'validated' | 'notValidated' = 'all';
 
   constructor(
-    private clubServices: ClubServices, 
+    private clubServices: ClubServices,
     private userService: UserService,
     private cdr: ChangeDetectorRef,
     private router: Router
@@ -31,16 +31,11 @@ export class ListAdministrationComponent implements OnInit {
   ngOnInit(): void {
     this.clubServices.getSelectedClub().subscribe({
       next: (club: ResponseClub) => {
-        if (!club) {
-          console.warn('No club selected in session.');
-          return;
-        }
+        if (!club) return;
         this.club = club;
         this.loadAdmins();
       },
-      error: (err) => {
-        console.error('Failed to get selected club:', err);
-      }
+      error: (err) => console.error('Failed to get selected club:', err)
     });
   }
 
@@ -52,9 +47,7 @@ export class ListAdministrationComponent implements OnInit {
         this.filterAdmins();
         this.cdr.detectChanges();
       },
-      error: (err) => {
-        console.error('Failed to load administrators:', err);
-      }
+      error: (err) => console.error('Failed to load administrators:', err)
     });
   }
 
@@ -69,10 +62,9 @@ export class ListAdministrationComponent implements OnInit {
   }
 
   viewAdmin(adminId: number): void {
-    this.userService.selectUser(adminId).subscribe({
-      next: () => this.router.navigate(['/club/admins/profile']),
-      error: (err) => console.error('Failed to select administration', err)
-    });
+    // Set selected user in UserService and navigate
+    this.userService.setUserId(adminId);
+    this.router.navigate(['/club/admins/profile']);
   }
 
   requestValidation(admin: ResponceAdministration) {

@@ -6,14 +6,14 @@ import java.math.BigDecimal;
 
 import com.MaFederation.MaFederation.dto.ClubMember.ResponseClubMemberDTO;
 import com.MaFederation.MaFederation.enums.Position;
-
+import lombok.experimental.SuperBuilder;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)  // include fields from ClubMemberDTO + UserDTO
-@Builder
+@SuperBuilder
 public class ResponsePlayerDTO extends ResponseClubMemberDTO {
     private Position position;
     private Integer jerseyNumber;

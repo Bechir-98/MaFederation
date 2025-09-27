@@ -3,6 +3,7 @@ package com.MaFederation.MaFederation.mappers;
 import com.MaFederation.MaFederation.dto.Admin.PostAdminstrationDTO;
 import com.MaFederation.MaFederation.dto.Admin.ResponceAdministrationDTO;
 import com.MaFederation.MaFederation.enums.ClubMemberType;
+import com.MaFederation.MaFederation.enums.RoleName;
 import com.MaFederation.MaFederation.enums.ValidationStatus;
 import com.MaFederation.MaFederation.model.Administration;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ public class AdministrationMapper {
         dto.setAddress(admin.getAddress());
         dto.setNationalID(admin.getNationalID());
         dto.setNationality(admin.getNationality());
-        dto.setRole(admin.getRole());
+        dto.setPost(admin.getPost());
 
         if (admin.getClub() != null) {
             dto.setClubId(admin.getClub().getId());
@@ -38,7 +39,7 @@ public class AdministrationMapper {
         dto.setUpdatedAt(admin.getUpdatedAt());
         dto.setCreatedBy(admin.getCreatedBy());
         dto.setUpdatedBy(admin.getUpdatedBy());
-         dto.setValidated(admin.getValidated());
+        dto.setValidated(admin.getValidated());
         dto.setValidatedBy(admin.getValidatedBy());
         dto.setValidationDate(admin.getValidationDate());
 
@@ -51,7 +52,7 @@ public class AdministrationMapper {
         Administration admin = new Administration();
 
         admin.setEmail(dto.getEmail());
-        admin.setPasswordHash(dto.getPasswordHash());
+        admin.setPassword(dto.getPasswordHash());
         admin.setProfilePicture(dto.getProfilePicture());
         admin.setFirstName(dto.getFirstName());
         admin.setLastName(dto.getLastName());
@@ -61,7 +62,7 @@ public class AdministrationMapper {
         admin.setAddress(dto.getAddress());
         admin.setNationalID(dto.getNationalID());
         admin.setNationality(dto.getNationality());
-        admin.setRole(dto.getRole());
+        admin.setPost(dto.getPost());
         admin.setType(ClubMemberType.CLUBADMIN);
         admin.setValidated(ValidationStatus.nonValidated);
         admin.setValidatedBy(dto.getValidatedBy());
@@ -69,6 +70,7 @@ public class AdministrationMapper {
         admin.setUpdatedAt(dto.getUpdatedAt());
         admin.setCreatedBy(dto.getCreatedBy());
         admin.setUpdatedBy(dto.getUpdatedBy());
+        admin.setRole(RoleName.CLUB_ADMIN);
 
         return admin;
     }

@@ -1,7 +1,7 @@
 package com.MaFederation.MaFederation.enums;
 
 public enum Position {
-     GOALKEEPER,
+    GOALKEEPER,
     DEFENDER,
     MIDFIELDER,
     FORWARD

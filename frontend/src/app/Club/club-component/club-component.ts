@@ -28,32 +28,51 @@ export class ClubComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSelectedClub();
-    
+
   }
 
   private loadSelectedClub(): void {
     this.isLoading = true;
     this.error = null;
 
-    this.clubService.getSelectedClub().subscribe({
-      next: (club) => {
-        if (!club) {
-          this.error = 'No club selected.';
-        } else {
+    // Determine the clubId for super admin
+    const selectedClubId = localStorage.getItem('selectedClubId');
+
+    // Use the service method for super admin with clubId
+    if (selectedClubId) {
+      this.clubService.getClubById(+selectedClubId).subscribe({
+        next: (club) => {
           this.club = club;
-          console.log(this.club)
+          this.isLoading = false;
+          localStorage.removeItem('selectedClubId');
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error loading club:', err);
+          this.error = 'Failed to load club information. Please try again.';
+          this.isLoading = false;
+          this.cdr.detectChanges();
         }
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error('Error loading club:', err);
-        this.error = 'Failed to load club information. Please try again.';
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      }
-    });
+      });
+    } else {
+      // For normal club admin, JWT already has clubId
+      this.clubService.getSelectedClub().subscribe({
+        next: (club) => {
+          this.club = club;
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error loading club:', err);
+          this.error = 'Failed to load club information. Please try again.';
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }
+      });
+    }
   }
+
+
 
   requestVerification(): void {
     if (!this.club) return;

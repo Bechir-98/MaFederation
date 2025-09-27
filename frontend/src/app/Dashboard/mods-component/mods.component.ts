@@ -1,26 +1,26 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { ModDTO, ModService } from '../../services/api/mod/mod.service';
 import { FormsModule } from '@angular/forms';
-
+import { ModService } from '../../services/api/mod/mod.service';
+import { UserService } from '../../services/api/user/user-service';
+import { UserResponse } from '../../representations/User/userResponse';
 
 @Component({
   selector: 'app-mods-component',
   standalone: true,
-  imports: [CommonModule, RouterModule,FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './mods.component.html',
   styleUrls: ['./mods.component.css']
 })
 export class ModsComponent implements OnInit {
-
-  moderators: ModDTO[] = [];
-  filterFirstName = '';
-  filterLastName = '';
-  filterRole = '';
+  moderators: UserResponse[] = [];
+  loading = true;
+  error: string | null = null;
 
   constructor(
     private modService: ModService,
+    private userService: UserService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
@@ -30,32 +30,24 @@ export class ModsComponent implements OnInit {
   }
 
   loadModerators(): void {
+    this.loading = true;
     this.modService.getAllModerators().subscribe({
       next: (mods) => {
         this.moderators = mods;
-        this.cdr.detectChanges();
+        this.loading = false;
+        this.cdr.markForCheck();
       },
-      error: (err) => console.error('Failed to load moderators', err)
+      error: (err) => {
+        console.error('Failed to load moderators', err);
+        this.error = 'Failed to load moderators';
+        this.loading = false;
+        this.cdr.markForCheck();
+      }
     });
   }
 
-  viewModerator(mod: ModDTO): void {
-  this.modService.selectModerator(mod.id).subscribe({
-    next: () => this.router.navigate(['/admin/profile']),
-    error: (err) => console.error('Failed to select moderator', err)
-  });
-}
-
-
-  filteredModerators(): ModDTO[] {
-    return this.moderators.filter(mod =>
-      mod.firstName.toLowerCase().includes(this.filterFirstName.toLowerCase()) &&
-      mod.lastName.toLowerCase().includes(this.filterLastName.toLowerCase()) &&
-      (this.filterRole ? mod.roles.some(r => r.name.includes(this.filterRole)) : true)
-    );
+  viewModerator(mod: UserResponse): void {
+    this.userService.setUserId(mod.id);
+    this.router.navigate(['/admin/profile']);
   }
-
-  getRolesString(mod: ModDTO): string {
-  return mod.roles.map(r => r.name).join(', ');
-}
 }

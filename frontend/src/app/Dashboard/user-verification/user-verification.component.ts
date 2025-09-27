@@ -17,7 +17,7 @@ export class UserVerificationsComponent implements OnInit {
   requests: VerificationRequestDTO[] = [];
   selectedType: UserType | 'ALL' = 'ALL';
   sortOrder: 'NEW' | 'OLD' = 'NEW';
-  adminName = 'Admin1'; 
+  adminName = 'Admin1';
 
   showRejectModal = false;
   currentRejectRequest: VerificationRequestDTO | null = null;
@@ -42,15 +42,20 @@ export class UserVerificationsComponent implements OnInit {
   }
 
   loadRequests(): void {
-    this.service.getPending().subscribe(data => {
-      this.requests = data;
-      console.log(data)
-      this.cdr.markForCheck();
+    this.service.getPending().subscribe({
+      next: (data) => {
+        this.requests = data;
+        this.cdr.markForCheck();
+      },
+      error: (err) => console.error('Failed to load verification requests', err)
     });
   }
 
   approve(req: VerificationRequestDTO) {
-    this.service.approve(req.id, this.adminName).subscribe(() => this.loadRequests());
+    this.service.approve(req.id, this.adminName).subscribe({
+      next: () => this.loadRequests(),
+      error: (err) => console.error('Failed to approve request', err)
+    });
   }
 
   openRejectModal(req: VerificationRequestDTO) {
@@ -58,44 +63,43 @@ export class UserVerificationsComponent implements OnInit {
     this.selectedRejectReason = this.rejectReasons[0];
     this.rejectDescription = '';
     this.showRejectModal = true;
+    this.cdr.markForCheck();
   }
 
   closeRejectModal() {
     this.showRejectModal = false;
     this.currentRejectRequest = null;
+    this.cdr.markForCheck();
   }
 
   confirmReject() {
     if (!this.currentRejectRequest) return;
 
     const reason = this.selectedRejectReason + (this.rejectDescription ? `: ${this.rejectDescription}` : '');
-    this.service.reject(this.currentRejectRequest.id, this.adminName, reason)
-      .subscribe({
-        next: () => {
-          alert('Request rejected successfully!');
-          this.closeRejectModal();
-          this.loadRequests();
-        },
-        error: (err) => {
-          console.error('Failed to reject request:', err);
-          alert('Failed to reject request.');
-        }
-      });
+    this.service.reject(this.currentRejectRequest.id, this.adminName, reason).subscribe({
+      next: () => {
+        alert('Request rejected successfully!');
+        this.closeRejectModal();
+        this.loadRequests();
+      },
+      error: (err) => {
+        console.error('Failed to reject request:', err);
+        alert('Failed to reject request.');
+      }
+    });
   }
 
   viewProfile(userId: number, type: UserType) {
-    this.userService.selectUser(userId).subscribe({
-      next: () => {
-        let route = '';
-        switch (type) {
-          case 'PLAYER': route = '/club/players/profile'; break;
-          case 'STAFF': route = '/club/staff/profile'; break;
-          case 'ADMIN': route = '/club/admins/profile'; break;
-        }
-        this.router.navigate([route]);
-      },
-      error: err => console.error('Failed to select user', err)
-    });
+    // ✅ Use BehaviorSubject to set the current user
+    this.userService.setUserId(userId);
+
+    let route = '';
+    switch (type) {
+      case 'PLAYER': route = '/club/players/profile'; break;
+      case 'STAFF': route = '/club/staff/profile'; break;
+      case 'ADMIN': route = '/club/admins/profile'; break;
+    }
+    this.router.navigate([route]);
   }
 
   get filteredRequests(): VerificationRequestDTO[] {
@@ -103,7 +107,11 @@ export class UserVerificationsComponent implements OnInit {
     if (this.selectedType !== 'ALL') {
       result = result.filter(r => r.targetType === this.selectedType);
     }
-    result.sort((a, b) => new Date(this.sortOrder === 'NEW' ? b.createdAt : a.createdAt).getTime() - new Date(this.sortOrder === 'NEW' ? a.createdAt : b.createdAt).getTime());
+    result.sort((a, b) => {
+      const aTime = new Date(a.createdAt).getTime();
+      const bTime = new Date(b.createdAt).getTime();
+      return this.sortOrder === 'NEW' ? bTime - aTime : aTime - bTime;
+    });
     return result;
   }
 }

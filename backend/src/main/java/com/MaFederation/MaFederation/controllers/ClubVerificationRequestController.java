@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/club-verification-requests")
+@RequestMapping("/admin//api/v1/management/club-verification")
 @CrossOrigin("http://localhost:4200")
 @RequiredArgsConstructor
 public class ClubVerificationRequestController {

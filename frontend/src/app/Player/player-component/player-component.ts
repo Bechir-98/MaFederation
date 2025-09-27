@@ -22,13 +22,13 @@ export class PlayerComponent implements OnInit {
   positions: string[] = ['GOALKEEPER', 'DEFENDER', 'MIDFIELDER', 'FORWARD'];
   isEditModalOpen = false;
   editedPlayer: Partial<PlayerResponce> = {};
-  profileCompletion = 0;  
+  profileCompletion = 0;
 
   constructor(
     private playerService: PlayerService,
     private cdr: ChangeDetectorRef,
     private userService: UserService,
-    private router: Router // 👈 add Router here
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -37,22 +37,34 @@ export class PlayerComponent implements OnInit {
 
   loadPlayer(): void {
     this.loading = true;
-    this.userService.getSelectedUser().subscribe({
-      next: (data) => {
-        this.player = data || {};
-        console.log(data)
-        this.loading = false;
-        this.calculateCompletion();
-        this.cdr.detectChanges();
+    this.userService.currentUserId$.subscribe({
+      next: (id) => {
+        if (!id) {
+          this.loading = false;
+          return;
+        }
+        this.userService.getSelectedUser(id).subscribe({
+          next: (data) => {
+            this.player = data || {};
+            this.calculateCompletion();
+            this.loading = false;
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error(err);
+            this.error = 'Failed to load player data';
+            this.loading = false;
+            this.cdr.detectChanges();
+          }
+        });
       },
       error: (err) => {
         console.error(err);
-        this.error = 'Failed to load player data';
         this.loading = false;
-        this.cdr.detectChanges();
       }
     });
   }
+
 
   showSection(section: string) {
     this.activeSection = section;

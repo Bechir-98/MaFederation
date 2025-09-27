@@ -26,6 +26,8 @@ public class PlayerService {
     private final ClubRepository clubRepository;
     private final CategoryRepository categoryRepository;
     private final PlayerMapper playerMapper;
+    private  final LogsService logsService;
+    private final AuthUtils authUtils ;
 
 
 public Player createPlayer(PostPlayerDTO dto) {
@@ -46,6 +48,8 @@ public Player createPlayer(PostPlayerDTO dto) {
         List<Category> categories = categoryRepository.findAllById(dto.getCategoryIds());
         player.setCategories(categories);   
     }
+    String admin= authUtils.getCurrentUserId();
+    logsService.log("Club " + club.getName()+ " created player "+ player.getId(), admin);
 
     return playerRepository.save(player);
 }
@@ -70,13 +74,9 @@ public Player createPlayer(PostPlayerDTO dto) {
         player.setHeight(dto.getHeight());
         player.setWeight(dto.getWeight());
         player.setUpdatedAt(dto.getUpdatedAt());
-
         Player update= playerRepository.save(player);
+        String admin= authUtils.getCurrentUserId();
+        logsService.log("player "+ player.getId() +"was updated", admin);
         return playerMapper.toDto(update);
-
-
-
     }
-
-   
 }

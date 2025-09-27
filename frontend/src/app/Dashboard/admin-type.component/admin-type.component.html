@@ -1,0 +1,28 @@
+<div class="container">
+  <h2>Select Admin Type</h2>
+
+  <!-- Cards for selection -->
+  <div class="card-container" *ngIf="!selectedType">
+    <div class="card" (click)="selectType('club')">
+      <h3>Club Admins</h3>
+      <p>Manage clubs and their moderators.</p>
+    </div>
+
+    <div class="card" (click)="selectType('federation')">
+      <h3>Federation Admins</h3>
+      <p>Manage federation and global moderators.</p>
+    </div>
+  </div>
+
+  <!-- Show components after selection -->
+  <div class="content" *ngIf="selectedType === 'club'">
+    <button class="back-btn" (click)="selectedType = null">⬅ Back</button>
+    <app-club-mods/>
+  </div>
+
+  <div class="content" *ngIf="selectedType === 'federation'">
+    <button class="back-btn" (click)="selectedType = null">⬅ Back</button>
+    <app-mods-component/>
+  </div>
+</div>
+

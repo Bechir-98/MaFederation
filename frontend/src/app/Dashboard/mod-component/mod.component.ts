@@ -2,7 +2,9 @@ import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/cor
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserFilesComponent } from '../../files/user-files-component/user-files-component';
-import { ModDTO, ModService } from '../../services/api/mod/mod.service';
+import { ModService } from '../../services/api/mod/mod.service';
+import { UserService } from '../../services/api/user/user-service';
+import { UserResponse } from '../../representations/User/userResponse';
 
 @Component({
   selector: 'app-mod-component',
@@ -12,50 +14,77 @@ import { ModDTO, ModService } from '../../services/api/mod/mod.service';
   imports: [CommonModule, UserFilesComponent]
 })
 export class ModComponent implements OnInit {
-  mod!: ModDTO;
+  mod: Partial<UserResponse> = {};
   activeSection: 'basic' | 'audit' | 'credentials' = 'basic';
   credentialsViewer = false;
+  loading = true;
+  error: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private modService: ModService,
+    private userService: UserService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-  this.modService.getSelectedModerator().subscribe({
-    next: (data: ModDTO) => {
-      this.mod = data;
-      this.cdr.detectChanges();
-    },
-    error: (err) => console.error('Failed to load selected moderator', err)
-  });
-}
+    this.loadModerator();
+  }
 
+  loadModerator(): void {
+    this.loading = true;
 
+    this.userService.currentUserId$.subscribe({
+      next: (userId) => {
+        if (!userId) {
+          console.warn('No user selected');
+          this.loading = false;
+          return;
+        }
 
-  // Navigation methods
+        this.userService.getSelectedUser(userId).subscribe({
+          next: (data) => {
+            this.mod = data || {};
+            this.loading = false;
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error('Failed to load selected moderator', err);
+            this.error = 'Failed to load moderator';
+            this.loading = false;
+            this.cdr.detectChanges();
+          }
+        });
+      }
+    });
+  }
+
   editMod(): void {
     this.router.navigate(['/edit-mod'], { state: { mod: this.mod } });
   }
 
   deleteMod(): void {
-    if (confirm('Are you sure you want to delete this moderator?')) {
-      this.modService.deleteModerator(this.mod.id).subscribe(() => {
+    if (!this.mod.id) return;
+    if (!confirm('Are you sure you want to delete this moderator?')) return;
+
+    this.userService.deleteUser(this.mod.id).subscribe({
+      next: () => {
         alert('Moderator deleted.');
         this.router.navigate(['/mod-list']);
-      });
-    }
+      },
+      error: (err) => {
+        console.error('Failed to delete moderator', err);
+        this.error = 'Failed to delete moderator';
+      }
+    });
   }
 
-  // Section switcher
   showSection(section: 'basic' | 'audit' | 'credentials'): void {
     this.activeSection = section;
     this.cdr.detectChanges();
   }
 
-  // Credential modal toggle
   toggleCredentialViewer(): void {
     this.credentialsViewer = !this.credentialsViewer;
     this.cdr.detectChanges();
@@ -64,11 +93,6 @@ export class ModComponent implements OnInit {
   onBackdropClick(event: MouseEvent): void {
     this.credentialsViewer = false;
     this.cdr.detectChanges();
-  }
-
-  // Utility to display roles as comma-separated string
-  getRolesString(mod: ModDTO): string {
-    return mod.roles?.map(r => r.name).join(', ') || 'No Roles';
   }
 
   @HostListener('window:keydown', ['$event'])

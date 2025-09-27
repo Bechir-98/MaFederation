@@ -18,7 +18,7 @@
     <div class="player-info">
       <div class="player-name">
         <h2>{{ mod.firstName }} {{ mod.lastName }}</h2>
-        <span class="status-badge valid">{{ getRolesString(mod) }}</span>
+        <span class="status-badge valid">getRolesString(mod)</span>
       </div>
 
       <div class="action-buttons">
@@ -71,6 +71,6 @@
 
   <div class="section" *ngIf="activeSection==='credentials'">
     <h3>Moderator Credentials</h3>
-    <app-user-files-component [UserId]="mod.id"></app-user-files-component>
+<!--    <app-user-files-component [UserId]="mod.id"></app-user-files-component>-->
   </div>
 </div>

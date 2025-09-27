@@ -1,11 +1,20 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthService} from '../../../services/api/login/login.service';
+
 @Component({
   selector: 'app-admin-nav',
-  imports: [RouterModule],
+  standalone: true,
+  imports: [RouterModule, CommonModule],
   templateUrl: './admin-nav.html',
-  styleUrl: './admin-nav.css'
+  styleUrls: ['./admin-nav.css']
 })
-export class AdminNav {
+export class AdminNavComponent {
 
+  constructor(private authService: AuthService) {}
+
+  logout(): void {
+    this.authService.logout().subscribe();
+  }
 }

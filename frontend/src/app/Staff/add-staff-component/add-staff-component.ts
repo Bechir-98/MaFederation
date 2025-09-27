@@ -52,14 +52,13 @@ export class AddStaffComponent implements OnInit {
   constructor(
     private router: Router,
     private categoryService: CategoryService,
-    private UserService :UserService,
+    private userService: UserService,
     private staffService: StaffServices,
     private clubService: ClubServices,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    // Get selected club from session
     this.clubService.getSelectedClub().subscribe({
       next: (club) => {
         if (club?.id) {
@@ -85,18 +84,10 @@ export class AddStaffComponent implements OnInit {
 
   onProfilePicSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (!input.files?.length) {
-      this.resetProfilePic();
-      this.cdr.detectChanges();
-      return;
-    }
+    if (!input.files?.length) return this.resetProfilePic();
 
     const file = input.files[0];
-    if (!file.type.startsWith('image/')) {
-      this.resetProfilePic(true);
-      this.cdr.detectChanges();
-      return;
-    }
+    if (!file.type.startsWith('image/')) return this.resetProfilePic(true);
 
     this.profileInvalid = false;
     this.staff.profilePicture = file;
@@ -125,52 +116,31 @@ export class AddStaffComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (!this.staff.clubId) {
-      alert('No club selected. Cannot add staff.');
-      return;
-    }
-
-    if (this.isSubmitting || this.profileInvalid) {
-      alert('Please fix form errors before submitting.');
-      return;
-    }
-
-    if (!this.staff.specialty) {
-      alert('Please select a specialty.');
-      return;
-    }
+    if (!this.staff.clubId) return alert('No club selected. Cannot add staff.');
+    if (this.isSubmitting || this.profileInvalid) return alert('Please fix form errors before submitting.');
+    if (!this.staff.specialty) return alert('Please select a specialty.');
 
     this.isSubmitting = true;
-    this.staff.categoryIds = this.selectedCategories;
+    this.staff.categoryIds = [...this.selectedCategories];
 
     const { profilePicture, ...staffWithoutPic } = this.staff;
     const formData = new FormData();
-    formData.append('staff', new Blob(
-      [JSON.stringify(staffWithoutPic)],
-      { type: 'application/json' }
-    ));
+    formData.append('staff', new Blob([JSON.stringify(staffWithoutPic)], { type: 'application/json' }));
 
-    if (profilePicture) {
-      formData.append('profilePicture', profilePicture);
-    }
+    if (profilePicture) formData.append('profilePicture', profilePicture);
 
     this.staffService.createStaff(formData).subscribe({
       next: (response) => {
         const newStaffId = response.id;
         if (newStaffId) {
-          this.UserService.selectUser(newStaffId).subscribe({
-            next: () => {
-              this.isSubmitting = false;
-              this.submitSuccess = true;
-              this.cdr.detectChanges();
-              this.router.navigate(['/club/staff/profile']);
-            },
-            error: (err) => {
-              this.isSubmitting = false;
-              this.cdr.detectChanges();
-              console.error('Failed to select staff:', err);
-            }
-          });
+          // ✅ Use BehaviorSubject to set current user
+          this.userService.setUserId(newStaffId);
+
+          this.isSubmitting = false;
+          this.submitSuccess = true;
+          this.cdr.detectChanges();
+
+          this.router.navigate(['/club/staff/profile']);
         } else {
           this.isSubmitting = false;
           this.cdr.detectChanges();
