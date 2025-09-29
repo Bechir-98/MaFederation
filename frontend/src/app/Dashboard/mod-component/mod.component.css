@@ -1,45 +1,44 @@
 .player-container {
   max-width: 900px;
-  margin: 20px auto;
+  margin: 24px auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 24px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-  border: 1px solid #e9ecef;
+  border: 1px solid #e0e0e0;
 }
 
 .player-header {
   display: flex;
   align-items: center;
   margin-bottom: 24px;
-  border-bottom: 2px solid #f8f9fa;
+  border-bottom: 2px solid #f1f3f5;
   padding-bottom: 16px;
 }
 
-.player-image {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 24px;
-  border: 3px solid #e9ecef;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
+.player-image,
 .no-image {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: #f8f9fa;
+  margin-right: 20px;
+  border: 3px solid #e0e0e0;
+  object-fit: cover;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.player-image {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.no-image {
+  background: #f8f9fa;
   color: #6c757d;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
-  margin-right: 24px;
-  border: 3px solid #e9ecef;
 }
 
 .player-info {
@@ -47,45 +46,64 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .player-name h2 {
-  margin: 0 0 8px 0;
-  font-size: 28px;
+  margin: 0 0 8px;
+  font-size: 26px;
   font-weight: 600;
   color: #212529;
 }
 
 .status-badge {
   display: inline-block;
-  padding: 3px 8px;
+  padding: 4px 10px;
   font-size: 12px;
   font-weight: 600;
-  border-radius: 4px;
-  margin-left: 10px;
-  color: white;
-  background-color: #28a745;
+  border-radius: 6px;
+  margin-left: 8px;
+  color: #fff;
+  background-color: #198754;
 }
 
 .action-buttons {
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn,
+.delete-btn {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 8px 14px;
   border: none;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.edit-btn { background-color: #0d6efd; color: #fff; }
-.delete-btn { background-color: #dc3545; color: #fff; }
+.edit-btn {
+  background-color: #0d6efd;
+  color: #fff;
+}
+.edit-btn:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-2px);
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: #fff;
+}
+.delete-btn:hover {
+  background-color: #bb2d3b;
+  transform: translateY(-2px);
+}
 
 .button-group {
   display: flex;
@@ -95,12 +113,18 @@
 }
 
 .button-group button {
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 6px;
-  border: 1px solid #dfe6f3;
+  border: 1px solid #dee2e6;
   background: #f1f3f5;
   cursor: pointer;
   font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.button-group button:hover {
+  background: #e9ecef;
 }
 
 .button-group button.active {
@@ -111,14 +135,15 @@
 
 .section {
   background: #f8f9fa;
-  border-radius: 8px;
-  padding: 24px;
-  margin-top: 16px;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid #e0e0e0;
 }
 
 .section h3 {
-  margin-bottom: 16px;
-  font-size: 22px;
+  margin-bottom: 14px;
+  font-size: 20px;
   font-weight: 600;
   color: #212529;
   border-bottom: 2px solid #e9ecef;
@@ -126,7 +151,7 @@
 }
 
 .section p {
-  margin: 8px 0;
+  margin: 6px 0;
   font-size: 15px;
   color: #495057;
 }
@@ -138,9 +163,23 @@
   color: #212529;
 }
 
-/* responsive */
+/* Responsive */
 @media (max-width: 760px) {
-  .player-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .player-info { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .button-group { width: 100%; gap: 4px; }
+  .player-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .player-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .action-buttons {
+    width: 100%;
+  }
+  .button-group {
+    width: 100%;
+    gap: 6px;
+  }
 }

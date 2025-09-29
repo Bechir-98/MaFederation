@@ -1,41 +1,50 @@
 .form-container {
   max-width: 700px;
   margin: auto;
-  padding: 20px;
+  padding: 24px;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  font-family: sans-serif;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .form-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.form-header h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .profile-pic-preview img,
 .profile-pic-placeholder {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   object-fit: cover;
-  border-radius: 8px;
-  margin: 10px auto;
+  border-radius: 50%;
+  margin: 12px auto;
   display: block;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .profile-pic-placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #eee;
-  font-size: 2em;
-  color: #888;
+  background: #f0f0f0;
+  font-size: 2.2em;
+  color: #9e9e9e;
+  border: 2px dashed #ccc;
 }
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
 }
 
 .form-group {
@@ -48,35 +57,52 @@
 }
 
 label {
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 input,
 select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 10px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
 }
 
 input:focus,
 select:focus {
   outline: none;
   border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
 .form-actions {
-  margin-top: 20px;
+  margin-top: 24px;
   text-align: center;
 }
 
 button {
-  padding: 10px 25px;
+  padding: 10px 28px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 button:disabled {
@@ -85,7 +111,14 @@ button:disabled {
 }
 
 .error {
-  color: red;
+  color: #d32f2f;
   font-size: 0.9em;
   margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.error i {
+  color: #d32f2f;
 }

@@ -1,42 +1,64 @@
 .container {
   text-align: center;
   padding: 2rem;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h2 {
   margin-bottom: 2rem;
-  color: #333;
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 2rem;
 }
 
 .card-container {
   display: flex;
   justify-content: center;
   gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .card {
   width: 250px;
   padding: 1.5rem;
   border-radius: 12px;
-  background: #f8f9fa;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: all 0.3s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  background: #e9ecef;
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background: #f0f4ff;
 }
 
 .card h3 {
-  margin: 0 0 1rem;
-  color: #007bff;
+  margin: 0;
+  color: #2563eb;
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
 }
 
 .card p {
   color: #555;
+  font-size: 0.95rem;
+}
+
+.card i,
+.card .material-icons {
+  font-size: 3rem;
+  color: #2563eb;
 }
 
 .content {
@@ -45,15 +67,28 @@ h2 {
 
 .back-btn {
   margin-bottom: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   border: none;
-  background: #007bff;
+  background: #2563eb;
   color: white;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .back-btn:hover {
-  background: #0056b3;
+  background: #1d4ed8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+  }
 }

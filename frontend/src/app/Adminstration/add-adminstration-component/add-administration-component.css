@@ -1,25 +1,28 @@
 .form-container {
-  max-width: 700px;
-  margin: auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  font-family: sans-serif;
+  max-width: 720px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .form-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #1f2937;
 }
 
 .profile-pic-preview img,
 .profile-pic-placeholder {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   object-fit: cover;
-  border-radius: 8px;
-  margin: 10px auto;
+  border-radius: 12px;
+  margin: 12px auto;
   display: block;
 }
 
@@ -27,15 +30,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #eee;
-  font-size: 2em;
-  color: #888;
+  background: #f3f4f6;
+  font-size: 2.2em;
+  color: #9ca3af;
 }
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
 }
 
 .form-group {
@@ -48,55 +51,58 @@
 }
 
 label {
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
 }
 
 input,
 select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   font-size: 14px;
+  transition: all 0.3s ease;
 }
 
 input:focus,
 select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 3px #007bff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.4);
 }
 
 .form-actions {
-  margin-top: 20px;
+  margin-top: 25px;
   text-align: center;
 }
 
 button {
-  padding: 10px 25px;
-  background-color: #007bff;
-  color: white;
+  padding: 12px 28px;
+  background-color: #3b82f6;
+  color: #ffffff;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 button:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: #2563eb;
+  transform: translateY(-1px);
 }
 
 button:disabled {
-  background-color: #999;
+  background-color: #9ca3af;
   cursor: not-allowed;
 }
 
 .error {
-  color: red;
+  color: #ef4444;
   font-size: 0.9em;
-  margin-top: 5px;
+  margin-top: 6px;
 }
 
 /* Responsive */

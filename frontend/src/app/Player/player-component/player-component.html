@@ -1,3 +1,4 @@
+<!-- Player Component -->
 <div *ngIf="loading" class="loading">
   <i class="fas fa-spinner fa-spin"></i> Loading player data...
 </div>
@@ -24,7 +25,7 @@
   <!-- Player Header -->
   <div class="player-header">
     <div class="player-image-wrapper">
-      <img *ngIf="player.profilePicture; else noImage" 
+      <img *ngIf="player.profilePicture; else noImage"
            [src]="'data:image/png;base64,' + player.profilePicture"
            alt="Profile Picture" class="player-image"/>
       <ng-template #noImage>
@@ -41,9 +42,9 @@
         </h2>
         <span class="status-badge" [ngClass]="player.validated">
           <i class="fas" [class.fa-check-circle]="player.validated === 'validated'"
-                               [class.fa-times-circle]="player.validated === 'rejected'"
-                               [class.fa-clock]="player.validated === 'pending'"
-                               [class.fa-question-circle]="!player.validated || player.validated === 'nonValidated'"></i>
+             [class.fa-times-circle]="player.validated === 'rejected'"
+             [class.fa-clock]="player.validated === 'pending'"
+             [class.fa-question-circle]="!player.validated || player.validated === 'nonValidated'"></i>
           {{ player.validated || 'Not Validated' | titlecase }}
         </span>
       </div>
@@ -65,18 +66,17 @@
             (click)="showSection(sec)"
             [class.active]="activeSection===sec">
       <i class="fas" [class.fa-info-circle]="sec === 'basic'"
-                     [class.fa-user-tag]="sec === 'profile'"
-                     [class.fa-chart-line]="sec === 'stats'"
-                     [class.fa-heartbeat]="sec === 'medical'"
-                     [class.fa-file-alt]="sec === 'credentials'"
-                     [class.fa-history]="sec === 'details'"></i>
+         [class.fa-user-tag]="sec === 'profile'"
+         [class.fa-chart-line]="sec === 'stats'"
+         [class.fa-heartbeat]="sec === 'medical'"
+         [class.fa-file-alt]="sec === 'credentials'"
+         [class.fa-history]="sec === 'details'"></i>
       {{ sec | titlecase }}
     </button>
   </div>
 
   <!-- Sections -->
   <div class="sections">
-    <!-- Basic Section -->
     <div *ngIf="activeSection==='basic'" class="section">
       <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
       <p><i class="fas fa-birthday-cake"></i> <strong>Date of Birth:</strong> {{ player.dateOfBirth ? (player.dateOfBirth | date:'longDate') : 'N/A' }}</p>
@@ -87,7 +87,6 @@
       <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> {{ player.address || 'N/A' }}</p>
     </div>
 
-    <!-- Profile Section -->
     <div *ngIf="activeSection==='profile'" class="section">
       <h3><i class="fas fa-user-tag"></i> Player Profile</h3>
       <p><i class="fas fa-ruler-vertical"></i> <strong>Height:</strong> {{ player.height ? player.height + ' cm' : 'N/A' }}</p>
@@ -100,29 +99,25 @@
       </p>
     </div>
 
-    <!-- Stats Section -->
     <div *ngIf="activeSection==='stats'" class="section">
       <h3><i class="fas fa-chart-line"></i> Stats</h3>
-      <p><i class="fas fa-running"></i> <strong>Matches:</strong>  player.stats?.matches || 0 </p>
-      <p><i class="fas fa-futbol"></i> <strong>Goals:</strong>  player.stats?.goals || 0 </p>
-      <p><i class="fas fa-assistive-listening-systems"></i> <strong>Assists:</strong>  player.stats?.assists || 0 </p>
+      <p><i class="fas fa-running"></i> <strong>Matches:</strong>  {{ player.stats?.matches || 0  </p>
+      <p><i class="fas fa-futbol"></i> <strong>Goals:</strong>  {{ player.stats?.goals || 0  </p>
+      <p><i class="fas fa-assistive-listening-systems"></i> <strong>Assists:</strong>  {{ player.stats?.assists || 0  </p>
     </div>
 
-    <!-- Medical Section -->
     <div *ngIf="activeSection==='medical'" class="section">
       <h3><i class="fas fa-heartbeat"></i> Medical Record</h3>
-      <p><i class="fas fa-calendar-check"></i> <strong>Last Checkup:</strong>  player.medicalRecord?.lastCheckup ? (player.medicalRecord.lastCheckup | date:'mediumDate') : 'N/A' </p>
-      <p><i class="fas fa-band-aid"></i> <strong>Injuries:</strong>  player.medicalRecord?.injuries || 'None' </p>
-      <p><i class="fas fa-sticky-note"></i> <strong>Notes:</strong>  player.medicalRecord?.notes || 'No notes' </p>
+      <p><i class="fas fa-calendar-check"></i> <strong>Last Checkup:</strong>  player.medicalRecord?.lastCheckup ? (player.medicalRecord.lastCheckup | date:'mediumDate') : 'N/A'  </p>
+      <p><i class="fas fa-band-aid"></i> <strong>Injuries:</strong>   player.medicalRecord?.injuries || 'None'  </p>
+      <p><i class="fas fa-sticky-note"></i> <strong>Notes:</strong>   player.medicalRecord?.notes || 'No notes'  </p>
     </div>
 
-    <!-- Credentials Section -->
     <div *ngIf="activeSection==='credentials'" class="section">
       <h3><i class="fas fa-file-alt"></i> Credentials</h3>
       <app-user-files-component [UserId]="player.id!"></app-user-files-component>
     </div>
 
-    <!-- Details Section -->
     <div *ngIf="activeSection==='details'" class="section">
       <h3><i class="fas fa-history"></i> Audit & Validation Details</h3>
       <p><i class="fas fa-user-plus"></i> <strong>Created By:</strong> {{ player.createdBy || 'N/A' }}</p>
@@ -151,7 +146,7 @@
 
         <label><i class="fas fa-user"></i> Last Name *</label>
         <input name="lastName" [(ngModel)]="editedPlayer.lastName" required />
-  
+
         <label><i class="fas fa-venus-mars"></i> Gender</label>
         <select name="gender" [(ngModel)]="editedPlayer.gender">
           <option value="">Select</option>

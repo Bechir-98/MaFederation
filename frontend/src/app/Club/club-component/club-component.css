@@ -1,28 +1,28 @@
-/* Import Google Fonts for better typography */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
 
 .club-container {
-  max-width: 800px;
-  margin: 20px auto;
+  max-width: 900px;
+  margin: 24px auto;
   font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 32px;
+  padding: 36px;
   background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
   border: 1px solid #e0e0e0;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .club-container:hover {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
 }
 
 .club-header {
   display: flex;
   align-items: center;
-  margin-bottom: 40px;
-  padding-bottom: 32px;
-  border-bottom: 2px solid #f5f5f5;
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 2px solid #f0f0f0;
   position: relative;
 }
 
@@ -31,7 +31,7 @@
   position: absolute;
   bottom: -2px;
   left: 0;
-  width: 60px;
+  width: 70px;
   height: 4px;
   background: linear-gradient(90deg, #1976d2, #42a5f5);
   border-radius: 2px;
@@ -40,17 +40,17 @@
 .club-image {
   width: 120px;
   height: 120px;
-  border-radius: 16px;
+  border-radius: 20px;
   object-fit: cover;
-  margin-right: 32px;
+  margin-right: 28px;
   border: 4px solid #e3f2fd;
-  box-shadow: 0 8px 24px rgba(25, 118, 210, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 20px rgba(25,118,210,0.2);
+  transition: all 0.3s ease;
 }
 
 .club-image:hover {
   transform: scale(1.05);
-  box-shadow: 0 12px 32px rgba(25, 118, 210, 0.25);
+  box-shadow: 0 10px 28px rgba(25,118,210,0.3);
 }
 
 .club-info {
@@ -58,115 +58,77 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .club-name h1 {
-  margin: 0 0 12px 0;
-  font-size: 32px;
+  margin: 0 0 8px 0;
+  font-size: 30px;
   font-weight: 600;
   color: #1a1a1a;
-  letter-spacing: -0.5px;
 }
 
 .club-name p {
   margin: 0;
-  color: #757575;
-  font-size: 16px;
-  font-weight: 400;
+  color: #616161;
+  font-size: 15px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
-.location-info {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #1976d2;
-}
-
-.founded-info {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #388e3c;
-}
+.location-info { color: #1976d2; display: flex; align-items: center; gap: 6px; }
+.founded-info { color: #388e3c; display: flex; align-items: center; gap: 6px; }
 
 .action-buttons {
   display: flex;
-  gap: 16px;
-  align-items: center;
+  gap: 14px;
 }
 
 .edit-btn, .delete-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 20px;
+  padding: 10px 20px;
   border: none;
   border-radius: 12px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-decoration: none;
-  position: relative;
-  overflow: hidden;
-  min-width: 120px;
-  justify-content: center;
-}
-
-.edit-btn::before, .delete-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.edit-btn:hover::before, .delete-btn:hover::before {
-  left: 100%;
+  transition: all 0.3s ease;
+  min-width: 110px;
+  color: #fff;
 }
 
 .edit-btn {
   background: linear-gradient(135deg, #1976d2, #1565c0);
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  box-shadow: 0 4px 12px rgba(25,118,210,0.3);
 }
 
-.edit-btn:hover:not(:disabled) {
+.edit-btn:hover {
   background: linear-gradient(135deg, #1565c0, #0d47a1);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(25, 118, 210, 0.4);
+  box-shadow: 0 8px 20px rgba(25,118,210,0.4);
 }
 
 .delete-btn {
   background: linear-gradient(135deg, #d32f2f, #c62828);
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+  box-shadow: 0 4px 12px rgba(211,47,47,0.3);
 }
 
-.delete-btn:hover:not(:disabled) {
+.delete-btn:hover {
   background: linear-gradient(135deg, #c62828, #b71c1c);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(211, 47, 47, 0.4);
-}
-
-.edit-btn:disabled, .delete-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(211,47,47,0.4);
 }
 
 .button-group {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
   padding: 20px;
   background: #fafafa;
   border-radius: 16px;
@@ -174,241 +136,133 @@
 }
 
 .button-group button {
-  background: #ffffff;
+  background: #fff;
   border: 2px solid #e0e0e0;
-  color: #616161;
-  padding: 14px 20px;
-  cursor: pointer;
+  padding: 12px 18px;
   border-radius: 12px;
   font-size: 14px;
   font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  white-space: nowrap;
-  position: relative;
-  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.button-group button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(25, 118, 210, 0.1), transparent);
-  transition: left 0.6s ease;
-}
-
-.button-group button:hover::before {
-  left: 100%;
+  gap: 6px;
 }
 
 .button-group button:hover {
   background: #f5f5f5;
   border-color: #bdbdbd;
   transform: translateY(-1px);
-  color: #424242;
 }
 
 .button-group button.active {
   background: linear-gradient(135deg, #1976d2, #1565c0);
-  color: #ffffff;
+  color: #fff;
   border-color: #1976d2;
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
-  transform: translateY(-1px);
-}
-
-.button-group button.active:hover {
-  background: linear-gradient(135deg, #1565c0, #0d47a1);
-  border-color: #0d47a1;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+  box-shadow: 0 4px 12px rgba(25,118,210,0.3);
 }
 
 .section {
-  background: linear-gradient(135deg, #fafafa, #f5f5f5);
+  background: #fafafa;
   border-radius: 16px;
-  padding: 32px;
-  margin-top: 24px;
+  padding: 28px;
+  margin-top: 20px;
   border: 1px solid #e0e0e0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
 }
 
 .section:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 .section h3 {
-  margin: 0 0 24px 0;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
-  color: #1a1a1a;
-  border-bottom: 3px solid #e0e0e0;
-  padding-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e0e0e0;
   position: relative;
 }
 
 .section h3::after {
   content: '';
   position: absolute;
-  bottom: -3px;
+  bottom: -2px;
   left: 0;
   width: 40px;
   height: 3px;
   background: linear-gradient(90deg, #1976d2, #42a5f5);
-  border-radius: 1.5px;
-}
-
-.section h4 {
-  margin: 24px 0 16px 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: #424242;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .section p {
-  margin: 16px 0;
+  margin: 12px 0;
   font-size: 15px;
-  line-height: 1.6;
-  color: #616161;
+  color: #424242;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 8px;
 }
 
 .section p strong {
   color: #1a1a1a;
   font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 180px;
-  flex-shrink: 0;
+  min-width: 150px;
 }
 
-.info-icon {
-  color: #1976d2;
-  font-size: 16px;
-  width: 16px;
-  text-align: center;
-}
-
-/* Enhanced Validation status badges */
-.status-approved {
-  color: #2e7d32;
-  font-weight: 600;
-  background: #e8f5e8;
-  padding: 4px 12px;
-  border-radius: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.status-pending {
-  color: #f57c00;
-  font-weight: 600;
-  background: #fff3e0;
-  padding: 4px 12px;
-  border-radius: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.status-rejected {
-  color: #d32f2f;
-  font-weight: 600;
-  background: #ffebee;
-  padding: 4px 12px;
-  border-radius: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.status-unknown {
-  color: #757575;
-  font-weight: 600;
-  background: #f5f5f5;
-  padding: 4px 12px;
-  border-radius: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
+.status-approved { background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+.status-pending { background: #fff3e0; color: #f57c00; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+.status-rejected { background: #ffebee; color: #d32f2f; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+.status-unknown { background: #f5f5f5; color: #757575; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
 
 .request-verification-btn {
   background: linear-gradient(135deg, #ff9800, #f57c00);
-  color: #ffffff;
+  color: #fff;
   border: none;
   padding: 12px 24px;
   border-radius: 12px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  transition: all 0.3s ease;
   margin-top: 16px;
-  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
 }
 
 .request-verification-btn:hover {
   background: linear-gradient(135deg, #f57c00, #ef6c00);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
 }
 
-/* Modal Styles */
+/* Modal */
 .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(4px);
 }
 
 .modal-content {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 40px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
   max-width: 90%;
+  width: 700px;
   max-height: 90%;
-  width: 800px;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
-  position: relative;
   overflow-y: auto;
-  animation: modalSlideIn 0.3s ease-out;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  animation: modalSlideIn 0.3s ease;
 }
 
 @keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-50px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(-40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .close-button {
@@ -418,8 +272,8 @@
   background: #f5f5f5;
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -435,91 +289,16 @@
   transform: rotate(90deg);
 }
 
-.modal-content h2 {
-  margin: 0 0 32px 0;
-  font-size: 28px;
-  font-weight: 600;
-  color: #1a1a1a;
-  padding-right: 60px;
-}
-
-/* Responsive Design */
 @media (max-width: 768px) {
-  .club-container {
-    margin: 16px;
-    padding: 24px;
-  }
-  
-  .club-header {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-  }
-  
-  .club-image {
-    margin-right: 0;
-    margin-bottom: 20px;
-    width: 100px;
-    height: 100px;
-  }
-  
-  .club-info {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .club-name {
-    text-align: center;
-  }
-  
-  .club-name h1 {
-    font-size: 26px;
-  }
-  
-  .club-name p {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .action-buttons {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .edit-btn, .delete-btn {
-    padding: 10px 16px;
-    font-size: 13px;
-    min-width: 100px;
-  }
-  
-  .button-group {
-    justify-content: center;
-    padding: 16px;
-  }
-  
-  .button-group button {
-    padding: 12px 16px;
-    font-size: 13px;
-  }
-  
-  .section {
-    padding: 24px;
-  }
-  
-  .section h3 {
-    font-size: 20px;
-  }
-  
-  .section p {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-  
-  .section p strong {
-    min-width: auto;
-    margin-bottom: 4px;
-  }
+  .club-container { margin: 16px; padding: 24px; }
+  .club-header { flex-direction: column; text-align: center; }
+  .club-image { margin: 0 0 20px 0; width: 100px; height: 100px; }
+  .club-info { flex-direction: column; gap: 20px; }
+  .club-name h1 { font-size: 24px; }
+  .action-buttons { justify-content: center; flex-wrap: wrap; }
+  .edit-btn, .delete-btn { min-width: 100px; font-size: 13px; }
+  .section { padding: 20px; }
+  .section h3 { font-size: 20px; }
+  .section p { flex-direction: column; gap: 4px; }
+  .section p strong { min-width: auto; }
 }

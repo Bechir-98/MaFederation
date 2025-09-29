@@ -3,15 +3,17 @@
   width: 100%;
   border-collapse: collapse;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: white;
-  border-radius: 10px;
+  background: #ffffff;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
 .table thead {
   background: linear-gradient(90deg, #4f46e5, #6366f1);
-  color: white;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .table th, .table td {
@@ -21,34 +23,28 @@
 
 .table tbody tr {
   border-bottom: 1px solid #e5e7eb;
-  transition: background 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .table tbody tr:hover {
   background-color: #f9fafb;
-}
-
-.table th:first-child, .table td:first-child {
-  border-top-left-radius: 10px;
-}
-
-.table th:last-child, .table td:last-child {
-  border-top-right-radius: 10px;
+  transform: translateY(-1px);
 }
 
 /* Buttons */
 button {
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 6px;
   border: none;
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 button:first-child {
   background-color: #10b981;
-  color: white;
+  color: #ffffff;
 }
 
 button:first-child:hover {
@@ -57,7 +53,7 @@ button:first-child:hover {
 
 button:last-child {
   background-color: #ef4444;
-  color: white;
+  color: #ffffff;
   margin-left: 8px;
 }
 
@@ -71,29 +67,28 @@ button:last-child:hover {
   border: 1px solid #4f46e5;
   color: #4f46e5;
   font-size: 12px;
-  padding: 3px 8px;
-  margin-left: 8px;
-  border-radius: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .profile-btn:hover {
   background-color: #4f46e5;
-  color: white;
+  color: #ffffff;
 }
 
 /* Filters */
 .filters {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   margin-bottom: 16px;
   align-items: center;
   padding: 12px 16px;
   background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .filters label {
@@ -106,7 +101,7 @@ button:last-child:hover {
 }
 
 .filters select {
-  padding: 6px 10px;
+  padding: 6px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   background: #f9fafb;
@@ -124,7 +119,7 @@ button:last-child:hover {
 .filters select:focus {
   outline: none;
   border-color: #4f46e5;
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
 /* Modal backdrop */
@@ -133,7 +128,7 @@ button:last-child:hover {
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -142,12 +137,12 @@ button:last-child:hover {
 
 /* Modal container */
 .modal {
-  background: #fff;
-  padding: 1.8rem 2rem;
-  border-radius: 12px;
-  width: 320px;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 14px;
+  width: 360px;
   max-width: 90%;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.25);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -156,7 +151,7 @@ button:last-child:hover {
 .modal select,
 .modal textarea {
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
   font-family: inherit;
@@ -164,7 +159,7 @@ button:last-child:hover {
 
 .modal textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 100px;
 }
 
 .modal-actions {
@@ -175,9 +170,9 @@ button:last-child:hover {
 
 .cancel-btn {
   background-color: #9ca3af;
-  color: white;
+  color: #ffffff;
   border: none;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -190,7 +185,7 @@ button:last-child:hover {
 @media (max-width: 768px) {
   .table thead { display: none; }
   .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
-  .table tr { margin-bottom: 15px; border-radius: 8px; background: white; box-shadow: 0 2px 6px rgba(0,0,0,0.05); padding: 10px; }
+  .table tr { margin-bottom: 16px; border-radius: 10px; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.06); padding: 12px; }
   .table td { padding: 10px; text-align: right; position: relative; }
-  .table td::before { content: attr(data-label); position: absolute; left: 10px; font-weight: bold; text-transform: uppercase; font-size: 12px; color: #6b7280; }
+  .table td::before { content: attr(data-label); position: absolute; left: 12px; font-weight: 600; text-transform: uppercase; font-size: 12px; color: #6b7280; }
 }

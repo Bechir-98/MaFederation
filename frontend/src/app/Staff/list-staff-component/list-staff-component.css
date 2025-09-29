@@ -1,7 +1,7 @@
 .all {
-  padding: 20px;
+  padding: 24px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9fafb;
+  background-color: #f0fdf4;
   min-height: 100vh;
 }
 
@@ -9,23 +9,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .filter-valid-status {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 14px;
 }
 
 .filter-valid-status label {
   font-weight: 600;
   color: #15803d;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .filter-valid-status select {
-  padding: 4px 8px;
+  padding: 6px 10px;
   font-size: 14px;
   border-radius: 6px;
   border: 1.5px solid #cbd5e1;
@@ -35,20 +38,20 @@
 .filter-valid-status select:focus {
   outline: none;
   border-color: #16a34a;
-  box-shadow: 0 0 5px rgba(22, 163, 74, 0.5);
+  box-shadow: 0 0 6px rgba(22, 163, 74, 0.5);
 }
 
 .table-wrapper {
   overflow-x: auto;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px;
+  min-width: 620px;
 }
 
 thead tr {
@@ -57,37 +60,37 @@ thead tr {
 }
 
 th, td {
-  padding: 12px 15px;
+  padding: 14px 16px;
   text-align: left;
   border-bottom: 1px solid #d1fae5;
   font-size: 14px;
 }
 
 tr:hover {
-  background-color: #f0fdf4;
+  background-color: #d9fdd3;
 }
 
 .add-staff-button {
   background-color: #16a34a;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 8px 18px;
   font-size: 14px;
   border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: background-color 0.3s ease;
+  gap: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-staff-button:hover {
   background-color: #0e7c32;
+  transform: translateY(-1px);
 }
 
-/* Action Buttons */
 .action-btn {
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 6px;
   border: none;
   cursor: pointer;
@@ -96,8 +99,8 @@ tr:hover {
   margin-right: 6px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  transition: background-color 0.3s ease;
+  gap: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .view-btn {
@@ -107,6 +110,7 @@ tr:hover {
 
 .view-btn:hover {
   background-color: #0b5ed7;
+  transform: translateY(-1px);
 }
 
 .request-validation-btn {
@@ -116,13 +120,17 @@ tr:hover {
 
 .request-validation-btn:hover {
   background-color: #e0a800;
+  transform: translateY(-1px);
 }
 
-/* Validation Status */
 .validated-cell {
   text-align: center;
   font-size: 14px;
   white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
 }
 
 .validated i { color: #16a34a; }
