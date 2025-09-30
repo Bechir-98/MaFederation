@@ -1,7 +1,7 @@
 <!-- Club Content -->
 <div class="club-container">
   <div class="club-header">
-    <img 
+    <img
       *ngIf="club?.logo; else placeholder"
       [src]="'data:image/png;base64,' + club?.logo"
       alt="Club Logo"
@@ -48,18 +48,7 @@
       <i class="fas fa-shield-alt"></i>
       Validation Status
     </button>
-    <button (click)="showSection('statistics')" [class.active]="activeSection === 'statistics'">
-      <i class="fas fa-chart-bar"></i>
-      Statistics
-    </button>
-    <button (click)="showSection('financial')" [class.active]="activeSection === 'financial'">
-      <i class="fas fa-coins"></i>
-      Financial
-    </button>
-    <button (click)="showSection('facilities')" [class.active]="activeSection === 'facilities'">
-      <i class="fas fa-building"></i>
-      Facilities
-    </button>
+
     <button (click)="showSection('credentials')" [class.active]="activeSection === 'credentials'">
       <i class="fas fa-certificate"></i>
       Credentials
@@ -76,42 +65,42 @@
       <strong>
         <i class="fas fa-tag info-icon"></i>
         Full Name:
-      </strong> 
+      </strong>
       {{ club?.name || 'N/A' }}
     </p>
     <p>
       <strong>
         <i class="fas fa-map-marker-alt info-icon"></i>
         Location:
-      </strong> 
+      </strong>
       {{ club?.location || 'Not specified' }}
     </p>
     <p>
       <strong>
         <i class="fas fa-calendar-alt info-icon"></i>
         Founded Year:
-      </strong> 
+      </strong>
       {{ club?.foundedYear || 'Unknown' }}
     </p>
     <p>
       <strong>
         <i class="fas fa-envelope info-icon"></i>
         Contact Email:
-      </strong> 
+      </strong>
       {{ club?.contactEmail || 'Not provided' }}
     </p>
     <p>
       <strong>
         <i class="fas fa-phone info-icon"></i>
         Phone:
-      </strong> 
+      </strong>
       {{ club?.contactPhone || 'Not provided' }}
     </p>
     <p>
       <strong>
         <i class="fas fa-globe info-icon"></i>
         Website:
-      </strong> 
+      </strong>
       {{ club?.website || 'Not provided' }}
     </p>
   </div>
@@ -127,7 +116,7 @@
       <strong>
         <i class="fas fa-check-circle info-icon"></i>
         Status:
-      </strong> 
+      </strong>
       <span [ngClass]="{
         'status-approved': club?.validated === 'Validated',
         'status-rejected': club?.validated === 'Rejected',
@@ -146,28 +135,28 @@
       <strong>
         <i class="fas fa-calendar-check info-icon"></i>
         Validated At:
-      </strong> 
+      </strong>
       {{ club?.validationDate || 'N/A' }}
     </p>
     <p>
       <strong>
         <i class="fas fa-user-shield info-icon"></i>
         Validated By:
-      </strong> 
+      </strong>
       {{ club?.validatedBy || 'N/A' }}
     </p>
     <p>
       <strong>
         <i class="fas fa-exclamation-triangle info-icon"></i>
         Rejection Reason:
-      </strong> 
+      </strong>
       {{ club?.rejectionReason || 'N/A' }}
     </p>
 
     <!-- Request Verification Button -->
-    <button 
+    <button
       *ngIf="club?.validated === 'rejected' || club?.validated === 'nonValidated'"
-      class="request-verification-btn" 
+      class="request-verification-btn"
       (click)="requestVerification()">
       <i class="fas fa-paper-plane"></i>
       Request Verification
@@ -181,160 +170,32 @@
       <strong>
         <i class="fas fa-plus-circle info-icon"></i>
         Registration Date:
-      </strong> 
+      </strong>
       {{ club?.createdAt || 'N/A' }}
     </p>
     <p>
       <strong>
         <i class="fas fa-sync-alt info-icon"></i>
         Last Updated:
-      </strong> 
+      </strong>
       {{ club?.updatedAt || 'N/A' }}
     </p>
     <p>
       <strong>
         <i class="fas fa-user-plus info-icon"></i>
         Created By:
-      </strong> 
+      </strong>
       {{ club?.createdBy || 'N/A' }}
     </p>
     <p>
       <strong>
         <i class="fas fa-user-edit info-icon"></i>
         Updated By:
-      </strong> 
+      </strong>
       {{ club?.updatedBy || 'N/A' }}
     </p>
   </div>
 
-  <!-- Statistics Section -->
-  <div class="section" *ngIf="activeSection === 'statistics'">
-    <h3>
-      <i class="fas fa-chart-bar"></i>
-      Club Statistics
-    </h3>
-    <p>
-      <strong>
-        <i class="fas fa-users info-icon"></i>
-        Total Players:
-      </strong> 
-      0
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-user-tie info-icon"></i>
-        Total Staff:
-      </strong> 
-      0
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-user-cog info-icon"></i>
-        Total Administrators:
-      </strong> 
-      0
-    </p>
-  </div>
-
-  <!-- Financial Section -->
-  <div class="section" *ngIf="activeSection === 'financial'">
-    <h3>
-      <i class="fas fa-coins"></i>
-      Financial Information
-    </h3>
-    <p>
-      <strong>
-        <i class="fas fa-university info-icon"></i>
-        Bank Name:
-      </strong> 
-      Xyz
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-credit-card info-icon"></i>
-        Bank Account:
-      </strong> 
-      Xyz
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-calculator info-icon"></i>
-        Annual Budget:
-      </strong> 
-      Xyz
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-handshake info-icon"></i>
-        Sponsorship Status:
-      </strong> 
-      Xyz
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-file-invoice-dollar info-icon"></i>
-        Tax ID:
-      </strong> 
-      Xyz
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-heart info-icon"></i>
-        Non-Profit Status:
-      </strong> 
-      Xyz
-    </p>
-  </div>
-
-  <!-- Facilities Section -->
-  <div class="section" *ngIf="activeSection === 'facilities'">
-    <h3>
-      <i class="fas fa-building"></i>
-      Facilities & Equipment
-    </h3>
-    <p>
-      <strong>
-        <i class="fas fa-home info-icon"></i>
-        Home Venue:
-      </strong> 
-      Xyz
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-dumbbell info-icon"></i>
-        Training Facilities:
-      </strong> 
-      Xyz
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-tools info-icon"></i>
-        Equipment Status:
-      </strong> 
-      Xyz
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-users info-icon"></i>
-        Capacity:
-      </strong> 
-      Xyz
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-wheelchair info-icon"></i>
-        Accessibility:
-      </strong> 
-      Yes
-    </p>
-    <p>
-      <strong>
-        <i class="fas fa-list info-icon"></i>
-        Facilities List:
-      </strong> 
-      Xyz
-    </p>
-  </div>
 
   <!-- Credentials Section -->
   <div class="section" *ngIf="activeSection === 'credentials'">

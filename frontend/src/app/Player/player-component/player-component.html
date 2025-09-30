@@ -67,8 +67,6 @@
             [class.active]="activeSection===sec">
       <i class="fas" [class.fa-info-circle]="sec === 'basic'"
          [class.fa-user-tag]="sec === 'profile'"
-         [class.fa-chart-line]="sec === 'stats'"
-         [class.fa-heartbeat]="sec === 'medical'"
          [class.fa-file-alt]="sec === 'credentials'"
          [class.fa-history]="sec === 'details'"></i>
       {{ sec | titlecase }}
@@ -97,20 +95,6 @@
         <span *ngIf="player.categories?.length; else noCategories">{{ player.categories}}</span>
         <ng-template #noCategories>N/A</ng-template>
       </p>
-    </div>
-
-    <div *ngIf="activeSection==='stats'" class="section">
-      <h3><i class="fas fa-chart-line"></i> Stats</h3>
-      <p><i class="fas fa-running"></i> <strong>Matches:</strong>  {{ player.stats?.matches || 0  </p>
-      <p><i class="fas fa-futbol"></i> <strong>Goals:</strong>  {{ player.stats?.goals || 0  </p>
-      <p><i class="fas fa-assistive-listening-systems"></i> <strong>Assists:</strong>  {{ player.stats?.assists || 0  </p>
-    </div>
-
-    <div *ngIf="activeSection==='medical'" class="section">
-      <h3><i class="fas fa-heartbeat"></i> Medical Record</h3>
-      <p><i class="fas fa-calendar-check"></i> <strong>Last Checkup:</strong>  player.medicalRecord?.lastCheckup ? (player.medicalRecord.lastCheckup | date:'mediumDate') : 'N/A'  </p>
-      <p><i class="fas fa-band-aid"></i> <strong>Injuries:</strong>   player.medicalRecord?.injuries || 'None'  </p>
-      <p><i class="fas fa-sticky-note"></i> <strong>Notes:</strong>   player.medicalRecord?.notes || 'No notes'  </p>
     </div>
 
     <div *ngIf="activeSection==='credentials'" class="section">
@@ -175,7 +159,7 @@
         <label><i class="fas fa-map-pin"></i> Position</label>
         <select name="position" [(ngModel)]="editedPlayer.position" required>
           <option value="">Select Position</option>
-          <option *ngFor="let pos of positions" [value]="pos">{{ pos | titlecase }}</option>
+          <option *ngFor="let pos of positions" [value]="pos">{{ pos  }}</option>
         </select>
       </div>
       <div class="modal-actions">
