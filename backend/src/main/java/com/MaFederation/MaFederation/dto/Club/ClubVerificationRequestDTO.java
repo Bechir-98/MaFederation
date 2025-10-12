@@ -1,4 +1,4 @@
-package com.MaFederation.MaFederation.dto;
+package com.MaFederation.MaFederation.dto.Club;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

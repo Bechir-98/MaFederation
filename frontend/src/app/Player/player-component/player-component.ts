@@ -33,6 +33,7 @@ export class PlayerComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPlayer();
+
   }
 
   loadPlayer(): void {
@@ -48,6 +49,7 @@ export class PlayerComponent implements OnInit {
             this.player = data || {};
             this.calculateCompletion();
             this.loading = false;
+            console.log(this.player)
             this.cdr.detectChanges();
           },
           error: (err) => {

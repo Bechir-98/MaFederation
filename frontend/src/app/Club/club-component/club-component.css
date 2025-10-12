@@ -177,6 +177,19 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
+/* Special handling for credentials section with file cards */
+.section:has(app-club-file-component) {
+  overflow: visible;
+}
+
+.section app-club-file-component {
+  display: block;
+  width: calc(100% + 56px);
+  margin-left: -28px;
+  margin-right: -28px;
+  margin-top: 20px;
+}
+
 .section h3 {
   font-size: 22px;
   font-weight: 600;
@@ -298,6 +311,14 @@
   .action-buttons { justify-content: center; flex-wrap: wrap; }
   .edit-btn, .delete-btn { min-width: 100px; font-size: 13px; }
   .section { padding: 20px; }
+
+  /* Adjust file cards breakout for mobile */
+  .section app-club-file-component {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
   .section h3 { font-size: 20px; }
   .section p { flex-direction: column; gap: 4px; }
   .section p strong { min-width: auto; }

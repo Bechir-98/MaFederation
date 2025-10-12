@@ -1,5 +1,8 @@
 package com.MaFederation.MaFederation.services;
 
+import com.MaFederation.MaFederation.model.Administration;
+import com.MaFederation.MaFederation.model.Player;
+import com.MaFederation.MaFederation.model.Staff;
 import com.MaFederation.MaFederation.model.User;
 import com.MaFederation.MaFederation.repository.UserRepository;
 import com.MaFederation.MaFederation.dto.User.ResponseUserDTO;
@@ -19,10 +22,22 @@ public class UserService {
     private final AuthUtils authUtils ;
 
     public Object getUserDtoById(Integer userId) {
-        // 1️⃣ Try User repository (includes club admins)
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+
+            // Check ClubMemberType if available
+            if (user instanceof Player ) {
+                return playerService.getPlayerById(userId);
+            }
+            if (user instanceof Staff) {
+                return staffService.getStaffById(userId);
+            }
+            if (user instanceof Administration) {
+                return administrationService.getById(userId);
+            }
+
+            // Regular user (club admin, etc.)
             ResponseUserDTO dto = new ResponseUserDTO();
             dto.setId(user.getId());
             dto.setFirstName(user.getFirstName());
@@ -30,15 +45,6 @@ public class UserService {
             dto.setEmail(user.getEmail());
             return dto;
         }
-
-        // 2️⃣ Try Player
-        try { return playerService.getPlayerById(userId); } catch (RuntimeException ignored) {}
-
-        // 3️⃣ Try Staff
-        try { return staffService.getStaffById(userId); } catch (RuntimeException ignored) {}
-
-        // 4️⃣ Try Administration
-        try { return administrationService.getById(userId); } catch (RuntimeException ignored) {}
 
         throw new RuntimeException("User not found with ID: " + userId);
     }

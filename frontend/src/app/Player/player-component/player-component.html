@@ -62,7 +62,7 @@
 
   <!-- Section Buttons -->
   <div class="section-buttons">
-    <button *ngFor="let sec of ['basic','profile','stats','medical','credentials','details']"
+    <button *ngFor="let sec of ['basic','profile','credentials','details']"
             (click)="showSection(sec)"
             [class.active]="activeSection===sec">
       <i class="fas" [class.fa-info-circle]="sec === 'basic'"
@@ -130,13 +130,6 @@
 
         <label><i class="fas fa-user"></i> Last Name *</label>
         <input name="lastName" [(ngModel)]="editedPlayer.lastName" required />
-
-        <label><i class="fas fa-venus-mars"></i> Gender</label>
-        <select name="gender" [(ngModel)]="editedPlayer.gender">
-          <option value="">Select</option>
-          <option value="MALE">Male</option>
-          <option value="FEMALE">Female</option>
-        </select>
 
         <label><i class="fas fa-phone"></i> Phone</label>
         <input name="phoneNumber" [(ngModel)]="editedPlayer.phoneNumber" />

@@ -1,6 +1,6 @@
 package com.MaFederation.MaFederation.services;
 
-import com.MaFederation.MaFederation.dto.ClubVerificationRequestDTO;
+import com.MaFederation.MaFederation.dto.Club.ClubVerificationRequestDTO;
 import com.MaFederation.MaFederation.enums.ValidationStatus;
 import com.MaFederation.MaFederation.mappers.ClubVerificationRequestMapper;
 import com.MaFederation.MaFederation.model.Club;

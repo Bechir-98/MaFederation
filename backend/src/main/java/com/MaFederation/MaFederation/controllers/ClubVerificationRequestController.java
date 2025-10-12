@@ -1,6 +1,6 @@
 package com.MaFederation.MaFederation.controllers;
 
-import com.MaFederation.MaFederation.dto.ClubVerificationRequestDTO;
+import com.MaFederation.MaFederation.dto.Club.ClubVerificationRequestDTO;
 import com.MaFederation.MaFederation.services.ClubVerificationRequestService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

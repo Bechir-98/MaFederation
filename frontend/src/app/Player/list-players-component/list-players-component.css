@@ -102,9 +102,9 @@ tr:hover {
   cursor: pointer;
   font-weight: 600;
   font-size: 13px;
-  display: inline-flex;
+  display: inline;
   align-items: center;
-  gap: 6px;
+  gap: 20px;
   transition: all 0.2s ease;
 }
 

@@ -94,10 +94,13 @@
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 24px;
+  row-gap: 0;           /* no grid row gap */
+  column-gap: 20px;     /* keep small horizontal spacing */
   justify-content: center;
-  padding: 12px 0;
+  padding: 0;
+  margin: 0;
 }
+
 
 /* Each club item */
 .club-item {
@@ -115,6 +118,8 @@
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(25, 118, 210, 0.15);
+  margin-bottom: -6px;  /* pull cards slightly closer vertically */
+  padding-bottom: 0;
 }
 
 .club-item::before {

@@ -206,11 +206,11 @@
   .navbar {
     width: 260px;
   }
-  
+
   .logo h1 {
     font-size: 16px;
   }
-  
+
   .nav-links li a {
     font-size: 13px;
     padding: 10px;
@@ -241,3 +241,85 @@
 .nav-links li:nth-child(7) { animation-delay: 0.6s; }
 .nav-links li:nth-child(8) { animation-delay: 0.7s; }
 .nav-links li:nth-child(9) { animation-delay: 0.8s; }
+
+
+.navbar-footer {
+  padding: 16px 20px 24px;
+  position: relative;
+  margin-top: auto;
+}
+
+.navbar-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(148, 163, 184, 0.3) 50%, transparent 100%);
+}
+
+.nav-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(148, 163, 184, 0.2) 50%, transparent 100%);
+  margin: 20px -20px 16px;
+}
+
+.logout-link {
+  width: 100%;
+  background: none;
+  border: none;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  color: #f87171 !important;
+  padding: 14px 16px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  margin-top: 12px;
+}
+
+.logout-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.logout-link:hover {
+  background: rgba(248, 113, 113, 0.15) !important;
+  color: #fca5a5 !important;
+  transform: translateY(-2px);
+  border-color: rgba(248, 113, 113, 0.4);
+  box-shadow: 0 4px 12px rgba(248, 113, 113, 0.2);
+}
+
+.logout-link:hover::before {
+  opacity: 1;
+}
+
+.logout-link:active {
+  transform: translateY(0);
+}
+
+.logout-link .nav-icon {
+  transition: transform 0.2s ease;
+}
+
+.logout-link:hover .nav-icon {
+  transform: translateX(2px);
+}
+

@@ -249,4 +249,10 @@ public class ClubController {
         }
         return null;
     }
+
+    @DeleteMapping("/deleteClub")
+    private void deleteClub(@RequestBody Integer clubId) {
+        this.clubServices.deleteById(clubId);
+    }
+
 }
